@@ -196,23 +196,35 @@ export default async function Home() {
             <Link
               key={event.id}
               href={`/events/${event.slug}`}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F]">
-                <CalendarDays className="h-6 w-6" />
+              <div className="h-48 overflow-hidden bg-slate-100">
+                {event.imageUrl ? (
+                  <img
+                    src={event.imageUrl}
+                    alt={event.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-red-50 text-[#C1121F]">
+                    <CalendarDays className="h-14 w-14" />
+                  </div>
+                )}
               </div>
 
-              <p className="mt-5 text-sm font-black text-[#C1121F]">
-                {formatDate(event.eventDate)}
-              </p>
+              <div className="p-6">
+                <p className="text-sm font-black text-[#C1121F]">
+                  {formatDate(event.eventDate)}
+                </p>
 
-              <h3 className="mt-3 text-xl font-black text-slate-950">
-                {event.title}
-              </h3>
+                <h3 className="mt-3 text-xl font-black text-slate-950">
+                  {event.title}
+                </h3>
 
-              <p className="mt-3 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">
-                {event.description}
-              </p>
+                <p className="mt-3 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">
+                  {event.description}
+                </p>
+              </div>
             </Link>
           ))}
 
