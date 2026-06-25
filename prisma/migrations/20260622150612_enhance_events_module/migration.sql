@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Event" ADD COLUMN     "capacity" INTEGER,
+ADD COLUMN     "endDate" TIMESTAMP(3),
+ADD COLUMN     "fee" DOUBLE PRECISION DEFAULT 0;

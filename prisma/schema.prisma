@@ -1,0 +1,355 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  FINANCE
+  MEMBER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  SUSPENDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+model User {
+  id       String     @id @default(cuid())
+  name     String
+  email    String     @unique
+  phone    String?
+  password String
+  role     Role       @default(MEMBER)
+  status   UserStatus @default(ACTIVE)
+
+  member       Member?
+  applications MembershipApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MembershipCategory {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  annualFee   Float
+  active      Boolean @default(true)
+
+  members      Member[]
+  applications MembershipApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MembershipApplication {
+  id String @id @default(cuid())
+
+  userId     String?
+  categoryId String?
+
+  fullName String?
+  email    String?
+  phone    String?
+  idNumber String?
+
+  qualification String?
+  institution   String?
+  position      String?
+  experience    String?
+
+  idDocumentUrl       String?
+  qualificationDocUrl String?
+  cvDocumentUrl       String?
+
+  paymentReference String?
+  paymentStatus    PaymentStatus @default(PENDING)
+
+  status  ApplicationStatus @default(PENDING)
+  remarks String?
+
+  user     User?               @relation(fields: [userId], references: [id])
+  category MembershipCategory? @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Member {
+  id     String  @id @default(cuid())
+  userId String? @unique
+
+  fullName String?
+  email    String?
+  phone    String?
+
+  county             String?
+  position           String?
+  employer           String?
+  isDirectoryVisible Boolean @default(true)
+
+  categoryId   String
+  memberNumber String           @unique
+  joinDate     DateTime         @default(now())
+  expiryDate   DateTime
+  status       MembershipStatus @default(ACTIVE)
+
+  user     User?              @relation(fields: [userId], references: [id])
+  category MembershipCategory @relation(fields: [categoryId], references: [id])
+
+  payments           Payment[]
+  certificates       Certificate[]
+  loginOtps          MemberLoginOtp[]
+  eventRegistrations EventRegistration[]
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  memberId  String
+  amount    Float
+  method    String
+  reference String?
+  status    PaymentStatus @default(PENDING)
+  paidAt    DateTime?
+
+  member Member @relation(fields: [memberId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Certificate {
+  id                String   @id @default(cuid())
+  memberId          String
+  certificateNumber String   @unique
+  issueDate         DateTime @default(now())
+  expiryDate        DateTime
+  verificationCode  String   @unique
+  pdfUrl            String?
+
+  member Member @relation(fields: [memberId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MemberLoginOtp {
+  id        String   @id @default(cuid())
+  memberId  String
+  email     String
+  otp       String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  member Member @relation(fields: [memberId], references: [id])
+}
+
+model WebsitePage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  subtitle  String?
+  content   String?  @db.Text
+  imageUrl  String?
+  seoTitle  String?
+  seoDesc   String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Leader {
+  id        String   @id @default(cuid())
+  name      String
+  title     String
+  bio       String?  @db.Text
+  imageUrl  String?
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     String    @db.Text
+  imageUrl    String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  fileUrl     String
+  category    String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          String @id @default(cuid())
+  title       String
+  slug        String @unique
+  description String @db.Text
+
+  venue     String?
+  eventDate DateTime
+  endDate   DateTime?
+
+  imageUrl String?
+
+  cpdPoints Int?
+
+  capacity Int?
+  fee      Float? @default(0)
+
+  published Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  registrations EventRegistration[]
+}
+
+model EventRegistration {
+  id        String   @id @default(cuid())
+  eventId   String
+  memberId  String
+  createdAt DateTime @default(now())
+
+  event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, memberId])
+}
+
+enum AnnouncementType {
+  GENERAL
+  RENEWAL
+  EVENT
+  POLICY
+  NEWSLETTER
+}
+
+model Announcement {
+  id        String           @id @default(cuid())
+  title     String
+  message   String           @db.Text
+  type      AnnouncementType @default(GENERAL)
+  published Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id       String  @id @default(cuid())
+  memberId String?
+  title    String
+  message  String  @db.Text
+  read     Boolean @default(false)
+
+  reminderKey String?
+
+  member Member? @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([memberId, reminderKey])
+}
+
+model EmailCampaign {
+  id       String    @id @default(cuid())
+  subject  String
+  body     String    @db.Text
+  audience String    @default("ALL_MEMBERS")
+  sent     Boolean   @default(false)
+  sentAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String  @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   String? @db.Text
+
+  createdAt DateTime @default(now())
+}
+
+model ContactSetting {
+  id           String  @id @default("main")
+  address      String? @db.Text
+  email        String?
+  phone1       String?
+  phone2       String?
+  facebookUrl  String?
+  twitterUrl   String?
+  linkedinUrl  String?
+  instagramUrl String?
+  mapUrl       String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model CertificateSetting {
+  id                   String   @id @default("main")
+  chairpersonName       String?
+  chairpersonSignature  String?
+  secretaryName         String?
+  secretarySignature    String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
