@@ -167,7 +167,7 @@ export default async function Home() {
 
                 <div className="p-6">
                   <p className="text-xs font-black uppercase tracking-wide text-[#C1121F]">
-                    {post.imageUrl}
+
                     {formatDate(post.createdAt)}
                   </p>
                   <h3 className="mt-3 text-xl font-black text-slate-950">
