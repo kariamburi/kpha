@@ -63,7 +63,7 @@ export default function MobileDashboardMenu() {
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className="mb-2 flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-black text-gray-800 hover:bg-red-50 hover:text-[#C1121F]"
+                                    className="mb-2 flex items-center gap-4 rounded-2xl px-4 py-2 text-sm font-black text-gray-800 hover:bg-red-50 hover:text-[#C1121F]"
                                 >
                                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-lg">
                                         {item.icon}

@@ -2,7 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, writeFile, unlink } from "fs/promises";
+import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 
@@ -12,6 +13,27 @@ function slugify(value: string) {
         .trim()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)+/g, "");
+}
+
+function publicPathToFilePath(publicUrl?: string | null) {
+    if (!publicUrl) return null;
+    if (!publicUrl.startsWith("/uploads/events/")) return null;
+
+    return path.join(process.cwd(), "public", publicUrl);
+}
+
+async function deleteEventImage(publicUrl?: string | null) {
+    const filePath = publicPathToFilePath(publicUrl);
+
+    if (!filePath) return;
+
+    try {
+        if (fs.existsSync(filePath)) {
+            await unlink(filePath);
+        }
+    } catch (error) {
+        console.error("DELETE_EVENT_IMAGE_ERROR", error);
+    }
 }
 
 async function uploadEventImage(file: File) {
@@ -26,7 +48,7 @@ async function uploadEventImage(file: File) {
     const maxSize = 5 * 1024 * 1024;
 
     if (file.size > maxSize) {
-        throw new Error("Image must be less than 2MB.");
+        throw new Error("Image must be less than 5MB.");
     }
 
     const bytes = await file.arrayBuffer();
@@ -50,15 +72,6 @@ export async function saveEvent(formData: FormData) {
     const venue = String(formData.get("venue") || "").trim();
     const eventDate = String(formData.get("eventDate") || "");
     const endDate = String(formData.get("endDate") || "");
-
-    let imageUrl = String(formData.get("existingImageUrl") || "").trim();
-
-    const imageFile = formData.get("image") as File | null;
-
-    if (imageFile && imageFile.size > 0) {
-        imageUrl = await uploadEventImage(imageFile);
-    }
-
     const cpdPoints = Number(formData.get("cpdPoints") || 0);
     const capacity = Number(formData.get("capacity") || 0);
     const fee = Number(formData.get("fee") || 0);
@@ -69,8 +82,26 @@ export async function saveEvent(formData: FormData) {
     }
 
     const slug = slugify(title);
+    const imageFile = formData.get("image") as File | null;
+
+    let imageUrl = String(formData.get("existingImageUrl") || "").trim();
+    let oldImageUrl = "";
+    let oldSlug = "";
 
     if (id) {
+        const existing = await prisma.event.findUnique({
+            where: { id },
+        });
+
+        if (!existing) throw new Error("Event not found.");
+
+        oldImageUrl = existing.imageUrl || "";
+        oldSlug = existing.slug;
+
+        if (imageFile && imageFile.size > 0) {
+            imageUrl = await uploadEventImage(imageFile);
+        }
+
         await prisma.event.update({
             where: { id },
             data: {
@@ -87,7 +118,17 @@ export async function saveEvent(formData: FormData) {
                 published,
             },
         });
+
+        if (imageUrl && oldImageUrl && imageUrl !== oldImageUrl) {
+            await deleteEventImage(oldImageUrl);
+        }
+
+        revalidatePath(`/events/${oldSlug}`);
     } else {
+        if (imageFile && imageFile.size > 0) {
+            imageUrl = await uploadEventImage(imageFile);
+        }
+
         await prisma.event.create({
             data: {
                 title,
@@ -105,6 +146,7 @@ export async function saveEvent(formData: FormData) {
         });
     }
 
+    revalidatePath("/");
     revalidatePath("/dashboard/website/events");
     revalidatePath("/events");
     revalidatePath(`/events/${slug}`);
@@ -114,10 +156,20 @@ export async function deleteEvent(formData: FormData) {
     const id = String(formData.get("id") || "");
     if (!id) return;
 
+    const existing = await prisma.event.findUnique({
+        where: { id },
+    });
+
+    if (!existing) return;
+
     await prisma.event.delete({
         where: { id },
     });
 
+    await deleteEventImage(existing.imageUrl);
+
+    revalidatePath("/");
     revalidatePath("/dashboard/website/events");
     revalidatePath("/events");
+    revalidatePath(`/events/${existing.slug}`);
 }

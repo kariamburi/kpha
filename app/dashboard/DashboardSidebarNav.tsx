@@ -44,7 +44,7 @@ export default function DashboardSidebarNav() {
     }
 
     return (
-        <nav className="mt-4 flex h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto px-3 pb-6">
+        <nav className="mt-4 flex h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto px-3 pb-2">
             {menu.map((item) => {
                 const active =
                     pathname === item.href ||
@@ -110,12 +110,12 @@ export default function DashboardSidebarNav() {
                         href={item.href}
                         title={item.title}
                         onClick={closeSections}
-                        className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition ${active
+                        className={`flex w-full items-center gap-2 rounded-xl px-4 py-1 transition ${active
                             ? "bg-red-50 text-[#C1121F]"
                             : "text-slate-600 hover:bg-red-50 hover:text-[#C1121F]"
                             }`}
                     >
-                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-base leading-none">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-base leading-none">
                             {item.icon}
                         </span>
 

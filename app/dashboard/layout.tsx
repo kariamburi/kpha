@@ -113,26 +113,3 @@ export default function DashboardLayout({
     );
 }
 
-function NavItem({
-    title,
-    href,
-    icon,
-}: {
-    title: string;
-    href: string;
-    icon: string;
-}) {
-    return (
-        <Link
-            href={href}
-            title={title}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-1 text-slate-600 transition hover:bg-red-50 hover:text-[#C1121F]"
-        >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-base leading-none">
-                {icon}
-            </span>
-
-            <span className="text-sm font-black leading-none">{title}</span>
-        </Link>
-    );
-}
