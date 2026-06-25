@@ -218,6 +218,7 @@ export default async function Home() {
                 </p>
 
                 <h3 className="mt-3 text-xl font-black text-slate-950">
+                  {event.imageUrl}
                   {event.title}
                 </h3>
 
@@ -274,44 +275,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/**  {leaders.length > 0 && (
-        <section className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            label="AHPK Leadership"
-            title="Meet Our Leadership"
-            href="/leadership"
-          />
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {leaders.map((leader) => (
-              <div
-                key={leader.id}
-                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
-              >
-                <div className="h-64 bg-slate-100">
-                  {leader.imageUrl && (
-                    <img
-                      src={leader.imageUrl}
-                      alt={leader.name}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                </div>
-
-                <div className="p-5">
-                  <h3 className="text-lg font-black text-slate-950">
-                    {leader.name}
-                  </h3>
-                  <p className="mt-1 text-sm font-bold text-[#C1121F]">
-                    {leader.title}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
- */}
       <section className="bg-[#F4F6F8] py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="overflow-hidden rounded-[32px] bg-[#C1121F] text-white shadow-xl">
