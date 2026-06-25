@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Logo from "@/app/assets/logo.png";
 function formatDate(date: Date) {
@@ -30,7 +30,9 @@ export default async function VerifyCertificatePage({
         },
     });
 
-    if (!certificate) notFound();
+    if (!certificate) {
+        redirect(`/verify?code=${encodeURIComponent(code)}`);
+    }
 
     const expired = certificate.expiryDate < new Date();
 
