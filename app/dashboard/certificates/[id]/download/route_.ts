@@ -460,8 +460,7 @@ export async function GET(
     const signatureH = 42;
 
     const chairX = 82;
-    //const secretaryX = pageW - 267;
-    const secretaryX = pageW - 367;
+    const secretaryX = pageW - 267;
 
     const chairSignaturePath = publicPathToFilePath(
         certificateSettings.chairpersonSignature
