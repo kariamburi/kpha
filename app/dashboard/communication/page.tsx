@@ -7,8 +7,16 @@ import {
     markCampaignSent,
 } from "./actions";
 import CommunicationClient from "./CommunicationClient";
+import { canManageCommunication } from "@/lib/roles";
+import { getAuthUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function CommunicationPage() {
+    const user = await getAuthUser();
+
+    if (!user || !canManageCommunication(user.role)) {
+        redirect("/dashboard");
+    }
     const [announcements, campaigns, notificationsCount] = await Promise.all([
         prisma.announcement.findMany({
             orderBy: { createdAt: "desc" },

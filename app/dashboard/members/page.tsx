@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AddMemberButton from "./AddMemberButton";
-import { createMember } from "./actions";
+import { createMember, deleteMember } from "./actions";
+import { getAuthUser } from "@/lib/auth";
+import { canManageMembers, isSuperAdmin } from "@/lib/roles";
+import { redirect } from "next/navigation";
 
 const PAGE_SIZE = 10;
 
@@ -23,6 +26,11 @@ export default async function MembersPage({
         page?: string;
     }>;
 }) {
+    const user = await getAuthUser();
+
+    if (!user || !canManageMembers(user.role)) {
+        redirect("/dashboard");
+    }
     const params = await searchParams;
 
     const q = String(params?.q || "").trim();
@@ -251,12 +259,27 @@ export default async function MembersPage({
                                         </td>
 
                                         <td className="whitespace-nowrap px-2 py-2">
-                                            <Link
-                                                href={`/dashboard/members/${member.id}`}
-                                                className="rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-[#C1121F] transition hover:bg-[#C1121F] hover:text-white"
-                                            >
-                                                View
-                                            </Link>
+                                            <div className="flex items-center gap-2">
+                                                <Link
+                                                    href={`/dashboard/members/${member.id}`}
+                                                    className="rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-[#C1121F] transition hover:bg-[#C1121F] hover:text-white"
+                                                >
+                                                    View
+                                                </Link>
+
+                                                {isSuperAdmin(user.role) && (
+                                                    <form action={deleteMember}>
+                                                        <input type="hidden" name="id" value={member.id} />
+
+                                                        <button
+                                                            type="submit"
+                                                            className="rounded bg-red-600 px-3 py-1.5 text-[12px] font-bold text-white transition hover:bg-red-700"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))

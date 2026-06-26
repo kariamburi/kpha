@@ -3,23 +3,100 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const menu = [
+type Role = "SUPER_ADMIN" | "ADMIN" | "FINANCE" | "MEMBER";
+
+type MenuItem = {
+    title: string;
+    href: string;
+    icon: string;
+    roles?: Role[];
+};
+
+const menu: MenuItem[] = [
     { title: "Home", href: "/", icon: "⌂" },
-    { title: "Dashboard", href: "/dashboard", icon: "▣" },
-    { title: "Members", href: "/dashboard/members", icon: "☷" },
-    { title: "Applications", href: "/dashboard/applications", icon: "◉" },
-    { title: "Payments", href: "/dashboard/payments", icon: "⇄" },
-    { title: "Certificates", href: "/dashboard/certificates", icon: "▤" },
-    { title: "Expiring Members", href: "/dashboard/expiring-members", icon: "!" },
-    { title: "Website CMS", href: "/dashboard/website", icon: "◫" },
-    { title: "Member Directory", href: "/dashboard/member-directory", icon: "◎" },
-    { title: "Communication", href: "/dashboard/communication", icon: "✉" },
-    { title: "Audit Logs", href: "/dashboard/audit-logs", icon: "◷" },
-    { title: "Settings", href: "/dashboard/settings", icon: "⚙" },
+    {
+        title: "Dashboard",
+        href: "/dashboard",
+        icon: "▣",
+        roles: ["SUPER_ADMIN", "ADMIN", "FINANCE"],
+    },
+    {
+        title: "Members",
+        href: "/dashboard/members",
+        icon: "☷",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Applications",
+        href: "/dashboard/applications",
+        icon: "◉",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Payments",
+        href: "/dashboard/payments",
+        icon: "⇄",
+        roles: ["SUPER_ADMIN", "FINANCE"],
+    },
+    {
+        title: "Certificates",
+        href: "/dashboard/certificates",
+        icon: "▤",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Expiring Members",
+        href: "/dashboard/expiring-members",
+        icon: "!",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Website CMS",
+        href: "/dashboard/website",
+        icon: "◫",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Member Directory",
+        href: "/dashboard/member-directory",
+        icon: "◎",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Communication",
+        href: "/dashboard/communication",
+        icon: "✉",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Audit Logs",
+        href: "/dashboard/audit-logs",
+        icon: "◷",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        title: "Dashboard Users",
+        href: "/dashboard/users",
+        icon: "♙",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        title: "Settings",
+        href: "/dashboard/settings",
+        icon: "⚙",
+        roles: ["SUPER_ADMIN"],
+    },
 ];
 
-export default function MobileDashboardMenu() {
+function canViewItem(item: MenuItem, role: Role) {
+    if (!item.roles || item.roles.length === 0) return true;
+    return item.roles.includes(role);
+}
+
+export default function MobileDashboardMenu({ role }: { role: Role }) {
     const [open, setOpen] = useState(false);
+
+    const visibleMenu = menu.filter((item) => canViewItem(item, role));
 
     return (
         <>
@@ -36,7 +113,7 @@ export default function MobileDashboardMenu() {
                     <button
                         type="button"
                         onClick={() => setOpen(false)}
-                        className="absolute cursor-pointer inset-0 bg-black/50"
+                        className="absolute inset-0 cursor-pointer bg-black/50"
                     />
 
                     <aside className="absolute left-0 top-0 h-full w-[82%] max-w-sm overflow-y-auto bg-white shadow-2xl">
@@ -58,12 +135,12 @@ export default function MobileDashboardMenu() {
                         </div>
 
                         <nav className="p-4">
-                            {menu.map((item) => (
+                            {visibleMenu.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className="mb-2 flex items-center gap-4 rounded-2xl px-4 py-2 text-sm font-black text-gray-800 hover:bg-red-50 hover:text-[#C1121F]"
+                                    className="mb-2 flex items-center gap-4 rounded-2xl px-4 py-1 text-sm font-black text-gray-800 hover:bg-red-50 hover:text-[#C1121F]"
                                 >
                                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-lg">
                                         {item.icon}

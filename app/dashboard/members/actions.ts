@@ -2,6 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getAuthUser } from "@/lib/auth";
+import { isSuperAdmin } from "@/lib/roles";
 
 async function generateMemberNumber() {
     const year = new Date().getFullYear();
@@ -33,7 +35,10 @@ export async function createMember(formData: FormData) {
     }
 
     const joinDate = new Date();
-    const expiryDate = expiryDateRaw ? new Date(expiryDateRaw) : addOneYear(joinDate);
+    const expiryDate = expiryDateRaw
+        ? new Date(expiryDateRaw)
+        : addOneYear(joinDate);
+
     const memberNumber = await generateMemberNumber();
 
     await prisma.member.create({
@@ -47,6 +52,46 @@ export async function createMember(formData: FormData) {
             expiryDate,
             status,
         },
+    });
+
+    revalidatePath("/dashboard/members");
+}
+
+export async function deleteMember(formData: FormData) {
+    const user = await getAuthUser();
+
+    if (!user || !isSuperAdmin(user.role)) {
+        throw new Error("Unauthorized");
+    }
+
+    const id = String(formData.get("id") || "");
+
+    if (!id) {
+        throw new Error("Member ID is required");
+    }
+
+    await prisma.eventRegistration.deleteMany({
+        where: { memberId: id },
+    });
+
+    await prisma.notification.deleteMany({
+        where: { memberId: id },
+    });
+
+    await prisma.memberLoginOtp.deleteMany({
+        where: { memberId: id },
+    });
+
+    await prisma.certificate.deleteMany({
+        where: { memberId: id },
+    });
+
+    await prisma.payment.deleteMany({
+        where: { memberId: id },
+    });
+
+    await prisma.member.delete({
+        where: { id },
     });
 
     revalidatePath("/dashboard/members");

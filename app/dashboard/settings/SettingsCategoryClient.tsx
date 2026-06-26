@@ -18,6 +18,11 @@ type CertificateSettings = {
     secretarySignature: string | null;
 };
 
+type SystemSettings = {
+    id: string;
+    adminOtpEnabled: boolean;
+};
+
 type ModalMode = "add" | "edit" | "toggle" | "delete" | null;
 
 function money(value: number) {
@@ -27,19 +32,23 @@ function money(value: number) {
 export default function SettingsCategoryClient({
     categories,
     certificateSettings,
+    systemSettings,
     addCategory,
     updateCategory,
     toggleCategory,
     deleteCategory,
     saveCertificateSettings,
+    saveSystemSettings,
 }: {
     categories: Category[];
     certificateSettings: CertificateSettings;
+    systemSettings: SystemSettings;
     addCategory: (formData: FormData) => void;
     updateCategory: (formData: FormData) => void;
     toggleCategory: (formData: FormData) => void;
     deleteCategory: (formData: FormData) => void;
     saveCertificateSettings: (formData: FormData) => void;
+    saveSystemSettings: (formData: FormData) => void;
 }) {
     const [mode, setMode] = useState<ModalMode>(null);
     const [selected, setSelected] = useState<Category | null>(null);
@@ -72,7 +81,7 @@ export default function SettingsCategoryClient({
                         </h1>
 
                         <p className="mt-2 text-sm font-semibold text-slate-500">
-                            Manage membership categories, annual fees, certificate signatures, and availability.
+                            Manage membership categories, security, certificate signatures, and availability.
                         </p>
                     </div>
 
@@ -93,6 +102,11 @@ export default function SettingsCategoryClient({
                 <StatCard title="Disabled" value={disabledCategories.toString()} />
                 <StatCard title="Total Fee Value" value={money(totalAnnualFee)} />
             </div>
+
+            <SystemSettingsCard
+                settings={systemSettings}
+                action={saveSystemSettings}
+            />
 
             <CertificateSettingsCard
                 settings={certificateSettings}
@@ -159,7 +173,7 @@ export default function SettingsCategoryClient({
                                                 <button
                                                     type="button"
                                                     onClick={() => openModal("edit", category)}
-                                                    className="rounded cursor-pointer bg-slate-100 px-3 py-1.5 text-[12px] font-bold text-slate-700 transition hover:bg-slate-200"
+                                                    className="cursor-pointer rounded bg-slate-100 px-3 py-1.5 text-[12px] font-bold text-slate-700 transition hover:bg-slate-200"
                                                 >
                                                     Edit
                                                 </button>
@@ -167,7 +181,7 @@ export default function SettingsCategoryClient({
                                                 <button
                                                     type="button"
                                                     onClick={() => openModal("toggle", category)}
-                                                    className="rounded cursor-pointer bg-amber-50 px-3 py-1.5 text-[12px] font-bold text-amber-700 transition hover:bg-amber-100"
+                                                    className="cursor-pointer rounded bg-amber-50 px-3 py-1.5 text-[12px] font-bold text-amber-700 transition hover:bg-amber-100"
                                                 >
                                                     {category.active ? "Disable" : "Enable"}
                                                 </button>
@@ -175,7 +189,7 @@ export default function SettingsCategoryClient({
                                                 <button
                                                     type="button"
                                                     onClick={() => openModal("delete", category)}
-                                                    className="rounded cursor-pointer bg-red-50 px-3 py-1.5 text-[12px] font-bold text-red-700 transition hover:bg-red-100"
+                                                    className="cursor-pointer rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-red-700 transition hover:bg-red-100"
                                                 >
                                                     Delete
                                                 </button>
@@ -193,7 +207,7 @@ export default function SettingsCategoryClient({
                 <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
                     <button
                         type="button"
-                        className="absolute cursor-pointer inset-0 bg-black/50 backdrop-blur-sm"
+                        className="absolute inset-0 cursor-pointer bg-black/50 backdrop-blur-sm"
                         onClick={closeModal}
                     />
 
@@ -256,6 +270,61 @@ export default function SettingsCategoryClient({
     );
 }
 
+function SystemSettingsCard({
+    settings,
+    action,
+}: {
+    settings: SystemSettings;
+    action: (formData: FormData) => void;
+}) {
+    return (
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-4 border-b border-slate-200 pb-4">
+                <h2 className="text-xl font-black text-slate-950">
+                    Admin Login Security
+                </h2>
+
+                <p className="mt-1 text-sm font-semibold text-slate-500">
+                    Enable email OTP verification after correct admin login credentials.
+                </p>
+            </div>
+
+            <form
+                action={action}
+                className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+            >
+                <div>
+                    <p className="text-sm font-black text-slate-900">
+                        Email OTP Login
+                    </p>
+                    <p className="mt-1 text-xs font-semibold text-slate-500">
+                        When enabled, dashboard users must verify a 6-digit OTP sent to their email.
+                    </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4">
+                    <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                        <input
+                            type="checkbox"
+                            name="adminOtpEnabled"
+                            defaultChecked={settings.adminOtpEnabled}
+                            className="h-5 w-5 cursor-pointer accent-[#C1121F]"
+                        />
+
+                        <span className="text-sm font-black text-slate-700">
+                            {settings.adminOtpEnabled ? "Enabled" : "Enable OTP"}
+                        </span>
+                    </label>
+
+                    <button className="cursor-pointer rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800">
+                        Save Security
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+}
+
 function CertificateSettingsCard({
     settings,
     action,
@@ -293,7 +362,7 @@ function CertificateSettingsCard({
                 />
 
                 <div className="flex justify-end border-t border-slate-200 pt-5 md:col-span-2">
-                    <button className="rounded-xl cursor-pointer bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800">
+                    <button className="cursor-pointer rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800">
                         Save Certificate Settings
                     </button>
                 </div>
@@ -406,12 +475,12 @@ function CategoryForm({
                 <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-xl cursor-pointer border border-slate-300 px-4 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50"
+                    className="cursor-pointer rounded-xl border border-slate-300 px-4 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
 
-                <button className="rounded-xl cursor-pointer bg-[#C1121F] px-4 py-2 text-sm font-black text-white transition hover:bg-red-800">
+                <button className="cursor-pointer rounded-xl bg-[#C1121F] px-4 py-2 text-sm font-black text-white transition hover:bg-red-800">
                     Save Category
                 </button>
             </div>
@@ -455,13 +524,13 @@ function ConfirmForm({
                 <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-xl cursor-pointer border border-slate-300 px-4 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50"
+                    className="cursor-pointer rounded-xl border border-slate-300 px-4 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50"
                 >
                     Cancel
                 </button>
 
                 <button
-                    className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-black text-white transition ${danger
+                    className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-black text-white transition ${danger
                         ? "bg-red-600 hover:bg-red-700"
                         : "bg-[#C1121F] hover:bg-red-800"
                         }`}

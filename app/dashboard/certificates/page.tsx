@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { canManageCertificates, isSuperAdmin } from "@/lib/roles";
+import { getAuthUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { deleteCertificate } from "./actions";
 
 const PAGE_SIZE = 10;
 
@@ -20,6 +24,12 @@ export default async function CertificatesPage({
         page?: string;
     }>;
 }) {
+    const user = await getAuthUser();
+
+    if (!user || !canManageCertificates(user.role)) {
+        redirect("/dashboard");
+    }
+
     const params = await searchParams;
 
     const q = String(params?.q || "").trim();
@@ -77,13 +87,20 @@ export default async function CertificatesPage({
     });
 
     const totalCertificates = filteredCertificates.length;
-    const validCertificates = filteredCertificates.filter((c) => c.expiryDate >= today).length;
-    const expiredCertificates = filteredCertificates.filter((c) => c.expiryDate < today).length;
+    const validCertificates = filteredCertificates.filter(
+        (c) => c.expiryDate >= today
+    ).length;
+    const expiredCertificates = filteredCertificates.filter(
+        (c) => c.expiryDate < today
+    ).length;
 
     const totalPages = Math.max(Math.ceil(totalCertificates / PAGE_SIZE), 1);
     const safePage = Math.min(currentPage, totalPages);
     const start = (safePage - 1) * PAGE_SIZE;
-    const paginatedCertificates = filteredCertificates.slice(start, start + PAGE_SIZE);
+    const paginatedCertificates = filteredCertificates.slice(
+        start,
+        start + PAGE_SIZE
+    );
 
     const query = new URLSearchParams();
     if (q) query.set("q", q);
@@ -173,7 +190,7 @@ export default async function CertificatesPage({
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full min-w-[1050px] border-collapse text-[12px]">
+                    <table className="w-full min-w-[1100px] border-collapse text-[12px]">
                         <thead>
                             <tr className="bg-slate-100 text-slate-900">
                                 <Th>Certificate No.</Th>
@@ -191,7 +208,10 @@ export default async function CertificatesPage({
                         <tbody>
                             {paginatedCertificates.length === 0 ? (
                                 <tr>
-                                    <td colSpan={9} className="px-5 py-8 text-center text-slate-500">
+                                    <td
+                                        colSpan={9}
+                                        className="px-5 py-8 text-center text-slate-500"
+                                    >
                                         No certificates found.
                                     </td>
                                 </tr>
@@ -253,6 +273,19 @@ export default async function CertificatesPage({
                                                     >
                                                         PDF
                                                     </Link>
+
+                                                    {isSuperAdmin(user.role) && (
+                                                        <form action={deleteCertificate}>
+                                                            <input type="hidden" name="id" value={cert.id} />
+
+                                                            <button
+                                                                type="submit"
+                                                                className="rounded bg-red-600 px-3 py-1.5 text-[12px] font-bold text-white transition hover:bg-red-700"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
@@ -313,9 +346,7 @@ function Th({ children }: { children: React.ReactNode }) {
 function CertificateStatusBadge({ expired }: { expired: boolean }) {
     return (
         <span
-            className={`rounded-full px-3 py-1 text-[11px] font-bold ${expired
-                ? "bg-red-50 text-red-700"
-                : "bg-green-50 text-green-700"
+            className={`rounded-full px-3 py-1 text-[11px] font-bold ${expired ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"
                 }`}
         >
             {expired ? "EXPIRED" : "VALID"}

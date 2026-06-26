@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { toggleDirectoryVisibility } from "./actions";
+import { canViewDirectory } from "@/lib/roles";
+import { getAuthUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type Props = {
     searchParams?: Promise<{
@@ -10,6 +13,11 @@ type Props = {
 export default async function AdminMemberDirectoryPage({
     searchParams,
 }: Props) {
+    const user = await getAuthUser();
+
+    if (!user || !canViewDirectory(user.role)) {
+        redirect("/dashboard");
+    }
     const params = await searchParams;
     const q = params?.q?.trim() || "";
 

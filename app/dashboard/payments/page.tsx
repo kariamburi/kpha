@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getAuthUser } from "@/lib/auth";
+import { canViewPayments } from "@/lib/roles";
+import { redirect } from "next/navigation";
 
 const PAGE_SIZE = 10;
 
@@ -28,6 +31,11 @@ export default async function PaymentsPage({
         renewalPage?: string;
     }>;
 }) {
+    const user = await getAuthUser();
+
+    if (!user || !canViewPayments(user.role)) {
+        redirect("/dashboard");
+    }
     const params = await searchParams;
 
     const q = String(params?.q || "").trim();

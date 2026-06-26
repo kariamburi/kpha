@@ -55,7 +55,7 @@ model User {
 
   member       Member?
   applications MembershipApplication[]
-
+  adminLoginOtps AdminLoginOtp[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -352,4 +352,25 @@ model CertificateSetting {
   secretarySignature    String?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
+}
+model SystemSetting {
+  id              String  @id @default("main")
+  adminOtpEnabled Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AdminLoginOtp {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  otpHash   String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

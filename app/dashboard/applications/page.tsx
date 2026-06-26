@@ -1,5 +1,9 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getAuthUser } from "@/lib/auth";
+import { canManageApplications, isSuperAdmin } from "@/lib/roles";
+import { deleteApplication } from "./actions";
 
 const PAGE_SIZE = 10;
 
@@ -22,6 +26,12 @@ export default async function ApplicationsPage({
         page?: string;
     }>;
 }) {
+    const user = await getAuthUser();
+
+    if (!user || !canManageApplications(user.role)) {
+        redirect("/dashboard");
+    }
+
     const params = await searchParams;
 
     const q = String(params?.q || "").trim();
@@ -82,9 +92,7 @@ export default async function ApplicationsPage({
     return (
         <div className="space-y-5">
             <div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm">
-                <p className="text-sm font-black text-slate-500">
-                    AHPK Membership
-                </p>
+                <p className="text-sm font-black text-slate-500">AHPK Membership</p>
 
                 <div className="mt-1">
                     <h1 className="text-3xl font-black text-slate-950">
@@ -184,7 +192,7 @@ export default async function ApplicationsPage({
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full min-w-[1050px] border-collapse text-[12px]">
+                    <table className="w-full min-w-[1080px] border-collapse text-[12px]">
                         <thead>
                             <tr className="bg-slate-100 text-slate-900">
                                 <th className="border-r border-slate-200 px-2 py-2 text-left font-bold">
@@ -271,12 +279,25 @@ export default async function ApplicationsPage({
                                         </td>
 
                                         <td className="whitespace-nowrap px-2 py-2">
-                                            <Link
-                                                href={`/dashboard/applications/${app.id}`}
-                                                className="rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-[#C1121F] transition hover:bg-[#C1121F] hover:text-white"
-                                            >
-                                                View
-                                            </Link>
+                                            <div className="flex items-center gap-2">
+                                                <Link
+                                                    href={`/dashboard/applications/${app.id}`}
+                                                    className="rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-[#C1121F] transition hover:bg-[#C1121F] hover:text-white"
+                                                >
+                                                    View
+                                                </Link>
+
+                                                {isSuperAdmin(user.role) && (
+                                                    <form action={deleteApplication}>
+                                                        <input type="hidden" name="id" value={app.id} />
+
+
+                                                        <button type="submit" className="cursor-pointer rounded-xl bg-red-600 px-3 py-2 text-xs font-black text-white transition hover:bg-red-700">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -304,9 +325,7 @@ export default async function ApplicationsPage({
 
                     <Link
                         href={`/dashboard/applications?${nextQuery.toString()}`}
-                        className={`rounded border px-3 py-1.5 font-semibold ${safePage === totalPages
-                            ? "pointer-events-none opacity-40"
-                            : ""
+                        className={`rounded border px-3 py-1.5 font-semibold ${safePage === totalPages ? "pointer-events-none opacity-40" : ""
                             }`}
                     >
                         Next

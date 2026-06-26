@@ -4,36 +4,116 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-const menu = [
+type Role = "SUPER_ADMIN" | "ADMIN" | "FINANCE" | "MEMBER";
+
+type MenuItem = {
+    title: string;
+    href: string;
+    icon: string;
+    roles?: Role[];
+    children?: MenuItem[];
+};
+
+const menu: MenuItem[] = [
     { title: "Home", href: "/", icon: "⌂" },
-    { title: "Dashboard", href: "/dashboard", icon: "▣" },
-    { title: "Members", href: "/dashboard/members", icon: "☷" },
-    { title: "Applications", href: "/dashboard/applications", icon: "◉" },
-    { title: "Payments", href: "/dashboard/payments", icon: "⇄" },
-    { title: "Certificates", href: "/dashboard/certificates", icon: "▤" },
-    { title: "Expiring", href: "/dashboard/expiring-members", icon: "!" },
+    {
+        title: "Dashboard",
+        href: "/dashboard",
+        icon: "▣",
+        roles: ["SUPER_ADMIN", "ADMIN", "FINANCE"],
+    },
+    {
+        title: "Members",
+        href: "/dashboard/members",
+        icon: "☷",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Applications",
+        href: "/dashboard/applications",
+        icon: "◉",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Payments",
+        href: "/dashboard/payments",
+        icon: "⇄",
+        roles: ["SUPER_ADMIN", "FINANCE"],
+    },
+    {
+        title: "Certificates",
+        href: "/dashboard/certificates",
+        icon: "▤",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Expiring",
+        href: "/dashboard/expiring-members",
+        icon: "!",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
     {
         title: "Website",
         href: "/dashboard/website",
         icon: "◫",
+        roles: ["SUPER_ADMIN", "ADMIN"],
         children: [
-            { title: "Overview", href: "/dashboard/website", icon: "▣" },
-            { title: "Pages", href: "/dashboard/website/pages", icon: "▤" },
-            { title: "Leadership", href: "/dashboard/website/leaders", icon: "♔" },
-            { title: "Resources", href: "/dashboard/website/resources", icon: "▧" },
-            { title: "Events & CPD", href: "/dashboard/website/events", icon: "◷" },
-            { title: "News", href: "/dashboard/website/news", icon: "☰" },
-            { title: "Contact", href: "/dashboard/website/contact", icon: "✉" },
+            { title: "Overview", href: "/dashboard/website", icon: "▣", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Pages", href: "/dashboard/website/pages", icon: "▤", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Leadership", href: "/dashboard/website/leaders", icon: "♔", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Resources", href: "/dashboard/website/resources", icon: "▧", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Events & CPD", href: "/dashboard/website/events", icon: "◷", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "News", href: "/dashboard/website/news", icon: "☰", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Contact", href: "/dashboard/website/contact", icon: "✉", roles: ["SUPER_ADMIN", "ADMIN"] },
         ],
     },
-    { title: "Directory", href: "/dashboard/member-directory", icon: "◎" },
-    { title: "Communication", href: "/dashboard/communication", icon: "✉" },
-    { title: "Settings", href: "/dashboard/settings", icon: "⚙" },
+    {
+        title: "Directory",
+        href: "/dashboard/member-directory",
+        icon: "◎",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Communication",
+        href: "/dashboard/communication",
+        icon: "✉",
+        roles: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
+        title: "Audit Logs",
+        href: "/dashboard/audit-logs",
+        icon: "◷",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        title: "Dashboard Users",
+        href: "/dashboard/users",
+        icon: "♙",
+        roles: ["SUPER_ADMIN"],
+    },
+    {
+        title: "Settings",
+        href: "/dashboard/settings",
+        icon: "⚙",
+        roles: ["SUPER_ADMIN"],
+    },
 ];
 
-export default function DashboardSidebarNav() {
+function canViewItem(item: MenuItem, role: Role) {
+    if (!item.roles || item.roles.length === 0) return true;
+    return item.roles.includes(role);
+}
+
+export default function DashboardSidebarNav({ role }: { role: Role }) {
     const pathname = usePathname();
     const [openSection, setOpenSection] = useState<string | null>(null);
+
+    const visibleMenu = menu
+        .filter((item) => canViewItem(item, role))
+        .map((item) => ({
+            ...item,
+            children: item.children?.filter((child) => canViewItem(child, role)),
+        }));
 
     function toggleSection(title: string) {
         setOpenSection((current) => (current === title ? null : title));
@@ -45,13 +125,13 @@ export default function DashboardSidebarNav() {
 
     return (
         <nav className="mt-4 flex h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto px-3 pb-2">
-            {menu.map((item) => {
+            {visibleMenu.map((item) => {
                 const active =
                     pathname === item.href ||
                     (item.href !== "/" && pathname.startsWith(item.href + "/"));
 
-                if (item.children) {
-                    const isOpen = openSection === item.title;
+                if (item.children && item.children.length > 0) {
+                    const isOpen = openSection === item.title || active;
 
                     return (
                         <div key={item.href}>
@@ -110,7 +190,7 @@ export default function DashboardSidebarNav() {
                         href={item.href}
                         title={item.title}
                         onClick={closeSections}
-                        className={`flex w-full items-center gap-2 rounded-xl px-4 py-1 transition ${active
+                        className={`flex w-full items-center gap-2 rounded-xl px-4 py-2 transition ${active
                             ? "bg-red-50 text-[#C1121F]"
                             : "text-slate-600 hover:bg-red-50 hover:text-[#C1121F]"
                             }`}

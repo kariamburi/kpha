@@ -4,6 +4,21 @@ import SettingsCategoryClient from "./SettingsCategoryClient";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import { getAuthUser } from "@/lib/auth";
+import { canManageSettings } from "@/lib/roles";
+import { redirect } from "next/navigation";
+
+async function requireSettingsAccess() {
+    "use server";
+
+    const user = await getAuthUser();
+
+    if (!user || !canManageSettings(user.role)) {
+        throw new Error("Unauthorized");
+    }
+
+    return user;
+}
 
 async function uploadSignature(file: File) {
     "use server";
@@ -19,7 +34,7 @@ async function uploadSignature(file: File) {
     const maxSize = 5 * 1024 * 1024;
 
     if (file.size > maxSize) {
-        throw new Error("Signature image must be less than 1MB.");
+        throw new Error("Signature image must be less than 5MB.");
     }
 
     const bytes = await file.arrayBuffer();
@@ -36,8 +51,31 @@ async function uploadSignature(file: File) {
     return `/signatures/${fileName}`;
 }
 
+async function saveSystemSettings(formData: FormData) {
+    "use server";
+
+    await requireSettingsAccess();
+
+    const adminOtpEnabled = formData.get("adminOtpEnabled") === "on";
+
+    await prisma.systemSetting.upsert({
+        where: { id: "main" },
+        update: {
+            adminOtpEnabled,
+        },
+        create: {
+            id: "main",
+            adminOtpEnabled,
+        },
+    });
+
+    revalidatePath("/dashboard/settings");
+}
+
 async function saveCertificateSettings(formData: FormData) {
     "use server";
+
+    await requireSettingsAccess();
 
     const existing = await prisma.certificateSetting.upsert({
         where: { id: "main" },
@@ -78,6 +116,8 @@ async function saveCertificateSettings(formData: FormData) {
 async function addCategory(formData: FormData) {
     "use server";
 
+    await requireSettingsAccess();
+
     await prisma.membershipCategory.create({
         data: {
             name: String(formData.get("name") || "").trim(),
@@ -92,6 +132,8 @@ async function addCategory(formData: FormData) {
 
 async function updateCategory(formData: FormData) {
     "use server";
+
+    await requireSettingsAccess();
 
     await prisma.membershipCategory.update({
         where: { id: String(formData.get("id")) },
@@ -108,6 +150,8 @@ async function updateCategory(formData: FormData) {
 async function toggleCategory(formData: FormData) {
     "use server";
 
+    await requireSettingsAccess();
+
     const id = String(formData.get("id"));
     const active = String(formData.get("active")) === "true";
 
@@ -121,6 +165,8 @@ async function toggleCategory(formData: FormData) {
 
 async function deleteCategory(formData: FormData) {
     "use server";
+
+    await requireSettingsAccess();
 
     const id = String(formData.get("id"));
 
@@ -149,6 +195,12 @@ async function deleteCategory(formData: FormData) {
 }
 
 export default async function SettingsPage() {
+    const user = await getAuthUser();
+
+    if (!user || !canManageSettings(user.role)) {
+        redirect("/dashboard");
+    }
+
     const categories = await prisma.membershipCategory.findMany({
         orderBy: { annualFee: "asc" },
     });
@@ -159,15 +211,23 @@ export default async function SettingsPage() {
         create: { id: "main" },
     });
 
+    const systemSettings = await prisma.systemSetting.upsert({
+        where: { id: "main" },
+        update: {},
+        create: { id: "main" },
+    });
+
     return (
         <SettingsCategoryClient
             categories={categories}
             certificateSettings={certificateSettings}
+            systemSettings={systemSettings}
             addCategory={addCategory}
             updateCategory={updateCategory}
             toggleCategory={toggleCategory}
             deleteCategory={deleteCategory}
             saveCertificateSettings={saveCertificateSettings}
+            saveSystemSettings={saveSystemSettings}
         />
     );
 }

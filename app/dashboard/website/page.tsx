@@ -9,6 +9,9 @@ import {
     Globe2,
     Mail,
 } from "lucide-react";
+import { getAuthUser } from "@/lib/auth";
+import { canManageWebsite } from "@/lib/roles";
+import { redirect } from "next/navigation";
 
 const modules = [
     {
@@ -55,7 +58,12 @@ const modules = [
     },
 ];
 
-export default function WebsitePage() {
+export default async function WebsitePage() {
+    const user = await getAuthUser();
+
+    if (!user || !canManageWebsite(user.role)) {
+        redirect("/dashboard");
+    }
     return (
         <div className="space-y-5">
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
