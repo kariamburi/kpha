@@ -108,10 +108,6 @@ export default async function Home() {
           </div>
 
           <div className="mt-12 max-w-6xl rounded-[30px] border border-white/10 bg-[#111827]/85 p-5 shadow-2xl backdrop-blur-xl">
-            <div className="flex items-center gap-3 rounded-full bg-white px-5 py-4 text-sm font-semibold text-slate-400">
-              <Search className="h-5 w-5 text-slate-400" />
-              <span>Search AHPK services, resources, events, certificates...</span>
-            </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5">
               <ServiceCard title="Apply" href="/apply" icon={UserPlus} />
