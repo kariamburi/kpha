@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,6 +13,63 @@ import { prisma } from "@/lib/prisma";
 import PublicNavbar from "@/app/components/public/PublicNavbar";
 import PublicFooter from "@/app/components/public/PublicFooter";
 
+type Props = {
+    params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
+
+    const post = await prisma.newsPost.findUnique({
+        where: { slug },
+    });
+
+    if (!post || !post.published) {
+        return {
+            title: "News Not Found",
+            robots: {
+                index: false,
+                follow: false,
+            },
+        };
+    }
+
+    const description =
+        post.excerpt ||
+        post.content?.replace(/\s+/g, " ").slice(0, 160) ||
+        "Read the latest AHPK news and updates.";
+
+    return {
+        title: post.title,
+        description,
+        alternates: {
+            canonical: `/news/${post.slug}`,
+        },
+        openGraph: {
+            title: post.title,
+            description,
+            url: `/news/${post.slug}`,
+            type: "article",
+            images: post.imageUrl
+                ? [
+                    {
+                        url: post.imageUrl,
+                        width: 1200,
+                        height: 630,
+                        alt: post.title,
+                    },
+                ]
+                : ["/images/og-image.jpg"],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: post.title,
+            description,
+            images: post.imageUrl ? [post.imageUrl] : ["/images/og-image.jpg"],
+        },
+    };
+}
+
 function formatDate(date?: Date | null) {
     if (!date) return "Not published";
 
@@ -22,11 +80,7 @@ function formatDate(date?: Date | null) {
     });
 }
 
-export default async function NewsDetailPage({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}) {
+export default async function NewsDetailPage({ params }: Props) {
     const { slug } = await params;
 
     const post = await prisma.newsPost.findUnique({

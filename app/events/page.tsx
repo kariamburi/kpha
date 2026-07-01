@@ -11,6 +11,7 @@ import {
     Ticket,
     Users,
 } from "lucide-react";
+import { Metadata } from "next";
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -26,7 +27,14 @@ function formatTime(date: Date) {
         minute: "2-digit",
     });
 }
-
+export const metadata: Metadata = {
+    title: "Events & CPD",
+    description:
+        "View upcoming AHPK events, trainings, workshops, and continuous professional development activities for hospitality professionals in Kenya.",
+    alternates: {
+        canonical: "/events",
+    },
+};
 export default async function EventsPage() {
     const events = await prisma.event.findMany({
         where: { published: true },

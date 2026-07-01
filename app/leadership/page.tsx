@@ -10,7 +10,14 @@ import {
     ShieldCheck,
     Users,
 } from "lucide-react";
-
+export const metadata: Metadata = {
+    title: "Leadership",
+    description:
+        "Meet the AHPK leadership team guiding governance, professional standards, member recognition, and hospitality industry engagement in Kenya.",
+    alternates: {
+        canonical: "/leadership",
+    },
+};
 export default async function LeadershipPage() {
     const leaders = await prisma.leader.findMany({
         where: { active: true },

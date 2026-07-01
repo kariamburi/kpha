@@ -11,7 +11,16 @@ import {
     Send,
 } from "lucide-react";
 import ContactForm from "./ContactForm";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Contact AHPK",
+    description:
+        "Contact the Association of Hotel Professionals Kenya for membership, certification, CPD events, resources, partnerships, and general enquiries.",
+    alternates: {
+        canonical: "/contact",
+    },
+};
 export default async function ContactPage() {
     const page = await prisma.websitePage.findUnique({
         where: { slug: "contact" },

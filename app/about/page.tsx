@@ -11,6 +11,16 @@ import {
     ShieldCheck,
     Users,
 } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "About AHPK",
+    description:
+        "Learn about the Association of Hotel Professionals Kenya, its role in advancing professionalism, ethics, certification, CPD, and recognition in Kenya’s hospitality industry.",
+    alternates: {
+        canonical: "/about",
+    },
+};
 
 export default async function AboutPage() {
     const page = await prisma.websitePage.findUnique({

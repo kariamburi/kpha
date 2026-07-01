@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import WebsiteContentPage from "../components/public/WebsiteContentPage";
+
+export const metadata: Metadata = {
+    title: "Corporate Statements",
+    description:
+        "Explore AHPK corporate statements, including the mission, vision, values, ethics, and professional principles guiding the Association of Hotel Professionals Kenya.",
+    alternates: {
+        canonical: "/corporate-statements",
+    },
+};
 
 export default async function CorporateStatementsPage() {
     const page = await prisma.websitePage.findUnique({

@@ -3,13 +3,21 @@ import { toggleDirectoryVisibility } from "./actions";
 import { canViewDirectory } from "@/lib/roles";
 import { getAuthUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
 type Props = {
     searchParams?: Promise<{
         q?: string;
     }>;
 };
-
+export const metadata: Metadata = {
+    title: "Member Directory Visibility",
+    description: "Admin page for controlling AHPK member directory visibility.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 export default async function AdminMemberDirectoryPage({
     searchParams,
 }: Props) {

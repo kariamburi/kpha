@@ -14,7 +14,15 @@ import {
     ShieldCheck,
     Users,
 } from "lucide-react";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+    title: "Executive Summary",
+    description:
+        "Read the executive summary of the Association of Hotel Professionals Kenya, including its formation journey, professional mandate, and role in Kenya’s hospitality industry.",
+    alternates: {
+        canonical: "/executive-summary",
+    },
+};
 export default async function ExecutiveSummaryPage() {
     const page = await prisma.websitePage.findUnique({
         where: { slug: "executive-summary" },

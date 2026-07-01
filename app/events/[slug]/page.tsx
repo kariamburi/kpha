@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
@@ -20,6 +21,58 @@ type Props = {
         slug: string;
     }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
+
+    const event = await prisma.event.findUnique({
+        where: { slug },
+    });
+
+    if (!event || !event.published) {
+        return {
+            title: "Event Not Found",
+            robots: {
+                index: false,
+                follow: false,
+            },
+        };
+    }
+
+    const description =
+        event.description?.replace(/\s+/g, " ").slice(0, 160) ||
+        "View AHPK events, trainings, workshops and CPD activities for hospitality professionals in Kenya.";
+
+    return {
+        title: event.title,
+        description,
+        alternates: {
+            canonical: `/events/${event.slug}`,
+        },
+        openGraph: {
+            title: event.title,
+            description,
+            url: `/events/${event.slug}`,
+            type: "article",
+            images: event.imageUrl
+                ? [
+                    {
+                        url: event.imageUrl,
+                        width: 1200,
+                        height: 630,
+                        alt: event.title,
+                    },
+                ]
+                : ["/images/og-image.jpg"],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: event.title,
+            description,
+            images: event.imageUrl ? [event.imageUrl] : ["/images/og-image.jpg"],
+        },
+    };
+}
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {

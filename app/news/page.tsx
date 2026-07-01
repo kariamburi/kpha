@@ -9,6 +9,7 @@ import {
     Newspaper,
     ShieldCheck,
 } from "lucide-react";
+import { Metadata } from "next";
 
 function formatDate(date?: Date | null) {
     if (!date) return "Not published";
@@ -19,7 +20,14 @@ function formatDate(date?: Date | null) {
         year: "numeric",
     });
 }
-
+export const metadata: Metadata = {
+    title: "News & Updates",
+    description:
+        "Stay informed with the latest AHPK news, official announcements, hospitality industry updates, events, training opportunities, and continuous professional development activities.",
+    alternates: {
+        canonical: "/news",
+    },
+};
 export default async function NewsPage() {
     const posts = await prisma.newsPost.findMany({
         where: { published: true },

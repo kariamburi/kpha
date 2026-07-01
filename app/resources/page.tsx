@@ -11,6 +11,7 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
+import { Metadata } from "next";
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-KE", {
@@ -19,6 +20,14 @@ function formatDate(date: Date) {
     year: "numeric",
   });
 }
+export const metadata: Metadata = {
+  title: "Resources Centre",
+  description:
+    "Access AHPK resources, forms, policies, guides, circulars, and official documents for hospitality professionals, members, partners, and the public.",
+  alternates: {
+    canonical: "/resources",
+  },
+};
 
 export default async function ResourcesPage() {
   const resources = await prisma.resource.findMany({

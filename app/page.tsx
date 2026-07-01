@@ -14,6 +14,7 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
+import { Metadata } from "next";
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-KE", {
@@ -22,6 +23,14 @@ function formatDate(date: Date) {
     year: "numeric",
   });
 }
+export const metadata: Metadata = {
+  title: "Association of Hotel Professionals Kenya",
+  description:
+    "The official website of the Association of Hotel Professionals Kenya, supporting hospitality professionals through membership, certification, CPD, ethics, and professional development.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default async function Home() {
   const [page, news, events, resources, leaders] = await Promise.all([
