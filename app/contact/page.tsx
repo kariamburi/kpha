@@ -11,7 +11,8 @@ import {
     Send,
 } from "lucide-react";
 import ContactForm from "./ContactForm";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
     title: "Contact AHPK",
@@ -34,6 +35,12 @@ export default async function ContactPage() {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Contact AHPK", url: "/contact" },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

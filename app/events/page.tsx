@@ -11,7 +11,8 @@ import {
     Ticket,
     Users,
 } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -46,6 +47,12 @@ export default async function EventsPage() {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Events & CPD", url: "/events" },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

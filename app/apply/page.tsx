@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import ApplyClient from "./ApplyClient";
-import { Metadata } from "next";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
+
 export const metadata: Metadata = {
     title: "Apply for Membership",
     description:
@@ -9,11 +11,23 @@ export const metadata: Metadata = {
         canonical: "/apply",
     },
 };
+
 export default async function ApplyPage() {
     const categories = await prisma.membershipCategory.findMany({
         where: { active: true },
         orderBy: { annualFee: "asc" },
     });
 
-    return <ApplyClient categories={categories} />;
+    return (
+        <>
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Apply for Membership", url: "/apply" },
+                ]}
+            />
+
+            <ApplyClient categories={categories} />
+        </>
+    );
 }

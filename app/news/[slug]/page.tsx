@@ -12,6 +12,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import PublicNavbar from "@/app/components/public/PublicNavbar";
 import PublicFooter from "@/app/components/public/PublicFooter";
+import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 
 type Props = {
     params: Promise<{ slug: string }>;
@@ -102,6 +103,13 @@ export default async function NewsDetailPage({ params }: Props) {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "News & Updates", url: "/news" },
+                    { name: post.title, url: `/news/${post.slug}` },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

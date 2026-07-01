@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import PublicNavbar from "../components/public/PublicNavbar";
 import PublicFooter from "../components/public/PublicFooter";
 import { Search, BadgeCheck, User, MapPin, BriefcaseBusiness } from "lucide-react";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 
 type Props = {
     searchParams?: Promise<{
@@ -52,6 +53,12 @@ export default async function DirectoryPage({ searchParams }: Props) {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Member Directory", url: "/directory" },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="bg-[#111111] text-white">

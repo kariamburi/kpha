@@ -69,13 +69,20 @@ export default async function MembersSectionPage({ params }: Props) {
 
     if (!page || !page.published) notFound();
 
-    return (
+    return (<>
+        <BreadcrumbJsonLd
+            items={[
+                { name: "Home", url: "/" },
+                { name: "Members Section", url: "/members-section" },
+                { name: page.title, url: `/members-section/${slug}` },
+            ]}
+        />
         <MemberSectionContentPage
             eyebrow="Members Section"
             title={page.title}
             subtitle={page.subtitle}
             content={page.content}
             activePath={`/members-section/${slug}`}
-        />
+        /></>
     );
 }

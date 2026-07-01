@@ -10,6 +10,7 @@ import {
     ShieldCheck,
 } from "lucide-react";
 import { Metadata } from "next";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 
 function formatDate(date?: Date | null) {
     if (!date) return "Not published";
@@ -39,6 +40,12 @@ export default async function NewsPage() {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "News & Updates", url: "/news" },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

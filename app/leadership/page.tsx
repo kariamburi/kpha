@@ -10,7 +10,8 @@ import {
     ShieldCheck,
     Users,
 } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 export const metadata: Metadata = {
     title: "Leadership",
     description:
@@ -27,6 +28,13 @@ export default async function LeadershipPage() {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "About AHPK", url: "/about" },
+                    { name: "Leadership", url: "/leadership" },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

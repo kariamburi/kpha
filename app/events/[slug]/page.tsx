@@ -15,6 +15,7 @@ import {
     Ticket,
     Users,
 } from "lucide-react";
+import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 
 type Props = {
     params: Promise<{
@@ -120,6 +121,13 @@ export default async function EventDetailsPage({ params }: Props) {
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Events & CPD", url: "/events" },
+                    { name: event.title, url: `/events/${event.slug}` },
+                ]}
+            />
             <PublicNavbar />
 
             <section className="relative overflow-hidden bg-[#111111] text-white">

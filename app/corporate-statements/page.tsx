@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import WebsiteContentPage from "../components/public/WebsiteContentPage";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
     title: "Corporate Statements",
@@ -20,12 +21,22 @@ export default async function CorporateStatementsPage() {
     if (!page || !page.published) notFound();
 
     return (
-        <WebsiteContentPage
-            eyebrow="About AHPK"
-            title={page.title}
-            subtitle={page.subtitle}
-            content={page.content}
-            activePath="/corporate-statements"
-        />
+        <>
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "About AHPK", url: "/about" },
+                    { name: "Corporate Statements", url: "/corporate-statements" },
+                ]}
+            />
+
+            <WebsiteContentPage
+                eyebrow="About AHPK"
+                title={page.title}
+                subtitle={page.subtitle}
+                content={page.content}
+                activePath="/corporate-statements"
+            />
+        </>
     );
 }

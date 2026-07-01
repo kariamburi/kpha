@@ -1,5 +1,6 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import VerifyClient from "./VerifyClient";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 export const metadata: Metadata = {
     title: "Verify Certificate",
     description:
@@ -15,5 +16,16 @@ export default async function VerifyPage({
 }) {
     const params = await searchParams;
 
-    return <VerifyClient failedCode={params.code || ""} />;
+    return (
+        <>
+            <BreadcrumbJsonLd
+                items={[
+                    { name: "Home", url: "/" },
+                    { name: "Certificate Verification", url: "/verify" },
+                ]}
+            />
+
+            <VerifyClient failedCode={params.code || ""} />
+        </>
+    );
 }
