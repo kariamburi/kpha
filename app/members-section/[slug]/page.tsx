@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import MemberSectionContentPage from "@/app/components/public/MemberSectionContentPage";
+import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 
 type Props = {
     params: Promise<{ slug: string }>;
