@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import Modal from "../../components/Modal";
+import { useFormStatus } from "react-dom";
 
 type NewsPostItem = {
     id: string;
