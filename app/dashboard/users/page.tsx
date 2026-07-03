@@ -2,13 +2,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getAuthUser } from "@/lib/auth";
 import { canManageDashboardUsers } from "@/lib/roles";
-import AddDashboardUserButton from "./AddDashboardUserButton";
-import {
-    createDashboardUser,
-    deleteDashboardUser,
-    resetDashboardUserPassword,
-    updateDashboardUser,
-} from "./actions";
+import { updateMemberAdminAccess } from "./actions";
 
 export default async function DashboardUsersPage() {
     const currentUser = await getAuthUser();
@@ -17,21 +11,24 @@ export default async function DashboardUsersPage() {
         redirect("/dashboard");
     }
 
-    const users = await prisma.user.findMany({
+    const members = await prisma.member.findMany({
         where: {
-            role: {
+            adminRole: {
                 in: ["SUPER_ADMIN", "ADMIN", "FINANCE"],
             },
+        },
+        include: {
+            category: true,
         },
         orderBy: {
             createdAt: "desc",
         },
     });
 
-    const totalUsers = users.length;
-    const activeUsers = users.filter((u) => u.status === "ACTIVE").length;
-    const inactiveUsers = users.filter((u) => u.status === "INACTIVE").length;
-    const suspendedUsers = users.filter((u) => u.status === "SUSPENDED").length;
+    const totalUsers = members.length;
+    const activeUsers = members.filter((m) => m.adminStatus === "ACTIVE").length;
+    const inactiveUsers = members.filter((m) => m.adminStatus === "INACTIVE").length;
+    const suspendedUsers = members.filter((m) => m.adminStatus === "SUSPENDED").length;
 
     return (
         <div className="space-y-5">
@@ -40,138 +37,105 @@ export default async function DashboardUsersPage() {
                     AHPK Administration
                 </p>
 
-                <div className="mt-1 flex flex-col justify-between gap-4 md:flex-row md:items-center">
-                    <div>
-                        <h1 className="text-3xl font-black text-slate-950">
-                            Dashboard Users
-                        </h1>
-                        <p className="mt-2 text-sm font-semibold text-slate-500">
-                            Create, edit, disable, and manage admin dashboard access.
-                        </p>
-                    </div>
+                <div className="mt-1">
+                    <h1 className="text-3xl font-black text-slate-950">
+                        Admin Access Management
+                    </h1>
 
-                    <AddDashboardUserButton createDashboardUser={createDashboardUser} />
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                        Promote, demote, activate or suspend members with dashboard access.
+                    </p>
                 </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
-                <StatCard title="Total Users" value={totalUsers.toString()} />
-                <StatCard title="Active" value={activeUsers.toString()} />
-                <StatCard title="Inactive" value={inactiveUsers.toString()} />
-                <StatCard title="Suspended" value={suspendedUsers.toString()} />
+                <StatCard title="Admin Members" value={totalUsers.toString()} tone="blue" />
+                <StatCard title="Active" value={activeUsers.toString()} tone="green" />
+                <StatCard title="Inactive" value={inactiveUsers.toString()} tone="amber" />
+                <StatCard title="Suspended" value={suspendedUsers.toString()} tone="red" />
             </div>
 
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div className="border-b border-slate-200 p-5">
                     <h2 className="text-xl font-black text-slate-950">
-                        Admin Users List
+                        Admin Members List
                     </h2>
+
                     <p className="mt-1 text-sm font-semibold text-slate-500">
-                        Total {totalUsers} dashboard user{totalUsers === 1 ? "" : "s"}
+                        Total {totalUsers} admin member{totalUsers === 1 ? "" : "s"}
                     </p>
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full min-w-[1150px] border-collapse text-[12px]">
+                    <table className="w-full min-w-[950px] border-collapse text-[12px]">
                         <thead>
                             <tr className="bg-slate-100 text-slate-900">
                                 <th className="border-r border-slate-200 px-3 py-3 text-left font-bold">
-                                    User
+                                    Member
                                 </th>
                                 <th className="border-r border-slate-200 px-3 py-3 text-left font-bold">
-                                    Phone
+                                    Membership
                                 </th>
                                 <th className="border-r border-slate-200 px-3 py-3 text-left font-bold">
-                                    Role
+                                    Admin Role
                                 </th>
                                 <th className="border-r border-slate-200 px-3 py-3 text-left font-bold">
-                                    Status
-                                </th>
-                                <th className="border-r border-slate-200 px-3 py-3 text-left font-bold">
-                                    Reset Password
+                                    Access Status
                                 </th>
                                 <th className="px-3 py-3 text-right font-bold">
-                                    Delete
+                                    Action
                                 </th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            {users.length === 0 ? (
+                            {members.length === 0 ? (
                                 <tr>
                                     <td
-                                        colSpan={6}
+                                        colSpan={5}
                                         className="px-5 py-10 text-center text-sm font-semibold text-slate-500"
                                     >
-                                        No dashboard users found.
+                                        No admin members found.
                                     </td>
                                 </tr>
                             ) : (
-                                users.map((user) => (
+                                members.map((member) => (
                                     <tr
-                                        key={user.id}
+                                        key={member.id}
                                         className="border-b align-top transition hover:bg-slate-50"
                                     >
                                         <td className="px-3 py-3">
-                                            <form action={updateDashboardUser} className="grid gap-2">
-                                                <input type="hidden" name="id" value={user.id} />
-                                                <input type="hidden" name="phone" value={user.phone || ""} />
-                                                <input type="hidden" name="role" value={user.role} />
-                                                <input type="hidden" name="status" value={user.status} />
-
-                                                <input
-                                                    name="name"
-                                                    defaultValue={user.name || ""}
-                                                    className="h-10 rounded-xl border border-slate-200 px-3 text-sm font-bold outline-none focus:border-[#C1121F]"
-                                                />
-
-                                                <input
-                                                    name="email"
-                                                    type="email"
-                                                    defaultValue={user.email}
-                                                    className="h-10 rounded-xl border border-slate-200 px-3 text-sm font-semibold outline-none focus:border-[#C1121F]"
-                                                />
-
-                                                <button className="cursor-pointer rounded-xl bg-[#111111] px-3 py-2 text-xs font-black text-white transition hover:bg-black">
-                                                    Save User
-                                                </button>
-                                            </form>
+                                            <p className="font-black text-slate-950">
+                                                {member.fullName || "AHPK Member"}
+                                            </p>
+                                            <p className="mt-1 text-xs font-semibold text-slate-500">
+                                                {member.email || "-"}
+                                            </p>
+                                            <p className="mt-1 text-xs font-bold text-[#C1121F]">
+                                                {member.memberNumber}
+                                            </p>
                                         </td>
 
                                         <td className="px-3 py-3">
-                                            <form action={updateDashboardUser} className="grid gap-2">
-                                                <input type="hidden" name="id" value={user.id} />
-                                                <input type="hidden" name="name" value={user.name || ""} />
-                                                <input type="hidden" name="email" value={user.email} />
-                                                <input type="hidden" name="role" value={user.role} />
-                                                <input type="hidden" name="status" value={user.status} />
-
-                                                <input
-                                                    name="phone"
-                                                    defaultValue={user.phone || ""}
-                                                    placeholder="Phone"
-                                                    className="h-10 rounded-xl border border-slate-200 px-3 text-sm font-semibold outline-none focus:border-[#C1121F]"
-                                                />
-
-                                                <button className="cursor-pointer rounded-xl bg-slate-100 px-3 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-200">
-                                                    Update Phone
-                                                </button>
-                                            </form>
+                                            <p className="font-black text-slate-800">
+                                                {member.category.name}
+                                            </p>
+                                            <p className="mt-1 text-xs font-semibold text-slate-500">
+                                                Member Status: {member.status}
+                                            </p>
                                         </td>
 
                                         <td className="px-3 py-3">
-                                            <form action={updateDashboardUser} className="grid gap-2">
-                                                <input type="hidden" name="id" value={user.id} />
-                                                <input type="hidden" name="name" value={user.name || ""} />
-                                                <input type="hidden" name="email" value={user.email} />
-                                                <input type="hidden" name="phone" value={user.phone || ""} />
-                                                <input type="hidden" name="status" value={user.status} />
+                                            <form action={updateMemberAdminAccess} className="grid gap-2">
+                                                <input type="hidden" name="id" value={member.id} />
+                                                <input type="hidden" name="adminStatus" value={member.adminStatus} />
 
                                                 <select
-                                                    name="role"
-                                                    defaultValue={user.role}
+                                                    name="adminRole"
+                                                    defaultValue={member.adminRole || ""}
                                                     className="h-10 rounded-xl border border-slate-200 px-3 text-xs font-black outline-none focus:border-[#C1121F]"
                                                 >
+                                                    <option value="">NO ACCESS</option>
                                                     <option value="ADMIN">ADMIN</option>
                                                     <option value="FINANCE">FINANCE</option>
                                                     <option value="SUPER_ADMIN">SUPER ADMIN</option>
@@ -184,16 +148,13 @@ export default async function DashboardUsersPage() {
                                         </td>
 
                                         <td className="px-3 py-3">
-                                            <form action={updateDashboardUser} className="grid gap-2">
-                                                <input type="hidden" name="id" value={user.id} />
-                                                <input type="hidden" name="name" value={user.name || ""} />
-                                                <input type="hidden" name="email" value={user.email} />
-                                                <input type="hidden" name="phone" value={user.phone || ""} />
-                                                <input type="hidden" name="role" value={user.role} />
+                                            <form action={updateMemberAdminAccess} className="grid gap-2">
+                                                <input type="hidden" name="id" value={member.id} />
+                                                <input type="hidden" name="adminRole" value={member.adminRole || ""} />
 
                                                 <select
-                                                    name="status"
-                                                    defaultValue={user.status}
+                                                    name="adminStatus"
+                                                    defaultValue={member.adminStatus}
                                                     className="h-10 rounded-xl border border-slate-200 px-3 text-xs font-black outline-none focus:border-[#C1121F]"
                                                 >
                                                     <option value="ACTIVE">ACTIVE</option>
@@ -201,7 +162,7 @@ export default async function DashboardUsersPage() {
                                                     <option value="SUSPENDED">SUSPENDED</option>
                                                 </select>
 
-                                                <StatusBadge status={user.status} />
+                                                <StatusBadge status={member.adminStatus} />
 
                                                 <button className="cursor-pointer rounded-xl bg-slate-100 px-3 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-200">
                                                     Update Status
@@ -209,33 +170,14 @@ export default async function DashboardUsersPage() {
                                             </form>
                                         </td>
 
-                                        <td className="px-3 py-3">
-                                            <form action={resetDashboardUserPassword} className="grid gap-2">
-                                                <input type="hidden" name="id" value={user.id} />
-
-                                                <input
-                                                    name="password"
-                                                    type="password"
-                                                    required
-                                                    placeholder="New password"
-                                                    className="h-10 rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-[#C1121F]"
-                                                />
-
-                                                <button className="cursor-pointer rounded-xl bg-amber-500 px-3 py-2 text-xs font-black text-white transition hover:bg-amber-600">
-                                                    Reset Password
-                                                </button>
-                                            </form>
-                                        </td>
-
                                         <td className="px-3 py-3 text-right">
-                                            <form action={deleteDashboardUser}>
-                                                <input type="hidden" name="id" value={user.id} />
+                                            <form action={updateMemberAdminAccess}>
+                                                <input type="hidden" name="id" value={member.id} />
+                                                <input type="hidden" name="adminRole" value="" />
+                                                <input type="hidden" name="adminStatus" value="INACTIVE" />
 
-                                                <button
-                                                    disabled={user.id === currentUser.id}
-                                                    className="cursor-pointer rounded-xl bg-red-600 px-3 py-2 text-xs font-black text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40"
-                                                >
-                                                    Delete
+                                                <button className="cursor-pointer rounded-xl bg-red-600 px-3 py-2 text-xs font-black text-white transition hover:bg-red-700">
+                                                    Remove Access
                                                 </button>
                                             </form>
                                         </td>
@@ -250,10 +192,25 @@ export default async function DashboardUsersPage() {
     );
 }
 
-function StatCard({ title, value }: { title: string; value: string }) {
+function StatCard({
+    title,
+    value,
+    tone,
+}: {
+    title: string;
+    value: string;
+    tone: "blue" | "green" | "amber" | "red";
+}) {
+    const styles = {
+        blue: { backgroundColor: "#EEF6FF", borderColor: "#C7E0FF", color: "#2563EB" },
+        green: { backgroundColor: "#F0FDF4", borderColor: "#BBF7D0", color: "#15803D" },
+        amber: { backgroundColor: "#FFF8E6", borderColor: "#FCD34D", color: "#B45309" },
+        red: { backgroundColor: "#FEF2F2", borderColor: "#FECACA", color: "#B91C1C" },
+    };
+
     return (
-        <div className="rounded-2xl bg-[#111111] p-5 text-white shadow-sm">
-            <p className="text-sm font-semibold text-white/65">{title}</p>
+        <div style={styles[tone]} className="rounded-2xl border p-5 shadow-sm">
+            <p className="text-sm font-semibold opacity-80">{title}</p>
             <h2 className="mt-2 text-2xl font-black">{value}</h2>
         </div>
     );
@@ -268,7 +225,7 @@ function StatusBadge({ status }: { status: string }) {
                 : "bg-red-50 text-red-700";
 
     return (
-        <span className={`rounded-full px-3 py-1 text-[11px] font-bold ${cls}`}>
+        <span className={`w-fit rounded-full px-3 py-1 text-[11px] font-bold ${cls}`}>
             {status}
         </span>
     );

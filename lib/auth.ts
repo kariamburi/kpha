@@ -17,20 +17,30 @@ export async function getAuthUser() {
     const payload = verifyToken<TokenPayload>(token);
     if (!payload?.id) return null;
 
-    const user = await prisma.user.findUnique({
+    const member = await prisma.member.findUnique({
         where: { id: payload.id },
         select: {
             id: true,
-            name: true,
+            fullName: true,
             email: true,
             phone: true,
-            role: true,
-            status: true,
+            adminRole: true,
+            adminStatus: true,
             createdAt: true,
         },
     });
 
-    if (!user || user.status !== "ACTIVE") return null;
+    if (!member || member.adminStatus !== "ACTIVE" || !member.adminRole) {
+        return null;
+    }
 
-    return user;
+    return {
+        id: member.id,
+        name: member.fullName,
+        email: member.email,
+        phone: member.phone,
+        role: member.adminRole,
+        status: member.adminStatus,
+        createdAt: member.createdAt,
+    };
 }

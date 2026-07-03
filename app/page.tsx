@@ -69,61 +69,57 @@ export default async function Home() {
 
       <section className="relative overflow-hidden bg-[#111111] text-white">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-55"
+          className="absolute inset-0 bg-cover bg-center opacity-45"
           style={{ backgroundImage: `url('${heroImage}')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/90 to-[#C1121F]/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#111111]/80 via-[#111111]/75 to-[#111111]" />
 
-        <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-32">
-          <div className="max-w-4xl">
-            <p className="text-sm font-black uppercase tracking-[0.45em] text-[#F3C64E]">
-              AHPK Digital Portal
-            </p>
+        <div className="relative mx-auto max-w-7xl px-6 py-20 text-center lg:py-28">
+          <p className="text-sm font-black uppercase tracking-[0.45em] text-[#F3C64E]">
+            AHPK Digital Portal
+          </p>
 
-            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              {page?.title || "Empowering Hospitality Professionals in Kenya"}
-            </h1>
+          <h1 className="mx-auto mt-5 max-w-5xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+            {page?.title || "Empowering Hospitality Professionals in Kenya"}
+          </h1>
 
-            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-white/80">
-              {page?.subtitle ||
-                "Apply, renew, verify certificates, access CPD events and manage your professional membership in one secure digital portal."}
-            </p>
+          <p className="mx-auto mt-6 max-w-3xl text-lg font-semibold leading-8 text-white/80">
+            {page?.subtitle ||
+              "Apply, renew, verify certificates, access CPD events and manage your professional membership in one secure digital portal."}
+          </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/apply"
-                className="inline-flex min-w-[190px] items-center justify-center gap-2 rounded-2xl bg-[#C1121F] px-8 py-4 text-sm font-black text-white shadow-xl transition hover:bg-red-800"
-              >
-                <UserPlus className="h-4 w-4" />
-                Apply for Membership
-              </Link>
+          <div className="mx-auto items-center mt-10 max-w-6xl rounded-[32px] border border-white/10 bg-white/10 p-5 shadow-2xl backdrop-blur-xl">
+            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+              <form action="/directory" className="rounded-[24px] bg-white p-2 shadow-xl">
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <div className="relative flex-1">
+                    {/**    <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />*/}
 
-              <Link
-                href="/verify"
-                className="inline-flex min-w-[170px] items-center justify-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-black text-[#111111] transition hover:bg-[#F3C64E]"
-              >
-                <ShieldCheck className="h-4 w-4" />
-                Verify Certificate
-              </Link>
+                    <input
+                      name="q"
+                      placeholder="Search member by name or member number..."
+                      className="h-16 w-full rounded-2xl border border-slate-200 bg-slate-50 px-6 text-sm font-semibold text-slate-900 outline-none transition focus:border-[#C1121F] focus:bg-white"
+                    />
+                  </div>
 
-              <Link
-                href="/member/login"
-                className="inline-flex min-w-[150px] items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur transition hover:bg-white/20"
-              >
-                <LogIn className="h-4 w-4" />
-                Member Login
-              </Link>
+                  <button
+                    type="submit"
+                    className="flex h-16 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#C1121F] px-6 text-sm font-black text-white transition hover:bg-red-800"
+                  >
+                    <Search className="h-5 w-5 text-white" />
+                    Search Member
+                  </button>
+                </div>
+              </form>
             </div>
-          </div>
 
-          <div className="mt-12 max-w-6xl rounded-[30px] border border-white/10 bg-[#111827]/85 p-5 shadow-2xl backdrop-blur-xl">
-
-            <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5">
+            <div className="mx-auto mt-6 grid w-full max-w-5xl grid-cols-2 justify-items-center gap-3 md:grid-cols-3 lg:flex lg:flex-nowrap lg:items-center lg:justify-center lg:gap-6">
               <ServiceCard title="Apply" href="/apply" icon={UserPlus} />
               <ServiceCard title="Member Login" href="/member/login" icon={LogIn} />
               <ServiceCard title="Verify Certificate" href="/verify" icon={BadgeCheck} />
               <ServiceCard title="Events & CPD" href="/events" icon={CalendarDays} />
               <ServiceCard title="Resources" href="/resources" icon={FileText} />
+              <ServiceCard title="Member Directory" href="/directory" icon={Users} />
             </div>
           </div>
         </div>
@@ -329,7 +325,7 @@ function ServiceCard({
   return (
     <Link
       href={href}
-      className="group flex h-[86px] flex-col items-center justify-center rounded-2xl text-center transition hover:bg-white/10"
+      className="group flex min-h-[78px] w-full max-w-[150px] flex-col items-center justify-center rounded-2xl px-2 text-center transition hover:bg-white/10 lg:w-[120px]"
     >
       <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white transition group-hover:bg-[#C1121F]">
         <Icon className="h-5 w-5" />

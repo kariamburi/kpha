@@ -1,8 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/app/assets/logo.png";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
-export default function PublicFooter() {
+export default async function PublicFooter() {
+    const contact = await prisma.contactSetting.findUnique({
+        where: { id: "main" },
+    });
+
+    const address =
+        contact?.address ||
+        "The Clarion Hotel Building, Second Floor, Moi Avenue, Nairobi, Kenya";
+
+    const email = contact?.email || "info@kenyahoteliers.com";
+
+    const phone = `${contact?.phone1 || "+254 785 707 378"}${contact?.phone2 ? ` / ${contact.phone2}` : ""
+        }`;
+
     return (
         <footer className="border-t border-slate-200 bg-slate-950 text-white">
             <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-4">
@@ -32,31 +47,65 @@ export default function PublicFooter() {
                         Advancing professionalism, certification, continuous development and
                         leadership in Kenya’s hospitality industry.
                     </p>
+
+                    <div className="mt-6 grid gap-3 text-sm font-semibold text-white/65">
+                        <div className="flex items-start gap-3">
+                            <MapPin className="mt-1 h-4 w-4 shrink-0 text-red-400" />
+                            <span>{address}</span>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <Phone className="h-4 w-4 shrink-0 text-red-400" />
+                            <span>{phone}</span>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <Mail className="h-4 w-4 shrink-0 text-red-400" />
+                            <span>{email}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
                     <h3 className="font-black">Quick Links</h3>
                     <div className="mt-4 grid gap-3 text-sm text-white/60">
-                        <Link href="/about" className="hover:text-white">About AHPK</Link>
-                        <Link href="/events" className="hover:text-white">Events & CPD</Link>
-                        <Link href="/resources" className="hover:text-white">Resources</Link>
-                        <Link href="/verify" className="hover:text-white">Verify Certificate</Link>
+                        <Link href="/about" className="hover:text-white">
+                            About AHPK
+                        </Link>
+                        <Link href="/events" className="hover:text-white">
+                            Events & CPD
+                        </Link>
+                        <Link href="/resources" className="hover:text-white">
+                            Resources
+                        </Link>
+                        <Link href="/verify" className="hover:text-white">
+                            Verify Certificate
+                        </Link>
                     </div>
                 </div>
 
                 <div>
                     <h3 className="font-black">Member Services</h3>
                     <div className="mt-4 grid gap-3 text-sm text-white/60">
-                        <Link href="/apply" className="hover:text-white">Apply</Link>
-                        <Link href="/member/login" className="hover:text-white">Member Login</Link>
-                        <Link href="/member/renewal" className="hover:text-white">Renew Membership</Link>
-                        <Link href="/contact" className="hover:text-white">Contact</Link>
+                        <Link href="/apply" className="hover:text-white">
+                            Apply
+                        </Link>
+                        <Link href="/member/login" className="hover:text-white">
+                            Member Login
+                        </Link>
+                        <Link href="/member/renewal" className="hover:text-white">
+                            Renew Membership
+                        </Link>
+                        <Link href="/contact" className="hover:text-white">
+                            Contact
+                        </Link>
                     </div>
                 </div>
             </div>
 
             <div className="border-t border-white/10 px-6 py-5 text-center text-sm text-white/50">
-                © {new Date().getFullYear()} Association of Hotel Professionals Kenya. All rights reserved.
+                © {new Date().getFullYear()} Association of Hotel Professionals Kenya.
+                All rights reserved.
             </div>
         </footer>
     );

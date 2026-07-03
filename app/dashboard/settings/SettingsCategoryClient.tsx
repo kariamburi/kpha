@@ -97,12 +97,30 @@ export default function SettingsCategoryClient({
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
-                <StatCard title="Total Categories" value={categories.length.toString()} />
-                <StatCard title="Active" value={activeCategories.toString()} />
-                <StatCard title="Disabled" value={disabledCategories.toString()} />
-                <StatCard title="Total Fee Value" value={money(totalAnnualFee)} />
-            </div>
+                <StatCard
+                    title="Total Categories"
+                    value={categories.length.toString()}
+                    tone="blue"
+                />
 
+                <StatCard
+                    title="Active"
+                    value={activeCategories.toString()}
+                    tone="green"
+                />
+
+                <StatCard
+                    title="Disabled"
+                    value={disabledCategories.toString()}
+                    tone="amber"
+                />
+
+                <StatCard
+                    title="Total Fee Value"
+                    value={money(totalAnnualFee)}
+                    tone="red"
+                />
+            </div>
             <SystemSettingsCard
                 settings={systemSettings}
                 action={saveSystemSettings}
@@ -542,10 +560,41 @@ function ConfirmForm({
     );
 }
 
-function StatCard({ title, value }: { title: string; value: string }) {
+function StatCard({
+    title,
+    value,
+    tone,
+}: {
+    title: string;
+    value: string;
+    tone: "blue" | "green" | "amber" | "red";
+}) {
+    const styles = {
+        blue: {
+            backgroundColor: "#EEF6FF",
+            borderColor: "#C7E0FF",
+            color: "#2563EB",
+        },
+        green: {
+            backgroundColor: "#F0FDF4",
+            borderColor: "#BBF7D0",
+            color: "#15803D",
+        },
+        amber: {
+            backgroundColor: "#FFF8E6",
+            borderColor: "#FCD34D",
+            color: "#B45309",
+        },
+        red: {
+            backgroundColor: "#FEF2F2",
+            borderColor: "#FECACA",
+            color: "#B91C1C",
+        },
+    };
+
     return (
-        <div className="rounded-2xl bg-[#111111] p-5 text-white shadow-sm">
-            <p className="text-sm font-semibold text-white/65">{title}</p>
+        <div style={styles[tone]} className="rounded-2xl border p-5 shadow-sm">
+            <p className="text-sm font-semibold opacity-80">{title}</p>
             <h2 className="mt-2 text-2xl font-black">{value}</h2>
         </div>
     );

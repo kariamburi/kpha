@@ -6,7 +6,8 @@ import { signToken, verifyToken } from "@/lib/jwt";
 import { canAccessDashboard } from "@/lib/roles";
 
 type PendingOtpToken = {
-    id: string;
+    id: string; // member id
+    userId?: string; // temporary old AdminLoginOtp link
     email: string;
     role: string;
     purpose?: string;
@@ -19,7 +20,6 @@ function hashOtp(otp: string) {
 export async function POST(req: Request) {
     try {
         const { otp } = await req.json();
-
         const cleanOtp = String(otp || "").trim();
 
         if (!/^\d{6}$/.test(cleanOtp)) {
@@ -48,21 +48,33 @@ export async function POST(req: Request) {
             );
         }
 
-        const user = await prisma.user.findUnique({
+        const member = await prisma.member.findUnique({
             where: { id: payload.id },
         });
 
-        if (!user || user.status !== "ACTIVE" || !canAccessDashboard(user.role)) {
+        if (
+            !member ||
+            member.adminStatus !== "ACTIVE" ||
+            !member.adminRole ||
+            !canAccessDashboard(member.adminRole)
+        ) {
             return NextResponse.json(
                 { ok: false, error: "Account cannot access admin portal." },
                 { status: 403 }
             );
         }
 
+        if (!member.userId) {
+            return NextResponse.json(
+                { ok: false, error: "OTP record is not linked. Login again." },
+                { status: 401 }
+            );
+        }
+
         const loginOtp = await prisma.adminLoginOtp.findFirst({
             where: {
-                userId: user.id,
-                email: user.email,
+                userId: member.userId,
+                email: member.email || payload.email,
                 used: false,
                 expiresAt: {
                     gt: new Date(),
@@ -86,19 +98,19 @@ export async function POST(req: Request) {
         });
 
         const token = signToken({
-            id: user.id,
-            email: user.email,
-            role: user.role,
+            id: member.id,
+            email: member.email,
+            role: member.adminRole,
         });
 
         const res = NextResponse.json({
             ok: true,
             user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                status: user.status,
+                id: member.id,
+                name: member.fullName,
+                email: member.email,
+                role: member.adminRole,
+                status: member.adminStatus,
             },
         });
 

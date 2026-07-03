@@ -5,6 +5,7 @@ import Logo from "@/app/assets/logo.png";
 import DashboardSidebarNav from "./DashboardSidebarNav";
 import { getAuthUser } from "@/lib/auth";
 import { canAccessDashboard } from "@/lib/roles";
+import IdleLogout from "../components/security/IdleLogout";
 
 export default async function DashboardLayout({
     children,
@@ -23,6 +24,7 @@ export default async function DashboardLayout({
 
     return (
         <div className="min-h-screen bg-slate-50 font-sans">
+            <IdleLogout timeoutMinutes={30} logoutUrl="/logout" />
             <aside className="fixed left-0 top-0 z-40 hidden h-screen w-56 bg-white shadow-sm md:block">
                 <div className="flex h-20 items-center gap-3 bg-[#111111] px-4">
                     <div className="h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[20px] bg-white p-1 shadow-lg">

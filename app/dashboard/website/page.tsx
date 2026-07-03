@@ -67,24 +67,24 @@ export default async function WebsitePage() {
     return (
         <div className="space-y-5">
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="bg-[#111111] px-6 py-7 text-white">
-                    <div className="flex p-2 flex-col justify-between gap-5 md:flex-row md:items-center">
+                <div className="rounded-2xl bg-white px-6 py-7">
+                    <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
                         <div>
-                            <p className="text-sm font-black uppercase tracking-[0.35em] text-[#F3C64E]">
+                            <p className="text-sm font-black uppercase tracking-[0.35em] text-[#C1121F]">
                                 Public Website CMS
                             </p>
 
-                            <h1 className="mt-2 text-3xl font-black">
+                            <h1 className="mt-2 text-3xl font-black text-slate-950">
                                 Website Management
                             </h1>
 
-                            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-white/70">
+                            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
                                 Manage dynamic public website content including pages, news,
                                 resources, leadership profiles, events and CPD activities.
                             </p>
                         </div>
 
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-[#F3C64E]">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
                             <Globe2 className="h-8 w-8" />
                         </div>
                     </div>

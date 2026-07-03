@@ -81,38 +81,55 @@ export default async function DashboardPage() {
 
     return (
         <div className="space-y-5">
-            <div className="overflow-hidden rounded-2xl bg-[#111111] shadow-sm">
-                <div className="border-b border-white/10 px-6 py-5">
-                    <p className="text-sm font-black tracking-[0.35em] text-[#F3C64E]">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div className="border-b border-slate-200 px-6 py-5">
+                    <p className="text-sm font-black tracking-[0.35em] text-[#C1121F]">
                         AHPK OVERVIEW
                     </p>
 
                     <div className="mt-2 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
                         <div>
-                            <h1 className="text-3xl font-black text-white">
+                            <h1 className="text-3xl font-black text-slate-950">
                                 Membership Dashboard
                             </h1>
-                            <p className="mt-2 text-sm font-semibold text-white/70">
+                            <p className="mt-2 text-sm font-semibold text-slate-500">
                                 Members • Applications • Payments • Certificates • Renewals
                             </p>
                         </div>
 
-                        <div className="rounded-2xl bg-white/10 px-5 py-4">
-                            <p className="text-xs font-black uppercase tracking-wide text-white/50">
+                        <div className="rounded-2xl bg-red-50 px-5 py-4">
+                            <p className="text-xs font-black uppercase tracking-wide text-[#C1121F]">
                                 Total Revenue
                             </p>
-                            <p className="mt-1 text-2xl font-black text-white">
+                            <p className="mt-1 text-2xl font-black text-slate-950">
                                 {money(totalRevenue)}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid gap-px bg-white/10 md:grid-cols-4">
-                    <HeroMetric title="Members" value={members.toString()} hint={`${activeMembers} active`} />
-                    <HeroMetric title="Applications" value={applications.toString()} hint={`${pendingApplications} pending`} />
-                    <HeroMetric title="Certificates" value={certificates.toString()} hint="Issued certificates" />
-                    <HeroMetric title="Expiring Soon" value={expiringMembers.toString()} hint="Within 30 days" href="/dashboard/expiring-members" />
+                <div className="grid gap-px bg-slate-200 md:grid-cols-4">
+                    <HeroMetric
+                        title="Members"
+                        value={members.toString()}
+                        hint={`${activeMembers} active`}
+                    />
+                    <HeroMetric
+                        title="Applications"
+                        value={applications.toString()}
+                        hint={`${pendingApplications} pending`}
+                    />
+                    <HeroMetric
+                        title="Certificates"
+                        value={certificates.toString()}
+                        hint="Issued certificates"
+                    />
+                    <HeroMetric
+                        title="Expiring Soon"
+                        value={expiringMembers.toString()}
+                        hint="Within 30 days"
+                        href="/dashboard/expiring-members"
+                    />
                 </div>
             </div>
 
@@ -206,10 +223,10 @@ function HeroMetric({
     href?: string;
 }) {
     const content = (
-        <div className="bg-[#111111] p-5 transition hover:bg-[#181818]">
-            <p className="text-sm font-semibold text-white/55">{title}</p>
-            <h2 className="mt-2 text-3xl font-black text-white">{value}</h2>
-            <p className="mt-1 text-xs font-bold text-white/45">{hint}</p>
+        <div className="bg-white p-5 transition hover:bg-red-50">
+            <p className="text-sm font-semibold text-slate-500">{title}</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950">{value}</h2>
+            <p className="mt-1 text-xs font-bold text-slate-400">{hint}</p>
         </div>
     );
 

@@ -61,6 +61,7 @@ model User {
 }
 
 model MembershipCategory {
+  
   id          String  @id @default(cuid())
   name        String  @unique
   description String?
@@ -111,9 +112,14 @@ model Member {
   id     String  @id @default(cuid())
   userId String? @unique
 
+  adminRole   Role?
+  adminStatus UserStatus @default(INACTIVE)
+
   fullName String?
   email    String?
   phone    String?
+
+  profileImageUrl String?
 
   county             String?
   position           String?
@@ -133,12 +139,44 @@ model Member {
   certificates       Certificate[]
   loginOtps          MemberLoginOtp[]
   eventRegistrations EventRegistration[]
+  notifications      Notification[]
 
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  notifications Notification[]
+  educations      MemberEducation[]
+  workExperiences MemberWorkExperience[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model MemberEducation {
+  id        String @id @default(cuid())
+  memberId  String
+
+  level       String?
+  institution String?
+  year        String?
+  achievement String?
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model MemberWorkExperience {
+  id        String @id @default(cuid())
+  memberId  String
+
+  company   String?
+  position  String?
+  startDate DateTime?
+  endDate   DateTime?
+  year      String?
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 model Payment {
   id        String        @id @default(cuid())
   memberId  String

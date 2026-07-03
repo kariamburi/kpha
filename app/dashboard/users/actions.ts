@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/lib/password";
 import { getAuthUser } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/roles";
+import { hashPassword } from "@/lib/password";
 
 async function requireSuperAdmin() {
     const user = await getAuthUser();
@@ -16,113 +16,131 @@ async function requireSuperAdmin() {
     return user;
 }
 
-export async function createDashboardUser(formData: FormData) {
-    await requireSuperAdmin();
-
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim().toLowerCase();
-    const phone = String(formData.get("phone") || "").trim();
-    const role = String(formData.get("role") || "ADMIN");
-    const password = String(formData.get("password") || "");
-
-    if (!name || !email || !password) {
-        throw new Error("Name, email and password are required");
-    }
-
-    if (!["SUPER_ADMIN", "ADMIN", "FINANCE"].includes(role)) {
-        throw new Error("Invalid dashboard role");
-    }
-
-    const hashedPassword = await hashPassword(password);
-
-    await prisma.user.create({
-        data: {
-            name,
-            email,
-            phone: phone || null,
-            role: role as any,
-            status: "ACTIVE",
-            password: hashedPassword,
-        },
-    });
-
-    revalidatePath("/dashboard/users");
+function generateTempPassword() {
+    return `AHPK-${Math.random().toString(36).slice(2, 8)}-${Date.now()
+        .toString()
+        .slice(-4)}`;
 }
 
-export async function updateDashboardUser(formData: FormData) {
-    await requireSuperAdmin();
-
-    const id = String(formData.get("id") || "");
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim().toLowerCase();
-    const phone = String(formData.get("phone") || "").trim();
-    const role = String(formData.get("role") || "ADMIN");
-    const status = String(formData.get("status") || "ACTIVE");
-
-    if (!id || !name || !email) {
-        throw new Error("Missing required fields");
-    }
-
-    if (!["SUPER_ADMIN", "ADMIN", "FINANCE"].includes(role)) {
-        throw new Error("Invalid dashboard role");
-    }
-
-    if (!["ACTIVE", "INACTIVE", "SUSPENDED"].includes(status)) {
-        throw new Error("Invalid status");
-    }
-
-    await prisma.user.update({
-        where: { id },
-        data: {
-            name,
-            email,
-            phone: phone || null,
-            role: role as any,
-            status: status as any,
-        },
-    });
-
-    revalidatePath("/dashboard/users");
-}
-
-export async function resetDashboardUserPassword(formData: FormData) {
-    await requireSuperAdmin();
-
-    const id = String(formData.get("id") || "");
-    const password = String(formData.get("password") || "");
-
-    if (!id || !password) {
-        throw new Error("Password is required");
-    }
-
-    const hashedPassword = await hashPassword(password);
-
-    await prisma.user.update({
-        where: { id },
-        data: {
-            password: hashedPassword,
-        },
-    });
-
-    revalidatePath("/dashboard/users");
-}
-
-export async function deleteDashboardUser(formData: FormData) {
+export async function updateMemberAdminAccess(formData: FormData) {
     const currentUser = await requireSuperAdmin();
 
-    const id = String(formData.get("id") || "");
+    const id = String(formData.get("id") || "").trim();
+    const adminRole = String(formData.get("adminRole") || "").trim();
+    const adminStatus = String(formData.get("adminStatus") || "INACTIVE").trim();
 
-    if (!id) {
-        throw new Error("User ID is required");
+    if (!id) throw new Error("Member ID is required");
+
+    if (id === currentUser.id && adminStatus !== "ACTIVE") {
+        throw new Error("You cannot disable your own admin access.");
     }
 
-    if (id === currentUser.id) {
-        throw new Error("You cannot delete your own account");
+    if (adminRole && !["SUPER_ADMIN", "ADMIN", "FINANCE"].includes(adminRole)) {
+        throw new Error("Invalid admin role");
     }
 
-    await prisma.user.delete({
+    if (!["ACTIVE", "INACTIVE", "SUSPENDED"].includes(adminStatus)) {
+        throw new Error("Invalid admin status");
+    }
+
+    const member = await prisma.member.findUnique({
         where: { id },
+        include: { user: true },
+    });
+
+    if (!member) throw new Error("Member not found");
+
+    let userId = member.userId;
+
+    if (adminRole && !userId) {
+        if (!member.email) {
+            throw new Error("Member must have an email before admin access can be enabled.");
+        }
+
+        const existingUser = await prisma.user.findUnique({
+            where: { email: member.email.toLowerCase() },
+        });
+
+        if (existingUser) {
+            userId = existingUser.id;
+        } else {
+            const tempPassword = generateTempPassword();
+            const hashedPassword = await hashPassword(tempPassword);
+
+            const user = await prisma.user.create({
+                data: {
+                    name: member.fullName || "AHPK Admin",
+                    email: member.email.toLowerCase(),
+                    phone: member.phone || null,
+                    password: hashedPassword,
+                    role: adminRole as any,
+                    status: "ACTIVE",
+                },
+            });
+
+            userId = user.id;
+        }
+    }
+
+    if (adminRole && userId) {
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                name: member.fullName || "AHPK Admin",
+                email: member.email || undefined,
+                phone: member.phone || null,
+                role: adminRole as any,
+                status: adminStatus as any,
+            },
+        });
+    }
+
+    await prisma.member.update({
+        where: { id },
+        data: {
+            userId,
+            adminRole: adminRole ? (adminRole as any) : null,
+            adminStatus: adminRole ? (adminStatus as any) : "INACTIVE",
+        },
     });
 
     revalidatePath("/dashboard/users");
+    revalidatePath("/member/dashboard");
+}
+
+export async function removeMemberAdminAccess(formData: FormData) {
+    const currentUser = await requireSuperAdmin();
+
+    const id = String(formData.get("id") || "").trim();
+
+    if (!id) throw new Error("Member ID is required");
+
+    if (id === currentUser.id) {
+        throw new Error("You cannot remove your own admin access.");
+    }
+
+    const member = await prisma.member.findUnique({
+        where: { id },
+    });
+
+    if (member?.userId) {
+        await prisma.user.update({
+            where: { id: member.userId },
+            data: {
+                role: "MEMBER",
+                status: "INACTIVE",
+            },
+        });
+    }
+
+    await prisma.member.update({
+        where: { id },
+        data: {
+            adminRole: null,
+            adminStatus: "INACTIVE",
+        },
+    });
+
+    revalidatePath("/dashboard/users");
+    revalidatePath("/member/dashboard");
 }

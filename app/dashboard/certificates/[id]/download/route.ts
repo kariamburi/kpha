@@ -317,20 +317,52 @@ export async function GET(
     doc.restore();
 
     // Body content
-    doc.fontSize(15)
-        .fillColor("#222222")
-        .font("Times-Roman")
-        .text(
-            `of membership no. ${certificate.member.memberNumber} is a duly registered ${category} of the Association of Hotel Professionals Kenya.`,
-            135,
-            335,
-            {
-                width: pageW - 270,
-                align: "center",
-                lineGap: 5,
-            }
-        );
+    // Body content
+    const bodyX = 135;
+    const bodyY = 335;
+    const bodyWidth = pageW - 270;
 
+    const drawCenteredParts = (
+        parts: { text: string; font: string }[],
+        y: number
+    ) => {
+        doc.fontSize(15).fillColor("#222222");
+
+        const totalWidth = parts.reduce((sum, part) => {
+            doc.font(part.font);
+            return sum + doc.widthOfString(part.text);
+        }, 0);
+
+        let x = bodyX + (bodyWidth - totalWidth) / 2;
+
+        parts.forEach((part) => {
+            doc.font(part.font).text(part.text, x, y, {
+                lineBreak: false,
+            });
+
+            x += doc.widthOfString(part.text);
+        });
+    };
+
+    drawCenteredParts(
+        [
+            { text: "of membership no. ", font: "Times-Roman" },
+            { text: certificate.member.memberNumber, font: "Times-Bold" },
+            { text: " is a duly registered ", font: "Times-Roman" },
+            { text: category, font: "Times-Bold" },
+        ],
+        bodyY
+    );
+
+    drawCenteredParts(
+        [
+            {
+                text: "of the Association of Hotel Professionals Kenya.",
+                font: "Times-Roman",
+            },
+        ],
+        bodyY + 30
+    );
     doc.fontSize(12.5)
         .fillColor(black)
         .font("Helvetica-Bold")

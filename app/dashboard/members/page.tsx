@@ -167,10 +167,10 @@ export default async function MembersPage({
             </form>
 
             <div className="grid gap-4 md:grid-cols-4">
-                <StatCard title="Total Members" value={totalMembers.toString()} />
-                <StatCard title="Active" value={activeMembers.toString()} />
-                <StatCard title="Expired" value={expiredMembers.toString()} />
-                <StatCard title="Suspended" value={suspendedMembers.toString()} />
+                <StatCard title="Total Members" value={totalMembers.toString()} tone="blue" />
+                <StatCard title="Active" value={activeMembers.toString()} tone="green" />
+                <StatCard title="Expired" value={expiredMembers.toString()} tone="amber" />
+                <StatCard title="Suspended" value={suspendedMembers.toString()} tone="red" />
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -320,15 +320,48 @@ export default async function MembersPage({
     );
 }
 
-function StatCard({ title, value }: { title: string; value: string }) {
+function StatCard({
+    title,
+    value,
+    tone,
+}: {
+    title: string;
+    value: string;
+    tone: "blue" | "green" | "amber" | "red";
+}) {
+    const styles = {
+        blue: {
+            backgroundColor: "#eff6ff",
+            borderColor: "#bfdbfe",
+            color: "#1d4ed8",
+        },
+        green: {
+            backgroundColor: "#f0fdf4",
+            borderColor: "#bbf7d0",
+            color: "#15803d",
+        },
+        amber: {
+            backgroundColor: "#fffbeb",
+            borderColor: "#fde68a",
+            color: "#b45309",
+        },
+        red: {
+            backgroundColor: "#fef2f2",
+            borderColor: "#fecaca",
+            color: "#b91c1c",
+        },
+    };
+
     return (
-        <div className="rounded-2xl bg-[#111111] p-5 text-white shadow-sm">
-            <p className="text-sm font-semibold text-white/65">{title}</p>
+        <div
+            style={styles[tone]}
+            className="rounded-2xl border p-5 shadow-sm"
+        >
+            <p className="text-sm font-semibold opacity-80">{title}</p>
             <h2 className="mt-2 text-2xl font-black">{value}</h2>
         </div>
     );
 }
-
 function StatusBadge({ status }: { status: string }) {
     const cls =
         status === "ACTIVE"

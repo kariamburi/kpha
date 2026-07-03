@@ -171,11 +171,24 @@ export default async function CertificatesPage({
             </form>
 
             <div className="grid gap-4 md:grid-cols-3">
-                <StatCard title="Total Certificates" value={totalCertificates.toString()} />
-                <StatCard title="Valid" value={validCertificates.toString()} />
-                <StatCard title="Expired" value={expiredCertificates.toString()} />
-            </div>
+                <StatCard
+                    title="Total Certificates"
+                    value={totalCertificates.toString()}
+                    tone="blue"
+                />
 
+                <StatCard
+                    title="Valid"
+                    value={validCertificates.toString()}
+                    tone="green"
+                />
+
+                <StatCard
+                    title="Expired"
+                    value={expiredCertificates.toString()}
+                    tone="red"
+                />
+            </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="mb-4 flex flex-col justify-between gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center">
                     <div>
@@ -326,10 +339,41 @@ export default async function CertificatesPage({
     );
 }
 
-function StatCard({ title, value }: { title: string; value: string }) {
+function StatCard({
+    title,
+    value,
+    tone,
+}: {
+    title: string;
+    value: string;
+    tone: "blue" | "green" | "amber" | "red";
+}) {
+    const styles = {
+        blue: {
+            backgroundColor: "#EEF6FF",
+            borderColor: "#C7E0FF",
+            color: "#2563EB",
+        },
+        green: {
+            backgroundColor: "#F0FDF4",
+            borderColor: "#BBF7D0",
+            color: "#15803D",
+        },
+        amber: {
+            backgroundColor: "#FFF8E6",
+            borderColor: "#FCD34D",
+            color: "#B45309",
+        },
+        red: {
+            backgroundColor: "#FEF2F2",
+            borderColor: "#FECACA",
+            color: "#B91C1C",
+        },
+    };
+
     return (
-        <div className="rounded-2xl bg-[#111111] p-5 text-white shadow-sm">
-            <p className="text-sm font-semibold text-white/65">{title}</p>
+        <div style={styles[tone]} className="rounded-2xl border p-5 shadow-sm">
+            <p className="text-sm font-semibold opacity-80">{title}</p>
             <h2 className="mt-2 text-2xl font-black">{value}</h2>
         </div>
     );

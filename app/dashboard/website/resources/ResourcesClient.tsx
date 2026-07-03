@@ -94,25 +94,25 @@ export default function ResourcesClient({
     return (
         <div className="space-y-5">
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="bg-[#111111] px-6 py-6 text-white">
+                <div className="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
                     <Link
                         href="/dashboard/website"
-                        className="text-sm font-black text-[#F3C64E] hover:text-white"
+                        className="text-sm font-black text-[#C1121F] hover:text-red-800"
                     >
                         ← Back to Website CMS
                     </Link>
 
                     <div className="mt-5 flex flex-col justify-between gap-4 md:flex-row md:items-center">
                         <div>
-                            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#F3C64E]">
+                            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C1121F]">
                                 AHPK Website CMS
                             </p>
 
-                            <h1 className="mt-2 text-3xl font-black">
+                            <h1 className="mt-2 text-3xl font-black text-slate-950">
                                 Resources Centre
                             </h1>
 
-                            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-white/65">
+                            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
                                 Upload and manage public policies, forms, guides and downloadable
                                 documents.
                             </p>
@@ -131,18 +131,33 @@ export default function ResourcesClient({
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
-                <StatCard icon={FileText} title="Total Resources" value={resources.length.toString()} />
+                <StatCard
+                    icon={FileText}
+                    title="Total Resources"
+                    value={resources.length.toString()}
+                    tone="blue"
+                />
+
                 <StatCard
                     icon={Download}
                     title="Published"
                     value={resources.filter((r) => r.published).length.toString()}
+                    tone="green"
                 />
+
                 <StatCard
                     icon={FileText}
                     title="Drafts"
                     value={resources.filter((r) => !r.published).length.toString()}
+                    tone="amber"
                 />
-                <StatCard icon={FolderOpen} title="Categories" value={categories.size.toString()} />
+
+                <StatCard
+                    icon={FolderOpen}
+                    title="Categories"
+                    value={categories.size.toString()}
+                    tone="red"
+                />
             </div>
 
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -367,22 +382,51 @@ export default function ResourcesClient({
 }
 
 function StatCard({
+    icon: Icon,
     title,
     value,
-    icon: Icon,
+    tone,
 }: {
+    icon: React.ElementType;
     title: string;
     value: string;
-    icon: React.ElementType;
+    tone: "blue" | "green" | "amber" | "red";
 }) {
-    return (
-        <div className="rounded-2xl bg-[#111111] p-5 text-white shadow-sm">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-[#F3C64E]">
-                <Icon className="h-5 w-5" />
-            </div>
+    const styles = {
+        blue: {
+            backgroundColor: "#EEF6FF",
+            borderColor: "#C7E0FF",
+            color: "#2563EB",
+        },
+        green: {
+            backgroundColor: "#F0FDF4",
+            borderColor: "#BBF7D0",
+            color: "#15803D",
+        },
+        amber: {
+            backgroundColor: "#FFF8E6",
+            borderColor: "#FCD34D",
+            color: "#B45309",
+        },
+        red: {
+            backgroundColor: "#FEF2F2",
+            borderColor: "#FECACA",
+            color: "#B91C1C",
+        },
+    };
 
-            <p className="mt-4 text-sm font-semibold text-white/65">{title}</p>
-            <h2 className="mt-2 text-2xl font-black">{value}</h2>
+    return (
+        <div style={styles[tone]} className="rounded-2xl border p-5 shadow-sm">
+            <div className="flex items-center justify-between gap-4">
+                <div>
+                    <p className="text-sm font-semibold opacity-80">{title}</p>
+                    <h2 className="mt-2 text-2xl font-black">{value}</h2>
+                </div>
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/70">
+                    <Icon className="h-6 w-6" />
+                </div>
+            </div>
         </div>
     );
 }

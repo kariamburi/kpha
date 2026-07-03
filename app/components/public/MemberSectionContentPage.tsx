@@ -129,12 +129,10 @@ function ContentRenderer({ content }: { content: string }) {
 
                     const isHeading =
                         clean.startsWith("## ") ||
-                        (
-                            clean === upper &&
+                        (clean === upper &&
                             clean.length <= 90 &&
                             /[A-Z]/.test(clean) &&
-                            !/^\d+\./.test(clean)
-                        );
+                            !/^\d+\./.test(clean));
 
                     if (isHeading) {
                         return (
@@ -150,7 +148,7 @@ function ContentRenderer({ content }: { content: string }) {
                     return (
                         <p
                             key={index}
-                            className="text-base font-normal leading-8 text-slate-600 md:text-lg"
+                            className="whitespace-pre-line text-base font-normal leading-8 text-slate-600 md:text-lg"
                         >
                             {clean}
                         </p>

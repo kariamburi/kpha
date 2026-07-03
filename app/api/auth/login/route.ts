@@ -17,35 +17,50 @@ function hashOtp(otp: string) {
 export async function POST(req: Request) {
     try {
         const { email, password } = await req.json();
-
         const normalizedEmail = String(email || "").trim().toLowerCase();
 
-        const user = await prisma.user.findUnique({
-            where: { email: normalizedEmail },
+        const member = await prisma.member.findFirst({
+            where: {
+                email: {
+                    equals: normalizedEmail,
+                    mode: "insensitive",
+                },
+                adminStatus: "ACTIVE",
+                adminRole: {
+                    in: ["SUPER_ADMIN", "ADMIN", "FINANCE"],
+                },
+            },
+            include: {
+                user: true,
+            },
         });
 
-        if (!user) {
+        if (!member || !member.email || !member.adminRole) {
             return NextResponse.json(
                 { ok: false, error: "Invalid email or password" },
                 { status: 401 }
             );
         }
 
-        if (user.status !== "ACTIVE") {
-            return NextResponse.json(
-                { ok: false, error: "Your account is disabled. Contact Super Admin." },
-                { status: 403 }
-            );
-        }
-
-        if (!canAccessDashboard(user.role)) {
+        if (!canAccessDashboard(member.adminRole)) {
             return NextResponse.json(
                 { ok: false, error: "This account cannot access the admin portal." },
                 { status: 403 }
             );
         }
 
-        const validPassword = await verifyPassword(password, user.password);
+        if (!member.user?.password) {
+            return NextResponse.json(
+                {
+                    ok: false,
+                    error:
+                        "Admin password is not configured for this member. Contact Super Admin.",
+                },
+                { status: 403 }
+            );
+        }
+
+        const validPassword = await verifyPassword(password, member.user.password);
 
         if (!validPassword) {
             return NextResponse.json(
@@ -54,10 +69,10 @@ export async function POST(req: Request) {
             );
         }
 
-        console.log("LOGIN_USER", {
-            email: user.email,
-            role: user.role,
-            status: user.status,
+        console.log("LOGIN_MEMBER_ADMIN", {
+            email: member.email,
+            role: member.adminRole,
+            status: member.adminStatus,
         });
 
         const settings = await prisma.systemSetting.upsert({
@@ -69,9 +84,20 @@ export async function POST(req: Request) {
         if (settings.adminOtpEnabled) {
             const otp = generateOtp();
 
+            if (!member.userId) {
+                return NextResponse.json(
+                    {
+                        ok: false,
+                        error:
+                            "Admin OTP is not configured for this member. Contact Super Admin.",
+                    },
+                    { status: 403 }
+                );
+            }
+
             await prisma.adminLoginOtp.updateMany({
                 where: {
-                    userId: user.id,
+                    userId: member.userId,
                     used: false,
                 },
                 data: {
@@ -81,17 +107,18 @@ export async function POST(req: Request) {
 
             await prisma.adminLoginOtp.create({
                 data: {
-                    userId: user.id,
-                    email: user.email,
+                    userId: member.userId,
+                    email: member.email,
                     otpHash: hashOtp(otp),
                     expiresAt: new Date(Date.now() + 10 * 60 * 1000),
                 },
             });
 
             const pendingToken = signToken({
-                id: user.id,
-                email: user.email,
-                role: user.role,
+                id: member.id,
+                userId: member.userId,
+                email: member.email,
+                role: member.adminRole,
                 purpose: "ADMIN_OTP",
             } as any);
 
@@ -100,11 +127,11 @@ export async function POST(req: Request) {
                 requiresOtp: true,
                 message: "OTP sent to your email.",
                 user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role,
-                    status: user.status,
+                    id: member.id,
+                    name: member.fullName,
+                    email: member.email,
+                    role: member.adminRole,
+                    status: member.adminStatus,
                 },
             });
 
@@ -120,36 +147,36 @@ export async function POST(req: Request) {
             });
 
             await sendMail({
-                to: user.email,
+                to: member.email,
                 subject: "AHPK Admin Login OTP",
                 html: `
-                    <div style="font-family:Arial,sans-serif;line-height:1.6">
-                        <h2>AHPK Admin Login Verification</h2>
-                        <p>Your login OTP is:</p>
-                        <p style="font-size:28px;font-weight:800;letter-spacing:6px;color:#C1121F">${otp}</p>
-                        <p>This code expires in 10 minutes.</p>
-                        <p>If you did not try to login, ignore this email.</p>
-                    </div>
-                `,
+          <div style="font-family:Arial,sans-serif;line-height:1.6">
+            <h2>AHPK Admin Login Verification</h2>
+            <p>Your login OTP is:</p>
+            <p style="font-size:28px;font-weight:800;letter-spacing:6px;color:#C1121F">${otp}</p>
+            <p>This code expires in 10 minutes.</p>
+            <p>If you did not try to login, ignore this email.</p>
+          </div>
+        `,
             });
 
             return res;
         }
 
         const token = signToken({
-            id: user.id,
-            email: user.email,
-            role: user.role,
+            id: member.id,
+            email: member.email,
+            role: member.adminRole,
         });
 
         const res = NextResponse.json({
             ok: true,
             user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                status: user.status,
+                id: member.id,
+                name: member.fullName,
+                email: member.email,
+                role: member.adminRole,
+                status: member.adminStatus,
             },
         });
 
