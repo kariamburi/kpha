@@ -7,7 +7,7 @@ import { updateMemberAdminAccess } from "./actions";
 export default async function DashboardUsersPage() {
     const currentUser = await getAuthUser();
 
-    if (!currentUser || !canManageDashboardUsers(currentUser.role)) {
+    if (!currentUser || !canManageDashboardUsers(currentUser.adminRole)) {
         redirect("/dashboard");
     }
 
