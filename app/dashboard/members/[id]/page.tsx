@@ -21,7 +21,7 @@ export default async function MemberDetailsPage({
 }) {
     const user = await getAuthUser();
 
-    if (!user || !canManageMembers(user.role)) {
+    if (!user || !canManageMembers(user.adminRole)) {
         redirect("/dashboard");
     }
 
