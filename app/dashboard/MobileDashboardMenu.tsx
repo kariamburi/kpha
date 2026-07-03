@@ -13,7 +13,7 @@ type MenuItem = {
 };
 
 const menu: MenuItem[] = [
-    { title: "Home", href: "/", icon: "⌂" },
+
     {
         title: "Dashboard",
         href: "/dashboard",
@@ -135,6 +135,13 @@ export default function MobileDashboardMenu({ role }: { role: Role }) {
                         </div>
 
                         <nav className="p-4">
+                            <Link
+                                href="/member/dashboard"
+                                className="mb-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#111111] px-4 py-3 text-sm font-black text-white transition hover:bg-[#C1121F]"
+                            >
+                                <span>←</span>
+                                <span>Back to Member Portal</span>
+                            </Link>
                             {visibleMenu.map((item) => (
                                 <Link
                                     key={item.href}

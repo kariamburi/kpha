@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getAuthUser } from "@/lib/auth";
 import { canManageDashboardUsers } from "@/lib/roles";
 import { updateMemberAdminAccess } from "./actions";
+import PromoteMemberButton from "./PromoteMemberButton";
 
 export default async function DashboardUsersPage() {
     const currentUser = await getAuthUser();
@@ -24,7 +25,21 @@ export default async function DashboardUsersPage() {
             createdAt: "desc",
         },
     });
-
+    const searchableMembers = await prisma.member.findMany({
+        where: {
+            OR: [
+                { adminRole: null },
+                { adminStatus: "INACTIVE" },
+            ],
+        },
+        include: {
+            category: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+        take: 100,
+    });
     const totalUsers = members.length;
     const activeUsers = members.filter((m) => m.adminStatus === "ACTIVE").length;
     const inactiveUsers = members.filter((m) => m.adminStatus === "INACTIVE").length;
@@ -37,14 +52,21 @@ export default async function DashboardUsersPage() {
                     AHPK Administration
                 </p>
 
-                <div className="mt-1">
-                    <h1 className="text-3xl font-black text-slate-950">
-                        Admin Access Management
-                    </h1>
+                <div className="mt-1 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+                    <div>
+                        <h1 className="text-3xl font-black text-slate-950">
+                            Admin Access Management
+                        </h1>
 
-                    <p className="mt-2 text-sm font-semibold text-slate-500">
-                        Promote, demote, activate or suspend members with dashboard access.
-                    </p>
+                        <p className="mt-2 text-sm font-semibold text-slate-500">
+                            Promote, demote, activate or suspend members with dashboard access.
+                        </p>
+                    </div>
+
+                    <PromoteMemberButton
+                        members={searchableMembers}
+                        updateMemberAdminAccess={updateMemberAdminAccess}
+                    />
                 </div>
             </div>
 

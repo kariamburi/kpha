@@ -69,18 +69,15 @@ export default async function MemberProfilePage() {
         <MemberPortalShell member={member}>
             <div className="space-y-5">
                 <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm">
-                    <div className="h-32 bg-gradient-to-r from-[#111111] via-[#1f2937] to-[#C1121F]" />
 
-                    <div className="px-6 pb-6">
-                        <div className="-mt-14 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                    <div className="p-6">
+                        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
                             <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                                <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-lg">
+                                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 shadow-lg">
                                     {member.profileImageUrl ? (
-                                        <Image
+                                        <img
                                             src={member.profileImageUrl}
                                             alt={member.fullName || "Member profile"}
-                                            width={112}
-                                            height={112}
                                             className="h-full w-full object-cover"
                                         />
                                     ) : (

@@ -15,7 +15,6 @@ type MenuItem = {
 };
 
 const menu: MenuItem[] = [
-    { title: "Home", href: "/", icon: "⌂" },
     {
         title: "Dashboard",
         href: "/dashboard",
@@ -125,6 +124,14 @@ export default function DashboardSidebarNav({ role }: { role: Role }) {
 
     return (
         <nav className="mt-4 flex h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto px-3 pb-2">
+            <Link
+                href="/member/dashboard"
+                onClick={closeSections}
+                className="mb-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#111111] px-4 py-3 text-sm font-black text-white transition hover:bg-[#C1121F]"
+            >
+                <span>←</span>
+                <span>Back to Member Portal</span>
+            </Link>
             {visibleMenu.map((item) => {
                 const active =
                     pathname === item.href ||
