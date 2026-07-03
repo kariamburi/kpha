@@ -15,11 +15,11 @@ export default async function DashboardLayout({
     const user = await getAuthUser();
 
     if (!user) {
-        redirect("/login");
+        redirect("/member/login");
     }
 
-    if (user.adminStatus !== "ACTIVE" || !canAccessDashboard(user.adminStatus)) {
-        redirect("/login");
+    if (user.adminStatus !== "ACTIVE" || !canAccessDashboard(user.adminRole)) {
+        redirect("/member/login");
     }
 
     return (
