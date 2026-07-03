@@ -16,9 +16,16 @@ function formatDate(date: Date) {
         year: "numeric",
     });
 }
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
 
 function publicPathToFilePath(publicUrl?: string | null) {
     if (!publicUrl) return null;
+
+    if (publicUrl.startsWith("/uploads/")) {
+        return path.join(uploadsRoot(), publicUrl.replace("/uploads/", ""));
+    }
 
     const cleanPath = publicUrl.startsWith("/")
         ? publicUrl.slice(1)
@@ -26,7 +33,6 @@ function publicPathToFilePath(publicUrl?: string | null) {
 
     return path.join(process.cwd(), "public", cleanPath);
 }
-
 function imageFileToDataUrl(filePath: string) {
     const imageBuffer = fs.readFileSync(filePath);
     const ext = path.extname(filePath).replace(".", "").toLowerCase();
