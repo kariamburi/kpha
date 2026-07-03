@@ -18,7 +18,7 @@ export default async function DashboardLayout({
         redirect("/login");
     }
 
-    if (user.status !== "ACTIVE" || !canAccessDashboard(user.role)) {
+    if (user.adminStatus !== "ACTIVE" || !canAccessDashboard(user.adminStatus)) {
         redirect("/login");
     }
 
@@ -48,14 +48,14 @@ export default async function DashboardLayout({
                     </div>
                 </div>
 
-                <DashboardSidebarNav role={user.role} />
+                <DashboardSidebarNav role={user.adminRole} />
             </aside>
 
             <div className="md:ml-56">
                 <header className="sticky top-0 z-30 h-20 bg-[#111111] text-white shadow-sm">
                     <div className="flex min-h-[92px] items-center justify-between gap-4 px-4 py-3 md:px-8">
                         <div className="flex items-center gap-3">
-                            <MobileDashboardMenu role={user.role} />
+                            <MobileDashboardMenu role={user.adminRole} />
 
                             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 md:hidden">
                                 <Image
@@ -73,7 +73,7 @@ export default async function DashboardLayout({
                             <div className="hidden text-right lg:block">
                                 <p className="font-black">{user.name || "AHPK User"}</p>
                                 <p className="text-sm font-semibold text-white/70">
-                                    {user.role.replace("_", " ")}
+                                    {user.adminRole.replace("_", " ")}
                                 </p>
                             </div>
 

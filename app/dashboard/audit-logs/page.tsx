@@ -7,7 +7,7 @@ import { deleteAuditLog } from "./actions";
 export default async function AuditLogsPage() {
     const user = await getAuthUser();
 
-    if (!user || !canViewAuditLogs(user.role)) {
+    if (!user || !canViewAuditLogs(user.adminRole)) {
         redirect("/dashboard");
     }
 
@@ -135,7 +135,7 @@ export default async function AuditLogsPage() {
                                         </td>
 
                                         <td className="px-3 py-3 text-right">
-                                            {isSuperAdmin(user.role) && (
+                                            {isSuperAdmin(user.adminRole) && (
                                                 <form action={deleteAuditLog}>
                                                     <input type="hidden" name="id" value={log.id} />
 

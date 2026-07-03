@@ -33,7 +33,7 @@ export default async function PaymentsPage({
 }) {
     const user = await getAuthUser();
 
-    if (!user || !canViewPayments(user.role)) {
+    if (!user || !canViewPayments(user.adminRole)) {
         redirect("/dashboard");
     }
     const params = await searchParams;

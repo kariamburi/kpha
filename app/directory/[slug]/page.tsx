@@ -96,13 +96,12 @@ export default async function DirectoryProfilePage({ params }: Props) {
                                 <div className="flex flex-col gap-4 md:flex-row md:items-end">
                                     <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-lg">
                                         {member.profileImageUrl ? (
-                                            <Image
+                                            <img
                                                 src={member.profileImageUrl}
                                                 alt={member.fullName || "Member"}
-                                                width={128}
-                                                height={128}
                                                 className="h-full w-full object-cover"
                                             />
+
                                         ) : (
                                             <User className="h-14 w-14 text-slate-300" />
                                         )}

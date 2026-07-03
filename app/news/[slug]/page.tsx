@@ -155,12 +155,10 @@ export default async function NewsDetailPage({ params }: Props) {
                     <article className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm">
                         <div className="relative h-[260px] overflow-hidden bg-slate-100 sm:h-[420px]">
                             {post.imageUrl ? (
-                                <Image
+                                <img
                                     src={post.imageUrl}
                                     alt={post.title}
-                                    fill
-                                    priority
-                                    className="object-cover"
+                                    className="h-full w-full object-cover"
                                 />
                             ) : (
                                 <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#111111] to-[#C1121F] text-white">

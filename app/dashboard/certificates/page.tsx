@@ -26,7 +26,7 @@ export default async function CertificatesPage({
 }) {
     const user = await getAuthUser();
 
-    if (!user || !canManageCertificates(user.role)) {
+    if (!user || !canManageCertificates(user.adminRole)) {
         redirect("/dashboard");
     }
 
@@ -287,7 +287,7 @@ export default async function CertificatesPage({
                                                         PDF
                                                     </Link>
 
-                                                    {isSuperAdmin(user.role) && (
+                                                    {isSuperAdmin(user.adminRole) && (
                                                         <form action={deleteCertificate}>
                                                             <input type="hidden" name="id" value={cert.id} />
 

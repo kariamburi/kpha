@@ -13,7 +13,7 @@ async function requireSettingsAccess() {
 
     const user = await getAuthUser();
 
-    if (!user || !canManageSettings(user.role)) {
+    if (!user || !canManageSettings(user.adminRole)) {
         throw new Error("Unauthorized");
     }
 
@@ -208,7 +208,7 @@ async function deleteCategory(formData: FormData) {
 export default async function SettingsPage() {
     const user = await getAuthUser();
 
-    if (!user || !canManageSettings(user.role)) {
+    if (!user || !canManageSettings(user.adminRole)) {
         redirect("/dashboard");
     }
 

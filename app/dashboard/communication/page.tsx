@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 export default async function CommunicationPage() {
     const user = await getAuthUser();
 
-    if (!user || !canManageCommunication(user.role)) {
+    if (!user || !canManageCommunication(user.adminRole)) {
         redirect("/dashboard");
     }
     const [announcements, campaigns, notificationsCount] = await Promise.all([

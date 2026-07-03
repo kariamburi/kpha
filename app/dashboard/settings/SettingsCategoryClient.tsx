@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
 
 type Category = {
     id: string;
@@ -334,15 +335,39 @@ function SystemSettingsCard({
                         </span>
                     </label>
 
-                    <button className="cursor-pointer rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800">
-                        Save Security
-                    </button>
+                    <SystemSaveButton label="Save Security" pendingLabel="Saving Security..." />
                 </div>
             </form>
         </div>
     );
 }
+function SystemSaveButton({
+    label,
+    pendingLabel,
+}: {
+    label: string;
+    pendingLabel: string;
+}) {
+    const { pending } = useFormStatus();
 
+    return (
+        <button
+            type="submit"
+            disabled={pending}
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+            {pending && <ActivityLoader />}
+            {pending ? pendingLabel : label}
+        </button>
+    );
+}
+
+
+function ActivityLoader() {
+    return (
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+    );
+}
 function CertificateSettingsCard({
     settings,
     action,
@@ -380,9 +405,10 @@ function CertificateSettingsCard({
                 />
 
                 <div className="flex justify-end border-t border-slate-200 pt-5 md:col-span-2">
-                    <button className="cursor-pointer rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white transition hover:bg-red-800">
-                        Save Certificate Settings
-                    </button>
+                    <SystemSaveButton
+                        label="Save Certificate Settings"
+                        pendingLabel="Saving Certificate Settings..."
+                    />
                 </div>
             </form>
         </div>
@@ -498,9 +524,7 @@ function CategoryForm({
                     Cancel
                 </button>
 
-                <button className="cursor-pointer rounded-xl bg-[#C1121F] px-4 py-2 text-sm font-black text-white transition hover:bg-red-800">
-                    Save Category
-                </button>
+                <SystemSaveButton label="Save Category" pendingLabel="Saving Category..." />
             </div>
         </form>
     );

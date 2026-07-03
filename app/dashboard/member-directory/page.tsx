@@ -23,7 +23,7 @@ export default async function AdminMemberDirectoryPage({
 }: Props) {
     const user = await getAuthUser();
 
-    if (!user || !canViewDirectory(user.role)) {
+    if (!user || !canViewDirectory(user.adminRole)) {
         redirect("/dashboard");
     }
     const params = await searchParams;

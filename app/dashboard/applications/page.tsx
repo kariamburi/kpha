@@ -28,7 +28,7 @@ export default async function ApplicationsPage({
 }) {
     const user = await getAuthUser();
 
-    if (!user || !canManageApplications(user.role)) {
+    if (!user || !canManageApplications(user.adminRole)) {
         redirect("/dashboard");
     }
 
@@ -287,7 +287,7 @@ export default async function ApplicationsPage({
                                                     View
                                                 </Link>
 
-                                                {isSuperAdmin(user.role) && (
+                                                {isSuperAdmin(user.adminRole) && (
                                                     <form action={deleteApplication}>
                                                         <input type="hidden" name="id" value={app.id} />
 

@@ -152,11 +152,10 @@ export default async function DirectoryPage({ searchParams }: Props) {
                                 <div className="flex items-end justify-between gap-4">
                                     <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-lg">
                                         {member.profileImageUrl ? (
-                                            <Image
+
+                                            <img
                                                 src={member.profileImageUrl}
                                                 alt={member.fullName || "Member"}
-                                                width={80}
-                                                height={80}
                                                 className="h-full w-full object-cover"
                                             />
                                         ) : (

@@ -364,15 +364,35 @@ export default function NewsClient({
                         Published
                     </label>
 
-                    <button className="w-full cursor-pointer rounded-2xl bg-[#C1121F] px-5 py-4 text-sm font-black text-white transition hover:bg-red-800">
-                        {selectedPost ? "Update News" : "Save News"}
-                    </button>
+                    <SaveNewsButton isEdit={Boolean(selectedPost)} />
                 </form>
             </Modal>
         </div>
     );
 }
+function SaveNewsButton({ isEdit }: { isEdit: boolean }) {
+    const { pending } = useFormStatus();
 
+    return (
+        <button
+            type="submit"
+            disabled={pending}
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#C1121F] px-5 py-4 text-sm font-black text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+            {pending && (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            )}
+
+            {pending
+                ? isEdit
+                    ? "Updating News..."
+                    : "Saving News..."
+                : isEdit
+                    ? "Update News"
+                    : "Save News"}
+        </button>
+    );
+}
 function StatCard({
     title,
     value,

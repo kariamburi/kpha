@@ -61,7 +61,7 @@ const modules = [
 export default async function WebsitePage() {
     const user = await getAuthUser();
 
-    if (!user || !canManageWebsite(user.role)) {
+    if (!user || !canManageWebsite(user.adminRole)) {
         redirect("/dashboard");
     }
     return (

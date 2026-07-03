@@ -28,7 +28,7 @@ export default async function MembersPage({
 }) {
     const user = await getAuthUser();
 
-    if (!user || !canManageMembers(user.role)) {
+    if (!user || !canManageMembers(user.adminRole)) {
         redirect("/dashboard");
     }
     const params = await searchParams;
@@ -267,7 +267,7 @@ export default async function MembersPage({
                                                     View
                                                 </Link>
 
-                                                {isSuperAdmin(user.role) && (
+                                                {isSuperAdmin(user.adminRole) && (
                                                     <form action={deleteMember}>
                                                         <input type="hidden" name="id" value={member.id} />
 

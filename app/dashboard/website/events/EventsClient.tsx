@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import Modal from "../../components/Modal";
+import { useFormStatus } from "react-dom";
 
 type EventItem = {
     id: string;
@@ -442,15 +443,35 @@ export default function EventsClient({
                         Published
                     </label>
 
-                    <button className="w-full cursor-pointer rounded-2xl bg-[#C1121F] px-5 py-4 text-sm font-black text-white transition hover:bg-red-800">
-                        {selectedEvent ? "Update Event" : "Save Event"}
-                    </button>
+                    <SaveEventButton isEdit={Boolean(selectedEvent)} />
                 </form>
             </Modal>
         </div>
     );
 }
+function SaveEventButton({ isEdit }: { isEdit: boolean }) {
+    const { pending } = useFormStatus();
 
+    return (
+        <button
+            type="submit"
+            disabled={pending}
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#C1121F] px-5 py-4 text-sm font-black text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+            {pending && (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            )}
+
+            {pending
+                ? isEdit
+                    ? "Updating Event..."
+                    : "Saving Event..."
+                : isEdit
+                    ? "Update Event"
+                    : "Save Event"}
+        </button>
+    );
+}
 function StatCard({
     title,
     value,

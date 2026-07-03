@@ -1,14 +1,26 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/jwt";
+import { Role, UserStatus } from "@/app/generated/prisma/client";
+
 
 type TokenPayload = {
     id: string;
-    email: string;
-    role: string;
+    email?: string;
+    role?: string;
 };
 
-export async function getAuthUser() {
+export type AuthUser = {
+    id: string;
+    fullName: string;
+    name: string;
+    email: string;
+    phone: string | null;
+    adminRole: Role;
+    adminStatus: UserStatus;
+};
+
+export async function getAuthUser(): Promise<AuthUser | null> {
     const cookieStore = await cookies();
     const token = cookieStore.get("ahpk_token")?.value;
 
@@ -26,21 +38,22 @@ export async function getAuthUser() {
             phone: true,
             adminRole: true,
             adminStatus: true,
-            createdAt: true,
         },
     });
 
     if (!member || member.adminStatus !== "ACTIVE" || !member.adminRole) {
         return null;
     }
+    const safeEmail = member.email || "";
+    const safeName = member.fullName || safeEmail || "Admin User";
 
     return {
         id: member.id,
-        name: member.fullName,
-        email: member.email,
+        fullName: safeName,
+        name: safeName,
+        email: safeEmail,
         phone: member.phone,
-        role: member.adminRole,
-        status: member.adminStatus,
-        createdAt: member.createdAt,
+        adminRole: member.adminRole,
+        adminStatus: member.adminStatus,
     };
 }
