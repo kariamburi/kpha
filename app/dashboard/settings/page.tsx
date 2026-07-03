@@ -20,6 +20,10 @@ async function requireSettingsAccess() {
     return user;
 }
 
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
+
 async function uploadSignature(file: File) {
     "use server";
 
@@ -40,15 +44,22 @@ async function uploadSignature(file: File) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const ext = file.name.split(".").pop()?.toLowerCase() || "png";
+    const extMap: Record<string, string> = {
+        "image/jpeg": "jpg",
+        "image/jpg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+    };
+
+    const ext = extMap[file.type] || "png";
     const fileName = `${crypto.randomUUID()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "signatures");
+    const uploadDir = path.join(uploadsRoot(), "signatures");
     await mkdir(uploadDir, { recursive: true });
 
     await writeFile(path.join(uploadDir, fileName), buffer);
 
-    return `/signatures/${fileName}`;
+    return `/uploads/signatures/${fileName}`;
 }
 
 async function saveSystemSettings(formData: FormData) {

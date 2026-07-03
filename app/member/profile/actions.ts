@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { requireMemberSession } from "../session";
-
+import crypto from "crypto";
 async function getMemberId() {
     return await requireMemberSession();
 }
@@ -15,22 +15,46 @@ function clean(value: FormDataEntryValue | null) {
     return String(value || "").trim();
 }
 
+
+
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
+
 async function saveProfileImage(file: File | null) {
     if (!file || file.size === 0) return null;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+
+    if (!allowedTypes.includes(file.type)) {
+        throw new Error("Only JPG, PNG and WEBP images are allowed.");
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+        throw new Error("Profile image must be less than 5MB.");
+    }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "members");
+    const extMap: Record<string, string> = {
+        "image/jpeg": "jpg",
+        "image/jpg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+    };
+
+    const ext = extMap[file.type] || "jpg";
+    const fileName = `${crypto.randomUUID()}.${ext}`;
+
+    const uploadDir = path.join(uploadsRoot(), "profile-images");
     await mkdir(uploadDir, { recursive: true });
 
-    const ext = file.name.split(".").pop() || "jpg";
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    await writeFile(path.join(uploadDir, fileName), buffer);
 
-    const filePath = path.join(uploadDir, fileName);
-    await writeFile(filePath, buffer);
-
-    return `/uploads/members/${fileName}`;
+    return `/uploads/profile-images/${fileName}`;
 }
 
 export async function updateMemberProfileDetails(formData: FormData) {

@@ -15,25 +15,16 @@ function slugify(value: string) {
         .replace(/(^-|-$)+/g, "");
 }
 
+
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
+
 function publicPathToFilePath(publicUrl?: string | null) {
     if (!publicUrl) return null;
     if (!publicUrl.startsWith("/uploads/news/")) return null;
 
-    return path.join(process.cwd(), "public", publicUrl);
-}
-
-async function deleteNewsImage(publicUrl?: string | null) {
-    const filePath = publicPathToFilePath(publicUrl);
-
-    if (!filePath) return;
-
-    try {
-        if (fs.existsSync(filePath)) {
-            await unlink(filePath);
-        }
-    } catch (error) {
-        console.error("DELETE_NEWS_IMAGE_ERROR", error);
-    }
+    return path.join(uploadsRoot(), publicUrl.replace("/uploads/", ""));
 }
 
 async function uploadNewsImage(file: File) {
@@ -57,12 +48,26 @@ async function uploadNewsImage(file: File) {
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const fileName = `${crypto.randomUUID()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "news");
+    const uploadDir = path.join(uploadsRoot(), "news");
     await mkdir(uploadDir, { recursive: true });
 
     await writeFile(path.join(uploadDir, fileName), buffer);
 
     return `/uploads/news/${fileName}`;
+}
+
+async function deleteNewsImage(publicUrl?: string | null) {
+    const filePath = publicPathToFilePath(publicUrl);
+
+    if (!filePath) return;
+
+    try {
+        if (fs.existsSync(filePath)) {
+            await unlink(filePath);
+        }
+    } catch (error) {
+        console.error("DELETE_NEWS_IMAGE_ERROR", error);
+    }
 }
 
 export async function saveNewsPost(formData: FormData) {

@@ -14,26 +14,15 @@ function slugify(value: string) {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)+/g, "");
 }
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
 
 function publicPathToFilePath(publicUrl?: string | null) {
     if (!publicUrl) return null;
     if (!publicUrl.startsWith("/uploads/events/")) return null;
 
-    return path.join(process.cwd(), "public", publicUrl);
-}
-
-async function deleteEventImage(publicUrl?: string | null) {
-    const filePath = publicPathToFilePath(publicUrl);
-
-    if (!filePath) return;
-
-    try {
-        if (fs.existsSync(filePath)) {
-            await unlink(filePath);
-        }
-    } catch (error) {
-        console.error("DELETE_EVENT_IMAGE_ERROR", error);
-    }
+    return path.join(uploadsRoot(), publicUrl.replace("/uploads/", ""));
 }
 
 async function uploadEventImage(file: File) {
@@ -57,12 +46,26 @@ async function uploadEventImage(file: File) {
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const fileName = `${crypto.randomUUID()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "events");
+    const uploadDir = path.join(uploadsRoot(), "events");
     await mkdir(uploadDir, { recursive: true });
 
     await writeFile(path.join(uploadDir, fileName), buffer);
 
     return `/uploads/events/${fileName}`;
+}
+
+async function deleteEventImage(publicUrl?: string | null) {
+    const filePath = publicPathToFilePath(publicUrl);
+
+    if (!filePath) return;
+
+    try {
+        if (fs.existsSync(filePath)) {
+            await unlink(filePath);
+        }
+    } catch (error) {
+        console.error("DELETE_EVENT_IMAGE_ERROR", error);
+    }
 }
 
 export async function saveEvent(formData: FormData) {
