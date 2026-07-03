@@ -25,7 +25,7 @@ function deletePublicFile(fileUrl?: string | null) {
 export async function deleteCertificate(formData: FormData) {
     const user = await getAuthUser();
 
-    if (!user || !isSuperAdmin(user.role)) {
+    if (!user || !isSuperAdmin(user.adminRole)) {
         throw new Error("Unauthorized");
     }
 

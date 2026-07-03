@@ -8,7 +8,7 @@ import { isSuperAdmin } from "@/lib/roles";
 export async function deleteAuditLog(formData: FormData) {
     const user = await getAuthUser();
 
-    if (!user || !isSuperAdmin(user.role)) {
+    if (!user || !isSuperAdmin(user.adminRole)) {
         throw new Error("Unauthorized");
     }
 

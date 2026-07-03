@@ -60,7 +60,7 @@ export async function createMember(formData: FormData) {
 export async function deleteMember(formData: FormData) {
     const user = await getAuthUser();
 
-    if (!user || !isSuperAdmin(user.role)) {
+    if (!user || !isSuperAdmin(user.adminRole)) {
         throw new Error("Unauthorized");
     }
 
