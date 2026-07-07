@@ -4,6 +4,7 @@ import { canManageCertificates, isSuperAdmin } from "@/lib/roles";
 import { getAuthUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { deleteCertificate } from "./actions";
+import DownloadCertificateButton from "./[id]/DownloadCertificateButton";
 
 const PAGE_SIZE = 10;
 
@@ -280,12 +281,11 @@ export default async function CertificatesPage({
                                                         View
                                                     </Link>
 
-                                                    <Link
+                                                    <DownloadCertificateButton
                                                         href={`/dashboard/certificates/${cert.id}/download`}
-                                                        className="rounded bg-[#111111] px-3 py-1.5 text-[12px] font-bold text-white transition hover:bg-black"
-                                                    >
-                                                        PDF
-                                                    </Link>
+                                                        label="PDF"
+                                                        small
+                                                    />
 
                                                     {isSuperAdmin(user.adminRole) && (
                                                         <form action={deleteCertificate}>

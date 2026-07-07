@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import DownloadCertificateButton from "./DownloadCertificateButton";
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -138,13 +139,9 @@ export default async function CertificateDetailsPage({
                         </p>
 
                         <div className="mt-5 grid gap-3">
-                            <Link
+                            <DownloadCertificateButton
                                 href={`/dashboard/certificates/${certificate.id}/download`}
-                                className="flex items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-5 py-3 text-sm font-black text-white hover:bg-red-800"
-                            >
-                                <DownloadIcon />
-                                Download Certificate PDF
-                            </Link>
+                            />
 
                             <Link
                                 href={`/verify/${certificate.verificationCode}`}

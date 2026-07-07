@@ -128,76 +128,98 @@ export default async function DirectoryProfilePage({ params }: Props) {
                             </div>
 
                             <div className="mt-6 grid gap-4 md:grid-cols-4">
-                                <Info icon={BadgeCheck} label="Category" value={member.category.name} />
-                                <Info icon={MapPin} label="County" value={member.county || "-"} />
-                                <Info icon={BriefcaseBusiness} label="Employer" value={member.employer || "-"} />
-                                <Info icon={CalendarDays} label="Joined" value={formatDate(member.joinDate)} />
+                                {member.category?.name && (
+                                    <Info icon={BadgeCheck} label="Category" value={member.category.name} />
+                                )}
+
+                                {member.county && (
+                                    <Info icon={MapPin} label="County" value={member.county} />
+                                )}
+
+                                {member.employer && (
+                                    <Info icon={BriefcaseBusiness} label="Employer" value={member.employer} />
+                                )}
+
+                                {member.joinDate && (
+                                    <Info icon={CalendarDays} label="Joined" value={formatDate(member.joinDate)} />
+                                )}
                             </div>
                         </div>
                     </div>
 
                     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
                         <div className="space-y-6">
-                            <Section title="Education Details" icon={GraduationCap}>
-                                {member.educations.length > 0 ? (
-                                    member.educations.map((item) => (
+                            {member.educations.length > 0 && (
+                                <Section title="Education Details" icon={GraduationCap}>
+                                    {member.educations.map((item) => (
                                         <ProfileItem
                                             key={item.id}
                                             title={item.level || "Education Record"}
-                                            subtitle={item.institution || "-"}
-                                            meta={`${item.year || "-"} • ${item.achievement || "-"}`}
+                                            subtitle={item.institution}
+                                            meta={[
+                                                item.year,
+                                                item.achievement,
+                                            ].filter(Boolean).join(" • ")}
                                         />
-                                    ))
-                                ) : (
-                                    <Empty text="No education records listed." />
-                                )}
-                            </Section>
+                                    ))}
+                                </Section>
+                            )}
 
-                            <Section title="Work Experience" icon={BriefcaseBusiness}>
-                                {member.workExperiences.length > 0 ? (
-                                    member.workExperiences.map((item) => (
+                            {member.workExperiences.length > 0 && (
+                                <Section title="Work Experience" icon={BriefcaseBusiness}>
+                                    {member.workExperiences.map((item) => (
                                         <ProfileItem
                                             key={item.id}
                                             title={item.position || "Work Experience"}
-                                            subtitle={item.company || "-"}
-                                            meta={`${item.year || "-"} • ${item.startDate ? formatDate(item.startDate) : "-"
-                                                } to ${item.endDate ? formatDate(item.endDate) : "Present"}`}
+                                            subtitle={item.company}
+                                            meta={[
+                                                item.year,
+                                                item.startDate ? formatDate(item.startDate) : null,
+                                                item.endDate ? formatDate(item.endDate) : item.startDate ? "Present" : null,
+                                            ].filter(Boolean).join(" • ")}
                                         />
-                                    ))
-                                ) : (
-                                    <Empty text="No work experience records listed." />
-                                )}
-                            </Section>
+                                    ))}
+                                </Section>
+                            )}
                         </div>
 
                         <aside className="space-y-6">
-                            <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <h2 className="text-xl font-black text-slate-950">Contact Details</h2>
+                            {(member.email || member.phone) && (
+                                <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+                                    <h2 className="text-xl font-black text-slate-950">Contact Details</h2>
 
-                                <div className="mt-5 space-y-3">
-                                    <ContactInfo
-                                        icon={Mail}
-                                        label="Email"
-                                        value={member.email || "-"}
-                                        href={member.email ? `mailto:${member.email}` : undefined}
-                                    />
+                                    <div className="mt-5 space-y-3">
+                                        {member.email && (
+                                            <ContactInfo
+                                                icon={Mail}
+                                                label="Email"
+                                                value={member.email}
+                                                href={`mailto:${member.email}`}
+                                            />
+                                        )}
 
-                                    <ContactInfo
-                                        icon={Phone}
-                                        label="Phone"
-                                        value={member.phone || "-"}
-                                        href={member.phone ? `tel:${member.phone}` : undefined}
-                                    />
-                                </div>
-                            </section>
+                                        {member.phone && (
+                                            <ContactInfo
+                                                icon={Phone}
+                                                label="Phone"
+                                                value={member.phone}
+                                                href={`tel:${member.phone}`}
+                                            />
+                                        )}
+                                    </div>
+                                </section>
+                            )}
 
-                            <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <h2 className="text-xl font-black text-slate-950">Certificates</h2>
+                            {member.certificates.length > 0 && (
+                                <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+                                    <h2 className="text-xl font-black text-slate-950">Certificates</h2>
 
-                                <p className="mt-3 text-sm font-semibold text-slate-500">
-                                    {member.certificates.length} certificate(s) issued.
-                                </p>
-                            </section>
+                                    <p className="mt-3 text-sm font-semibold text-slate-500">
+                                        {member.certificates.length} certificate
+                                        {member.certificates.length === 1 ? "" : "s"} issued.
+                                    </p>
+                                </section>
+                            )}
                         </aside>
                     </div>
                 </div>
@@ -298,14 +320,20 @@ function ProfileItem({
     meta,
 }: {
     title: string;
-    subtitle: string;
-    meta: string;
+    subtitle?: string | null;
+    meta?: string;
 }) {
     return (
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
             <p className="text-base font-black text-slate-950">{title}</p>
-            <p className="mt-1 text-sm font-semibold text-slate-500">{subtitle}</p>
-            <p className="mt-2 text-xs font-bold text-slate-400">{meta}</p>
+
+            {subtitle && (
+                <p className="mt-1 text-sm font-semibold text-slate-500">{subtitle}</p>
+            )}
+
+            {meta && (
+                <p className="mt-2 text-xs font-bold text-slate-400">{meta}</p>
+            )}
         </div>
     );
 }

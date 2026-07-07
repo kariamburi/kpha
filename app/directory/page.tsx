@@ -182,16 +182,27 @@ export default async function DirectoryPage({ searchParams }: Props) {
                                 </p>
 
                                 <div className="mt-5 space-y-3 border-t border-slate-100 pt-5">
-                                    <Row icon={BadgeCheck} value={member.category.name} />
-                                    <Row icon={MapPin} value={member.county || "County not listed"} />
-                                    <Row
-                                        icon={GraduationCap}
-                                        value={`${member.educations.length} education record(s)`}
-                                    />
-                                    <Row
-                                        icon={BriefcaseBusiness}
-                                        value={`${member.workExperiences.length} work record(s)`}
-                                    />
+                                    {member.category?.name && (
+                                        <Row icon={BadgeCheck} value={member.category.name} />
+                                    )}
+
+                                    {member.county && (
+                                        <Row icon={MapPin} value={member.county} />
+                                    )}
+
+                                    {member.educations.length > 0 && (
+                                        <Row
+                                            icon={GraduationCap}
+                                            value={`${member.educations.length} education record${member.educations.length === 1 ? "" : "s"}`}
+                                        />
+                                    )}
+
+                                    {member.workExperiences.length > 0 && (
+                                        <Row
+                                            icon={BriefcaseBusiness}
+                                            value={`${member.workExperiences.length} work record${member.workExperiences.length === 1 ? "" : "s"}`}
+                                        />
+                                    )}
                                 </div>
 
                                 <div className="mt-6 flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-sm font-black text-slate-700">

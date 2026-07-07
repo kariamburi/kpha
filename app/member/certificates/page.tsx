@@ -11,6 +11,7 @@ import {
     Hash,
     ShieldCheck,
 } from "lucide-react";
+import DownloadCertificateButton from "@/app/dashboard/certificates/[id]/DownloadCertificateButton";
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -131,14 +132,10 @@ export default async function MemberCertificatesPage() {
                                     </div>
 
                                     <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                                        <Link
-                                            href={`/dashboard/certificates/${cert.id}/download`}
-                                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-5 py-3 text-center text-sm font-black text-white hover:bg-red-800"
-                                        >
-                                            <Download className="h-4 w-4" />
-                                            Download PDF
-                                        </Link>
 
+                                        <DownloadCertificateButton
+                                            href={`/dashboard/certificates/${cert.id}/download`}
+                                        />
                                         <Link
                                             href={`/verify/${cert.verificationCode}`}
                                             className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111111] px-5 py-3 text-center text-sm font-black text-white hover:bg-black"
