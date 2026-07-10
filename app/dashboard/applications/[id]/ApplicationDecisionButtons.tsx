@@ -2,7 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { approveApplication, rejectApplication } from "./actions";
+import {
+    approveApplication,
+    rejectApplication,
+} from "./actions";
 
 export default function ApplicationDecisionButtons({
     applicationId,
@@ -14,37 +17,80 @@ export default function ApplicationDecisionButtons({
     const router = useRouter();
     const [pending, startTransition] = useTransition();
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     const approved = status === "APPROVED";
     const rejected = status === "REJECTED";
 
     function handleApprove() {
         setError("");
+        setSuccess("");
 
         startTransition(async () => {
-            const res = await approveApplication(applicationId);
+            try {
+                const res: any =
+                    await approveApplication(applicationId);
 
-            if (!res.ok) {
-                setError(res.error || "Failed to approve application.");
-                return;
+                if (!res?.ok) {
+                    setError(
+                        res?.error ||
+                        "Failed to approve application."
+                    );
+                    return;
+                }
+
+                setSuccess(
+                    res.message ||
+                    "Application approved successfully."
+                );
+
+                router.refresh();
+            } catch (error) {
+                console.error(
+                    "APPROVE_APPLICATION_CLIENT_ERROR",
+                    error
+                );
+
+                setError(
+                    "A server error occurred while approving the application."
+                );
             }
-
-            router.refresh();
         });
     }
 
     function handleReject() {
         setError("");
+        setSuccess("");
 
         startTransition(async () => {
-            const res: any = await rejectApplication(applicationId);
+            try {
+                const res: any =
+                    await rejectApplication(applicationId);
 
-            if (!res.ok) {
-                setError(res.error || "Failed to reject application.");
-                return;
+                if (!res?.ok) {
+                    setError(
+                        res?.error ||
+                        "Failed to reject application."
+                    );
+                    return;
+                }
+
+                setSuccess(
+                    res.message ||
+                    "Application rejected successfully."
+                );
+
+                router.refresh();
+            } catch (error) {
+                console.error(
+                    "REJECT_APPLICATION_CLIENT_ERROR",
+                    error
+                );
+
+                setError(
+                    "A server error occurred while rejecting the application."
+                );
             }
-
-            router.refresh();
         });
     }
 
@@ -56,13 +102,20 @@ export default function ApplicationDecisionButtons({
                 </div>
             )}
 
+            {success && (
+                <div className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-bold text-green-700">
+                    {success}
+                </div>
+            )}
+
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-900">
                     Final Decision
                 </p>
 
                 <p className="mt-1 text-xs font-semibold text-slate-500">
-                    Approving creates the member record and generates the certificate.
+                    Approving creates the member record and
+                    generates the certificate.
                 </p>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -70,7 +123,7 @@ export default function ApplicationDecisionButtons({
                         type="button"
                         disabled={pending || approved}
                         onClick={handleApprove}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-600 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-green-600 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <CheckIcon />
 
@@ -83,9 +136,9 @@ export default function ApplicationDecisionButtons({
 
                     <button
                         type="button"
-                        disabled={pending || rejected}
+                        disabled={pending || rejected || approved}
                         onClick={handleReject}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <XIcon />
 
@@ -110,7 +163,11 @@ function CheckIcon() {
             stroke="currentColor"
             strokeWidth={3}
         >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+            />
         </svg>
     );
 }
@@ -124,7 +181,11 @@ function XIcon() {
             stroke="currentColor"
             strokeWidth={3}
         >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+            />
         </svg>
     );
 }
