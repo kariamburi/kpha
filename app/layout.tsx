@@ -27,7 +27,12 @@ export const metadata: Metadata = {
 
   applicationName: "AHPK",
 
-  authors: [{ name: "Association of Hotel Professionals Kenya" }],
+  authors: [
+    {
+      name: "Association of Hotel Professionals Kenya",
+    },
+  ],
+
   creator: "Craft Inventors",
   publisher: "Association of Hotel Professionals Kenya",
 
@@ -102,7 +107,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-slate-50 text-slate-950">
+      <body
+        className={`${geistSans.className} min-h-full bg-slate-50 text-slate-950`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -128,6 +135,7 @@ export default function RootLayout({
             }),
           }}
         />
+
         {children}
       </body>
     </html>

@@ -1,89 +1,236 @@
 "use client";
 
-import { useState } from "react";
-import { Send } from "lucide-react";
+import {
+    useState,
+    type FormEvent,
+    type InputHTMLAttributes,
+} from "react";
+
+import {
+    AlertCircle,
+    CheckCircle2,
+    Send,
+} from "lucide-react";
 
 export default function ContactForm() {
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
+    const [loading, setLoading] =
+        useState(false);
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    const [success, setSuccess] =
+        useState("");
+
+    const [error, setError] =
+        useState("");
+
+    async function handleSubmit(
+        event: FormEvent<HTMLFormElement>,
+    ) {
+        event.preventDefault();
+
+        if (loading) {
+            return;
+        }
+
         setSuccess("");
         setError("");
         setLoading(true);
 
-        const form = e.currentTarget;
+        const form = event.currentTarget;
         const formData = new FormData(form);
 
-        const res = await fetch("/api/contact", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: formData.get("name"),
-                email: formData.get("email"),
-                subject: formData.get("subject"),
-                message: formData.get("message"),
-            }),
-        });
+        const payload = {
+            name: String(
+                formData.get("name") || "",
+            ).trim(),
 
-        const data = await res.json();
-        setLoading(false);
+            email: String(
+                formData.get("email") || "",
+            ).trim(),
 
-        if (!data.ok) {
-            setError(data.error || "Failed to send message.");
-            return;
+            subject: String(
+                formData.get("subject") || "",
+            ).trim(),
+
+            message: String(
+                formData.get("message") || "",
+            ).trim(),
+        };
+
+        try {
+            const response = await fetch(
+                "/api/contact",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+                    },
+
+                    body: JSON.stringify(payload),
+                },
+            );
+
+            const data = await response
+                .json()
+                .catch(() => null);
+
+            if (
+                !response.ok ||
+                !data?.ok
+            ) {
+                throw new Error(
+                    data?.error ||
+                    "We could not send your message. Please try again.",
+                );
+            }
+
+            form.reset();
+
+            setSuccess(
+                "Your message has been sent successfully. The AHPK Secretariat will respond as soon as possible.",
+            );
+        } catch (submissionError) {
+            setError(
+                submissionError instanceof Error
+                    ? submissionError.message
+                    : "We could not send your message. Please try again.",
+            );
+        } finally {
+            setLoading(false);
         }
-
-        form.reset();
-        setSuccess("Message sent successfully. AHPK Secretariat will respond soon.");
     }
 
     return (
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-            {success && (
-                <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-bold text-green-700">
-                    {success}
-                </div>
-            )}
+        <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+        >
+            <div
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                {success ? (
+                    <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm font-semibold leading-6 text-emerald-800">
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
 
-            {error && (
-                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
-                    {error}
-                </div>
-            )}
+                        <span>{success}</span>
+                    </div>
+                ) : null}
 
-            <Input name="name" placeholder="Your name" />
-            <Input name="email" type="email" placeholder="Email address" />
-            <Input name="subject" placeholder="Subject" />
+                {error ? (
+                    <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm font-semibold leading-6 text-red-700">
+                        <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
-            <textarea
-                name="message"
-                rows={7}
-                required
-                placeholder="Message"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
+                        <span>{error}</span>
+                    </div>
+                ) : null}
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+                <FormField
+                    label="Full name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    autoComplete="name"
+                    minLength={2}
+                />
+
+                <FormField
+                    label="Email address"
+                    name="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    autoComplete="email"
+                />
+            </div>
+
+            <FormField
+                label="Subject"
+                name="subject"
+                placeholder="How can we assist you?"
+                minLength={3}
             />
 
-            <button
-                type="submit"
-                disabled={loading}
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#C1121F] px-6 py-4 text-sm font-black text-white hover:bg-red-800 disabled:opacity-60"
-            >
-                <Send className="h-4 w-4" />
-                {loading ? "Sending..." : "Send Message"}
-            </button>
+            <div>
+                <label
+                    htmlFor="message"
+                    className="mb-2 block text-sm font-extrabold text-slate-800"
+                >
+                    Message
+                </label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    rows={7}
+                    required
+                    minLength={10}
+                    placeholder="Write your enquiry here..."
+                    className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-300 focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70"
+                />
+            </div>
+
+            <div className="flex flex-col gap-4 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-md text-xs font-semibold leading-5 text-slate-400">
+                    Please provide accurate contact
+                    details so the AHPK Secretariat can
+                    respond to your enquiry.
+                </p>
+
+                <button
+                    type="submit"
+                    disabled={loading}
+                    aria-busy={loading}
+                    className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                    <Send className="h-4 w-4" />
+
+                    {loading
+                        ? "Sending message..."
+                        : "Send Message"}
+                </button>
+            </div>
         </form>
     );
 }
 
-function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
+type FormFieldProps =
+    InputHTMLAttributes<HTMLInputElement> & {
+        label: string;
+        name: string;
+    };
+
+function FormField({
+    label,
+    name,
+    className,
+    ...props
+}: FormFieldProps) {
     return (
-        <input
-            {...props}
-            required
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
-        />
+        <div>
+            <label
+                htmlFor={name}
+                className="mb-2 block text-sm font-extrabold text-slate-800"
+            >
+                {label}
+            </label>
+
+            <input
+                {...props}
+                id={name}
+                name={name}
+                required
+                className={[
+                    "min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 outline-none transition",
+                    "placeholder:font-medium placeholder:text-slate-400",
+                    "hover:border-slate-300",
+                    "focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70",
+                    className,
+                ]
+                    .filter(Boolean)
+                    .join(" ")}
+            />
+        </div>
     );
 }

@@ -1,345 +1,665 @@
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import PublicNavbar from "../components/public/PublicNavbar";
-import PublicFooter from "../components/public/PublicFooter";
-import {
-    ArrowRight,
-    CalendarDays,
-    GraduationCap,
-    MapPin,
-    ShieldCheck,
-    Ticket,
-    Users,
-} from "lucide-react";
+// app/events/page.tsx
+
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
-import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
+import Image from "next/image";
+import Link from "next/link";
 
-function formatDate(date: Date) {
-    return date.toLocaleDateString("en-KE", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-    });
-}
+import {
+  CalendarDays,
+  ChevronRight,
+  Clock3,
+  GraduationCap,
+  Home,
+  MapPin,
+  Ticket,
+  Users,
+} from "lucide-react";
 
-function formatTime(date: Date) {
-    return date.toLocaleTimeString("en-KE", {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-}
+import Logo from "@/app/assets/logo.png";
+import PublicFooter from "@/app/components/public/PublicFooter";
+import { DesktopNavigation } from "@/app/components/site/desktop-navigation";
+import { prisma } from "@/lib/prisma";
+
+import {
+  dateRange,
+  eventFilters,
+  eventStatus,
+  excerpt,
+  feeText,
+} from "../lib/public-content";
+
+const pagePath = "/events";
+
 export const metadata: Metadata = {
-    title: "Events & CPD",
+  title: "Events | Association of Hotel Professionals Kenya",
+  description:
+    "Discover AHPK conferences, training, workshops, AGMs and hospitality events.",
+
+  alternates: {
+    canonical: pagePath,
+  },
+
+  openGraph: {
+    title:
+      "Events | Association of Hotel Professionals Kenya",
     description:
-        "View upcoming AHPK events, trainings, workshops, and continuous professional development activities for hospitality professionals in Kenya.",
-    alternates: {
-        canonical: "/events",
-    },
+      "Discover AHPK conferences, workshops, professional training, AGMs and hospitality industry programmes.",
+    url: pagePath,
+    siteName:
+      "Association of Hotel Professionals Kenya",
+    locale: "en_KE",
+    type: "website",
+    images: [
+      {
+        url: "/events-hero.webp",
+        width: 1536,
+        height: 1024,
+        alt: "AHPK hospitality professionals attending an event",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "AHPK Events",
+    description:
+      "Conferences, workshops, training and professional programmes by AHPK.",
+    images: ["/events-hero.webp"],
+  },
 };
-export default async function EventsPage() {
-    const events = await prisma.event.findMany({
-        where: { published: true },
-        orderBy: { eventDate: "asc" },
-    });
 
-    const featuredEvent = events[0];
-    const otherEvents = events.slice(1);
+type EventsPageProps = {
+  searchParams: Promise<{
+    status?: string;
+  }>;
+};
 
-    return (
-        <main className="min-h-screen bg-white text-slate-950">
-            <BreadcrumbJsonLd
-                items={[
-                    { name: "Home", url: "/" },
-                    { name: "Events & CPD", url: "/events" },
-                ]}
-            />
-            <PublicNavbar />
+export default async function EventsPage({
+  searchParams,
+}: EventsPageProps) {
+  const query = await searchParams;
+  const status = eventStatus(query.status);
+  const now = new Date();
 
-            <section className="relative overflow-hidden bg-[#111111] text-white">
-                <div
-                    className="absolute inset-0 bg-cover bg-center opacity-40"
-                    style={{ backgroundImage: "url('/login-hero.png')" }}
-                />
+  const events = await prisma.event.findMany({
+    where: {
+      published: true,
 
-                <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/90 to-[#C1121F]/50" />
+      ...(status === "upcoming"
+        ? {
+          eventDate: {
+            gte: now,
+          },
+        }
+        : {}),
 
-                <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-32">
-                    <div className="max-w-4xl">
-                        <p className="text-sm font-black uppercase tracking-[0.45em] text-[#F3C64E]">
-                            Events & CPD
-                        </p>
+      ...(status === "past"
+        ? {
+          eventDate: {
+            lt: now,
+          },
+        }
+        : {}),
+    },
 
-                        <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-                            Upcoming Events & CPD Activities
-                        </h1>
+    orderBy: {
+      eventDate:
+        status === "past"
+          ? "desc"
+          : "asc",
+    },
 
-                        <p className="mt-6 max-w-3xl text-lg font-semibold leading-8 text-white/80">
-                            View upcoming AHPK events, professional trainings, workshops and
-                            continuous professional development activities.
-                        </p>
+    include: {
+      _count: {
+        select: {
+          registrations: true,
+        },
+      },
+    },
+  });
 
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                            <Link
-                                href="/member/login"
-                                className="inline-flex min-w-[180px] items-center justify-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-black text-[#111111] transition hover:bg-[#F3C64E]"
-                            >
-                                <Ticket className="h-4 w-4" />
-                                Member Login
-                            </Link>
+  const activeHref =
+    status === "upcoming"
+      ? "/events?status=upcoming"
+      : status === "past"
+        ? "/events?status=past"
+        : "/events";
 
-                            <Link
-                                href="/resources"
-                                className="inline-flex min-w-[180px] items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur transition hover:bg-white/20"
-                            >
-                                <ShieldCheck className="h-4 w-4" />
-                                Resources
-                            </Link>
-                        </div>
-                    </div>
+  const pageTitle =
+    status === "upcoming"
+      ? "Upcoming Events"
+      : status === "past"
+        ? "Past Events"
+        : "Events";
 
-                    <div className="mt-12 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <HeroStat icon={CalendarDays} title={`${events.length} Published Events`} />
-                        <HeroStat icon={GraduationCap} title="CPD Activities" />
-                        <HeroStat icon={Users} title="Member Registration" />
-                        <HeroStat icon={Ticket} title="Training & Workshops" />
-                    </div>
-                </div>
-            </section>
+  const eventCountLabel =
+    events.length === 1
+      ? "1 published event"
+      : `${events.length} published events`;
 
-            {featuredEvent && (
-                <section className="bg-[#F4F6F8] py-20">
-                    <div className="mx-auto max-w-7xl px-6">
-                        <div className="mb-10">
-                            <p className="text-sm font-black uppercase tracking-[0.35em] text-[#C1121F]">
-                                Featured Event
-                            </p>
+  return (
+    <main className="min-h-screen bg-white text-slate-950">
+      <EventsJsonLd events={events} />
 
-                            <h2 className="mt-3 text-3xl font-black text-slate-950">
-                                Next Upcoming Activity
-                            </h2>
-                        </div>
+      <PageHeader />
 
-                        <Link
-                            href={`/events/${featuredEvent.slug}`}
-                            className="group grid overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl lg:grid-cols-[1fr_1fr]"
-                        >
-                            <div className="min-h-[320px] overflow-hidden bg-slate-100">
-                                {featuredEvent.imageUrl ? (
-                                    <img
-                                        src={featuredEvent.imageUrl}
-                                        alt={featuredEvent.title}
-                                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                    />
-                                ) : (
-                                    <div className="flex h-full min-h-[320px] items-center justify-center bg-gradient-to-br from-[#111111] to-[#C1121F] text-white">
-                                        <CalendarDays className="h-20 w-20 opacity-80" />
-                                    </div>
-                                )}
-                            </div>
+      <EventsHero
+        title={pageTitle}
+        activeHref={activeHref}
+        eventCountLabel={eventCountLabel}
+      />
 
-                            <div className="flex flex-col justify-center p-8 lg:p-10">
-                                <div className="flex flex-wrap gap-2">
-                                    <Badge icon={CalendarDays} text={formatDate(featuredEvent.eventDate)} />
-                                    <Badge icon={Ticket} text={featuredEvent.fee && featuredEvent.fee > 0 ? `KES ${featuredEvent.fee.toLocaleString()}` : "Free"} />
-                                    {featuredEvent.cpdPoints ? (
-                                        <Badge icon={GraduationCap} text={`${featuredEvent.cpdPoints} CPD Points`} />
-                                    ) : null}
-                                </div>
+      <EventsContent
+        events={events}
+        status={status}
+      />
 
-                                <h3 className="mt-5 text-3xl font-black leading-tight text-slate-950">
-                                    {featuredEvent.title}
-                                </h3>
-
-                                <p className="mt-5 line-clamp-4 text-sm font-semibold leading-7 text-slate-500">
-                                    {featuredEvent.description}
-                                </p>
-
-                                <div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#C1121F]">
-                                    View Event Details
-                                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                </section>
-            )}
-
-            <section className="mx-auto max-w-7xl px-6 py-20">
-                <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-                    <div>
-                        <p className="text-sm font-black uppercase tracking-[0.35em] text-[#C1121F]">
-                            All Events
-                        </p>
-
-                        <h2 className="mt-3 text-3xl font-black text-slate-950">
-                            Trainings, Workshops & CPD
-                        </h2>
-
-                        <p className="mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-500">
-                            Browse upcoming AHPK events and professional development
-                            opportunities.
-                        </p>
-                    </div>
-
-                    <div className="rounded-2xl bg-slate-100 px-5 py-3 text-sm font-black text-slate-700">
-                        {events.length} Event{events.length === 1 ? "" : "s"}
-                    </div>
-                </div>
-
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {otherEvents.map((event) => (
-                        <article
-                            key={event.id}
-                            className="group overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                        >
-                            <Link href={`/events/${event.slug}`}>
-                                <div className="h-56 overflow-hidden bg-slate-100">
-                                    {event.imageUrl ? (
-                                        <img
-                                            src={event.imageUrl}
-                                            alt={event.title}
-                                            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                        />
-                                    ) : (
-                                        <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#111111] to-[#C1121F] text-white">
-                                            <CalendarDays className="h-14 w-14 opacity-80" />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="p-6">
-                                    <div className="flex items-center gap-2 text-sm font-black text-[#C1121F]">
-                                        <CalendarDays className="h-4 w-4" />
-                                        {formatDate(event.eventDate)} • {formatTime(event.eventDate)}
-                                    </div>
-
-                                    <h2 className="mt-3 text-xl font-black leading-tight text-slate-950">
-                                        {event.title}
-                                    </h2>
-
-                                    <p className="mt-3 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">
-                                        {event.description}
-                                    </p>
-
-                                    <div className="mt-5 flex flex-wrap gap-2 text-xs font-black">
-                                        {event.venue && (
-                                            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-slate-700">
-                                                <MapPin className="h-3 w-3" />
-                                                {event.venue}
-                                            </span>
-                                        )}
-
-                                        {event.cpdPoints ? (
-                                            <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-3 py-1 text-yellow-800">
-                                                <GraduationCap className="h-3 w-3" />
-                                                {event.cpdPoints} CPD Points
-                                            </span>
-                                        ) : null}
-                                    </div>
-
-                                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#C1121F]">
-                                        View Details
-                                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                                    </div>
-                                </div>
-                            </Link>
-                        </article>
-                    ))}
-
-                    {events.length === 1 && (
-                        <div className="rounded-[32px] border border-slate-200 bg-white p-12 text-center shadow-sm md:col-span-2 lg:col-span-3">
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F]">
-                                <CalendarDays className="h-8 w-8" />
-                            </div>
-
-                            <h2 className="mt-5 text-2xl font-black text-slate-950">
-                                More events will be published soon.
-                            </h2>
-
-                            <p className="mt-3 text-sm font-semibold text-slate-500">
-                                Please check back later for more AHPK events and CPD activities.
-                            </p>
-                        </div>
-                    )}
-
-                    {events.length === 0 && (
-                        <div className="col-span-full rounded-[32px] border border-slate-200 bg-white p-12 text-center shadow-sm">
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F]">
-                                <CalendarDays className="h-8 w-8" />
-                            </div>
-
-                            <h2 className="mt-5 text-2xl font-black text-slate-950">
-                                No events published yet.
-                            </h2>
-
-                            <p className="mt-3 text-sm font-semibold text-slate-500">
-                                AHPK events and CPD activities will appear here once published.
-                            </p>
-                        </div>
-                    )}
-                </div>
-            </section>
-
-            <section className="bg-[#F4F6F8] py-20">
-                <div className="mx-auto max-w-7xl px-6">
-                    <div className="overflow-hidden rounded-[32px] bg-[#C1121F] p-8 text-white shadow-xl md:p-12">
-                        <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-                            <div>
-                                <p className="text-sm font-black uppercase tracking-[0.35em] text-[#F3C64E]">
-                                    Member Access
-                                </p>
-
-                                <h2 className="mt-3 max-w-3xl text-3xl font-black">
-                                    Login to register for events and manage your AHPK membership.
-                                </h2>
-                            </div>
-
-                            <Link
-                                href="/member/login"
-                                className="inline-flex min-w-[190px] items-center justify-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-black text-[#C1121F] transition hover:bg-[#F3C64E]"
-                            >
-                                <Ticket className="h-4 w-4" />
-                                Member Login
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <PublicFooter />
-        </main>
-    );
+      <PublicFooter />
+    </main>
+  );
 }
 
-function HeroStat({
-    title,
-    icon: Icon,
+function EventsHero({
+  title,
+  activeHref,
+  eventCountLabel,
 }: {
-    title: string;
-    icon: React.ElementType;
+  title: string;
+  activeHref: string;
+  eventCountLabel: string;
 }) {
-    return (
-        <div className="rounded-2xl border border-white/10 bg-white/10 p-5 text-white backdrop-blur">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-[#F3C64E]">
-                <Icon className="h-5 w-5" />
+  return (
+    <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
+      {/* Background image */}
+      <div className="absolute inset-0 -z-30">
+        <img
+          src="/agm.webp"
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover object-center lg:object-right"
+        />
+      </div>
+
+      {/* Desktop white fade */}
+      <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_29%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.91)_56%,rgba(255,255,255,0.65)_71%,rgba(255,255,255,0.22)_88%,rgba(255,255,255,0)_100%)] lg:block" />
+
+      {/* Mobile white fade */}
+      <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_58%,rgba(255,255,255,0.83)_80%,rgba(255,255,255,0.58)_100%)] lg:hidden" />
+
+      {/* Right image contrast */}
+      <div className="absolute inset-y-0 right-0 -z-10 hidden w-[28%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
+
+      {/* Decorative glow */}
+      <div className="pointer-events-none absolute -left-28 top-4 -z-10 h-96 w-96 rounded-full bg-red-100/70 blur-3xl" />
+
+      <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+        <Breadcrumb />
+
+        <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
+          <div className="max-w-3xl lg:w-[61%]">
+            <div className="flex items-center gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
+                <CalendarDays className="h-5 w-5 sm:h-6 sm:w-6" />
+              </div>
+
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
+                  AHPK Professional Events
+                </p>
+
+                <p className="mt-1 text-sm font-semibold text-slate-500">
+                  Connect, learn and grow
+                </p>
+              </div>
             </div>
 
-            <p className="mt-4 text-sm font-black">{title}</p>
+            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
+              Hospitality
+
+              <span className="mt-2 block text-[#C8102E]">
+                {title}
+              </span>
+            </h1>
+
+            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
+              Connect with hospitality
+              professionals through AHPK
+              conferences, workshops, training
+              programmes, webinars and annual
+              general meetings.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
+              {eventFilters.map((filter) => {
+                const isActive =
+                  activeHref ===
+                  filter.href;
+
+                return (
+                  <Link
+                    key={filter.href}
+                    href={filter.href}
+                    aria-current={
+                      isActive
+                        ? "page"
+                        : undefined
+                    }
+                    className={
+                      isActive
+                        ? "rounded-full border border-[#C8102E] bg-[#C8102E] px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-sm transition sm:px-5 sm:text-[11px]"
+                        : "rounded-full border border-slate-200 bg-white/85 px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E] sm:px-5 sm:text-[11px]"
+                    }
+                  >
+                    {filter.label}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/80 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
+              <p className="text-sm font-bold leading-6 text-slate-700">
+                {eventCountLabel}. Event
+                information, dates and
+                registration details are managed
+                through the official AHPK portal.
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
+    </section>
+  );
+}
+
+function EventsContent({
+  events,
+  status,
+}: {
+  events: Awaited<
+    ReturnType<typeof getEventResultType>
+  >;
+  status: string;
+}) {
+  return (
+    <section className="bg-white py-14 sm:py-20">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div className="mb-10 flex flex-col gap-5 border-b border-slate-200 pb-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+              AHPK calendar
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              Explore Our Events
+            </h2>
+
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+              Discover opportunities for
+              professional development,
+              networking and hospitality industry
+              engagement.
+            </p>
+          </div>
+
+          <Link
+            href="/events/calendar"
+            className="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-sm font-extrabold text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E]"
+          >
+            <CalendarDays className="h-4 w-4" />
+            View Event Calendar
+          </Link>
+        </div>
+
+        {events.length === 0 ? (
+          <EmptyEvents status={status} />
+        ) : (
+          <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+            {events.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Helper used only to infer the result type of the Prisma query.
+ */
+async function getEventResultType() {
+  return prisma.event.findMany({
+    include: {
+      _count: {
+        select: {
+          registrations: true,
+        },
+      },
+    },
+  });
+}
+
+type EventCardProps = {
+  event: Awaited<
+    ReturnType<typeof getEventResultType>
+  >[number];
+};
+
+function EventCard({ event }: EventCardProps) {
+  const isFull =
+    event.capacity !== null &&
+    event._count.registrations >=
+    event.capacity;
+
+  return (
+    <article className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-100 hover:shadow-xl">
+      <Link
+        href={`/events/${event.slug}`}
+        className="block h-full"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+          {event.imageUrl ? (
+            <img
+              src={event.imageUrl}
+              alt={event.title}
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-[#8f0d16] text-white">
+              <CalendarDays className="h-12 w-12" />
+            </div>
+          )}
+
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4">
+            <span className="rounded-full bg-white/90 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#C8102E] shadow-sm backdrop-blur">
+              {formatCategory(event.category)}
+            </span>
+
+            {event.cpdPoints ? (
+              <span className="rounded-full bg-slate-950/85 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white backdrop-blur">
+                {event.cpdPoints} CPD points
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="flex h-[calc(100%-auto)] flex-col p-6 sm:p-7">
+          <h3 className="text-xl font-extrabold leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
+            {event.title}
+          </h3>
+
+          <p className="mt-3 text-sm font-medium leading-7 text-slate-500">
+            {excerpt(
+              event.description,
+              145,
+            )}
+          </p>
+
+          <div className="mt-6 space-y-3 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-600">
+            <EventDetail
+              icon={Clock3}
+              text={dateRange(
+                event.eventDate,
+                event.endDate,
+              )}
+            />
+
+            <EventDetail
+              icon={MapPin}
+              text={
+                event.venue ||
+                "Venue to be announced"
+              }
+            />
+
+            <EventDetail
+              icon={Ticket}
+              text={feeText(event.fee)}
+            />
+
+            <EventDetail
+              icon={Users}
+              text={
+                event.capacity
+                  ? `${event._count.registrations}/${event.capacity} registered`
+                  : `${event._count.registrations} registered`
+              }
+            />
+          </div>
+
+          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
+            <span
+              className={
+                isFull
+                  ? "rounded-full bg-amber-50 px-3 py-1.5 text-xs font-black text-amber-700"
+                  : "rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-black text-emerald-700"
+              }
+            >
+              {isFull
+                ? "Registration full"
+                : "Registration available"}
+            </span>
+
+            <span className="inline-flex items-center gap-1 text-sm font-extrabold text-[#C8102E]">
+              View event
+
+              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </article>
+  );
+}
+
+function EventDetail({
+  icon: Icon,
+  text,
+}: {
+  icon: typeof Clock3;
+  text: string;
+}) {
+  return (
+    <p className="flex items-start gap-3">
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-50 text-[#C8102E]">
+        <Icon className="h-4 w-4" />
+      </span>
+
+      <span className="pt-1 leading-6">
+        {text}
+      </span>
+    </p>
+  );
+}
+
+function EmptyEvents({
+  status,
+}: {
+  status: string;
+}) {
+  const title =
+    status === "upcoming"
+      ? "No upcoming events"
+      : status === "past"
+        ? "No past events"
+        : "No events found";
+
+  return (
+    <div className="rounded-[28px] border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center sm:px-10">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
+        <CalendarDays className="h-8 w-8" />
+      </div>
+
+      <h2 className="mt-6 text-2xl font-extrabold text-slate-950">
+        {title}
+      </h2>
+
+      <p className="mx-auto mt-3 max-w-lg text-sm font-medium leading-7 text-slate-600 sm:text-base">
+        Published AHPK events will appear here
+        automatically after they are added through
+        the website dashboard.
+      </p>
+
+      {status !== "all" && (
+        <Link
+          href="/events"
+          className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white transition hover:bg-red-700"
+        >
+          View all events
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function PageHeader() {
+  return (
+    <header
+      className="sticky top-0 z-[60] border-b border-slate-200 bg-white/95 backdrop-blur-xl"
+      style={
+        {
+          "--header-height": "88px",
+        } as CSSProperties
+      }
+    >
+      <div className="mx-auto flex h-[82px] max-w-[1700px] items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          aria-label="AHPK homepage"
+          className="shrink-0"
+        >
+          <Image
+            src={Logo}
+            alt="Association of Hotel Professionals Kenya"
+            width={92}
+            height={92}
+            priority
+            className="h-[66px] w-[66px] object-contain sm:h-[72px] sm:w-[72px]"
+          />
+        </Link>
+
+        <div className="ml-auto flex items-center">
+          <DesktopNavigation />
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Breadcrumb() {
+  return (
+    <nav
+      aria-label="Breadcrumb"
+      className="flex flex-wrap items-center gap-2 text-sm font-bold text-slate-500"
+    >
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 transition hover:text-[#C8102E]"
+      >
+        <Home className="h-4 w-4" />
+        Home
+      </Link>
+
+      <ChevronRight className="h-4 w-4 text-slate-300" />
+
+      <span
+        className="text-[#C8102E]"
+        aria-current="page"
+      >
+        Events
+      </span>
+    </nav>
+  );
+}
+
+function formatCategory(category: string) {
+  return category
+    .toLowerCase()
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) =>
+      letter.toUpperCase(),
     );
 }
 
-function Badge({
-    icon: Icon,
-    text,
+function EventsJsonLd({
+  events,
 }: {
-    icon: React.ElementType;
-    text: string;
+  events: Awaited<
+    ReturnType<typeof getEventResultType>
+  >;
 }) {
-    return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-[#C1121F]">
-            <Icon className="h-3 w-3" />
-            {text}
-        </span>
-    );
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://ahpk.or.ke/events#page",
+    url: "https://ahpk.or.ke/events",
+    name: "AHPK Events",
+    description:
+      "Conferences, training, workshops, AGMs and hospitality professional programmes organised by AHPK.",
+
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: events.map(
+        (event, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+
+          item: {
+            "@type": "Event",
+            name: event.title,
+            url: `https://ahpk.or.ke/events/${event.slug}`,
+            startDate:
+              event.eventDate.toISOString(),
+            endDate:
+              event.endDate?.toISOString(),
+            image:
+              event.imageUrl ||
+              undefined,
+            description: excerpt(
+              event.description,
+              180,
+            ),
+
+            eventAttendanceMode:
+              "https://schema.org/OfflineEventAttendanceMode",
+
+            eventStatus:
+              "https://schema.org/EventScheduled",
+
+            location: event.venue
+              ? {
+                "@type": "Place",
+                name: event.venue,
+              }
+              : undefined,
+
+            offers: {
+              "@type": "Offer",
+              price:
+                event.fee ?? 0,
+              priceCurrency: "KES",
+              availability:
+                "https://schema.org/InStock",
+              url: `https://ahpk.or.ke/events/${event.slug}`,
+            },
+          },
+        }),
+      ),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(jsonLd),
+      }}
+    />
+  );
 }

@@ -9,6 +9,12 @@ type NewsPostItem = {
     id: string;
     title: string;
     slug: string;
+    category:
+    | "LATEST"
+    | "NOTICES"
+    | "CHAIRMAN_MESSAGES"
+    | "INDUSTRY_UPDATES"
+    | "PRESS_RELEASES";
     excerpt: string | null;
     content: string;
     imageUrl: string | null;
@@ -299,7 +305,37 @@ export default function NewsClient({
                         placeholder="Short excerpt"
                         defaultValue={selectedPost?.excerpt || ""}
                     />
+                    <div>
+                        <label className="mb-2 block text-sm font-black text-slate-700">
+                            News Category
+                        </label>
 
+                        <select
+                            name="category"
+                            defaultValue={selectedPost?.category || "LATEST"}
+                            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold"
+                        >
+                            <option value="LATEST">
+                                Latest News
+                            </option>
+
+                            <option value="NOTICES">
+                                Association Notices
+                            </option>
+
+                            <option value="CHAIRMAN_MESSAGES">
+                                Chairman's Messages
+                            </option>
+
+                            <option value="INDUSTRY_UPDATES">
+                                Industry Updates
+                            </option>
+
+                            <option value="PRESS_RELEASES">
+                                Press Releases
+                            </option>
+                        </select>
+                    </div>
                     <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                         <label className="block text-sm font-black text-slate-700">
                             Featured News Image

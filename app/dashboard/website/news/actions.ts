@@ -6,6 +6,7 @@ import { mkdir, writeFile, unlink } from "fs/promises";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { NewsCategory } from "@/app/generated/prisma/enums";
 
 function slugify(value: string) {
     return value
@@ -73,6 +74,9 @@ async function deleteNewsImage(publicUrl?: string | null) {
 export async function saveNewsPost(formData: FormData) {
     const id = String(formData.get("id") || "");
     const title = String(formData.get("title") || "").trim();
+    const category =
+        (formData.get("category") as NewsCategory) ||
+        NewsCategory.LATEST;
     const excerpt = String(formData.get("excerpt") || "").trim();
     const content = String(formData.get("content") || "").trim();
     const published = formData.get("published") === "on";
@@ -107,6 +111,7 @@ export async function saveNewsPost(formData: FormData) {
             data: {
                 title,
                 slug,
+                category,
                 excerpt,
                 content,
                 imageUrl,
@@ -132,6 +137,7 @@ export async function saveNewsPost(formData: FormData) {
             data: {
                 title,
                 slug,
+                category,
                 excerpt,
                 content,
                 imageUrl,

@@ -6,6 +6,7 @@ import { mkdir, writeFile, unlink } from "fs/promises";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { EventCategory } from "@/app/generated/prisma/enums";
 
 function slugify(value: string) {
     return value
@@ -71,6 +72,9 @@ async function deleteEventImage(publicUrl?: string | null) {
 export async function saveEvent(formData: FormData) {
     const id = String(formData.get("id") || "");
     const title = String(formData.get("title") || "").trim();
+    const category =
+        (formData.get("category") as EventCategory) ||
+        EventCategory.GENERAL;
     const description = String(formData.get("description") || "").trim();
     const venue = String(formData.get("venue") || "").trim();
     const eventDate = String(formData.get("eventDate") || "");
@@ -110,6 +114,7 @@ export async function saveEvent(formData: FormData) {
             data: {
                 title,
                 slug,
+                category,
                 description,
                 venue,
                 eventDate: new Date(eventDate),
@@ -136,6 +141,7 @@ export async function saveEvent(formData: FormData) {
             data: {
                 title,
                 slug,
+                category,
                 description,
                 venue,
                 eventDate: new Date(eventDate),

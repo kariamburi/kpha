@@ -1,9 +1,19 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+import {
+    AlertCircle,
+    ArrowRight,
+    BadgeCheck,
+    LoaderCircle,
+    Search,
+} from "lucide-react";
+
+import {
+    useState,
+    type FormEvent,
+} from "react";
+
 import { useRouter } from "next/navigation";
-import Logo from "@/app/assets/logo.png";
 
 export default function VerifyClient({
     failedCode,
@@ -11,98 +21,164 @@ export default function VerifyClient({
     failedCode?: string;
 }) {
     const router = useRouter();
-    const [code, setCode] = useState(failedCode || "");
 
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
+    const [code, setCode] = useState(
+        failedCode || "",
+    );
 
-        const cleanCode = code.trim().toUpperCase();
+    const [submitting, setSubmitting] =
+        useState(false);
 
-        if (!cleanCode) return;
+    const [error, setError] =
+        useState("");
 
-        router.push(`/verify/${encodeURIComponent(cleanCode)}`);
+    function handleSubmit(
+        event: FormEvent<HTMLFormElement>,
+    ) {
+        event.preventDefault();
+
+        setError("");
+
+        const cleanCode = code
+            .trim()
+            .toUpperCase();
+
+        if (!cleanCode) {
+            setError(
+                "Enter the verification code printed on the certificate.",
+            );
+
+            return;
+        }
+
+        setSubmitting(true);
+
+        router.push(
+            `/verify/${encodeURIComponent(
+                cleanCode,
+            )}`,
+        );
     }
 
     return (
-        <main className="min-h-screen bg-slate-50">
-            <section className="bg-[#111111] px-4 py-10 text-white">
-                <div className="mx-auto max-w-5xl">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-2">
-                            <Image
-                                src={Logo}
-                                alt="AHPK Logo"
-                                width={52}
-                                height={52}
-                                className="object-contain"
-                                priority
-                            />
-                        </div>
+        <div>
+            {failedCode ? (
+                <div
+                    role="alert"
+                    className="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4"
+                >
+                    <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-700" />
 
-                        <div>
-                            <p className="text-xs font-black tracking-[0.35em] text-[#F3C64E]">
-                                AHPK CERTIFICATE VERIFICATION
-                            </p>
+                    <div>
+                        <p className="text-sm font-extrabold text-red-700">
+                            No certificate was found
+                        </p>
 
-                            <h1 className="mt-1 text-3xl font-black">
-                                Verify Certificate
-                            </h1>
-
-                            <p className="mt-2 text-sm font-semibold text-white/70">
-                                Association of Hotel Professionals Kenya
-                            </p>
-                        </div>
+                        <p className="mt-1 text-sm font-medium leading-6 text-red-600">
+                            We could not find an AHPK
+                            certificate with verification
+                            code{" "}
+                            <span className="font-mono font-extrabold">
+                                {failedCode}
+                            </span>
+                            . Confirm the code and try
+                            again.
+                        </p>
                     </div>
                 </div>
-            </section>
+            ) : null}
 
-            <section className="mx-auto -mt-8 max-w-3xl px-4 pb-12">
-                <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-xl md:p-8">
-                    {failedCode && (
-                        <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
-                            <p className="text-sm font-black">
-                                No certificate found
-                            </p>
+            {error ? (
+                <div
+                    role="alert"
+                    className="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm font-semibold text-red-700"
+                >
+                    <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
-                            <p className="mt-1 text-sm font-semibold leading-6">
-                                We could not find a certificate with verification code{" "}
-                                <span className="font-mono font-black">
-                                    {failedCode}
-                                </span>
-                                . Please confirm the code and try again.
-                            </p>
-                        </div>
+                    <span>{error}</span>
+                </div>
+            ) : null}
+
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-5"
+            >
+                <div>
+                    <label
+                        htmlFor="verificationCode"
+                        className="block text-sm font-extrabold text-slate-800"
+                    >
+                        Certificate verification code
+                        <span className="ml-1 text-[#C1121F]">
+                            *
+                        </span>
+                    </label>
+
+                    <div className="relative mt-2">
+                        <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+
+                        <input
+                            id="verificationCode"
+                            name="verificationCode"
+                            value={code}
+                            required
+                            autoComplete="off"
+                            spellCheck={false}
+                            onChange={(event) =>
+                                setCode(
+                                    event.target.value.toUpperCase(),
+                                )
+                            }
+                            placeholder="Example: AHPK-8C1501EF"
+                            className="min-h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 font-mono text-sm font-extrabold uppercase tracking-wide text-slate-900 outline-none transition placeholder:font-semibold placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 hover:border-slate-300 focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70"
+                        />
+                    </div>
+
+                    <p className="mt-2 text-xs font-medium leading-5 text-slate-500">
+                        Enter the complete code including
+                        letters, numbers and hyphens.
+                    </p>
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={submitting}
+                    aria-busy={submitting}
+                    className="flex min-h-13 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#C1121F] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-65"
+                >
+                    {submitting ? (
+                        <LoaderCircle className="h-5 w-5 animate-spin" />
+                    ) : (
+                        <BadgeCheck className="h-5 w-5" />
                     )}
 
-                    <p className="text-sm font-black text-slate-500">
-                        Enter Verification Code
-                    </p>
+                    {submitting
+                        ? "Checking certificate..."
+                        : "Verify Certificate"}
 
-                    <h2 className="mt-2 text-2xl font-black text-slate-950">
-                        Confirm certificate authenticity
-                    </h2>
+                    {!submitting ? (
+                        <ArrowRight className="h-4 w-4" />
+                    ) : null}
+                </button>
+            </form>
 
-                    <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
-                        Enter the verification code printed on the certificate or scan the QR code.
-                    </p>
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <ShieldCheckIcon />
 
-                    <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-                        <input
-                            value={code}
-                            onChange={(e) => setCode(e.target.value.toUpperCase())}
-                            placeholder="Example: AHPK-8C1501EF"
-                            className="h-14 w-full rounded-2xl border border-slate-300 px-5 font-mono text-sm font-black uppercase outline-none focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
-                        />
+                <p className="text-xs font-semibold leading-6 text-slate-500">
+                    Verification confirms whether the
+                    certificate code matches an official
+                    AHPK certificate record.
+                </p>
+            </div>
+        </div>
+    );
+}
 
-                        <button
-                            type="submit"
-                            className="w-full cursor-pointer rounded-2xl bg-[#C1121F] px-5 py-4 text-sm font-black text-white transition hover:bg-red-800"
-                        >
-                            Verify Certificate
-                        </button>
-                    </form>
-                </div>
-            </section>
-        </main>
+function ShieldCheckIcon() {
+    return (
+        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#C1121F] shadow-sm">
+            <BadgeCheck className="h-4 w-4" />
+        </span>
     );
 }

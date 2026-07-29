@@ -9,6 +9,13 @@ type EventItem = {
     id: string;
     title: string;
     slug: string;
+    category:
+    | "GENERAL"
+    | "AGM"
+    | "CONFERENCE"
+    | "TRAINING"
+    | "WORKSHOP"
+    | "WEBINAR";
     description: string;
     venue: string | null;
     eventDate: Date;
@@ -338,7 +345,41 @@ export default function EventsClient({
                         placeholder="Venue"
                         defaultValue={selectedEvent?.venue || ""}
                     />
+                    <div>
+                        <label className="mb-2 block text-sm font-black text-slate-700">
+                            Event Category
+                        </label>
 
+                        <select
+                            name="category"
+                            defaultValue={selectedEvent?.category || "GENERAL"}
+                            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:border-[#C1121F]"
+                        >
+                            <option value="GENERAL">
+                                General Event
+                            </option>
+
+                            <option value="AGM">
+                                Annual General Meeting
+                            </option>
+
+                            <option value="CONFERENCE">
+                                Conference
+                            </option>
+
+                            <option value="TRAINING">
+                                Training
+                            </option>
+
+                            <option value="WORKSHOP">
+                                Workshop
+                            </option>
+
+                            <option value="WEBINAR">
+                                Webinar
+                            </option>
+                        </select>
+                    </div>
                     <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                         <label className="block text-sm font-black text-slate-700">
                             Event Featured Image

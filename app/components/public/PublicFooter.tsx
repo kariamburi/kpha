@@ -68,18 +68,26 @@ export default async function PublicFooter() {
 
                 <div>
                     <h3 className="font-black">Quick Links</h3>
+
                     <div className="mt-4 grid gap-3 text-sm text-white/60">
-                        <Link href="/about" className="hover:text-white">
+                        <Link href="/about" className="transition hover:text-white">
                             About AHPK
                         </Link>
-                        <Link href="/events" className="hover:text-white">
-                            Events & CPD
+
+                        <Link href="/events" className="transition hover:text-white">
+                            Events
                         </Link>
-                        <Link href="/resources" className="hover:text-white">
-                            Resources
+
+                        <Link href="/news" className="transition hover:text-white">
+                            News
                         </Link>
-                        <Link href="/verify" className="hover:text-white">
+
+                        <Link href="/verify" className="transition hover:text-white">
                             Verify Certificate
+                        </Link>
+
+                        <Link href="/disclaimer" className="transition hover:text-white">
+                            Disclaimer
                         </Link>
                     </div>
                 </div>

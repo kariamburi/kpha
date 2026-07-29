@@ -1,89 +1,273 @@
-import LoginForm from "./LoginForm";
-import Logo from "@/app/assets/logo.png";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
 import Image from "next/image";
+import Link from "next/link";
+
+import {
+    ArrowLeft,
+    BadgeCheck,
+    ChevronRight,
+    LockKeyhole,
+    ShieldCheck,
+    UserRoundCheck,
+} from "lucide-react";
+
+import Logo from "@/app/assets/logo.png";
+import LoginForm from "./LoginForm";
+
+export const metadata: Metadata = {
+    title: "Member Login | AHPK",
+    description:
+        "Securely access your AHPK membership profile, certificates, payments, renewals and professional services.",
+
+    alternates: {
+        canonical: "/member/login",
+    },
+
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
+
+type MemberLoginPageProps = {
+    searchParams: Promise<{
+        error?: string;
+    }>;
+};
 
 export default async function MemberLoginPage({
     searchParams,
-}: {
-    searchParams: Promise<{ error?: string }>;
-}) {
+}: MemberLoginPageProps) {
     const params = await searchParams;
 
     return (
-        <main className="min-h-screen bg-white">
-            <div className="grid min-h-screen lg:grid-cols-2">
-                <section className="flex items-center justify-center px-6 py-10">
-                    <div className="w-full max-w-md">
-                        <div className="mb-14 flex items-center gap-4">
+        <main className="h-[100svh] overflow-hidden bg-white text-slate-950">
+            <div className="grid h-full lg:grid-cols-[minmax(0,0.9fr)_minmax(560px,1.1fr)]">
+                {/* LEFT LOGIN PANEL */}
+                <section className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
+                    {/* Decorative background */}
+                    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                        <div className="absolute -left-36 top-16 h-80 w-80 rounded-full bg-red-100/60 blur-3xl" />
+
+                        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-slate-100/80 blur-3xl" />
+                    </div>
+
+                    {/* Header */}
+                    <header className="relative flex h-[78px] shrink-0 items-center justify-between border-b border-slate-200 px-5 sm:px-8 lg:px-10">
+                        <Link
+                            href="/"
+                            aria-label="AHPK homepage"
+                            className="flex items-center gap-3"
+                        >
                             <Image
                                 src={Logo}
-                                alt="AHPK Logo"
-                                width={70}
-                                height={70}
-                                className="object-contain"
+                                alt="Association of Hotel Professionals Kenya"
+                                width={68}
+                                height={68}
                                 priority
+                                className="h-12 w-12 object-contain sm:h-14 sm:w-14"
                             />
 
                             <div>
-                                <p className="text-xs font-black tracking-[0.35em] text-[#C1121F]">
+                                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C1121F]">
                                     AHPK
                                 </p>
-                                <h1 className="text-2xl font-black text-slate-950">
+
+                                <p className="text-sm font-extrabold text-slate-900">
                                     Member Portal
-                                </h1>
+                                </p>
                             </div>
-                        </div>
+                        </Link>
 
-                        <div className="text-center">
-                            <h2 className="text-4xl font-black tracking-tight text-[#111111]">
-                                Member Login
-                            </h2>
-                            <p className="mt-2 text-lg font-semibold text-slate-500">
-                                Association of Hotel Professionals Kenya
-                            </p>
-                        </div>
+                        <Link
+                            href="/"
+                            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-xs font-extrabold text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-[#C1121F]"
+                        >
+                            <ArrowLeft className="h-4 w-4" />
+                            Website
+                        </Link>
+                    </header>
 
-                        {params.error && (
-                            <div className="mt-8 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
-                                Member record not found. Please confirm your email and ID number.
+                    {/* Scrollable content area */}
+                    <div className="relative min-h-0 flex-1 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center px-5 py-8 sm:px-8 lg:px-10">
+                            <div className="w-full max-w-md">
+                                <nav
+                                    aria-label="Breadcrumb"
+                                    className="flex items-center gap-2 text-xs font-bold text-slate-400"
+                                >
+                                    <Link
+                                        href="/"
+                                        className="transition hover:text-[#C1121F]"
+                                    >
+                                        Home
+                                    </Link>
+
+                                    <ChevronRight className="h-3.5 w-3.5" />
+
+                                    <span className="text-[#C1121F]">
+                                        Member Login
+                                    </span>
+                                </nav>
+
+                                <div className="mt-5">
+                                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-red-100 bg-red-50 text-[#C1121F]">
+                                        <UserRoundCheck className="h-5 w-5" />
+                                    </div>
+
+                                    <p className="mt-5 text-xs font-black uppercase tracking-[0.22em] text-[#C1121F]">
+                                        Secure member access
+                                    </p>
+
+                                    <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
+                                        Welcome Back
+                                    </h1>
+
+                                    <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                        Enter your registered email address
+                                        and identification number. We will
+                                        send a secure one-time password to
+                                        verify your identity.
+                                    </p>
+                                </div>
+
+                                {params.error ? (
+                                    <div
+                                        role="alert"
+                                        className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-4"
+                                    >
+                                        <p className="text-sm font-extrabold text-red-700">
+                                            We could not verify your
+                                            membership
+                                        </p>
+
+                                        <p className="mt-1 text-sm font-medium leading-6 text-red-600">
+                                            Confirm that the email address
+                                            and ID or passport number match
+                                            your AHPK membership record.
+                                        </p>
+                                    </div>
+                                ) : null}
+
+                                <div className="mt-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/50 sm:p-6">
+                                    <LoginForm />
+                                </div>
+
+                                <div className="mt-4 flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                    <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-[#C1121F]" />
+
+                                    <p className="text-xs font-semibold leading-5 text-slate-500">
+                                        Your OTP is sent only to the email
+                                        address registered with your AHPK
+                                        membership account. Never share it
+                                        with anyone.
+                                    </p>
+                                </div>
+
+                                <div className="mt-5 flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                                    <p className="text-sm font-semibold text-slate-500">
+                                        Not yet an AHPK member?
+                                    </p>
+
+                                    <Link
+                                        href="/apply"
+                                        className="inline-flex items-center gap-2 text-sm font-extrabold text-[#C1121F]"
+                                    >
+                                        Apply for Membership
+                                        <ChevronRight className="h-4 w-4" />
+                                    </Link>
+                                </div>
                             </div>
-                        )}
-
-                        <div className="mt-10">
-                            <LoginForm />
                         </div>
                     </div>
                 </section>
 
-                <section className="relative hidden overflow-hidden bg-[#111111] lg:block">
+                {/* RIGHT VISUAL PANEL */}
+                <section className="relative hidden h-full overflow-hidden bg-slate-100 lg:block">
                     <Image
                         src="/login-hero.png"
-                        alt="AHPK member portal"
+                        alt="AHPK hospitality professionals"
                         fill
                         priority
-                        className="object-cover"
+                        sizes="55vw"
+                        className="object-cover object-center"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#111111]/95 via-[#111111]/70 to-[#C1121F]/70" />
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.72)_13%,rgba(255,255,255,0.12)_40%,rgba(15,23,42,0.16)_100%)]" />
 
-                    <div className="relative flex h-full items-center justify-center p-12">
-                        <div className="max-w-xl rounded-[32px] border border-white/10 bg-black/35 p-8 text-white shadow-2xl backdrop-blur-md">
-                            <p className="text-sm font-black tracking-[0.35em] text-[#F3C64E]">
-                                AHPK DIGITAL SERVICES
+                    <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-slate-950/80 via-slate-950/28 to-transparent" />
+
+                    <div className="absolute right-8 top-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/50 bg-white/90 shadow-xl backdrop-blur">
+                        <Image
+                            src={Logo}
+                            alt=""
+                            width={44}
+                            height={44}
+                            className="h-10 w-10 object-contain"
+                        />
+                    </div>
+
+                    <div className="relative flex h-full items-end px-10 pb-10 xl:px-14 xl:pb-12">
+                        <div className="max-w-2xl">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
+                                <BadgeCheck className="h-4 w-4" />
+                                AHPK Digital Services
+                            </div>
+
+                            <h2 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight text-white xl:text-5xl">
+                                Your professional membership services,
+                                all in one secure place.
+                            </h2>
+
+                            <p className="mt-4 max-w-xl text-base font-medium leading-7 text-white/80 xl:text-lg xl:leading-8">
+                                Access your membership profile,
+                                certificates, payment history, renewal
+                                services, CPD records and member-only
+                                resources.
                             </p>
 
-                            <h3 className="mt-5 text-4xl font-black leading-tight">
-                                Membership, certificates, renewals and CPD services at your fingertips.
-                            </h3>
+                            <div className="mt-6 grid max-w-xl grid-cols-3 gap-3">
+                                <PortalFeature
+                                    icon={<BadgeCheck />}
+                                    label="Membership"
+                                />
 
-                            <p className="mt-5 text-lg font-semibold leading-8 text-white/75">
-                                Login securely to access your professional membership profile,
-                                certificates, payments and renewal services.
-                            </p>
+                                <PortalFeature
+                                    icon={<ShieldCheck />}
+                                    label="Certificates"
+                                />
+
+                                <PortalFeature
+                                    icon={<LockKeyhole />}
+                                    label="Secure access"
+                                />
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
         </main>
+    );
+}
+
+function PortalFeature({
+    icon,
+    label,
+}: {
+    icon: ReactNode;
+    label: string;
+}) {
+    return (
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur">
+            <span className="text-red-200 [&>svg]:h-5 [&>svg]:w-5">
+                {icon}
+            </span>
+
+            <p className="mt-3 text-sm font-extrabold">
+                {label}
+            </p>
+        </div>
     );
 }
