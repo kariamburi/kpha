@@ -297,7 +297,7 @@ export default function ApplyClient({ categories }: { categories: Category[] }) 
                         <ChevronRight className="h-4 w-4 text-slate-300" />
 
                         <a
-                            href="/membership"
+                            href="/members-section/constitution-rules/membership"
                             className="transition hover:text-[#C8102E]"
                         >
                             Membership

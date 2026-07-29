@@ -399,7 +399,7 @@ export default async function Home() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/membership"
+                  href="/members-section/constitution-rules/membership"
                   className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-white/5 px-6 text-sm font-extrabold text-white transition hover:bg-white hover:text-slate-950"
                 >
                   Explore Membership

@@ -7,7 +7,9 @@ import {
     ArrowLeft,
     ArrowRight,
     Award,
+    BookOpen,
     Compass,
+    FileText,
     Globe2,
     Handshake,
     Lightbulb,
@@ -45,100 +47,100 @@ const standardsSlides: StandardsSlide[] = [
                 title: "Professional Attitude & Behaviour",
                 description:
                     "A member of the Association of Hotel Professionals Kenya shall conduct all professional activities in a manner that reflects credit upon the member, the Association and the hospitality industry.",
-                href: "/professional-standards/professional-attitude",
+                href: "/members-section/code-of-conduct-ethics/professional-attitude-behavior",
                 icon: Lightbulb,
             },
             {
                 title: "Relationships with Clients",
                 description:
                     "Members must uphold the law, the professional code and their ethical responsibilities when accepting assignments and serving clients.",
-                href: "/professional-standards/client-relationships",
+                href: "/members-section/code-of-conduct-ethics/relationships-with-clients",
                 icon: Smartphone,
             },
             {
                 title: "Professional Relationships",
                 description:
                     "Members working with hospitality professionals and consultants shall maintain standards of conduct that support clients and preserve professional relationships.",
-                href: "/professional-standards/professional-relationships",
+                href: "/members-section/code-of-conduct-ethics/professional-relationships",
                 icon: Users,
             },
             {
                 title: "Handling Alleged Violations",
                 description:
                     "A fair process is provided for considering complaints while protecting members’ rights, privacy and professional reputations.",
-                href: "/professional-standards/violations",
+                href: "/members-section/code-of-conduct-ethics/handling-alleged-violations",
                 icon: Globe2,
             },
         ],
     },
     {
-        label: "Association Purpose",
-        title: "Representation and information exchange",
+        label: "Governance",
+        title: "AHPK's Governance & Documents.",
         description:
-            "AHPK provides a recognised industry voice and supports informed professional practice.",
+            "Official rules, ethics pledges and association documents.",
         items: [
             {
-                title: "Representation",
+                title: "Objectives",
                 description:
-                    "The Association represents hospitality professionals before government, industry institutions and other agencies on matters of regulation, licensing and policy.",
-                href: "/about/our-purpose",
-                icon: Compass,
+                    "Discover AHPK's objectives for advancing the hospitality profession.",
+                href: "/members-section/constitution-rules/objectives",
+                icon: BookOpen,
             },
             {
-                title: "Information Exchange",
+                title: "Membership",
                 description:
-                    "AHPK supports industry research, professional information sharing, sector data development and regular communication with members.",
-                href: "/resources",
-                icon: MousePointer2,
+                    "Learn about membership eligibility, rights, privileges and responsibilities.",
+                href: "/members-section/constitution-rules/membership",
+                icon: ShieldCheck,
             },
             {
-                title: "Professional Relationships",
+                title: "Office Bearers & Duties",
                 description:
-                    "Members are encouraged to build constructive relationships with employers, consultants, institutions and fellow professionals.",
-                href: "/professional-standards/professional-relationships",
+                    "Learn about AHPK's elected leaders, their responsibilities and constitutional duties.",
+                href: "/members-section/constitution-rules/office-bearers-duties",
                 icon: Handshake,
             },
             {
-                title: "Handling Alleged Violations",
+                title: "The Executive Committee",
                 description:
-                    "Reported concerns are handled through a fair and impartial process designed to promote accountability and professional integrity.",
-                href: "/professional-standards/violations",
-                icon: ShieldCheck,
+                    "Explore the Executive Committee's composition, powers, meetings and governance responsibilities.",
+                href: "/members-section/constitution-rules/the-executive-committee",
+                icon: FileText,
             },
         ],
     },
     {
-        label: "Member Responsibilities",
-        title: "Professional excellence in hospitality",
+        label: "Members Section",
+        title: "Members Section",
         description:
-            "Practical standards that strengthen trust, competence and responsible service across the industry.",
+            "Membership eligibility, categories, recognition and applications.",
         items: [
             {
-                title: "Representation",
+                title: "Criteria & Levels",
                 description:
-                    "AHPK gives hospitality professionals an organised platform through which their interests and industry concerns can be represented.",
-                href: "/about/our-objectives",
+                    "Review eligibility requirements and membership levels.",
+                href: "/members-section/membership-criterion-levels",
                 icon: MapPin,
             },
             {
-                title: "Information Exchange",
+                title: "Membership Categories",
                 description:
-                    "Members benefit from professional publications, research, industry updates and opportunities for continuous knowledge exchange.",
-                href: "/resources",
+                    "Explore the available membership categories.",
+                href: "/members-section/membership-categories",
                 icon: MousePointer2,
             },
             {
-                title: "Professional Attitude & Behaviour",
+                title: "Apply for Membership",
                 description:
-                    "Members are expected to demonstrate competence, integrity, responsibility and conduct that enhances confidence in the profession.",
-                href: "/professional-standards/professional-attitude",
+                    "Submit a new AHPK membership application.",
+                href: "/apply",
                 icon: Paperclip,
             },
             {
-                title: "Relationships with Clients",
+                title: "Renew Membership",
                 description:
-                    "Members shall provide honest, lawful and responsible service while protecting the interests and confidence of every client.",
-                href: "/professional-standards/client-relationships",
+                    "Renew your annual professional membership.",
+                href: "/member/renewal",
                 icon: Award,
             },
         ],

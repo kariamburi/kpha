@@ -33,7 +33,7 @@ const slides: HeroSlide[] = [
         title: "Welcome to AHPK",
         description:
             "The Association advances professional values within the hotel industry by enhancing the quality of services provided to clients and influencing related industries.",
-        image: "/restaurant-hero.webp",
+        image: "/banner-hero.webp",
         buttonLabel: "Learn More",
         buttonHref: "/about/who-we-are",
     },
@@ -51,7 +51,7 @@ const slides: HeroSlide[] = [
             "Promoting professionalism, accountability and sustainable development across Kenya's hospitality sector.",
         image: "/slider_reception.webp",
         buttonLabel: "Our Purpose",
-        buttonHref: "/about/our-purpose",
+        buttonHref: "/members-section/constitution-rules/objectives",
     },
 ];
 
@@ -222,7 +222,7 @@ export default function PublicHeroLignt() {
                             </Link>
 
                             <Link
-                                href="/membership"
+                                href="/members-section/constitution-rules/membership"
                                 className="inline-flex min-h-12 items-center justify-center border border-slate-300 bg-white/85 px-7 py-3 text-sm font-extrabold uppercase text-slate-900 shadow-sm backdrop-blur-md transition hover:border-[#C1121F] hover:text-[#C1121F]"
                             >
                                 Explore Membership
