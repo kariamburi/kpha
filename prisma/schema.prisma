@@ -61,6 +61,18 @@ enum NewsCategory {
   PRESS_RELEASES
 }
 
+enum EventBookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum EventPaymentMethod {
+  PAYSTACK
+  FREE
+  MANUAL
+}
+
 model User {
   id       String     @id @default(cuid())
   name     String
@@ -325,15 +337,41 @@ model Event {
 }
 
 model EventRegistration {
-  id        String   @id @default(cuid())
-  eventId   String
-  memberId  String
+  id      String @id @default(cuid())
+  eventId String
+
+  // Optional because non-members can book.
+  memberId String?
+
+  bookingNumber String @unique
+
+  fullName     String
+  phone        String
+  email        String
+  organisation String?
+
+  membershipNumber String?
+  paymentDetails   String? @db.Text
+
+  amount Float @default(0)
+
+  status        EventBookingStatus  @default(PENDING)
+  paymentStatus PaymentStatus       @default(PENDING)
+  paymentMethod EventPaymentMethod?
+
+  paymentReference String?
+  paidAt           DateTime?
+
+  event  Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  member Member? @relation(fields: [memberId], references: [id], onDelete: SetNull)
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, memberId])
+  @@index([eventId])
+  @@index([email])
+  @@index([phone])
+  @@index([paymentStatus])
 }
 
 enum AnnouncementType {

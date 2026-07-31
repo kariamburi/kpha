@@ -38,7 +38,6 @@ import { prisma } from "@/lib/prisma";
 
 import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 import PublicFooter from "@/app/components/public/PublicFooter";
-import PublicNavbar from "@/app/components/public/PublicNavbar";
 import { CSSProperties, ReactNode } from "react";
 import { DesktopNavigation } from "@/app/components/site/desktop-navigation";
 
@@ -304,116 +303,93 @@ export default async function DirectoryProfilePage({
 
             <PageHeader />
 
-            {/* PROFILE HERO */}
-            <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white">
-                <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-                    <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-red-100/70 blur-3xl" />
-
-                    <div className="absolute right-0 top-0 h-full w-[58%] bg-[linear-gradient(135deg,transparent_0%,rgba(193,18,31,0.055)_100%)]" />
-
-                    <div className="absolute right-[7%] top-8 h-72 w-72 rounded-full border border-red-100/70" />
-
-                    <div className="absolute right-[13%] top-24 h-40 w-40 rounded-full border border-red-100/60" />
-                </div>
-
-                <div className="mx-auto max-w-7xl px-5 pb-14 pt-8 sm:px-6 sm:pb-16 lg:px-8">
+            {/* EDITORIAL PROFILE MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <ProfileBreadcrumb
                         memberName={memberName}
                     />
 
                     <Link
                         href="/directory"
-                        className="mt-7 inline-flex items-center gap-2 text-sm font-extrabold text-slate-600 transition hover:text-[#C1121F]"
+                        className="group mt-5 inline-flex items-center gap-2 text-sm font-black text-slate-600 transition hover:text-[#C8102E]"
                     >
-                        <ArrowLeft className="h-4 w-4" />
+                        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                         Back to Member Directory
                     </Link>
 
-                    <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-                        <div className="flex flex-col gap-7 sm:flex-row sm:items-end">
+                    <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
+                        <div className="grid gap-6 sm:grid-cols-[150px_minmax(0,1fr)] sm:items-end">
                             <ProfileAvatar
-                                imageUrl={
-                                    member.profileImageUrl
-                                }
+                                imageUrl={member.profileImageUrl}
                                 memberName={memberName}
                             />
 
-                            <div className="min-w-0 pb-1">
-                                <div className="flex flex-wrap items-center gap-3">
-                                    <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-emerald-700">
-                                        <BadgeCheck className="h-4 w-4" />
+                            <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="inline-flex items-center gap-1.5 border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-700">
+                                        <BadgeCheck className="h-3.5 w-3.5" />
                                         Active Verified Member
                                     </span>
 
-                                    <span className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-[#C1121F]">
-                                        <Users className="h-4 w-4" />
+                                    <span className="inline-flex items-center gap-1.5 border border-red-200 bg-red-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-[#C8102E]">
+                                        <Users className="h-3.5 w-3.5" />
                                         {member.category.name}
                                     </span>
                                 </div>
 
-                                <h1 className="mt-5 break-words text-2xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl lg:text-3xl">
+                                <h1 className="mt-4 break-words text-4xl font-black leading-[1.03] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
                                     {memberName}
                                 </h1>
 
-                                <p className="mt-4 text-lg font-extrabold text-[#C1121F] sm:text-xl">
+                                <p className="mt-3 text-xl font-black text-[#C8102E]">
                                     {professionalTitle}
                                 </p>
 
                                 {member.employer ? (
-                                    <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-600 sm:text-base">
+                                    <p className="mt-2 flex items-center gap-2 text-sm font-bold text-slate-600 sm:text-base">
                                         <Building2 className="h-4 w-4 shrink-0 text-slate-400" />
                                         {member.employer}
                                     </p>
                                 ) : null}
 
-                                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-500">
+                                <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-sm font-bold text-slate-500">
                                     <span className="inline-flex items-center gap-2">
-                                        <IdCard className="h-4 w-4 text-[#C1121F]" />
+                                        <IdCard className="h-4 w-4 text-[#C8102E]" />
 
-                                        <span className="font-mono font-extrabold text-slate-800">
-                                            {
-                                                member.memberNumber
-                                            }
+                                        <span className="font-mono font-black text-slate-800">
+                                            {member.memberNumber}
                                         </span>
                                     </span>
 
                                     {member.county ? (
                                         <span className="inline-flex items-center gap-2">
-                                            <MapPin className="h-4 w-4 text-[#C1121F]" />
+                                            <MapPin className="h-4 w-4 text-[#C8102E]" />
                                             {member.county}
                                         </span>
                                     ) : null}
 
                                     <span className="inline-flex items-center gap-2">
-                                        <CalendarDays className="h-4 w-4 text-[#C1121F]" />
-                                        Member since{" "}
-                                        {formatDate(
-                                            member.joinDate,
-                                        )}
+                                        <CalendarDays className="h-4 w-4 text-[#C8102E]" />
+                                        Member since {formatDate(member.joinDate)}
                                     </span>
                                 </div>
                             </div>
                         </div>
 
                         <ProfileVerificationCard
-                            memberNumber={
-                                member.memberNumber
-                            }
-                            categoryName={
-                                member.category.name
-                            }
-                            validCertificateCount={
-                                validCertificates.length
-                            }
+                            memberNumber={member.memberNumber}
+                            categoryName={member.category.name}
+                            validCertificateCount={validCertificates.length}
                         />
                     </div>
                 </div>
             </section>
 
             {/* SUMMARY STRIP */}
-            <section className="relative z-10 -mt-7">
+            <section className="border-b border-slate-300 bg-white">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-xl shadow-slate-200/60 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid border-x border-slate-300 sm:grid-cols-2 lg:grid-cols-4">
                         <ProfileStat
                             icon={<BadgeCheck />}
                             label="Membership Category"
@@ -457,10 +433,10 @@ export default async function DirectoryProfilePage({
             </section>
 
             {/* PROFILE CONTENT */}
-            <section className="bg-slate-50/80 pb-16 pt-14 sm:pb-20 sm:pt-16">
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-                        <div className="space-y-8">
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <div className="space-y-0">
                             {/* PROFESSIONAL OVERVIEW */}
                             <ProfileSection
                                 icon={
@@ -705,7 +681,7 @@ export default async function DirectoryProfilePage({
                         </div>
 
                         {/* SIDEBAR */}
-                        <aside className="space-y-6 lg:sticky lg:top-28">
+                        <aside className="space-y-5 lg:sticky lg:top-28">
                             <ContactCard
                                 memberName={memberName}
                                 email={member.email}
@@ -730,7 +706,7 @@ export default async function DirectoryProfilePage({
                             <div className="grid gap-3">
                                 <Link
                                     href="/directory"
-                                    className="flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-sm font-extrabold text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-[#C1121F]"
+                                    className="flex min-h-12 items-center justify-center gap-2 border border-slate-300 bg-white px-5 text-sm font-extrabold text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-[#C8102E] hover:bg-red-50 hover:text-[#C8102E]"
                                 >
                                     <ArrowLeft className="h-4 w-4" />
                                     Member Directory
@@ -738,7 +714,7 @@ export default async function DirectoryProfilePage({
 
                                 <Link
                                     href="/contact"
-                                    className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100"
+                                    className="flex min-h-12 items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100"
                                 >
                                     Contact AHPK
                                     <ArrowRight className="h-4 w-4" />
@@ -750,15 +726,15 @@ export default async function DirectoryProfilePage({
             </section>
 
             {/* PROFESSIONAL DIRECTORY CTA */}
-            <section className="border-t border-slate-200 bg-white py-14 sm:py-16">
+            <section className="border-t border-slate-300 bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid overflow-hidden rounded-[28px] border border-red-100 bg-red-50/60 lg:grid-cols-[minmax(0,1fr)_330px]">
-                        <div className="p-7 sm:p-9">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C1121F] shadow-sm">
+                    <div className="grid border-t-4 border-[#C8102E] bg-slate-50 lg:grid-cols-[minmax(0,1fr)_300px]">
+                        <div className="p-5 sm:p-6">
+                            <div className="flex h-12 w-12 items-center justify-center bg-white text-[#C8102E]">
                                 <Users className="h-6 w-6" />
                             </div>
 
-                            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C1121F]">
+                            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                 AHPK professional network
                             </p>
 
@@ -776,10 +752,10 @@ export default async function DirectoryProfilePage({
                             </p>
                         </div>
 
-                        <div className="flex items-center border-t border-red-100 bg-white/70 p-7 lg:border-l lg:border-t-0">
+                        <div className="flex items-center border-t border-slate-300 bg-slate-950 p-5 lg:border-l lg:border-t-0">
                             <Link
                                 href="/directory"
-                                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-5 text-sm font-extrabold text-white transition hover:bg-red-800"
+                                className="flex min-h-12 w-full items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800"
                             >
                                 Browse Member Directory
 
@@ -804,7 +780,7 @@ function ProfileAvatar({
 }) {
     return (
         <div className="relative shrink-0">
-            <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-[30px] border-[6px] border-white bg-slate-100 shadow-2xl shadow-slate-300/60 sm:h-40 sm:w-40">
+            <div className="flex h-32 w-32 items-center justify-center overflow-hidden border-t-4 border-[#C8102E] bg-slate-100 sm:h-40 sm:w-40">
                 {imageUrl ? (
                     // Native img avoids requiring every
                     // profile-image domain in next.config.
@@ -820,7 +796,7 @@ function ProfileAvatar({
             </div>
 
             <span
-                className="absolute -bottom-2 -right-2 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white bg-emerald-600 text-white shadow-lg"
+                className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center border-4 border-white bg-emerald-600 text-white"
                 title="Verified AHPK member"
             >
                 <Check className="h-5 w-5" />
@@ -839,9 +815,9 @@ function ProfileVerificationCard({
     validCertificateCount: number;
 }) {
     return (
-        <div className="rounded-[26px] border border-emerald-200 bg-white/95 p-6 shadow-lg shadow-emerald-100/50 backdrop-blur">
+        <div className="border-t-4 border-emerald-600 bg-slate-50 p-5">
             <div className="flex items-start gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-emerald-600 text-white">
                     <ShieldCheck className="h-6 w-6" />
                 </span>
 
@@ -862,7 +838,7 @@ function ProfileVerificationCard({
                 </div>
             </div>
 
-            <div className="mt-5 space-y-3 border-t border-slate-200 pt-5">
+            <div className="mt-5 space-y-3 border-t border-slate-300 pt-5">
                 <CompactDetail
                     label="Member Number"
                     value={memberNumber}
@@ -899,13 +875,13 @@ function ProfileStat({
     return (
         <div
             className={[
-                "flex items-center gap-4 p-5 sm:p-6",
+                "group flex items-center gap-3 p-4 transition hover:bg-red-50/60 sm:p-5",
                 !last
-                    ? "border-b border-slate-200 sm:border-b-0 sm:border-r"
+                    ? "border-b border-slate-300 sm:border-b-0 sm:border-r"
                     : "",
             ].join(" ")}
         >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-[#C1121F] [&>svg]:h-5 [&>svg]:w-5">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white transition group-hover:bg-[#C8102E] [&>svg]:h-5 [&>svg]:w-5">
                 {icon}
             </span>
 
@@ -924,7 +900,7 @@ function ProfileStat({
 function PageHeader() {
     return (
         <header
-            className="sticky top-0 z-[60] border-b border-slate-200 bg-white/95 backdrop-blur-xl"
+            className="sticky top-0 z-[60] border-b border-slate-300 bg-white/95 backdrop-blur-xl"
             style={
                 {
                     "--header-height": "88px",
@@ -968,15 +944,15 @@ function ProfileSection({
     children: ReactNode;
 }) {
     return (
-        <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
-            <header className="flex flex-col gap-4 border-b border-slate-200 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <section className="border-t border-slate-300 py-8 first:border-t-4 first:border-[#C8102E] first:pt-4">
+            <header className="flex flex-col gap-4 border-b border-slate-300 pb-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F] [&>svg]:h-6 [&>svg]:w-6">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white [&>svg]:h-5 [&>svg]:w-5">
                         {icon}
                     </span>
 
                     <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C1121F]">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
                             {eyebrow}
                         </p>
 
@@ -987,14 +963,14 @@ function ProfileSection({
                 </div>
 
                 {typeof count === "number" ? (
-                    <span className="inline-flex w-fit items-center rounded-full bg-slate-100 px-3 py-1.5 text-xs font-extrabold text-slate-600">
+                    <span className="inline-flex w-fit items-center bg-slate-100 px-3 py-1.5 text-xs font-extrabold text-slate-600">
                         {count} record
                         {count === 1 ? "" : "s"}
                     </span>
                 ) : null}
             </header>
 
-            <div className="p-6 sm:p-8">
+            <div className="pt-5">
                 {children}
             </div>
         </section>
@@ -1011,8 +987,8 @@ function OverviewItem({
     value: string;
 }) {
     return (
-        <div className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#C1121F] shadow-sm [&>svg]:h-4 [&>svg]:w-4">
+        <div className="group flex items-start gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/50 sm:px-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-slate-950 text-white transition group-hover:bg-[#C8102E] [&>svg]:h-4 [&>svg]:w-4">
                 {icon}
             </span>
 
@@ -1044,12 +1020,12 @@ function TimelineItem({
     first?: boolean;
 }) {
     return (
-        <article className="relative flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:border-0 sm:bg-transparent sm:p-0">
-            <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-100 bg-white text-[#C1121F] shadow-sm [&>svg]:h-4 [&>svg]:w-4">
+        <article className="group relative flex gap-4 border-b border-slate-300 py-5">
+            <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white transition group-hover:bg-[#C8102E] [&>svg]:h-4 [&>svg]:w-4">
                 {icon}
             </span>
 
-            <div className="min-w-0 flex-1 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="min-w-0 flex-1">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                         <h3 className="text-base font-extrabold text-slate-950">
@@ -1063,7 +1039,7 @@ function TimelineItem({
                     </div>
 
                     {current ? (
-                        <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-black uppercase tracking-wide text-emerald-700">
+                        <span className="inline-flex w-fit items-center gap-1.5 bg-emerald-100 px-3 py-1 text-[10px] font-black uppercase tracking-wide text-emerald-700">
                             <CheckCircle2 className="h-3.5 w-3.5" />
                             Current
                         </span>
@@ -1071,7 +1047,7 @@ function TimelineItem({
                 </div>
 
                 <p className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-slate-500">
-                    <CalendarDays className="h-4 w-4 text-[#C1121F]" />
+                    <CalendarDays className="h-4 w-4 text-[#C8102E]" />
                     {period}
                 </p>
             </div>
@@ -1091,9 +1067,9 @@ function EducationCard({
     achievement?: string | null;
 }) {
     return (
-        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <article className="group border-b border-slate-300 py-5">
             <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#C1121F] shadow-sm">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-white text-[#C8102E]">
                     <GraduationCap className="h-5 w-5" />
                 </span>
 
@@ -1111,14 +1087,14 @@ function EducationCard({
                         </div>
 
                         {year ? (
-                            <span className="inline-flex w-fit items-center rounded-full bg-white px-3 py-1 text-xs font-extrabold text-slate-600 shadow-sm">
+                            <span className="inline-flex w-fit items-center bg-white px-3 py-1 text-xs font-extrabold text-slate-600">
                                 {year}
                             </span>
                         ) : null}
                     </div>
 
                     {achievement ? (
-                        <div className="mt-4 rounded-xl border border-slate-200 bg-white px-4 py-3">
+                        <div className="mt-4 border border-slate-300 bg-white px-4 py-3">
                             <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
                                 Achievement
                             </p>
@@ -1150,7 +1126,7 @@ function CertificateCard({
     return (
         <article
             className={[
-                "rounded-2xl border p-5",
+                "border-l-4 p-5",
                 expired
                     ? "border-amber-200 bg-amber-50/70"
                     : "border-emerald-200 bg-emerald-50/60",
@@ -1160,7 +1136,7 @@ function CertificateCard({
                 <div className="flex items-start gap-4">
                     <span
                         className={[
-                            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm",
+                            "flex h-11 w-11 shrink-0 items-center justify-center  bg-white ",
                             expired
                                 ? "text-amber-700"
                                 : "text-emerald-700",
@@ -1203,7 +1179,7 @@ function CertificateCard({
 
                 <span
                     className={[
-                        "inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide",
+                        "inline-flex w-fit items-center gap-1.5  px-3 py-1.5 text-[10px] font-black uppercase tracking-wide",
                         expired
                             ? "bg-amber-100 text-amber-800"
                             : "bg-emerald-100 text-emerald-700",
@@ -1234,7 +1210,7 @@ function CertificateCard({
                     href={`/verify/${encodeURIComponent(
                         verificationCode,
                     )}`}
-                    className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-xs font-extrabold text-[#C1121F] shadow-sm transition hover:bg-red-50"
+                    className="inline-flex min-h-10 items-center justify-center gap-2 bg-white px-4 text-xs font-extrabold text-[#C8102E] transition hover:bg-red-50"
                 >
                     Verify Certificate
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -1257,9 +1233,9 @@ function ContactCard({
         Boolean(email) || Boolean(phone);
 
     return (
-        <section className="overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-sm">
-            <header className="border-b border-slate-200 bg-slate-50 px-6 py-5">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C1121F]">
+        <section className="border-t border-slate-300 py-8 first:border-t-4 first:border-[#C8102E] first:pt-4">
+            <header className="border-b border-slate-300 py-3">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
                     Professional contact
                 </p>
 
@@ -1268,7 +1244,7 @@ function ContactCard({
                 </h2>
             </header>
 
-            <div className="p-6">
+            <div className="py-5">
                 {hasContact ? (
                     <div className="space-y-3">
                         {email ? (
@@ -1290,7 +1266,7 @@ function ContactCard({
                         ) : null}
                     </div>
                 ) : (
-                    <div className="rounded-2xl bg-slate-50 p-5 text-center">
+                    <div className="bg-slate-50 p-5 text-center">
                         <Mail className="mx-auto h-6 w-6 text-slate-300" />
 
                         <p className="mt-3 text-sm font-extrabold text-slate-700">
@@ -1328,9 +1304,9 @@ function ContactItem({
     return (
         <a
             href={href}
-            className="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-red-100 hover:bg-red-50"
+            className="group flex items-start gap-3 border border-slate-300 bg-slate-50 p-4 transition hover:border-red-200 hover:bg-red-50"
         >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#C1121F] shadow-sm [&>svg]:h-4 [&>svg]:w-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-slate-950 text-white transition group-hover:bg-[#C8102E] [&>svg]:h-4 [&>svg]:w-4">
                 {icon}
             </span>
 
@@ -1344,7 +1320,7 @@ function ContactItem({
                 </p>
             </div>
 
-            <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-slate-300 transition group-hover:text-[#C1121F]" />
+            <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-slate-300 transition group-hover:text-[#C8102E]" />
         </a>
     );
 }
@@ -1361,14 +1337,14 @@ function MembershipCard({
     joinDate: Date;
 }) {
     return (
-        <section className="rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
             <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C1121F]">
+                <span className="flex h-11 w-11 items-center justify-center bg-red-50 text-[#C8102E]">
                     <IdCard className="h-5 w-5" />
                 </span>
 
                 <div>
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#C1121F]">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#C8102E]">
                         Membership record
                     </p>
 
@@ -1411,8 +1387,8 @@ function MembershipCard({
 
 function VerificationNotice() {
     return (
-        <section className="rounded-[26px] border border-red-100 bg-red-50/70 p-6">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#C1121F] shadow-sm">
+        <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+            <div className="flex h-11 w-11 items-center justify-center bg-white text-[#C8102E]">
                 <ShieldCheck className="h-5 w-5" />
             </div>
 
@@ -1429,7 +1405,7 @@ function VerificationNotice() {
 
             <Link
                 href="/contact"
-                className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C1121F]"
+                className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
             >
                 Request additional verification
                 <ChevronRight className="h-4 w-4" />
@@ -1508,8 +1484,8 @@ function EmptyState({
     description: string;
 }) {
     return (
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center">
-            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-slate-300 shadow-sm [&>svg]:h-6 [&>svg]:w-6">
+        <div className="border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center">
+            <span className="mx-auto flex h-12 w-12 items-center justify-center bg-white text-slate-300 [&>svg]:h-6 [&>svg]:w-6">
                 {icon}
             </span>
 
@@ -1536,7 +1512,7 @@ function ProfileBreadcrumb({
         >
             <Link
                 href="/"
-                className="inline-flex items-center gap-2 transition hover:text-[#C1121F]"
+                className="inline-flex items-center gap-2 transition hover:text-[#C8102E]"
             >
                 <Home className="h-4 w-4" />
                 Home
@@ -1546,7 +1522,7 @@ function ProfileBreadcrumb({
 
             <Link
                 href="/directory"
-                className="transition hover:text-[#C1121F]"
+                className="transition hover:text-[#C8102E]"
             >
                 Member Directory
             </Link>
@@ -1555,7 +1531,7 @@ function ProfileBreadcrumb({
 
             <span
                 aria-current="page"
-                className="max-w-[220px] truncate text-[#C1121F] sm:max-w-md"
+                className="max-w-[220px] truncate text-[#C8102E] sm:max-w-md"
             >
                 {memberName}
             </span>

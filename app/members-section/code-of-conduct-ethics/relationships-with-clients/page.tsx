@@ -139,6 +139,7 @@ const independenceStandards = [
     },
 ];
 
+
 export default function RelationshipsWithClientsPage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -168,225 +169,318 @@ export default function RelationshipsWithClientsPage() {
 
             <PageHeader />
 
-            {/* PAGE HERO */}
-            <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
-                <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-                    <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-slate-200/70 blur-3xl" />
-                </div>
-
-                <div className="relative mx-auto max-w-7xl px-5 pb-14 pt-10 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20 lg:pt-14">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="mt-10 grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-                        <div>
-                            <p className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-[#C8102E] shadow-sm">
-                                <Scale className="h-4 w-4" />
-                                Code of Conduct &amp; Ethics
-                            </p>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            Code of Conduct &amp; Ethics
+                        </p>
 
-                            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                                Relationships
-                                <span className="block text-[#C8102E]">
-                                    with Clients
-                                </span>
-                            </h1>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Relationships
+                            <span className="block text-[#C8102E]">
+                                with Clients
+                            </span>
+                        </h1>
 
-                            <p className="mt-6 max-w-3xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
-                                Professional standards that guide AHPK
-                                members in maintaining ethical,
-                                independent and responsible
-                                relationships with clients.
-                            </p>
-                        </div>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            Professional standards that guide
+                            AHPK members in maintaining ethical,
+                            independent, confidential and
+                            responsible relationships with clients.
+                        </p>
 
-                        <div className="relative">
-                            <div className="relative overflow-hidden rounded-[28px] border border-white bg-white p-3 shadow-xl">
-                                <img
-                                    src="/executive-committee.webp"
-                                    alt="AHPK client relationship standards"
-                                    className="h-[320px] w-full rounded-[22px] object-cover sm:h-[380px]"
-                                />
-
-                                <div className="absolute bottom-7 left-7 right-7 rounded-2xl border border-white/60 bg-white/90 p-5 shadow-lg backdrop-blur-xl">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                        Ethical client service
-                                    </p>
-
-                                    <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
-                                        Relationships founded on
-                                        confidentiality, independence,
-                                        objectivity and integrity.
-                                    </p>
-                                </div>
-                            </div>
+                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+                            <span>Confidentiality</span>
+                            <span>Independence</span>
+                            <span>Objectivity</span>
+                            <span>Integrity</span>
+                            <span>Trust</span>
                         </div>
                     </div>
                 </div>
             </section>
 
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/business_handshake.webp"
+                                alt="AHPK professionals demonstrating ethical client relationships"
+                                className="h-full w-full object-cover object-center transition duration-700 hover:scale-[1.01]"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-300 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            Strong client relationships are built
+                            on confidentiality, honest advice,
+                            independent judgement and professional
+                            integrity.
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+
             {/* MAIN CONTENT */}
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-12">
-                            <div
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* INTRODUCTION */}
+                            <section
                                 id="client-relationships"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                    <Users
-                                        className="h-7 w-7"
-                                        aria-hidden="true"
-                                    />
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                        <Users
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+                                            Client Responsibility
+                                        </p>
+
+                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            Relationships with Clients
+                                        </h2>
+                                    </div>
                                 </div>
 
-                                <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                    Client responsibility
+                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                    A member of AHPK must not accept
+                                    any assignment or engage in any
+                                    practice involving a violation
+                                    of the law, this Code or the
+                                    member&apos;s specific ethical
+                                    responsibilities. A member must
+                                    immediately withdraw if such a
+                                    violation is identified.
+                                </blockquote>
+                            </section>
+
+                            {/* GENERAL RESPONSIBILITIES */}
+                            <section
+                                id="general-responsibilities"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                            >
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Section A
                                 </p>
 
-                                <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                    Relationships with Clients
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    General Responsibilities
                                 </h2>
 
-                                <div className="mt-7 rounded-2xl border border-red-100 bg-red-50/70 p-6">
-                                    <p className="text-base font-bold leading-8 text-slate-800 sm:text-lg">
-                                        A member of AHPK must not
-                                        accept any assignment or engage
-                                        in any practice involving a
-                                        violation of the law, this Code
-                                        or the member’s specific ethical
-                                        responsibilities. A member must
-                                        immediately withdraw from any
-                                        assignment if such a violation
-                                        is identified.
-                                    </p>
+                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                    Members should understand the
+                                    client&apos;s needs, preserve
+                                    confidentiality, offer honest
+                                    advice and avoid unrealistic
+                                    promises.
+                                </p>
+
+                                <div className="mt-5 border-t border-slate-300">
+                                    {generalResponsibilities.map(
+                                        (item, index) => (
+                                            <StandardItem
+                                                key={item.title}
+                                                number={index + 1}
+                                                title={item.title}
+                                                description={
+                                                    item.description
+                                                }
+                                            />
+                                        ),
+                                    )}
                                 </div>
+                            </section>
 
-                                <section
-                                    id="general-responsibilities"
-                                    className="mt-10 scroll-mt-28"
-                                >
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Section A
-                                    </p>
+                            {/* INDEPENDENCE */}
+                            <section
+                                id="independence-objectivity-integrity"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                            >
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Section B
+                                </p>
 
-                                    <h3 className="mt-2 text-2xl font-extrabold text-slate-950">
-                                        General Responsibilities
-                                    </h3>
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    Independence, Objectivity and Integrity
+                                </h2>
 
-                                    <div className="mt-6 space-y-5">
-                                        {generalResponsibilities.map(
-                                            (item, index) => (
-                                                <StandardItem
-                                                    key={item.title}
-                                                    number={index + 1}
-                                                    title={item.title}
-                                                    description={
-                                                        item.description
-                                                    }
-                                                />
-                                            ),
-                                        )}
-                                    </div>
-                                </section>
+                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                    Members must preserve impartial
+                                    judgement, disclose conflicts,
+                                    operate with proper authority
+                                    and protect professional
+                                    credibility.
+                                </p>
 
-                                <section
-                                    id="independence-objectivity-integrity"
-                                    className="mt-14 scroll-mt-28 border-t border-slate-200 pt-10"
-                                >
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Section B
-                                    </p>
+                                <div className="mt-5 border-t border-slate-300">
+                                    {independenceStandards.map(
+                                        (item, index) => (
+                                            <StandardItem
+                                                key={item.title}
+                                                number={index + 5}
+                                                title={item.title}
+                                                description={
+                                                    item.description
+                                                }
+                                            />
+                                        ),
+                                    )}
+                                </div>
+                            </section>
 
-                                    <h3 className="mt-2 text-2xl font-extrabold text-slate-950">
-                                        Independence, Objectivity and
-                                        Integrity
-                                    </h3>
+                            {/* CORE CLIENT PRINCIPLES */}
+                            <section className="border-t border-slate-300 py-8">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Core Client Principles
+                                </p>
 
-                                    <div className="mt-6 space-y-5">
-                                        {independenceStandards.map(
-                                            (item, index) => (
-                                                <StandardItem
-                                                    key={item.title}
-                                                    number={index + 5}
-                                                    title={item.title}
-                                                    description={
-                                                        item.description
-                                                    }
-                                                />
-                                            ),
-                                        )}
-                                    </div>
-                                </section>
-                            </div>
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    Foundations of professional trust
+                                </h2>
+
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                    <PrincipleItem
+                                        number="01"
+                                        title="Confidentiality"
+                                        description="Client and employer information must remain private unless the client has authorised its release."
+                                    />
+
+                                    <PrincipleItem
+                                        number="02"
+                                        title="Objectivity"
+                                        description="Professional advice should be based on facts, responsible opinion and impartial judgement."
+                                    />
+
+                                    <PrincipleItem
+                                        number="03"
+                                        title="Disclosure"
+                                        description="Conflicts, limitations and material concerns should be communicated clearly and in writing."
+                                    />
+
+                                    <PrincipleItem
+                                        number="04"
+                                        title="Authority"
+                                        description="Members should only act, contract or make payments where proper authority has been granted."
+                                    />
+                                </div>
+                            </section>
+
+                            {/* CONTINUE READING */}
+                            <section className="border-t border-slate-300 pt-5">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Continue Reading
+                                </p>
+
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/members-section/code-of-conduct-ethics/professional-attitude-behavior"
+                                        eyebrow="Previous Section"
+                                        title="Professional Attitude & Behavior"
+                                        direction="left"
+                                    />
+
+                                    <RelatedPageLink
+                                        href="/members-section/code-of-conduct-ethics"
+                                        eyebrow="Code Index"
+                                        title="Code of Conduct & Ethics"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
                         </article>
 
-                        {/* SIDE PANEL */}
+                        {/* EDITORIAL SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                                        On this page
+                            <section className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        On This Page
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Client Standards
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
-                                    <Link
+                                <nav
+                                    aria-label="Client standards page navigation"
+                                    className="divide-y divide-slate-200"
+                                >
+                                    <SidebarLink
                                         href="#client-relationships"
-                                        className="group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                                    >
-                                        Introduction
-                                        <ChevronRight className="h-4 w-4" />
-                                    </Link>
+                                        label="Introduction"
+                                        active
+                                    />
 
-                                    <Link
+                                    <SidebarLink
                                         href="#general-responsibilities"
-                                        className="group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-                                    >
-                                        General Responsibilities
-                                        <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]" />
-                                    </Link>
+                                        label="General Responsibilities"
+                                    />
 
-                                    <Link
+                                    <SidebarLink
                                         href="#independence-objectivity-integrity"
-                                        className="group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-                                    >
-                                        Independence &amp; Integrity
-                                        <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]" />
-                                    </Link>
+                                        label="Independence & Integrity"
+                                    />
                                 </nav>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
-                                <ShieldCheck
-                                    className="h-8 w-8 text-[#C8102E]"
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                                <Scale
+                                    className="h-6 w-6 text-[#C8102E]"
                                     aria-hidden="true"
                                 />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
+                                    Independent Judgement
+                                </h2>
+
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    Professional advice should
+                                    remain impartial, evidence-based
+                                    and free from undisclosed
+                                    conflicts of interest.
+                                </p>
+                            </section>
+
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <ShieldCheck
+                                    className="h-6 w-6 text-red-300"
+                                    aria-hidden="true"
+                                />
+
+                                <h2 className="mt-2 text-xl font-black">
                                     Professional Conduct
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Ethical relationships with clients
-                                    strengthen trust, integrity and
-                                    professional confidence within the
-                                    hospitality industry.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Ethical relationships with
+                                    clients strengthen trust,
+                                    integrity and professional
+                                    confidence within hospitality.
                                 </p>
 
                                 <Link
                                     href="/members-section/code-of-conduct-ethics"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                                    className="group mt-4 inline-flex items-center gap-2 text-sm font-black text-red-300 transition hover:text-white"
                                 >
                                     View Full Code
-                                    <ArrowRight className="h-4 w-4" />
+
+                                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Link>
-                            </div>
+                            </section>
                         </aside>
                     </div>
                 </div>
@@ -407,27 +501,127 @@ function StandardItem({
     description: string;
 }) {
     return (
-        <article className="rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <div className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-sm font-black text-[#C8102E]">
-                    {String(number).padStart(2, "0")}
-                </div>
+        <article className="group grid gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start">
+            <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
+                {String(number).padStart(2, "0")}
+            </p>
 
-                <div>
-                    <div className="flex items-start gap-3">
-                        <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[#C8102E]" />
+            <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
+                <CheckCircle2 className="h-4 w-4" />
+            </div>
 
-                        <h4 className="text-lg font-extrabold leading-tight text-slate-950">
-                            {title}
-                        </h4>
-                    </div>
+            <div>
+                <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
 
-                    <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                        {description}
-                    </p>
-                </div>
+                <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
+                    {description}
+                </p>
             </div>
         </article>
+    );
+}
+
+function PrincipleItem({
+    number,
+    title,
+    description,
+}: {
+    number: string;
+    title: string;
+    description: string;
+}) {
+    return (
+        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                {title}
+            </h3>
+
+            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+                {description}
+            </p>
+        </article>
+    );
+}
+
+function SidebarLink({
+    href,
+    label,
+    active = false,
+}: {
+    href: string;
+    label: string;
+    active?: boolean;
+}) {
+    return (
+        <Link
+            href={href}
+            className={[
+                "group flex items-center justify-between gap-3 py-3 text-sm font-bold transition",
+                active
+                    ? "text-[#C8102E]"
+                    : "text-slate-700 hover:translate-x-0.5 hover:text-[#C8102E]",
+            ].join(" ")}
+        >
+            {label}
+
+            <ChevronRight
+                className={[
+                    "h-4 w-4 shrink-0 transition",
+                    active
+                        ? "text-[#C8102E]"
+                        : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-[#C8102E]",
+                ].join(" ")}
+            />
+        </Link>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+    direction,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" ? (
+                <ArrowRight className="h-5 w-5 shrink-0 rotate-180 text-[#C8102E] transition group-hover:-translate-x-1" />
+            ) : null}
+
+            <div
+                className={
+                    direction === "right"
+                        ? "ml-auto text-right"
+                        : ""
+                }
+            >
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" ? (
+                <ChevronRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            ) : null}
+        </Link>
     );
 }
 

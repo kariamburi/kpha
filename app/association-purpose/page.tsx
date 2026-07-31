@@ -161,6 +161,7 @@ const sidebarItems = [
     ["#membership", "Apply for Membership"],
 ] as const;
 
+
 export default function AssociationPurposePage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -181,7 +182,9 @@ export default function AssociationPurposePage() {
 
             <PageHeader />
 
-            <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
+            {/* EDITORIAL MASTHEAD */}
+            {/* EDITORIAL HERO */}
+            <section className="border-b border-slate-300">
                 <div className="absolute inset-0 -z-30">
                     <img
                         src="/association-purpose-hero.webp"
@@ -190,100 +193,105 @@ export default function AssociationPurposePage() {
                         className="h-full w-full object-cover object-center lg:object-right"
                     />
                 </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_31%,rgba(255,255,255,0.98)_43%,rgba(255,255,255,0.9)_56%,rgba(255,255,255,0.62)_71%,rgba(255,255,255,0.2)_88%,rgba(255,255,255,0)_100%)] lg:block" />
-
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.95)_58%,rgba(255,255,255,0.76)_80%,rgba(255,255,255,0.42)_100%)] lg:hidden" />
-
-                <div className="pointer-events-none absolute -left-28 top-4 -z-10 h-96 w-96 rounded-full bg-red-100/70 blur-3xl" />
-
-                <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-                        <div className="max-w-3xl lg:w-[60%]">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                                    <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </div>
-
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                                        Association
-                                    </p>
-
-                                    <p className="mt-1 text-sm font-semibold text-slate-500">
-                                        Purpose & Advocacy
-                                    </p>
-                                </div>
-                            </div>
-
-                            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
+                    <div className="mt-5 grid items-center gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
+                        {/* LEFT CONTENT */}
+                        <div className="max-w-2xl">
+                            <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                 Association
-                                <span className="mt-2 block text-[#C8102E]">
-                                    Purpose
-                                </span>
+                            </p>
+
+                            <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                                Association Purpose
                             </h1>
 
-                            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
+                            <p className="mt-4 text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
                                 Promoting professional standards, ethical
                                 practice, industry advocacy and collaboration
-                                within the hotel and hospitality profession.
+                                within Kenya&apos;s hotel and hospitality
+                                profession.
                             </p>
+
+                            <div className="mt-5 flex flex-wrap gap-3">
+                                <Link
+                                    href="#purpose"
+                                    className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
+                                >
+                                    Read Our Purpose
+
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+
+                                <Link
+                                    href="/members-section/constitution-rules/membership"
+                                    className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                                >
+                                    Explore Membership
+                                </Link>
+                            </div>
                         </div>
+
+                        {/* RIGHT IMAGE */}
+                        <figure>
+                            <div className="aspect-[16/8] overflow-hidden bg-slate-100">
+                                <img
+                                    src="/ahpk_office_scene.webp"
+                                    alt="Professional standards and advocacy represented by AHPK"
+                                    className="h-full w-full object-cover object-right"
+                                />
+                            </div>
+
+                            <figcaption className="border-b border-slate-200 py-2 text-xs font-semibold leading-5 text-slate-500">
+                                AHPK advances professional standards, member
+                                welfare, hospitality education and responsible
+                                industry representation.
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
-
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
             </section>
 
-            <section className="bg-white py-14 sm:py-18">
+            {/* MAIN CONTENT */}
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_290px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* PURPOSE */}
                             <section
                                 id="purpose"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
                                 <SectionHeading
                                     eyebrow="Association Purpose"
-                                    title="The purpose of the Association is to:"
+                                    title="The purpose of the Association"
                                     icon={Landmark}
                                 />
 
-                                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                                    {purposeItems.map((item) => {
-                                        const Icon = item.icon;
+                                <p className="mt-4 max-w-3xl text-[17px] leading-8 text-slate-700">
+                                    AHPK exists to promote
+                                    professionalism, ethical practice,
+                                    member welfare, education and
+                                    appropriate regulation throughout
+                                    the hospitality profession.
+                                </p>
 
-                                        return (
-                                            <div
-                                                key={item.title}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-5 transition hover:border-red-200 hover:bg-red-50/40"
-                                            >
-                                                <div className="flex items-start gap-4">
-                                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                                        <Icon className="h-5 w-5" />
-                                                    </div>
-
-                                                    <div>
-                                                        <h3 className="text-base font-extrabold text-slate-950">
-                                                            {item.title}
-                                                        </h3>
-
-                                                        <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
-                                                            {item.description}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                <div className="mt-5 border-t border-slate-300">
+                                    {purposeItems.map((item, index) => (
+                                        <PurposeRow
+                                            key={item.title}
+                                            item={item}
+                                            number={index + 1}
+                                        />
+                                    ))}
                                 </div>
                             </section>
 
+                            {/* ADVOCACY */}
                             <section
                                 id="advocacy"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
                                     eyebrow="Association Advocacy"
@@ -291,138 +299,169 @@ export default function AssociationPurposePage() {
                                     icon={Handshake}
                                 />
 
-                                <p className="mt-6 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                                    AHPK hopes to develop, advance and implement
-                                    the objectives of the hotel industry through
-                                    professional leadership, public advocacy and
+                                <p className="mt-4 max-w-3xl text-[17px] leading-8 text-slate-700">
+                                    AHPK develops, advances and
+                                    implements the objectives of the
+                                    hotel industry through
+                                    professional leadership, public
+                                    advocacy and institutional
                                     collaboration.
                                 </p>
 
-                                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                                    {advocacyItems.map((item) => {
-                                        const Icon = item.icon;
-
-                                        return (
-                                            <div
-                                                key={item.title}
-                                                className="rounded-[22px] border border-slate-200 bg-slate-50 p-5"
-                                            >
-                                                <div className="flex items-start gap-4">
-                                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#C8102E] shadow-sm">
-                                                        <Icon className="h-5 w-5" />
-                                                    </div>
-
-                                                    <div>
-                                                        <h3 className="text-base font-extrabold text-slate-950">
-                                                            {item.title}
-                                                        </h3>
-
-                                                        <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
-                                                            {item.description}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                <div className="mt-5 border-t border-slate-300">
+                                    {advocacyItems.map((item, index) => (
+                                        <PurposeRow
+                                            key={item.title}
+                                            item={item}
+                                            number={index + 1}
+                                        />
+                                    ))}
                                 </div>
                             </section>
 
+                            {/* MEMBERSHIP */}
                             <section
                                 id="membership"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[26px] bg-slate-950 p-7 text-white sm:p-9">
+                                <div className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white sm:p-6">
                                     <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
                                         Join AHPK
                                     </p>
 
-                                    <h2 className="mt-3 max-w-2xl text-2xl font-extrabold sm:text-3xl">
-                                        Join the Association Driving Hospitality
-                                        Excellence
+                                    <h2 className="mt-2 max-w-2xl text-2xl font-black leading-tight sm:text-3xl">
+                                        Join the Association driving
+                                        hospitality excellence
                                     </h2>
 
-                                    <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/75 sm:text-base">
-                                        Become part of Kenya&apos;s professional
-                                        hospitality community and contribute to
-                                        the advancement of professional standards
-                                        and industry development.
+                                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
+                                        Become part of Kenya&apos;s
+                                        professional hospitality
+                                        community and contribute to
+                                        stronger standards and
+                                        industry development.
                                     </p>
 
                                     <Link
                                         href="/apply"
-                                        className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white transition hover:bg-[#a70d27]"
+                                        className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
                                     >
                                         Apply for Membership
+
                                         <ArrowRight className="h-4 w-4" />
                                     </Link>
                                 </div>
                             </section>
 
-                            <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-                                <Link
-                                    href="/about/corporate-statement"
-                                    className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                            {/* PREVIOUS / NEXT */}
+                            <section className="border-t border-slate-300 pt-5">
+                                <SectionLabel>
+                                    Continue Reading
+                                </SectionLabel>
 
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Previous
-                                        </span>
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/about/corporate-statements"
+                                        eyebrow="Previous"
+                                        title="Corporate Statements"
+                                        direction="left"
+                                    />
 
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Corporate Statements
-                                        </span>
-                                    </span>
-                                </Link>
-
-                                <Link
-                                    href="/about/who-we-are"
-                                    className="group flex min-h-24 items-center justify-end gap-4 rounded-2xl border border-slate-200 p-5 text-right transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Next
-                                        </span>
-
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Who We Are
-                                        </span>
-                                    </span>
-
-                                    <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                </Link>
-                            </div>
+                                    <RelatedPageLink
+                                        href="/about/who-we-are"
+                                        eyebrow="Next"
+                                        title="Who We Are"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
                         </article>
 
-                        <aside className="lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
+                        {/* SIDEBAR */}
+                        <aside className="space-y-5 lg:sticky lg:top-28">
+                            <div className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                         On this page
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Association Purpose
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
-                                    {sidebarItems.map(([href, label], index) => (
-                                        <SidebarLink
+                                <nav
+                                    aria-label="Association purpose navigation"
+                                    className="divide-y divide-slate-200"
+                                >
+                                    {sidebarItems.map(([href, label]) => (
+                                        <ArticleSideLink
                                             key={href}
                                             href={href}
                                             label={label}
-                                            active={index === 0}
                                         />
                                     ))}
                                 </nav>
                             </div>
+
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                                <ShieldCheck
+                                    className="h-6 w-6 text-[#C8102E]"
+                                    aria-hidden="true"
+                                />
+
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
+                                    Professional standards
+                                </h2>
+
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    AHPK promotes ethical practice,
+                                    professional recognition,
+                                    education and responsible
+                                    regulation within hospitality.
+                                </p>
+
+                                <Link
+                                    href="/about/corporate-statements"
+                                    className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]"
+                                >
+                                    Corporate Statements
+
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                            </section>
+
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                    Membership
+                                </p>
+
+                                <h2 className="mt-2 text-xl font-black">
+                                    Join the AHPK community
+                                </h2>
+
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Access professional recognition,
+                                    development opportunities,
+                                    industry networking and member
+                                    services.
+                                </p>
+
+                                <Link
+                                    href="/apply"
+                                    className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-black text-white transition hover:bg-red-700"
+                                >
+                                    Apply for Membership
+
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                            </section>
                         </aside>
                     </div>
                 </div>
             </section>
+
+
 
             <PublicFooter />
         </main>
@@ -439,50 +478,119 @@ function SectionHeading({
     icon: typeof Landmark;
 }) {
     return (
-        <div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
+        <div className="flex items-start gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
                 <Icon className="h-5 w-5" />
             </div>
 
-            <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                {eyebrow}
-            </p>
+            <div>
+                <SectionLabel>{eyebrow}</SectionLabel>
 
-            <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                {title}
-            </h2>
+                <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                    {title}
+                </h2>
+            </div>
         </div>
     );
 }
 
-function SidebarLink({
+function PurposeRow({
+    item,
+    number,
+}: {
+    item: (typeof purposeItems)[number] | (typeof advocacyItems)[number];
+    number: number;
+}) {
+    const Icon = item.icon;
+
+    return (
+        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_48px_minmax(0,1fr)] sm:items-start">
+            <p className="text-3xl font-black leading-none text-slate-300">
+                {String(number).padStart(2, "0")}
+            </p>
+
+            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white">
+                <Icon className="h-5 w-5" />
+            </div>
+
+            <div>
+                <h3 className="text-xl font-black text-slate-950">
+                    {item.title}
+                </h3>
+
+                <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                    {item.description}
+                </p>
+            </div>
+        </article>
+    );
+}
+
+function RelatedPageLink({
     href,
-    label,
-    active = false,
+    eyebrow,
+    title,
+    direction,
 }: {
     href: string;
-    label: string;
-    active?: boolean;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
 }) {
     return (
         <Link
             href={href}
-            className={
-                active
-                    ? "group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                    : "group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-            }
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" && (
+                <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
+            )}
+
+            <div className={direction === "right" ? "ml-auto text-right" : ""}>
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" && (
+                <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            )}
+        </Link>
+    );
+}
+
+function ArticleSideLink({
+    href,
+    label,
+}: {
+    href: string;
+    label: string;
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex items-center justify-between gap-3 py-3 text-sm font-bold text-slate-700 transition hover:text-[#C8102E]"
         >
             {label}
 
-            <ChevronRight
-                className={
-                    active
-                        ? "h-4 w-4"
-                        : "h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]"
-                }
-            />
+            <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C8102E]" />
         </Link>
+    );
+}
+
+function SectionLabel({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+            {children}
+        </p>
     );
 }
 
@@ -515,6 +623,8 @@ function AssociationPurposeJsonLd() {
         />
     );
 }
+
+
 
 function PageHeader() {
     return (
@@ -561,12 +671,16 @@ function Breadcrumb() {
                 className="inline-flex items-center gap-2 transition hover:text-[#C8102E]"
             >
                 <Home className="h-4 w-4" />
+
                 Home
             </Link>
 
             <ChevronRight className="h-4 w-4 text-slate-300" />
 
-            <span className="text-[#C8102E]" aria-current="page">
+            <span
+                className="text-[#C8102E]"
+                aria-current="page"
+            >
                 Association Purpose
             </span>
         </nav>

@@ -25,6 +25,7 @@ import PublicFooter from "@/app/components/public/PublicFooter";
 import { DesktopNavigation } from "@/app/components/site/desktop-navigation";
 import { dateText, excerpt } from "@/app/lib/public-content";
 import { prisma } from "@/lib/prisma";
+import NewsCarousel from "@/app/components/public/NewsCarousel";
 
 type NewsDetailsPageProps = {
   params: Promise<{
@@ -141,29 +142,28 @@ export default async function NewsDetailsPage({
     notFound();
   }
 
-  const relatedPosts =
-    await prisma.newsPost.findMany({
-      where: {
-        published: true,
+  const relatedPosts = await prisma.newsPost.findMany({
+    where: {
+      published: true,
 
-        id: {
-          not: post.id,
-        },
-
-        category: post.category,
+      id: {
+        not: post.id,
       },
 
-      orderBy: [
-        {
-          publishedAt: "desc",
-        },
-        {
-          createdAt: "desc",
-        },
-      ],
+      category: post.category,
+    },
 
-      take: 3,
-    });
+    orderBy: [
+      {
+        publishedAt: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
+
+    take: 12,
+  });
 
   const publishedDate =
     post.publishedAt || post.createdAt;
@@ -181,87 +181,228 @@ export default async function NewsDetailsPage({
 
       <PageHeader />
 
-      {/* Article masthead */}
-      <ArticleMasthead
-        title={post.title}
-        articleExcerpt={articleExcerpt}
-        category={post.category}
-        publishedDate={publishedDate}
-      />
+      {/* NEWS SECTION BAR */}
+      <div className="border-b border-slate-300 bg-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="flex min-h-14 items-center justify-between gap-5">
+            <Link
+              href="/news"
+              className="border-l-4 border-[#C8102E] pl-3 text-xl font-black tracking-tight text-slate-950"
+            >
+              AHPK News
+            </Link>
 
-      {/* Feature image */}
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 transition hover:text-[#C8102E]"
+            >
+              All stories
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ARTICLE HEADER */}
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-[1100px] px-5 pb-8 pt-7 sm:px-6 sm:pb-10 sm:pt-10 lg:px-8">
+          <NewsBreadcrumb title={post.title} />
+
+          <div className="mt-7 max-w-[900px]">
+            <CategoryBadge category={post.category} />
+
+            <h1 className="mt-5 max-w-[950px] text-[2.35rem] font-black leading-[1.07] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[4rem]">
+              {post.title}
+            </h1>
+
+            {articleExcerpt ? (
+              <p className="mt-6 max-w-[820px] text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                {articleExcerpt}
+              </p>
+            ) : null}
+
+            <div className="mt-7 border-t border-slate-200 pt-5">
+              <p className="text-sm font-extrabold text-slate-900">
+                AHPK Newsroom
+              </p>
+
+              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-slate-500">
+                <time dateTime={publishedDate.toISOString()}>
+                  {dateText(publishedDate)}
+                </time>
+
+                <span aria-hidden="true">•</span>
+
+                <span>
+                  {readingTime}{" "}
+                  {readingTime === 1 ? "minute" : "minutes"} read
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* FEATURE IMAGE */}
       {post.imageUrl ? (
         <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-5 pt-10 sm:px-6 sm:pt-12 lg:px-8">
+          <div className="mx-auto max-w-[1100px] px-0 sm:px-6 lg:px-8">
             <figure>
-              <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100 shadow-sm">
+              <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 sm:aspect-[16/8.5]">
                 <img
                   src={post.imageUrl}
                   alt={post.title}
-                  className="max-h-[680px] min-h-[260px] w-full object-cover sm:min-h-[420px]"
+                  className="h-full w-full object-cover"
                 />
-
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-transparent" />
               </div>
+
+              <figcaption className="border-b border-slate-200 px-5 py-3 text-xs font-medium leading-5 text-slate-500 sm:px-0">
+                AHPK Newsroom
+              </figcaption>
             </figure>
           </div>
         </section>
       ) : null}
 
-      {/* Article body */}
-      <section className="bg-white py-12 sm:py-16">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:px-8">
-          <article className="min-w-0">
-            {/* Article introduction */}
-            {post.excerpt ? (
-              <div className="mb-9 border-l-4 border-[#C8102E] bg-slate-50 py-5 pl-6 pr-5">
-                <p className="text-lg font-semibold leading-8 text-slate-700">
-                  {post.excerpt}
+      {/* ARTICLE */}
+      <section className="bg-white py-9 sm:py-12">
+        <div className="mx-auto max-w-[1100px] px-5 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[56px_minmax(0,720px)_1fr] lg:gap-9">
+            {/* SHARE RAIL */}
+            <aside className="hidden lg:block">
+              <div className="sticky top-28">
+                <p className="mb-3 text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                  Share
                 </p>
-              </div>
-            ) : null}
 
-            {/* Article content */}
-            <div className="whitespace-pre-line text-base font-medium leading-8 text-slate-700 sm:text-lg sm:leading-9">
-              {post.content}
-            </div>
+                <div className="flex flex-col gap-2">
+                  <ShareLink
+                    label="Share on Facebook"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                      `https://ahpk.or.ke/news/${post.slug}`,
+                    )}`}
+                  >
+                    f
+                  </ShareLink>
 
-            {/* Article footer */}
-            <footer className="mt-12 border-t border-slate-200 pt-8">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <Link
-                  href="/news"
-                  className="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-sm font-extrabold text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E]"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Newsroom
-                </Link>
+                  <ShareLink
+                    label="Share on X"
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                      `https://ahpk.or.ke/news/${post.slug}`,
+                    )}&text=${encodeURIComponent(post.title)}`}
+                  >
+                    X
+                  </ShareLink>
 
-                <div className="text-sm font-semibold text-slate-400">
-                  Published by AHPK Newsroom
+                  <ShareLink
+                    label="Share on WhatsApp"
+                    href={`https://wa.me/?text=${encodeURIComponent(
+                      `${post.title} https://ahpk.or.ke/news/${post.slug}`,
+                    )}`}
+                  >
+                    W
+                  </ShareLink>
                 </div>
               </div>
-            </footer>
-          </article>
+            </aside>
 
-          {/* Article sidebar */}
-          <aside className="lg:sticky lg:top-28 lg:self-start">
-            <ArticleInformation
-              category={post.category}
-              publishedDate={publishedDate}
-              readingTime={readingTime}
-            />
+            {/* MAIN READING COLUMN */}
+            <article className="min-w-0">
+              {/* MOBILE SHARE BUTTONS */}
+              <div className="mb-8 flex items-center gap-2 border-b border-slate-200 pb-6 lg:hidden">
+                <span className="mr-2 text-xs font-black uppercase tracking-[0.15em] text-slate-400">
+                  Share
+                </span>
 
-            <NewsroomCard />
-          </aside>
+                <ShareLink
+                  label="Share on Facebook"
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    `https://ahpk.or.ke/news/${post.slug}`,
+                  )}`}
+                >
+                  f
+                </ShareLink>
+
+                <ShareLink
+                  label="Share on X"
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                    `https://ahpk.or.ke/news/${post.slug}`,
+                  )}&text=${encodeURIComponent(post.title)}`}
+                >
+                  X
+                </ShareLink>
+
+                <ShareLink
+                  label="Share on WhatsApp"
+                  href={`https://wa.me/?text=${encodeURIComponent(
+                    `${post.title} https://ahpk.or.ke/news/${post.slug}`,
+                  )}`}
+                >
+                  W
+                </ShareLink>
+              </div>
+
+              {post.excerpt ? (
+                <p className="mb-8 border-l-4 border-[#C8102E] pl-5 text-lg font-bold leading-8 text-slate-800 sm:text-xl sm:leading-9">
+                  {post.excerpt}
+                </p>
+              ) : null}
+
+              <div className="article-copy whitespace-pre-line text-[17px] font-normal leading-[1.85] text-slate-800 sm:text-[18px]">
+                {post.content}
+              </div>
+
+              <footer className="mt-12 border-t border-slate-300 pt-7">
+                <p className="text-sm font-extrabold text-slate-900">
+                  Published by AHPK Newsroom
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Official news and communication from the Association of Hotel
+                  Professionals Kenya.
+                </p>
+
+                <Link
+                  href="/news"
+                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 border border-slate-300 px-5 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:bg-[#C8102E] hover:text-white"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to News
+                </Link>
+              </footer>
+            </article>
+
+            {/* RIGHT WHITESPACE / OPTIONAL PROMO */}
+            <aside className="hidden lg:block">
+              <div className="sticky top-28 border-t-4 border-[#C8102E] bg-slate-50 p-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C8102E]">
+                  AHPK News
+                </p>
+
+                <h2 className="mt-3 text-lg font-extrabold leading-6 text-slate-950">
+                  Latest hospitality industry updates
+                </h2>
+
+                <p className="mt-3 text-sm font-medium leading-6 text-slate-600">
+                  Read association announcements, professional updates and
+                  hospitality industry stories.
+                </p>
+
+                <Link
+                  href="/news"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                >
+                  Browse all stories
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
 
-      {/* Related articles */}
       {relatedPosts.length > 0 ? (
-        <RelatedNews
-          posts={relatedPosts}
-        />
+        <RelatedNews posts={relatedPosts} />
       ) : null}
 
       <PublicFooter />
@@ -377,8 +518,8 @@ function ArticleInformation({
           icon={<Clock3 />}
           label="Reading time"
           value={`${readingTime} ${readingTime === 1
-              ? "minute"
-              : "minutes"
+            ? "minute"
+            : "minutes"
             }`}
         />
       </div>
@@ -454,41 +595,58 @@ function RelatedNews({
   posts: RelatedPost[];
 }) {
   return (
-    <section className="border-t border-slate-200 bg-slate-50 py-14 sm:py-16">
+    <section className="border-t border-slate-200 bg-slate-50 py-10 sm:py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between gap-6">
-          <div>
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div className="max-w-3xl">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
               Continue reading
             </p>
 
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
-              Related News
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+              More from AHPK News
             </h2>
 
             <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-              More stories, notices and
-              updates from the AHPK Newsroom.
+              Explore more association announcements, hospitality industry
+              updates and professional stories.
             </p>
           </div>
 
           <Link
             href="/news"
-            className="hidden items-center gap-2 text-sm font-extrabold text-[#C8102E] sm:inline-flex"
+            className="inline-flex shrink-0 items-center gap-2 text-sm font-extrabold text-[#C8102E] transition hover:text-[#8E0C22]"
           >
             View all news
-
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((relatedPost) => (
-            <RelatedArticle
-              key={relatedPost.id}
-              post={relatedPost}
-            />
-          ))}
+        <div className="mt-7">
+          <NewsCarousel
+            basePath="/news"
+            actionLabel="Read article"
+            news={posts.map((relatedPost) => {
+              const publishedDate =
+                relatedPost.publishedAt ||
+                relatedPost.createdAt;
+
+              return {
+                id: relatedPost.id,
+                slug: relatedPost.slug,
+                imageUrl: relatedPost.imageUrl,
+                title: relatedPost.title,
+                description:
+                  relatedPost.excerpt ||
+                  excerpt(
+                    relatedPost.content,
+                    140,
+                  ) ||
+                  "Read more from the AHPK Newsroom.",
+                date: dateText(publishedDate),
+              };
+            })}
+          />
         </div>
       </div>
     </section>
@@ -682,7 +840,7 @@ type RelatedPost = Awaited<
 
 async function getRelatedPostsType() {
   return prisma.newsPost.findMany({
-    take: 3,
+    take: 12,
   });
 }
 
@@ -695,7 +853,27 @@ type NewsPostForJsonLd = Awaited<
 async function getNewsPostType() {
   return prisma.newsPost.findFirst();
 }
-
+function ShareLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-white text-xs font-black text-slate-800 transition hover:border-[#C8102E] hover:bg-[#C8102E] hover:text-white"
+    >
+      {children}
+    </a>
+  );
+}
 function NewsArticleJsonLd({
   post,
 }: {
@@ -764,4 +942,5 @@ function NewsArticleJsonLd({
       }}
     />
   );
+
 }

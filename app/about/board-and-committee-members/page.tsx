@@ -210,6 +210,7 @@ const committeeMembers: CommitteeMember[] = [
     },
 ];
 
+
 export default function BoardAndCommitteeMembersPage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -234,198 +235,315 @@ export default function BoardAndCommitteeMembersPage() {
 
             <PageHeader />
 
-            {/* PAGE HERO */}
-            <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
-                <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-                    <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-slate-200/70 blur-3xl" />
-                </div>
-
-                <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-14">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-                        <div>
-                            <p className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-[#C8102E] shadow-sm">
-                                <span className="h-2 w-2 rounded-full bg-[#C8102E]" />
-                                AHPK Leadership
-                            </p>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            AHPK Leadership
+                        </p>
 
-                            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                                Board and Committee Members
-                            </h1>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Board and Committee Members
+                        </h1>
 
-                            <p className="mt-6 max-w-3xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
-                                Meet the professionals entrusted with leadership, governance,
-                                member representation and committee responsibilities within the
-                                Association of Hotel Professionals Kenya.
-                            </p>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            Meet the professionals entrusted with
+                            leadership, governance, member
+                            representation and committee
+                            responsibilities within the Association
+                            of Hotel Professionals Kenya.
+                        </p>
 
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <Link
-                                    href="#board-members"
-                                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#A80D27]"
+                        <div className="mt-5 flex flex-wrap gap-3">
+                            <Link
+                                href="#board-members"
+                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
+                            >
+                                View Board Members
+
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+
+                            <Link
+                                href="/about/executive-committee"
+                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                            >
+                                Executive Committee
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/executive-committee.webp"
+                                alt="AHPK executive boardroom"
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-200 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            AHPK board and committee members support
+                            professional governance, responsible
+                            leadership and member representation.
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            {/* MAIN CONTENT */}
+            <section className="bg-white py-8 sm:py-10">
+                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+                        <article className="min-w-0">
+                            {/* BOARD MEMBERS */}
+                            <section
+                                id="board-members"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                            >
+                                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                                    <div className="max-w-3xl">
+                                        <SectionLabel>
+                                            Board Members
+                                        </SectionLabel>
+
+                                        <h2 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            The Association&apos;s Board
+                                            leadership
+                                        </h2>
+
+                                        <p className="mt-3 max-w-3xl text-[17px] leading-8 text-slate-600">
+                                            The Board provides
+                                            professional leadership,
+                                            institutional oversight and
+                                            strategic guidance to the
+                                            Association.
+                                        </p>
+                                    </div>
+
+                                    <CountBlock
+                                        label="Board Members"
+                                        value={boardMembers.length}
+                                    />
+                                </div>
+
+                                <div className="mt-5 border-t border-slate-300">
+                                    {boardMembers.map((member, index) => (
+                                        <BoardMemberRow
+                                            key={`${member.name}-${member.role}`}
+                                            member={member}
+                                            number={index + 1}
+                                        />
+                                    ))}
+                                </div>
+                            </section>
+
+                            {/* COMMITTEE MEMBERS */}
+                            <section
+                                id="committee-members"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                            >
+                                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                                    <div className="max-w-3xl">
+                                        <SectionLabel>
+                                            Committee Members
+                                        </SectionLabel>
+
+                                        <h2 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            Registered committee
+                                            membership
+                                        </h2>
+
+                                        <p className="mt-3 max-w-3xl text-[17px] leading-8 text-slate-600">
+                                            Official committee members
+                                            are listed with their AHPK
+                                            membership grades and
+                                            registration numbers.
+                                        </p>
+                                    </div>
+
+                                    <CountBlock
+                                        label="Committee Members"
+                                        value={committeeMembers.length}
+                                    />
+                                </div>
+
+                                <div className="mt-5 border-y border-slate-300">
+                                    <div className="hidden grid-cols-[64px_minmax(0,1fr)_120px_150px] border-b border-slate-300 bg-slate-950 px-4 py-3 text-[10px] font-black uppercase tracking-[0.16em] text-white md:grid">
+                                        <span>No.</span>
+                                        <span>Member</span>
+                                        <span>Grade</span>
+                                        <span>Membership No.</span>
+                                    </div>
+
+                                    <div className="divide-y divide-slate-300">
+                                        {committeeMembers.map(
+                                            (member, index) => (
+                                                <CommitteeMemberRow
+                                                    key={`${member.name}-${member.membershipNumber}`}
+                                                    member={member}
+                                                    number={index + 1}
+                                                />
+                                            ),
+                                        )}
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* CONTINUE READING */}
+                            <section className="border-t border-slate-300 pt-5">
+                                <SectionLabel>
+                                    Continue Reading
+                                </SectionLabel>
+
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/about/executive-committee"
+                                        eyebrow="Leadership Profiles"
+                                        title="Executive Committee"
+                                    />
+
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/membership"
+                                        eyebrow="Become a Member"
+                                        title="Membership"
+                                    />
+                                </div>
+                            </section>
+                        </article>
+
+                        {/* SIDEBAR */}
+                        <aside className="space-y-5 lg:sticky lg:top-28">
+                            <div className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        On this page
+                                    </p>
+
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
+                                        Leadership Directory
+                                    </h2>
+                                </div>
+
+                                <nav
+                                    aria-label="Board and committee page navigation"
+                                    className="divide-y divide-slate-200"
                                 >
-                                    View Board Members
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
+                                    <ArticleSideLink
+                                        href="#board-members"
+                                        label="Board Members"
+                                    />
+
+                                    <ArticleSideLink
+                                        href="#committee-members"
+                                        label="Committee Members"
+                                    />
+                                </nav>
+                            </div>
+
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                                <ShieldCheck
+                                    className="h-6 w-6 text-[#C8102E]"
+                                    aria-hidden="true"
+                                />
+
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
+                                    Responsible leadership
+                                </h2>
+
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    AHPK leadership supports
+                                    professional governance,
+                                    institutional accountability and
+                                    effective member representation.
+                                </p>
 
                                 <Link
                                     href="/about/executive-committee"
-                                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                                    className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]"
                                 >
                                     Executive Committee
+
+                                    <ArrowRight className="h-4 w-4" />
                                 </Link>
-                            </div>
-                        </div>
+                            </section>
 
-                        <div className="relative">
-                            <div className="relative overflow-hidden rounded-[30px] border border-white bg-white p-3 shadow-2xl">
-                                <img
-                                    src="/executive-committee.webp"
-                                    alt="AHPK executive boardroom"
-                                    className="h-[380px] w-full rounded-[24px] object-cover sm:h-[460px]"
-                                />
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                    Membership
+                                </p>
 
-                                <div className="absolute bottom-7 left-7 right-7 rounded-2xl border border-white/60 bg-white/90 p-5 shadow-lg backdrop-blur-xl">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                        Professional governance
-                                    </p>
+                                <h2 className="mt-2 text-xl font-black">
+                                    Join the AHPK community
+                                </h2>
 
-                                    <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
-                                        Supporting responsible leadership, member representation
-                                        and professional oversight.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Access professional recognition,
+                                    development opportunities,
+                                    industry networking and member
+                                    services.
+                                </p>
+
+                                <Link
+                                    href="/apply"
+                                    className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-black text-white transition hover:bg-red-700"
+                                >
+                                    Apply for Membership
+
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                            </section>
+                        </aside>
                     </div>
                 </div>
             </section>
 
-            {/* BOARD MEMBERS */}
-            <section
-                id="board-members"
-                className="scroll-mt-28 bg-white py-16 sm:py-20 lg:py-24"
-            >
+            {/* FINAL CTA */}
+            <section className="border-t border-slate-300 bg-slate-950 py-8 text-white sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-                        <div className="max-w-3xl">
-                            <SectionLabel>Board Members</SectionLabel>
-
-                            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                The Association’s Board leadership
-                            </h2>
-
-                            <p className="mt-5 text-base font-medium leading-8 text-slate-600">
-                                The Board provides professional leadership, institutional
-                                oversight and strategic guidance to the Association.
-                            </p>
-                        </div>
-
-                        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-extrabold text-slate-700">
-                            <Users className="h-4 w-4 text-[#C8102E]" />
-                            {boardMembers.length} Board Members
-                        </div>
-                    </div>
-
-                    <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {boardMembers.map((member, index) => (
-                            <BoardMemberCard
-                                key={`${member.name}-${member.role}`}
-                                member={member}
-                                number={index + 1}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* COMMITTEE MEMBERS */}
-            <section
-                id="committee-members"
-                className="scroll-mt-28 bg-slate-50 py-16 sm:py-20 lg:py-24"
-            >
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-                        <div className="max-w-3xl">
-                            <SectionLabel>Committee Members</SectionLabel>
-
-                            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                Registered committee membership
-                            </h2>
-
-                            <p className="mt-5 text-base font-medium leading-8 text-slate-600">
-                                Official committee members are shown together with their AHPK
-                                membership grades and registration numbers.
-                            </p>
-                        </div>
-
-                        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-700 shadow-sm">
-                            <BadgeCheck className="h-4 w-4 text-[#C8102E]" />
-                            {committeeMembers.length} Committee Members
-                        </div>
-                    </div>
-
-                    <div className="mt-12 overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
-                        <div className="hidden grid-cols-[70px_minmax(0,1fr)_120px_150px] border-b border-slate-200 bg-slate-950 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white md:grid">
-                            <span>No.</span>
-                            <span>Member</span>
-                            <span>Grade</span>
-                            <span>Membership No.</span>
-                        </div>
-
-                        <div className="divide-y divide-slate-200">
-                            {committeeMembers.map((member, index) => (
-                                <CommitteeMemberRow
-                                    key={`${member.name}-${member.membershipNumber}`}
-                                    member={member}
-                                    number={index + 1}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CLOSING CTA */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-br from-[#C8102E] to-[#8E0C22] px-7 py-12 text-white shadow-2xl sm:px-10 lg:px-14 lg:py-16">
-                        <div className="absolute -right-16 -top-16 h-60 w-60 rounded-full bg-white/10" />
-                        <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-black/10" />
-
-                        <div className="relative max-w-4xl">
-                            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/70">
+                    <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+                        <div className="max-w-4xl">
+                            <p className="text-xs font-black uppercase tracking-[0.22em] text-red-300">
                                 AHPK Membership
                             </p>
 
-                            <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-                                Join a recognised professional hospitality association.
+                            <h2 className="mt-2 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+                                Join a recognised professional
+                                hospitality association.
                             </h2>
 
-                            <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-white/80">
-                                Become part of a professional community committed to
-                                leadership, representation, development and hospitality
-                                excellence.
+                            <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-slate-300">
+                                Become part of a professional
+                                community committed to leadership,
+                                representation, development and
+                                hospitality excellence.
                             </p>
+                        </div>
 
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <Link
-                                    href="/apply"
-                                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-extrabold text-[#C8102E] transition hover:bg-slate-100"
-                                >
-                                    Apply for Membership
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
+                        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                            <Link
+                                href="/apply"
+                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
+                            >
+                                Apply for Membership
 
-                                <Link
-                                    href="/about/who-we-are"
-                                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/40 bg-white/10 px-6 text-sm font-extrabold text-white transition hover:bg-white hover:text-slate-950"
-                                >
-                                    Who We Are
-                                </Link>
-                            </div>
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+
+                            <Link
+                                href="/members-section/constitution-rules/membership"
+                                className="inline-flex min-h-11 items-center justify-center border border-white/40 px-6 text-sm font-black text-white transition hover:bg-white hover:text-slate-950"
+                            >
+                                Explore Membership
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -436,7 +554,7 @@ export default function BoardAndCommitteeMembersPage() {
     );
 }
 
-function BoardMemberCard({
+function BoardMemberRow({
     member,
     number,
 }: {
@@ -444,36 +562,28 @@ function BoardMemberCard({
     number: number;
 }) {
     return (
-        <article className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl">
-            <span className="absolute right-5 top-4 text-5xl font-black text-red-50">
+        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_48px_minmax(0,1fr)_220px] sm:items-center">
+            <p className="text-3xl font-black leading-none text-slate-300">
                 {String(number).padStart(2, "0")}
-            </span>
+            </p>
 
-            <div className="relative">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E] transition group-hover:bg-[#C8102E] group-hover:text-white">
-                    <UserRound className="h-8 w-8" />
-                </div>
-
-                <h3 className="mt-6 text-xl font-extrabold text-slate-950">
-                    {member.name}
-                </h3>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="rounded-full bg-red-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#C8102E]">
-                        {member.grade}
-                    </span>
-
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] text-slate-600">
-                        Board Member
-                    </span>
-                </div>
-
-                <div className="mt-6 border-t border-slate-200 pt-5">
-                    <p className="text-sm font-extrabold leading-6 text-slate-800">
-                        {member.role}
-                    </p>
-                </div>
+            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white">
+                <UserRound className="h-5 w-5" />
             </div>
+
+            <div>
+                <p className="text-xl font-black leading-tight text-slate-950">
+                    {member.name}
+                </p>
+
+                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#C8102E]">
+                    {member.grade}
+                </p>
+            </div>
+
+            <p className="text-sm font-bold leading-6 text-slate-700 sm:text-right">
+                {member.role}
+            </p>
         </article>
     );
 }
@@ -486,17 +596,17 @@ function CommitteeMemberRow({
     number: number;
 }) {
     return (
-        <article className="grid gap-4 px-5 py-5 transition hover:bg-red-50/40 sm:px-6 md:grid-cols-[70px_minmax(0,1fr)_120px_150px] md:items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-sm font-black text-[#C8102E]">
+        <article className="grid gap-3 px-0 py-4 transition hover:bg-slate-50 md:grid-cols-[64px_minmax(0,1fr)_120px_150px] md:items-center md:px-4">
+            <p className="text-2xl font-black leading-none text-slate-300">
                 {String(number).padStart(2, "0")}
-            </div>
+            </p>
 
             <div>
-                <p className="text-base font-extrabold text-slate-950">
+                <p className="text-base font-black text-slate-950">
                     {member.name}
                 </p>
 
-                <p className="mt-1 text-xs font-medium text-slate-500 md:hidden">
+                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 md:hidden">
                     Committee Member
                 </p>
             </div>
@@ -506,9 +616,9 @@ function CommitteeMemberRow({
                     Grade
                 </p>
 
-                <span className="mt-1 inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-black text-[#C8102E] md:mt-0">
+                <p className="mt-1 text-sm font-black text-[#C8102E] md:mt-0">
                     {member.grade}
-                </span>
+                </p>
             </div>
 
             <div>
@@ -516,11 +626,79 @@ function CommitteeMemberRow({
                     Membership Number
                 </p>
 
-                <p className="mt-1 font-mono text-sm font-extrabold text-slate-700 md:mt-0">
+                <p className="mt-1 font-mono text-sm font-black text-slate-700 md:mt-0">
                     {member.membershipNumber}
                 </p>
             </div>
         </article>
+    );
+}
+
+function CountBlock({
+    label,
+    value,
+}: {
+    label: string;
+    value: number;
+}) {
+    return (
+        <div className="border-l-4 border-[#C8102E] pl-4">
+            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                {label}
+            </p>
+
+            <p className="mt-1 text-3xl font-black text-slate-950">
+                {value}
+            </p>
+        </div>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 flex-col justify-between border-b border-slate-300 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-[#C8102E]">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            <ArrowRight className="mt-3 h-5 w-5 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C8102E]" />
+        </Link>
+    );
+}
+
+function ArticleSideLink({
+    href,
+    label,
+}: {
+    href: string;
+    label: string;
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex items-center justify-between gap-3 py-3 text-sm font-bold text-slate-700 transition hover:text-[#C8102E]"
+        >
+            {label}
+
+            <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C8102E]" />
+        </Link>
     );
 }
 
@@ -599,6 +777,8 @@ function BoardCommitteeJsonLd() {
     );
 }
 
+
+
 function PageHeader() {
     return (
         <header
@@ -610,7 +790,11 @@ function PageHeader() {
             }
         >
             <div className="mx-auto flex h-[82px] max-w-[1700px] items-center gap-4 px-4 sm:px-6 lg:px-8">
-                <Link href="/" aria-label="AHPK homepage" className="shrink-0">
+                <Link
+                    href="/"
+                    aria-label="AHPK homepage"
+                    className="shrink-0"
+                >
                     <Image
                         src={Logo}
                         alt="Association of Hotel Professionals Kenya"
@@ -640,6 +824,7 @@ function Breadcrumb() {
                 className="inline-flex items-center gap-2 transition hover:text-[#C8102E]"
             >
                 <Home className="h-4 w-4" />
+
                 Home
             </Link>
 
@@ -654,7 +839,10 @@ function Breadcrumb() {
 
             <ChevronRight className="h-4 w-4 text-slate-300" />
 
-            <span className="text-[#C8102E]" aria-current="page">
+            <span
+                className="text-[#C8102E]"
+                aria-current="page"
+            >
                 Board and Committee Members
             </span>
         </nav>
@@ -667,7 +855,7 @@ function SectionLabel({
     children: React.ReactNode;
 }) {
     return (
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#C8102E]">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
             {children}
         </p>
     );

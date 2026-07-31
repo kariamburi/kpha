@@ -1,10 +1,16 @@
+// app/about/who-we-are/page.tsx
+
+import type {
+    CSSProperties,
+    ReactNode,
+} from "react";
 import type { Metadata } from "next";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import {
     ArrowRight,
-    CheckCircle2,
     ChevronRight,
     FileCheck2,
     Home,
@@ -13,8 +19,8 @@ import {
 } from "lucide-react";
 
 import Logo from "@/app/assets/logo.png";
-import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 import PublicFooter from "@/app/components/public/PublicFooter";
+import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 import { DesktopNavigation } from "@/app/components/site/desktop-navigation";
 
 export const metadata: Metadata = {
@@ -47,28 +53,38 @@ export const metadata: Metadata = {
     openGraph: {
         title:
             "Who We Are | Association of Hotel Professionals Kenya",
+
         description:
             "Discover AHPK’s registration, advocacy role and commitment to advancing professionalism in Kenya’s hospitality industry.",
+
         url: "/about/who-we-are",
+
         siteName:
             "Association of Hotel Professionals Kenya",
+
         locale: "en_KE",
         type: "website",
+
         images: [
             {
                 url: "/welcome.webp",
                 width: 1536,
                 height: 1024,
-                alt: "Hospitality professionals represented by the Association of Hotel Professionals Kenya",
+
+                alt:
+                    "Hospitality professionals represented by the Association of Hotel Professionals Kenya",
             },
         ],
     },
 
     twitter: {
         card: "summary_large_image",
+
         title: "Who We Are | AHPK",
+
         description:
             "Learn about the Association of Hotel Professionals Kenya and its role in advancing hospitality professionalism, advocacy and ethical standards.",
+
         images: ["/welcome.webp"],
     },
 
@@ -93,15 +109,18 @@ const collaborationBodies = [
     },
     {
         shortName: "KCTA",
-        fullName: "Kenya Coast Tourism Association",
+        fullName:
+            "Kenya Coast Tourism Association",
     },
     {
         shortName: "KATO",
-        fullName: "Kenya Association of Tour Operators",
+        fullName:
+            "Kenya Association of Tour Operators",
     },
     {
         shortName: "KATA",
-        fullName: "Kenya Association of Travel Agents",
+        fullName:
+            "Kenya Association of Travel Agents",
     },
     {
         shortName: "KAHC",
@@ -122,7 +141,8 @@ const collaborationBodies = [
     },
     {
         shortName: "TFC",
-        fullName: "Tourism Finance Corporation",
+        fullName:
+            "Tourism Finance Corporation",
     },
     {
         shortName: "KWS",
@@ -154,104 +174,92 @@ export default function WhoWeArePage() {
 
             <PageHeader />
 
-            {/* PAGE HERO */}
-            <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
-                <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-
-                    <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-slate-200/70 blur-3xl" />
-                </div>
-
-                <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-14">
+            {/* ABOUT MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-                        <div>
-                            <p className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-[#C8102E] shadow-sm">
-                                <span className="h-2 w-2 rounded-full bg-[#C8102E]" />
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            About AHPK
+                        </p>
 
-                                About AHPK
-                            </p>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Who We Are
+                        </h1>
 
-                            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                                Who We Are
-                            </h1>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            The Association of Hotel
+                            Professionals Kenya is a
+                            professional body representing
+                            individuals and practitioners
+                            working throughout Kenya&apos;s
+                            hotel and hospitality industry.
+                        </p>
 
-                            <p className="mt-6 max-w-3xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
-                                The Association of Hotel
-                                Professionals Kenya is a
-                                professional body representing
-                                individuals and practitioners
-                                working throughout Kenya&apos;s
-                                hotel and hospitality industry.
-                            </p>
+                        <div className="mt-5 flex flex-wrap gap-3">
+                            <Link
+                                href="/members-section/constitution-rules/membership"
+                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
+                            >
+                                Explore Membership
 
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <Link
-                                    href="/membership"
-                                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#A80D27]"
-                                >
-                                    Explore Membership
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
 
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
-
-                                <Link
-                                    href="/contact"
-                                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                                >
-                                    Contact AHPK
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div className="relative">
-                            <div className="relative overflow-hidden rounded-[30px] border border-white bg-white p-3 shadow-2xl">
-                                <img
-                                    src="/welcome.webp"
-                                    alt="Hospitality professionals in Kenya"
-                                    className="h-[380px] w-full rounded-[24px] object-cover sm:h-[460px]"
-                                />
-
-                                <div className="absolute bottom-7 left-7 right-7 rounded-2xl border border-white/60 bg-white/90 p-5 shadow-lg backdrop-blur-xl">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                        Professional community
-                                    </p>
-
-                                    <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
-                                        Advancing recognition,
-                                        standards, development and
-                                        collaboration across
-                                        Kenya&apos;s hospitality
-                                        industry.
-                                    </p>
-                                </div>
-                            </div>
+                            <Link
+                                href="/contact"
+                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                            >
+                                Contact AHPK
+                            </Link>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* MAIN ABOUT CONTENT */}
-            <section className="bg-white py-16 sm:py-20 lg:py-24">
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/welcome.webp"
+                                alt="Hospitality professionals represented by AHPK"
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-200 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            AHPK advances professional
+                            recognition, standards,
+                            development and collaboration
+                            across Kenya&apos;s hospitality
+                            industry.
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            {/* MAIN CONTENT */}
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-                        {/* MAIN ARTICLE */}
-                        <article className="overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
-                            {/* WHO WE ARE */}
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* ABOUT THE ASSOCIATION */}
                             <section
                                 id="about-the-association"
-                                className="scroll-mt-28 border-b border-slate-200 p-7 sm:p-9 lg:p-12"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
                                 <SectionLabel>
                                     About the Association
                                 </SectionLabel>
 
-                                <h2 className="mt-4 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
+                                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
                                     Who We Are
                                 </h2>
 
-                                <div className="mt-7 space-y-6 text-base font-medium leading-8 text-slate-600">
+                                <div className="mt-4 space-y-4 text-[17px] font-normal leading-8 text-slate-700 sm:text-lg sm:leading-9">
                                     <p>
                                         The Association of Hotel
                                         Professionals Kenya is a
@@ -264,40 +272,41 @@ export default function WhoWeArePage() {
 
                                     <p>
                                         It is registered under the
-                                        Societies Act, with the aim to
-                                        regulate, lobby and secure its
-                                        members&apos; rightful place
-                                        and offer a voice for
-                                        professionals who are both
-                                        active in service, retired or
+                                        Societies Act, with the aim of
+                                        regulating, lobbying and
+                                        securing its members&apos;
+                                        rightful place while offering
+                                        a recognised voice for
+                                        professionals who are active
+                                        in service, retired or working
                                         in consultancy.
                                     </p>
 
                                     <p>
-                                        The Association has an
-                                        extension to reach out to and
-                                        consider institutions of
-                                        higher learning preparing
-                                        undergraduates to join the
-                                        industry, which has been
-                                        acknowledged globally as one
-                                        of the fastest-growing
-                                        industries and a major
-                                        contributor to employment,
-                                        sustainable economic
-                                        development and social
-                                        development.
+                                        The Association also reaches
+                                        out to institutions of higher
+                                        learning preparing
+                                        undergraduates and
+                                        professionals to join the
+                                        hospitality industry, one of
+                                        the world&apos;s
+                                        fastest-growing sectors and a
+                                        major contributor to
+                                        employment, sustainable
+                                        economic development and
+                                        social progress.
                                     </p>
 
                                     <p>
-                                        It also advocates for high-end
-                                        service delivery to help raise
-                                        the standards of hospitality
-                                        offering establishments and
-                                        training institutions to
-                                        international standards and
-                                        project the region as a
-                                        tourism destination of choice.
+                                        AHPK advocates for high
+                                        standards of service delivery,
+                                        stronger hospitality
+                                        establishments and training
+                                        institutions that meet
+                                        internationally recognised
+                                        standards, helping position
+                                        Kenya as a tourism destination
+                                        of choice.
                                     </p>
                                 </div>
                             </section>
@@ -305,234 +314,196 @@ export default function WhoWeArePage() {
                             {/* ASSOCIATION REGISTRATION */}
                             <section
                                 id="association-registration"
-                                className="scroll-mt-28 border-b border-slate-200 bg-slate-50/70 p-7 sm:p-9 lg:p-12"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="grid gap-8 md:grid-cols-[72px_minmax(0,1fr)]">
-                                    <div className="flex h-[72px] w-[72px] items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <FileCheck2
-                                            className="h-8 w-8"
+                                            className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Official information
-                                        </p>
+                                        <SectionLabel>
+                                            Official Information
+                                        </SectionLabel>
 
-                                        <h2 className="mt-3 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                                            The Association
-                                            Registration
+                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                            Association Registration
                                         </h2>
-
-                                        <div className="mt-6 space-y-5 text-base font-medium leading-8 text-slate-600">
-                                            <p>
-                                                The Association is
-                                                registered under the
-                                                name
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    “Association of
-                                                    Hotel
-                                                    Professionals
-                                                    Kenya”
-                                                </strong>
-                                                , referred to in its
-                                                constitution as “the
-                                                Society” and
-                                                abbreviated as
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    AHPK
-                                                </strong>
-                                                .
-                                            </p>
-
-                                            <p>
-                                                The Association was
-                                                registered under
-                                                certificate number
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    48570
-                                                </strong>
-                                                , dated
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    16 September 2016
-                                                </strong>
-                                                , by the Office of the
-                                                Registrar General.
-                                            </p>
-
-                                            <p>
-                                                This followed the
-                                                issuance of a letter
-                                                of No Objection from
-                                                the Office of the
-                                                Director General,
-                                                Tourism Regulatory
-                                                Authority, dated
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    5 June 2015
-                                                </strong>
-                                                , under reference
-                                                <strong className="font-extrabold text-slate-900">
-                                                    {" "}
-                                                    TRA/1/14/(222)
-                                                </strong>
-                                                .
-                                            </p>
-                                        </div>
-
-                                        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                                            <RegistrationFact
-                                                label="Certificate"
-                                                value="No. 48570"
-                                            />
-
-                                            <RegistrationFact
-                                                label="Registered"
-                                                value="16 Sep 2016"
-                                            />
-
-                                            <RegistrationFact
-                                                label="Reference"
-                                                value="TRA/1/14/(222)"
-                                            />
-                                        </div>
                                     </div>
+                                </div>
+
+                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
+                                    <p>
+                                        The Association is registered
+                                        under the name{" "}
+                                        <strong className="font-black text-slate-950">
+                                            Association of Hotel
+                                            Professionals Kenya
+                                        </strong>
+                                        , referred to in its
+                                        constitution as “the Society”
+                                        and abbreviated as{" "}
+                                        <strong className="font-black text-slate-950">
+                                            AHPK
+                                        </strong>
+                                        .
+                                    </p>
+
+                                    <p>
+                                        The Association was registered
+                                        under certificate number{" "}
+                                        <strong className="font-black text-slate-950">
+                                            48570
+                                        </strong>
+                                        , dated{" "}
+                                        <strong className="font-black text-slate-950">
+                                            16 September 2016
+                                        </strong>
+                                        , by the Office of the
+                                        Registrar General.
+                                    </p>
+
+                                    <p>
+                                        This followed the issuance of
+                                        a letter of No Objection from
+                                        the Office of the Director
+                                        General, Tourism Regulatory
+                                        Authority, dated{" "}
+                                        <strong className="font-black text-slate-950">
+                                            5 June 2015
+                                        </strong>
+                                        , under reference{" "}
+                                        <strong className="font-black text-slate-950">
+                                            TRA/1/14/(222)
+                                        </strong>
+                                        .
+                                    </p>
+                                </div>
+
+                                <div className="mt-5 grid border-y border-slate-300 sm:grid-cols-3">
+                                    <RegistrationFact
+                                        label="Certificate"
+                                        value="No. 48570"
+                                    />
+
+                                    <RegistrationFact
+                                        label="Registered"
+                                        value="16 Sep 2016"
+                                    />
+
+                                    <RegistrationFact
+                                        label="Reference"
+                                        value="TRA/1/14/(222)"
+                                    />
                                 </div>
                             </section>
 
                             {/* ASSOCIATION ADVOCACY */}
                             <section
                                 id="association-advocacy"
-                                className="scroll-mt-28 p-7 sm:p-9 lg:p-12"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="grid gap-8 md:grid-cols-[72px_minmax(0,1fr)]">
-                                    <div className="flex h-[72px] w-[72px] items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#C8102E] text-white">
                                         <Landmark
-                                            className="h-8 w-8"
+                                            className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Professional
-                                            representation
-                                        </p>
+                                        <SectionLabel>
+                                            Professional Representation
+                                        </SectionLabel>
 
-                                        <h2 className="mt-3 text-2xl font-extrabold text-slate-950 sm:text-3xl">
+                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
                                             Association Advocacy
                                         </h2>
-
-                                        <div className="mt-6 space-y-5 text-base font-medium leading-8 text-slate-600">
-                                            <p>
-                                                AHPK works to develop,
-                                                advance and implement
-                                                the objectives of the
-                                                hotel industry and
-                                                works with government
-                                                agencies at regional,
-                                                national and county
-                                                levels.
-                                            </p>
-
-                                            <p>
-                                                These include the
-                                                Tourism Regulatory
-                                                Authority through
-                                                lobbying, policy
-                                                development,
-                                                communications,
-                                                grassroots advocacy
-                                                and harmonising the
-                                                various programmes
-                                                developed and advanced
-                                                by the respective
-                                                county governments and
-                                                other tourism
-                                                promotion agencies,
-                                                training institutions
-                                                and hospitality
-                                                establishments.
-                                            </p>
-
-                                            <p>
-                                                The Association seeks
-                                                collaboration with
-                                                existing industry
-                                                associations and
-                                                corporate bodies that
-                                                share common goals,
-                                                including:
-                                            </p>
-                                        </div>
-
-                                        <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                                            {collaborationBodies.map(
-                                                (body) => (
-                                                    <div
-                                                        key={
-                                                            body.shortName
-                                                        }
-                                                        className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                                                    >
-                                                        <CheckCircle2
-                                                            className="mt-0.5 h-5 w-5 shrink-0 text-[#C8102E]"
-                                                            aria-hidden="true"
-                                                        />
-
-                                                        <div>
-                                                            <p className="text-sm font-extrabold text-slate-900">
-                                                                {
-                                                                    body.shortName
-                                                                }
-                                                            </p>
-
-                                                            <p className="mt-1 text-xs font-medium leading-5 text-slate-500">
-                                                                {
-                                                                    body.fullName
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                ),
-                                            )}
-                                        </div>
-
-                                        <p className="mt-7 text-base font-medium leading-8 text-slate-600">
-                                            AHPK also collaborates
-                                            with other organisations
-                                            that share common
-                                            hospitality, tourism,
-                                            education and professional
-                                            development goals.
-                                        </p>
                                     </div>
                                 </div>
+
+                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
+                                    <p>
+                                        AHPK works to develop, advance
+                                        and implement the objectives
+                                        of the hotel industry and
+                                        works with government agencies
+                                        at regional, national and
+                                        county levels.
+                                    </p>
+
+                                    <p>
+                                        This includes collaboration
+                                        with the Tourism Regulatory
+                                        Authority through lobbying,
+                                        policy development,
+                                        communication, grassroots
+                                        advocacy and harmonisation of
+                                        programmes developed by
+                                        county governments, tourism
+                                        agencies, training
+                                        institutions and hospitality
+                                        establishments.
+                                    </p>
+
+                                    <p>
+                                        The Association also
+                                        collaborates with existing
+                                        industry associations and
+                                        corporate bodies that share
+                                        common professional and sector
+                                        goals.
+                                    </p>
+                                </div>
+
+                                <div className="mt-5 divide-y divide-slate-300 border-y border-slate-300">
+                                    {collaborationBodies.map(
+                                        (body) => (
+                                            <div
+                                                key={body.shortName}
+                                                className="grid gap-1.5 py-3 sm:grid-cols-[90px_minmax(0,1fr)] sm:items-center"
+                                            >
+                                                <p className="font-black text-[#C8102E]">
+                                                    {body.shortName}
+                                                </p>
+
+                                                <p className="text-sm font-semibold leading-6 text-slate-600">
+                                                    {body.fullName}
+                                                </p>
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+
+                                <p className="mt-4 text-[17px] leading-8 text-slate-700">
+                                    AHPK also collaborates with
+                                    other organisations that share
+                                    common hospitality, tourism,
+                                    education and professional
+                                    development goals.
+                                </p>
                             </section>
                         </article>
 
                         {/* SIDE NAVIGATION */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
+                            <div className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                         On this page
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Who We Are
                                     </h2>
                                 </div>
 
                                 <nav
                                     aria-label="Who we are page navigation"
-                                    className="p-3"
+                                    className="divide-y divide-slate-200"
                                 >
                                     <ArticleSideLink
                                         href="#about-the-association"
@@ -551,191 +522,67 @@ export default function WhoWeArePage() {
                                 </nav>
                             </div>
 
-                            <div className="rounded-[26px] border border-red-100 bg-red-50 p-6">
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
                                 <ShieldCheck
-                                    className="h-8 w-8 text-[#C8102E]"
+                                    className="h-6 w-6 text-[#C8102E]"
                                     aria-hidden="true"
                                 />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
                                     A professional voice
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
                                     AHPK represents and supports
-                                    professionals serving throughout
-                                    Kenya&apos;s hotel and
-                                    hospitality industry.
+                                    professionals serving
+                                    throughout Kenya&apos;s hotel
+                                    and hospitality industry.
                                 </p>
 
                                 <Link
                                     href="/contact"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                                    className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]"
                                 >
                                     Contact AHPK
 
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
                                     Membership
                                 </p>
 
-                                <h2 className="mt-3 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black">
                                     Join the AHPK community
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Access professional recognition,
-                                    development opportunities,
-                                    industry networking and member
-                                    services.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Access professional
+                                    recognition, development
+                                    opportunities, industry
+                                    networking and member services.
                                 </p>
 
                                 <Link
                                     href="/apply"
-                                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-5 text-sm font-extrabold text-white transition hover:bg-[#A80D27]"
+                                    className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-black text-white transition hover:bg-red-700"
                                 >
                                     Apply for Membership
 
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
-                            </div>
+                            </section>
                         </aside>
                     </div>
                 </div>
             </section>
 
-            {/* FINAL CTA */}
-            <section className="bg-slate-50 py-16 sm:py-20">
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-br from-[#C8102E] to-[#8E0C22] px-7 py-12 text-white shadow-2xl sm:px-10 lg:px-14 lg:py-16">
-                        <div className="absolute -right-16 -top-16 h-60 w-60 rounded-full bg-white/10" />
 
-                        <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-black/10" />
-
-                        <div className="relative max-w-4xl">
-                            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/70">
-                                Become part of AHPK
-                            </p>
-
-                            <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-                                Join a professional community
-                                advancing hospitality standards in
-                                Kenya.
-                            </h2>
-
-                            <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-white/80">
-                                Access professional recognition,
-                                development opportunities, industry
-                                networking and a stronger collective
-                                voice within Kenya&apos;s hospitality
-                                industry.
-                            </p>
-
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <Link
-                                    href="/apply"
-                                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-extrabold text-[#C8102E] transition hover:bg-slate-100"
-                                >
-                                    Apply for Membership
-
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
-
-                                <Link
-                                    href="/membership"
-                                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/40 bg-white/10 px-6 text-sm font-extrabold text-white transition hover:bg-white hover:text-slate-950"
-                                >
-                                    Explore Membership
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <PublicFooter />
         </main>
-    );
-}
-
-function AboutPageJsonLd() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "AboutPage",
-        "@id":
-            "https://ahpk.or.ke/about/who-we-are#webpage",
-
-        url: "https://ahpk.or.ke/about/who-we-are",
-
-        name:
-            "Who We Are | Association of Hotel Professionals Kenya",
-
-        headline:
-            "About the Association of Hotel Professionals Kenya",
-
-        description:
-            "Learn about the Association of Hotel Professionals Kenya, its registration, professional mandate, advocacy work and role in Kenya’s hospitality industry.",
-
-        inLanguage: "en-KE",
-
-        isPartOf: {
-            "@type": "WebSite",
-            "@id": "https://ahpk.or.ke/#website",
-            name:
-                "Association of Hotel Professionals Kenya",
-            url: "https://ahpk.or.ke",
-        },
-
-        about: {
-            "@type": "Organization",
-            "@id": "https://ahpk.or.ke/#organization",
-            name:
-                "Association of Hotel Professionals Kenya",
-            alternateName: "AHPK",
-            url: "https://ahpk.or.ke",
-
-            logo: {
-                "@type": "ImageObject",
-                url:
-                    "https://ahpk.or.ke/images/logo.png",
-            },
-
-            description:
-                "A professional association representing hotel and hospitality professionals in Kenya.",
-
-            areaServed: {
-                "@type": "Country",
-                name: "Kenya",
-            },
-
-            address: {
-                "@type": "PostalAddress",
-                addressLocality: "Nairobi",
-                addressCountry: "KE",
-            },
-
-            email: "info@ahpk.or.ke",
-        },
-
-        primaryImageOfPage: {
-            "@type": "ImageObject",
-            url: "https://ahpk.or.ke/welcome.webp",
-            width: 1536,
-            height: 1024,
-        },
-    };
-
-    return (
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-                __html: JSON.stringify(jsonLd),
-            }}
-        />
     );
 }
 
@@ -746,7 +593,7 @@ function PageHeader() {
             style={
                 {
                     "--header-height": "88px",
-                } as React.CSSProperties
+                } as CSSProperties
             }
         >
             <div className="mx-auto flex h-[82px] max-w-[1700px] items-center gap-4 px-4 sm:px-6 lg:px-8">
@@ -784,6 +631,7 @@ function Breadcrumb() {
                 className="inline-flex items-center gap-2 transition hover:text-[#C8102E]"
             >
                 <Home className="h-4 w-4" />
+
                 Home
             </Link>
 
@@ -811,10 +659,10 @@ function Breadcrumb() {
 function SectionLabel({
     children,
 }: {
-    children: React.ReactNode;
+    children: ReactNode;
 }) {
     return (
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#C8102E]">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
             {children}
         </p>
     );
@@ -828,12 +676,12 @@ function RegistrationFact({
     value: string;
 }) {
     return (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="border-b border-slate-300 px-0 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:px-4 sm:first:pl-0 sm:last:border-r-0">
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C8102E]">
                 {label}
             </p>
 
-            <p className="mt-2 break-words text-sm font-extrabold text-slate-900">
+            <p className="mt-1.5 break-words text-base font-black text-slate-950">
                 {value}
             </p>
         </div>
@@ -850,11 +698,106 @@ function ArticleSideLink({
     return (
         <Link
             href={href}
-            className="group flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
+            className="group flex items-center justify-between gap-3 py-3 text-sm font-bold text-slate-700 transition hover:text-[#C8102E]"
         >
             {label}
 
             <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C8102E]" />
         </Link>
+    );
+}
+
+function AboutPageJsonLd() {
+    const jsonLd = {
+        "@context": "https://schema.org",
+
+        "@type": "AboutPage",
+
+        "@id":
+            "https://ahpk.or.ke/about/who-we-are#webpage",
+
+        url:
+            "https://ahpk.or.ke/about/who-we-are",
+
+        name:
+            "Who We Are | Association of Hotel Professionals Kenya",
+
+        headline:
+            "About the Association of Hotel Professionals Kenya",
+
+        description:
+            "Learn about the Association of Hotel Professionals Kenya, its registration, professional mandate, advocacy work and role in Kenya’s hospitality industry.",
+
+        inLanguage: "en-KE",
+
+        isPartOf: {
+            "@type": "WebSite",
+
+            "@id":
+                "https://ahpk.or.ke/#website",
+
+            name:
+                "Association of Hotel Professionals Kenya",
+
+            url: "https://ahpk.or.ke",
+        },
+
+        about: {
+            "@type": "Organization",
+
+            "@id":
+                "https://ahpk.or.ke/#organization",
+
+            name:
+                "Association of Hotel Professionals Kenya",
+
+            alternateName: "AHPK",
+
+            url: "https://ahpk.or.ke",
+
+            logo: {
+                "@type": "ImageObject",
+
+                url:
+                    "https://ahpk.or.ke/images/logo.png",
+            },
+
+            description:
+                "A professional association representing hotel and hospitality professionals in Kenya.",
+
+            areaServed: {
+                "@type": "Country",
+                name: "Kenya",
+            },
+
+            address: {
+                "@type": "PostalAddress",
+
+                addressLocality: "Nairobi",
+
+                addressCountry: "KE",
+            },
+
+            email: "info@ahpk.or.ke",
+        },
+
+        primaryImageOfPage: {
+            "@type": "ImageObject",
+
+            url:
+                "https://ahpk.or.ke/welcome.webp",
+
+            width: 1536,
+            height: 1024,
+        },
+    };
+
+    return (
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(jsonLd),
+            }}
+        />
     );
 }

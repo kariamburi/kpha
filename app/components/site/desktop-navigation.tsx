@@ -79,7 +79,7 @@ const publicNavigation: NavigationItem[] = [
                     },
                     {
                         label: "Corporate Statements",
-                        href: "/about/corporate-statement",
+                        href: "/about/corporate-statements",
                         description:
                             "Our vision, mission and professional values.",
                         icon: Landmark,
@@ -318,7 +318,7 @@ function DesktopMenu() {
     return (
         <div className="hidden lg:block">
             <NavigationMenu>
-                <NavigationMenuList className="gap-1">
+                <NavigationMenuList className="gap-0.5">
                     {publicNavigation.map((item) => {
                         const groups = item.groups ?? [];
                         const hasGroups = groups.length > 0;
@@ -340,13 +340,15 @@ function DesktopMenu() {
                                                     : undefined
                                             }
                                             className={cn(
-                                                "inline-flex h-10 items-center rounded-md px-3",
-                                                "text-sm font-medium transition-colors",
-                                                "hover:bg-accent hover:text-accent-foreground",
-                                                "focus:bg-accent focus:text-accent-foreground",
-                                                "focus:outline-none",
+                                                "relative inline-flex h-10 items-center px-3",
+                                                "text-sm font-bold text-slate-700",
+                                                "transition-all duration-200",
+                                                "after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#C8102E]",
+                                                "after:transition-transform after:duration-200",
+                                                "hover:-translate-y-0.5 hover:text-[#C8102E] hover:after:scale-x-100",
+                                                "focus:outline-none focus:text-[#C8102E] focus:after:scale-x-100",
                                                 isActive &&
-                                                "bg-accent text-accent-foreground",
+                                                "text-[#C8102E] after:scale-x-100",
                                             )}
                                         >
                                             {item.label}
@@ -374,9 +376,15 @@ function DesktopMenu() {
                             <NavigationMenuItem key={item.label}>
                                 <NavigationMenuTrigger
                                     className={cn(
-                                        "bg-transparent",
+                                        "relative h-10 rounded-none bg-transparent px-3 text-sm font-bold text-slate-700",
+                                        "transition-all duration-200",
+                                        "after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#C8102E]",
+                                        "after:transition-transform after:duration-200",
+                                        "hover:-translate-y-0.5 hover:bg-transparent hover:text-[#C8102E] hover:after:scale-x-100",
+                                        "focus:bg-transparent focus:text-[#C8102E]",
+                                        "data-[state=open]:bg-transparent data-[state=open]:text-[#C8102E] data-[state=open]:after:scale-x-100",
                                         dropdownIsActive &&
-                                        "bg-accent text-accent-foreground",
+                                        "text-[#C8102E] after:scale-x-100",
                                     )}
                                 >
                                     {item.label}
@@ -385,26 +393,26 @@ function DesktopMenu() {
                                 <NavigationMenuContent>
                                     <div
                                         className={cn(
-                                            "grid max-h-[75vh] gap-6 overflow-y-auto p-6",
+                                            "grid max-h-[75vh] gap-0 overflow-y-auto border-t-4 border-[#C8102E] bg-white p-0 shadow-2xl shadow-slate-950/10",
                                             groups.length >= 4
-                                                ? "w-[min(900px,calc(100vw-3rem))] grid-cols-4"
+                                                ? "w-[min(980px,calc(100vw-3rem))] grid-cols-4"
                                                 : groups.length === 3
-                                                    ? "w-[min(800px,calc(100vw-3rem))] grid-cols-3"
-                                                    : "w-[min(680px,calc(100vw-3rem))] grid-cols-2",
+                                                    ? "w-[min(840px,calc(100vw-3rem))] grid-cols-3"
+                                                    : "w-[min(720px,calc(100vw-3rem))] grid-cols-2",
                                         )}
                                     >
                                         {groups.map((group) => (
                                             <section
                                                 key={group.title}
-                                                className="min-w-0"
+                                                className="min-w-0 border-r border-slate-200 p-5 last:border-r-0"
                                             >
-                                                <div className="mb-4">
-                                                    <h3 className="text-sm font-semibold text-foreground">
+                                                <div className="mb-3 border-b border-slate-200 pb-3">
+                                                    <h3 className="text-xs font-black uppercase tracking-[0.16em] text-[#C8102E]">
                                                         {group.title}
                                                     </h3>
 
                                                     {group.description && (
-                                                        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                                                        <p className="mt-1.5 text-xs font-medium leading-5 text-slate-500">
                                                             {
                                                                 group.description
                                                             }
@@ -412,7 +420,7 @@ function DesktopMenu() {
                                                     )}
                                                 </div>
 
-                                                <ul className="space-y-1">
+                                                <ul className="space-y-0.5">
                                                     {group.links.map(
                                                         (link) => {
                                                             const Icon =
@@ -441,16 +449,16 @@ function DesktopMenu() {
                                                                                     : undefined
                                                                             }
                                                                             className={cn(
-                                                                                "group flex gap-3 rounded-lg p-3",
-                                                                                "transition-colors",
-                                                                                "hover:bg-accent",
-                                                                                "focus:bg-accent focus:outline-none",
+                                                                                "group flex gap-3 border-l-2 border-transparent px-3 py-2.5",
+                                                                                "transition-all duration-200",
+                                                                                "hover:translate-x-1 hover:border-[#C8102E] hover:bg-red-50/70",
+                                                                                "focus:border-[#C8102E] focus:bg-red-50/70 focus:outline-none",
                                                                                 isActive &&
-                                                                                "bg-accent",
+                                                                                "border-[#C8102E] bg-red-50/70",
                                                                             )}
                                                                         >
                                                                             {Icon && (
-                                                                                <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+                                                                                <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center bg-slate-950 text-white transition-all duration-200 group-hover:bg-[#C8102E] group-hover:scale-105">
                                                                                     <Icon
                                                                                         className="size-4"
                                                                                         aria-hidden="true"
@@ -458,15 +466,15 @@ function DesktopMenu() {
                                                                                 </span>
                                                                             )}
 
-                                                                            <span className="min-w-0">
-                                                                                <span className="block text-sm font-medium text-foreground">
+                                                                            <span className="min-w-0 border-r border-slate-200 p-5 last:border-r-0">
+                                                                                <span className="block text-sm font-black text-slate-900 transition group-hover:text-[#C8102E]">
                                                                                     {
                                                                                         link.label
                                                                                     }
                                                                                 </span>
 
                                                                                 {link.description && (
-                                                                                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                                                                                    <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
                                                                                         {
                                                                                             link.description
                                                                                         }
@@ -543,10 +551,9 @@ function MobileMenu() {
                         : "Open navigation menu"
                 }
                 className={cn(
-                    "inline-flex size-10 items-center justify-center rounded-md",
-                    "border bg-background text-foreground",
-                    "transition-colors hover:bg-accent",
-                    "focus:outline-none focus:ring-2 focus:ring-ring",
+                    "inline-flex size-10 items-center justify-center border border-slate-300 bg-white text-slate-900",
+                    "transition-all duration-200 hover:border-[#C8102E] hover:bg-red-50 hover:text-[#C8102E]",
+                    "focus:outline-none focus:ring-2 focus:ring-red-100",
                 )}
             >
                 {isOpen ? (
@@ -562,7 +569,7 @@ function MobileMenu() {
                         type="button"
                         aria-label="Close navigation menu"
                         onClick={closeMenu}
-                        className="fixed inset-0 top-[var(--header-height,64px)] z-40 bg-black/40 backdrop-blur-[2px]"
+                        className="fixed inset-0 top-[var(--header-height,64px)] z-40 bg-slate-950/45 backdrop-blur-[2px]"
                     />
 
                     <div
@@ -570,14 +577,14 @@ function MobileMenu() {
                         className={cn(
                             "fixed inset-x-0 top-[var(--header-height,64px)] z-50",
                             "max-h-[calc(100dvh-var(--header-height,64px))]",
-                            "overflow-y-auto border-t bg-background shadow-xl",
+                            "overflow-y-auto border-t-4 border-[#C8102E] bg-white shadow-2xl",
                         )}
                     >
                         <nav
                             aria-label="Mobile navigation"
-                            className="mx-auto w-full max-w-7xl px-4 py-4"
+                            className="mx-auto w-full max-w-7xl px-4 py-3"
                         >
-                            <ul className="space-y-1">
+                            <ul className="space-y-0.5">
                                 {publicNavigation.map((item) => {
                                     const groups =
                                         item.groups ?? [];
@@ -608,11 +615,11 @@ function MobileMenu() {
                                                             : undefined
                                                     }
                                                     className={cn(
-                                                        "flex min-h-12 items-center rounded-lg px-4",
-                                                        "text-sm font-medium transition-colors",
-                                                        "hover:bg-accent",
+                                                        "flex min-h-11 items-center border-l-2 border-transparent px-3",
+                                                        "text-sm font-black text-slate-700 transition-all duration-200",
+                                                        "hover:translate-x-1 hover:border-[#C8102E] hover:bg-red-50 hover:text-[#C8102E]",
                                                         isActive &&
-                                                        "bg-accent text-accent-foreground",
+                                                        "border-[#C8102E] bg-red-50 text-[#C8102E]",
                                                     )}
                                                 >
                                                     {item.label}
@@ -644,7 +651,7 @@ function MobileMenu() {
                                     return (
                                         <li
                                             key={item.label}
-                                            className="overflow-hidden rounded-lg border"
+                                            className="overflow-hidden border border-slate-200"
                                         >
                                             <button
                                                 type="button"
@@ -657,11 +664,11 @@ function MobileMenu() {
                                                     isExpanded
                                                 }
                                                 className={cn(
-                                                    "flex min-h-12 w-full items-center justify-between gap-3 px-4",
-                                                    "text-left text-sm font-semibold transition-colors",
-                                                    "hover:bg-accent",
+                                                    "flex min-h-11 w-full items-center justify-between gap-3 px-3",
+                                                    "text-left text-sm font-black text-slate-800 transition-all duration-200",
+                                                    "hover:bg-red-50 hover:text-[#C8102E]",
                                                     sectionIsActive &&
-                                                    "text-primary",
+                                                    "text-[#C8102E]",
                                                 )}
                                             >
                                                 <span>
@@ -679,7 +686,7 @@ function MobileMenu() {
                                             </button>
 
                                             {isExpanded && (
-                                                <div className="border-t bg-muted/30 p-3">
+                                                <div className="border-t border-slate-200 bg-slate-50 p-3">
                                                     <div className="space-y-5">
                                                         {groups.map(
                                                             (
@@ -691,14 +698,14 @@ function MobileMenu() {
                                                                     }
                                                                 >
                                                                     <div className="mb-2 px-2">
-                                                                        <h3 className="text-xs font-semibold uppercase tracking-wide text-foreground">
+                                                                        <h3 className="text-[10px] font-black uppercase tracking-[0.16em] text-[#C8102E]">
                                                                             {
                                                                                 group.title
                                                                             }
                                                                         </h3>
 
                                                                         {group.description && (
-                                                                            <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                                                                            <p className="mt-1.5 text-xs font-medium leading-5 text-slate-500">
                                                                                 {
                                                                                     group.description
                                                                                 }
@@ -706,7 +713,7 @@ function MobileMenu() {
                                                                         )}
                                                                     </div>
 
-                                                                    <ul className="space-y-1">
+                                                                    <ul className="space-y-0.5">
                                                                         {group.links.map(
                                                                             (
                                                                                 link,
@@ -739,14 +746,14 @@ function MobileMenu() {
                                                                                                     : undefined
                                                                                             }
                                                                                             className={cn(
-                                                                                                "flex items-start gap-3 rounded-lg p-3",
-                                                                                                "transition-colors hover:bg-accent",
+                                                                                                "group flex items-start gap-3 border-l-2 border-transparent px-3 py-2.5",
+                                                                                                "transition-all duration-200 hover:translate-x-1 hover:border-[#C8102E] hover:bg-white",
                                                                                                 isActive &&
-                                                                                                "bg-accent",
+                                                                                                "border-[#C8102E] bg-white",
                                                                                             )}
                                                                                         >
                                                                                             {Icon && (
-                                                                                                <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+                                                                                                <span className="flex size-9 shrink-0 items-center justify-center bg-slate-950 text-white transition-all duration-200 group-hover:bg-[#C8102E]">
                                                                                                     <Icon
                                                                                                         className="size-4"
                                                                                                         aria-hidden="true"
@@ -754,15 +761,15 @@ function MobileMenu() {
                                                                                                 </span>
                                                                                             )}
 
-                                                                                            <span className="min-w-0">
-                                                                                                <span className="block text-sm font-medium text-foreground">
+                                                                                            <span className="min-w-0 border-r border-slate-200 p-5 last:border-r-0">
+                                                                                                <span className="block text-sm font-black text-slate-900 transition group-hover:text-[#C8102E]">
                                                                                                     {
                                                                                                         link.label
                                                                                                     }
                                                                                                 </span>
 
                                                                                                 {link.description && (
-                                                                                                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                                                                                                    <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
                                                                                                         {
                                                                                                             link.description
                                                                                                         }
@@ -786,13 +793,13 @@ function MobileMenu() {
                                 })}
                             </ul>
 
-                            <div className="mt-5 grid grid-cols-2 gap-3 border-t pt-5">
+                            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-300 pt-4">
                                 <Link
                                     href="/member/login"
                                     onClick={closeMenu}
                                     className={cn(
-                                        "inline-flex min-h-11 items-center justify-center rounded-lg border px-4",
-                                        "text-sm font-semibold transition-colors hover:bg-accent",
+                                        "inline-flex min-h-11 items-center justify-center border border-slate-300 px-4",
+                                        "text-sm font-black text-slate-800 transition-all duration-200 hover:border-[#C8102E] hover:bg-red-50 hover:text-[#C8102E]",
                                     )}
                                 >
                                     Member Login
@@ -802,9 +809,9 @@ function MobileMenu() {
                                     href="/apply"
                                     onClick={closeMenu}
                                     className={cn(
-                                        "inline-flex min-h-11 items-center justify-center rounded-lg px-4",
-                                        "bg-primary text-sm font-semibold text-primary-foreground",
-                                        "transition-opacity hover:opacity-90",
+                                        "inline-flex min-h-11 items-center justify-center bg-[#C8102E] px-4",
+                                        "text-sm font-black text-white",
+                                        "transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#A80D27] hover:shadow-lg",
                                     )}
                                 >
                                     Apply

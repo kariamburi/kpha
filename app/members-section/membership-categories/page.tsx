@@ -272,6 +272,7 @@ const designations = [
     },
 ];
 
+
 export default function MembershipCategoriesPage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -296,146 +297,125 @@ export default function MembershipCategoriesPage() {
 
             <PageHeader />
 
-            {/* HERO */}
-            <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-                <div className="absolute inset-0 -z-30">
-                    <img
-                        src="/executive-committee.webp"
-                        alt=""
-                        aria-hidden="true"
-                        className="h-full w-full object-cover object-center lg:object-right"
-                    />
-                </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_30%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.9)_55%,rgba(255,255,255,0.65)_68%,rgba(255,255,255,0.32)_82%,rgba(255,255,255,0)_100%)] lg:block" />
-
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_55%,rgba(255,255,255,0.78)_76%,rgba(255,255,255,0.45)_100%)] lg:hidden" />
-
-                <div className="absolute inset-y-0 right-0 -z-10 hidden w-[26%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
-
-                <div className="pointer-events-none absolute -left-32 top-0 -z-10 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-
-                <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-                        <div className="max-w-3xl lg:w-[58%]">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                                    <Award className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </div>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            Members Section
+                        </p>
 
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                                        Members Section
-                                    </p>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Membership Categories
+                        </h1>
 
-                                    <p className="mt-1 text-sm font-semibold text-slate-500">
-                                        Professional Membership
-                                    </p>
-                                </div>
-                            </div>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            Explore the five AHPK membership categories,
+                            their eligibility requirements, professional
+                            designations and application process.
+                        </p>
 
-                            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-                                Membership
-                                <span className="mt-2 block text-[#C8102E]">
-                                    Categories
-                                </span>
-                            </h1>
+                        <div className="mt-5 flex flex-wrap gap-3">
+                            <Link
+                                href="/apply"
+                                className="group inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#A80D27] hover:shadow-lg"
+                            >
+                                Apply for Membership
 
-                            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-                                Explore the five membership categories offered
-                                by AHPK, their eligibility requirements,
-                                professional recognition and application
-                                process.
-                            </p>
+                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
 
-                            <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
-                                {[
-                                    "HAHPK",
-                                    "FAHPK",
-                                    "MAHPK",
-                                    "AAHPK",
-                                    "SAHPK",
-                                ].map((item) => (
-                                    <span
-                                        key={item}
-                                        className="rounded-full border border-slate-200 bg-white/85 px-3.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur sm:px-4 sm:text-[11px]"
-                                    >
-                                        {item}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/75 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
-                                <p className="text-sm font-bold leading-6 text-slate-700">
-                                    From students beginning their hospitality
-                                    journey to industry leaders shaping the
-                                    profession, AHPK provides a recognised path
-                                    for every stage of professional growth.
-                                </p>
-                            </div>
+                            <Link
+                                href="/members-section/membership-criterion-levels"
+                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition duration-200 hover:-translate-y-0.5 hover:border-[#C8102E] hover:text-[#C8102E]"
+                            >
+                                View Membership Criteria
+                            </Link>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/executive-committee.webp"
+                                alt="Hospitality professionals representing AHPK membership categories"
+                                className="h-full w-full object-cover object-center"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-200 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            From students entering hospitality to senior
+                            professionals shaping the industry, AHPK offers
+                            a recognised membership pathway for every stage.
+                        </figcaption>
+                    </figure>
+                </div>
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-12">
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
                             {/* OVERVIEW */}
                             <section
                                 id="overview"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                    <Users className="h-7 w-7" />
-                                </div>
+                                <SectionLabel>
+                                    Membership Categories
+                                </SectionLabel>
 
-                                <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                    Membership categories
-                                </p>
-
-                                <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                    A Membership Path for Every Career Stage
+                                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                                    A membership path for every career stage
                                 </h2>
 
-                                <div className="mt-7 space-y-5 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
+                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
                                     <p>
                                         AHPK membership categories range from
-                                        students pursuing hotel careers to
-                                        chief executives serving in public or
-                                        private employment, running their own
-                                        businesses or working in consultancy.
+                                        students pursuing hotel careers to chief
+                                        executives serving in public or private
+                                        employment, running their own businesses
+                                        or working in consultancy.
                                     </p>
 
                                     <p>
-                                        The membership framework also extends
-                                        to training institutions that offer
-                                        courses and programmes for the hotel,
-                                        hospitality and tourism industry.
+                                        The membership framework also extends to
+                                        training institutions that offer courses
+                                        and programmes for the hotel, hospitality
+                                        and tourism industry.
                                     </p>
                                 </div>
 
-                                <div className="mt-7 rounded-2xl border border-red-100 bg-red-50/70 p-6">
-                                    <p className="text-base font-bold leading-8 text-slate-800 sm:text-lg">
-                                        Each category reflects a distinct level
-                                        of professional experience,
-                                        contribution, institutional involvement
-                                        or career development within the
-                                        hospitality sector.
-                                    </p>
+                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                    Each category reflects a distinct level of
+                                    professional experience, contribution,
+                                    institutional involvement or career
+                                    development within hospitality.
+                                </blockquote>
+
+                                <div className="mt-5 grid border-y border-slate-300 sm:grid-cols-5">
+                                    {designations.map((item) => (
+                                        <DesignationFact
+                                            key={item.code}
+                                            code={item.code}
+                                            label={item.label}
+                                        />
+                                    ))}
                                 </div>
                             </section>
 
                             {/* HONORARY */}
                             <section
                                 id="honorary-member"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <CategoryHeading
                                     number="01"
@@ -445,8 +425,8 @@ export default function MembershipCategoriesPage() {
                                     icon={Trophy}
                                 />
 
-                                <div className="mt-8 rounded-[24px] border border-slate-200 bg-slate-50 p-6 sm:p-8">
-                                    <p className="text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
+                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
+                                    <p>
                                         Honorary Membership may be awarded to
                                         captains of the industry who have served
                                         as Managing Directors, Owners, Chief
@@ -454,146 +434,121 @@ export default function MembershipCategoriesPage() {
                                         Managers or Consultants.
                                     </p>
 
-                                    <p className="mt-4 text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
+                                    <p>
                                         Eligible individuals should have upheld
-                                        and maintained the integrity and
-                                        reputation of the hospitality industry,
-                                        whether they have since retired or are
-                                        no longer in active service.
+                                        and maintained the integrity and reputation
+                                        of the hospitality industry, whether they
+                                        have since retired or are no longer in
+                                        active service.
                                     </p>
-
-                                    <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                        {categoryCards[0].audience.map((item) => (
-                                            <ListPill key={item} label={item} />
-                                        ))}
-                                    </div>
                                 </div>
+
+                                <AudienceGrid
+                                    items={categoryCards[0].audience}
+                                />
                             </section>
 
                             {/* FELLOW MEMBER */}
                             <section
                                 id="fellow-member"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="overflow-hidden rounded-[28px] border border-red-100 bg-slate-950 text-white">
-                                    <div className="grid gap-8 p-7 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-start">
-                                        <div>
-                                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-red-300">
-                                                <Medal className="h-7 w-7" />
-                                            </div>
+                                <div className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white sm:p-6">
+                                    <div className="grid gap-5 sm:grid-cols-[52px_minmax(0,1fr)]">
+                                        <div className="flex h-11 w-11 items-center justify-center bg-[#C8102E] text-white">
+                                            <Medal className="h-5 w-5" />
+                                        </div>
 
-                                            <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-red-300">
-                                                Membership category 02
+                                        <div>
+                                            <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                                Membership Category 02
                                             </p>
 
-                                            <div className="mt-3 flex flex-wrap items-center gap-3">
-                                                <h2 className="text-3xl font-extrabold sm:text-4xl">
+                                            <div className="mt-2 flex flex-wrap items-center gap-3">
+                                                <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
                                                     Fellow Member
                                                 </h2>
 
-                                                <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white">
+                                                <span className="border border-white/30 px-3 py-1.5 text-xs font-black uppercase tracking-[0.15em] text-white">
                                                     FAHPK
                                                 </span>
                                             </div>
 
-                                            <p className="mt-5 text-sm font-medium leading-7 text-white/75 sm:text-base sm:leading-8">
+                                            <p className="mt-3 text-sm font-medium leading-7 text-slate-300 sm:text-base">
                                                 Fellowship is the next major
                                                 professional milestone for a
-                                                Full Member of AHPK and
-                                                recognises the expertise,
-                                                leadership and contribution of
-                                                the most senior members of the
-                                                hotel and hospitality industry.
+                                                Full Member of AHPK and recognises
+                                                the expertise, leadership and
+                                                contribution of senior members.
                                             </p>
                                         </div>
-
-                                        <Star className="hidden h-16 w-16 text-red-300 lg:block" />
                                     </div>
 
-                                    <div className="border-t border-white/10 bg-white/[0.04] p-7 sm:p-9">
-                                        <p className="text-sm font-medium leading-7 text-white/75 sm:text-base sm:leading-8">
+                                    <div className="mt-5 space-y-4 border-t border-white/15 pt-5 text-sm font-medium leading-7 text-slate-300 sm:text-base">
+                                        <p>
                                             A Fellow Member is a captain of the
-                                            industry who has served as a
-                                            Managing Director, Investor, Chief
-                                            Executive Officer, General Manager,
-                                            Manager or Consultant and has
-                                            upheld the integrity and reputation
-                                            of the profession while retired or
-                                            still in active service.
+                                            industry who has served as a Managing
+                                            Director, Investor, Chief Executive
+                                            Officer, General Manager, Manager or
+                                            Consultant and has upheld the integrity
+                                            and reputation of the profession.
                                         </p>
 
-                                        <p className="mt-4 text-sm font-medium leading-7 text-white/75 sm:text-base sm:leading-8">
+                                        <p>
                                             The individual should have made a
-                                            substantial contribution to the
-                                            promotion of professional values and
-                                            dignity through personal leadership,
+                                            substantial contribution to professional
+                                            values and dignity through leadership,
                                             shared knowledge and work worthy of
                                             industry benchmarking.
                                         </p>
-
-                                        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
-                                            <p className="text-base font-extrabold leading-7 text-white">
-                                                Fellowship represents one of
-                                                the Association&apos;s highest
-                                                forms of professional
-                                                recognition.
-                                            </p>
-                                        </div>
                                     </div>
+
+                                    <p className="mt-5 border-l-4 border-red-400 bg-white/5 px-4 py-3 text-base font-black leading-7 text-white">
+                                        Fellowship represents one of the
+                                        Association&apos;s highest forms of
+                                        professional recognition.
+                                    </p>
                                 </div>
                             </section>
 
                             {/* FELLOW ELIGIBILITY */}
                             <section
                                 id="fellow-eligibility"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Eligibility for admission"
+                                    eyebrow="Eligibility for Admission"
                                     title="Fellow Membership Requirements"
-                                    description="Applicants for Fellowship are assessed on their membership history, education, professional training, industry service and wider professional participation."
+                                    description="Applicants for Fellowship are assessed on membership history, education, professional training, industry service and wider professional participation."
                                     icon={ShieldCheck}
                                 />
 
-                                <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                                    {fellowEligibility.map((item) => {
-                                        const Icon = item.icon;
-
-                                        return (
-                                            <div
-                                                key={item.title}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm"
-                                            >
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                                    <Icon className="h-5 w-5" />
-                                                </div>
-
-                                                <h3 className="mt-5 text-lg font-extrabold text-slate-950">
-                                                    {item.title}
-                                                </h3>
-
-                                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                                    {item.description}
-                                                </p>
-                                            </div>
-                                        );
-                                    })}
+                                <div className="mt-5 border-t border-slate-300">
+                                    {fellowEligibility.map((item, index) => (
+                                        <EditorialRow
+                                            key={item.title}
+                                            number={index + 1}
+                                            title={item.title}
+                                            description={item.description}
+                                            icon={item.icon}
+                                        />
+                                    ))}
                                 </div>
                             </section>
 
                             {/* OTHER CATEGORIES */}
                             <section
                                 id="other-categories"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Professional membership levels"
+                                    eyebrow="Professional Membership Levels"
                                     title="Full, Associate & Student Membership"
                                     description="These categories support practising professionals, partner organisations and students preparing to enter the hospitality industry."
                                     icon={Award}
                                 />
 
-                                <div className="mt-8 space-y-6">
+                                <div className="mt-5 divide-y divide-slate-300 border-y border-slate-300">
                                     {categoryCards.slice(1).map((category, index) => {
                                         const Icon = category.icon;
 
@@ -601,44 +556,42 @@ export default function MembershipCategoriesPage() {
                                             <section
                                                 key={category.id}
                                                 id={category.id}
-                                                className="scroll-mt-28 rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                                                className="group scroll-mt-28 py-6"
                                             >
-                                                <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-                                                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                                        <Icon className="h-6 w-6" />
+                                                <div className="grid gap-4 sm:grid-cols-[52px_minmax(0,1fr)]">
+                                                    <div className="flex h-11 w-11 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:bg-[#C8102E]">
+                                                        <Icon className="h-5 w-5" />
                                                     </div>
 
-                                                    <div className="flex-1">
-                                                        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
-                                                            Membership category{" "}
+                                                    <div>
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                                                            Membership Category{" "}
                                                             {String(index + 3).padStart(2, "0")}
                                                         </p>
 
-                                                        <div className="mt-2 flex flex-wrap items-center gap-3">
-                                                            <h3 className="text-2xl font-extrabold text-slate-950">
+                                                        <div className="mt-1.5 flex flex-wrap items-center gap-3">
+                                                            <h3 className="text-2xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
                                                                 {category.title}
                                                             </h3>
 
-                                                            <span className="rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#C8102E]">
+                                                            <span className="border border-red-200 bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-[#C8102E]">
                                                                 {category.designation}
                                                             </span>
                                                         </div>
 
-                                                        <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                                        <p className="mt-2 text-sm font-medium leading-7 text-slate-600 sm:text-base">
                                                             {category.description}
                                                         </p>
                                                     </div>
                                                 </div>
 
-                                                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                                                    {category.audience.map((item) => (
-                                                        <ListPill key={item} label={item} />
-                                                    ))}
-                                                </div>
+                                                <div className="sm:ml-[68px]">
+                                                    <AudienceGrid
+                                                        items={category.audience}
+                                                    />
 
-                                                {category.id === "full-member" && (
-                                                    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                                                        <p className="text-sm font-bold leading-7 text-slate-700">
+                                                    {category.id === "full-member" && (
+                                                        <p className="mt-4 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3 text-sm font-bold leading-7 text-slate-700">
                                                             Full Members must
                                                             demonstrate reputable
                                                             career progression and
@@ -647,20 +600,18 @@ export default function MembershipCategoriesPage() {
                                                             benchmarks established
                                                             by the Association.
                                                         </p>
-                                                    </div>
-                                                )}
+                                                    )}
 
-                                                {category.id === "associate-member" && (
-                                                    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                                                        <p className="text-sm font-bold leading-7 text-slate-700">
+                                                    {category.id === "associate-member" && (
+                                                        <p className="mt-4 border-l-4 border-slate-950 bg-slate-50 px-4 py-3 text-sm font-bold leading-7 text-slate-700">
                                                             Associate Membership is
                                                             subject to the
                                                             Association&apos;s
                                                             established vetting
                                                             criteria.
                                                         </p>
-                                                    </div>
-                                                )}
+                                                    )}
+                                                </div>
                                             </section>
                                         );
                                     })}
@@ -670,47 +621,47 @@ export default function MembershipCategoriesPage() {
                             {/* APPLICATION PROCESS */}
                             <section
                                 id="application-process"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Vetting and approval"
+                                    eyebrow="Vetting and Approval"
                                     title="Membership Application Process"
-                                    description="All applications are reviewed through a structured process to ensure that every individual or institution meets the benchmark for the selected category."
+                                    description="All applications are reviewed through a structured process to ensure each individual or institution meets the benchmark for the selected category."
                                     icon={FileCheck2}
                                 />
 
-                                <div className="mt-8 space-y-4">
+                                <div className="mt-5 border-t border-slate-300">
                                     {approvalSteps.map((step) => {
                                         const Icon = step.icon;
 
                                         return (
-                                            <div
+                                            <article
                                                 key={step.number}
-                                                className="grid gap-5 rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm sm:grid-cols-[72px_1fr] sm:items-start"
+                                                className="group grid gap-4 border-b border-slate-300 py-5 sm:grid-cols-[58px_46px_minmax(0,1fr)] sm:items-start"
                                             >
-                                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#C8102E] text-sm font-black text-white">
+                                                <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
                                                     {step.number}
+                                                </p>
+
+                                                <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:scale-105">
+                                                    <Icon className="h-5 w-5" />
                                                 </div>
 
                                                 <div>
-                                                    <div className="flex items-center gap-3">
-                                                        <Icon className="h-5 w-5 text-[#C8102E]" />
+                                                    <h3 className="text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                                                        {step.title}
+                                                    </h3>
 
-                                                        <h3 className="text-lg font-extrabold text-slate-950">
-                                                            {step.title}
-                                                        </h3>
-                                                    </div>
-
-                                                    <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+                                                    <p className="mt-2 text-sm font-medium leading-7 text-slate-600 sm:text-base">
                                                         {step.description}
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </article>
                                         );
                                     })}
                                 </div>
 
-                                <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-6">
+                                <div className="mt-5 border-l-4 border-amber-500 bg-amber-50 px-5 py-4">
                                     <p className="text-sm font-bold leading-7 text-amber-950">
                                         Membership payments should only begin
                                         after the applicant or institution has
@@ -724,22 +675,18 @@ export default function MembershipCategoriesPage() {
                             {/* CERTIFICATION */}
                             <section
                                 id="certification"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[24px] border border-red-100 bg-red-50 p-6 sm:p-8">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-                                        <FileCheck2 className="h-6 w-6" />
-                                    </div>
+                                <div className="border-t-4 border-[#C8102E] bg-slate-50 p-5 sm:p-6">
+                                    <FileCheck2 className="h-7 w-7 text-[#C8102E]" />
 
-                                    <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Kindly note
-                                    </p>
+                                    <SectionLabel>Kindly Note</SectionLabel>
 
-                                    <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
+                                    <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
                                         Membership Certification
                                     </h2>
 
-                                    <p className="mt-4 text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
+                                    <p className="mt-4 text-[17px] leading-8 text-slate-700">
                                         Membership certificates issued by AHPK
                                         are valid for one year and may require
                                         renewal in accordance with the
@@ -752,31 +699,31 @@ export default function MembershipCategoriesPage() {
                             {/* PROFESSIONAL RECOGNITION */}
                             <section
                                 id="professional-recognition"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Designatory letters"
+                                    eyebrow="Designatory Letters"
                                     title="Professional Recognition"
-                                    description="Each membership category carries a distinct designation that communicates the member's standing within the Association."
+                                    description="Each membership category carries a distinct designation communicating the member's standing within the Association."
                                     icon={Award}
                                 />
 
-                                <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2 lg:grid-cols-3">
                                     {designations.map((item) => {
                                         const Icon = item.icon;
 
                                         return (
                                             <div
                                                 key={item.code}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm"
+                                                className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/60 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0 lg:nth-[2n]:border-r lg:nth-[3n]:border-r-0"
                                             >
-                                                <Icon className="h-7 w-7 text-[#C8102E]" />
+                                                <Icon className="h-6 w-6 text-[#C8102E] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" />
 
-                                                <p className="mt-5 text-2xl font-black tracking-tight text-slate-950">
+                                                <p className="mt-3 text-2xl font-black tracking-tight text-slate-950 transition group-hover:text-[#C8102E]">
                                                     {item.code}
                                                 </p>
 
-                                                <p className="mt-2 text-sm font-bold text-slate-600">
+                                                <p className="mt-1 text-sm font-bold text-slate-600">
                                                     {item.label}
                                                 </p>
                                             </div>
@@ -786,162 +733,108 @@ export default function MembershipCategoriesPage() {
                             </section>
 
                             {/* CTA */}
-                            <section className="mt-10 rounded-[24px] bg-slate-950 p-7 text-white sm:p-8">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                                    <Sparkles className="h-6 w-6" />
+                            <section className="border-t border-slate-300 py-8">
+                                <div className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white sm:p-6">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                        Begin Your Membership Journey
+                                    </p>
+
+                                    <h2 className="mt-2 max-w-2xl text-3xl font-black leading-tight">
+                                        Choose the right membership
+                                    </h2>
+
+                                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
+                                        Whether you are beginning your hospitality
+                                        journey or leading the industry, AHPK offers
+                                        a membership category designed to support
+                                        your professional growth.
+                                    </p>
+
+                                    <Link
+                                        href="/apply"
+                                        className="group mt-4 inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-lg"
+                                    >
+                                        Apply for Membership
+
+                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </Link>
                                 </div>
-
-                                <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-red-300">
-                                    Begin your membership journey
-                                </p>
-
-                                <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
-                                    Choose the Right Membership
-                                </h2>
-
-                                <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/70 sm:text-base">
-                                    Whether you are beginning your hospitality
-                                    journey or leading the industry, AHPK offers
-                                    a membership category designed to support
-                                    your professional growth.
-                                </p>
-
-                                <Link
-                                    href="/apply"
-                                    className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#C8102E] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-red-700"
-                                >
-                                    Apply for Membership
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
                             </section>
 
                             {/* PREVIOUS / NEXT */}
-                            <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-                                <Link
-                                    href="/members-section/membership-criterion-levels"
-                                    className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                            <section className="border-t border-slate-300 pt-5">
+                                <SectionLabel>Continue Reading</SectionLabel>
 
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Previous
-                                        </span>
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/members-section/membership-criterion-levels"
+                                        eyebrow="Previous"
+                                        title="Membership Criterion & Levels"
+                                        direction="left"
+                                    />
 
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Membership Criterion &amp; Levels
-                                        </span>
-                                    </span>
-                                </Link>
-
-                                <Link
-                                    href="/members-section/association-documents"
-                                    className="group flex min-h-24 items-center justify-end gap-4 rounded-2xl border border-slate-200 p-5 text-right transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Next
-                                        </span>
-
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Association Documents
-                                        </span>
-                                    </span>
-
-                                    <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                </Link>
-                            </div>
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/membership"
+                                        eyebrow="Next"
+                                        title="Membership Rules"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
                         </article>
 
                         {/* SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
+                            <div className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                         On this page
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Membership Categories
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
-                                    <SidebarLink
-                                        href="#overview"
-                                        label="Overview"
-                                        active
-                                    />
-
-                                    <SidebarLink
-                                        href="#honorary-member"
-                                        label="Honorary Member"
-                                    />
-
-                                    <SidebarLink
-                                        href="#fellow-member"
-                                        label="Fellow Member"
-                                    />
-
-                                    <SidebarLink
-                                        href="#fellow-eligibility"
-                                        label="Fellow Eligibility"
-                                    />
-
-                                    <SidebarLink
-                                        href="#full-member"
-                                        label="Full Member"
-                                    />
-
-                                    <SidebarLink
-                                        href="#associate-member"
-                                        label="Associate Member"
-                                    />
-
-                                    <SidebarLink
-                                        href="#student-member"
-                                        label="Student Member"
-                                    />
-
-                                    <SidebarLink
-                                        href="#application-process"
-                                        label="Application Process"
-                                    />
-
-                                    <SidebarLink
-                                        href="#certification"
-                                        label="Certification"
-                                    />
-
-                                    <SidebarLink
-                                        href="#professional-recognition"
-                                        label="Professional Recognition"
-                                    />
+                                <nav
+                                    aria-label="Membership categories page navigation"
+                                    className="divide-y divide-slate-200"
+                                >
+                                    <SidebarLink href="#overview" label="Overview" />
+                                    <SidebarLink href="#honorary-member" label="Honorary Member" />
+                                    <SidebarLink href="#fellow-member" label="Fellow Member" />
+                                    <SidebarLink href="#fellow-eligibility" label="Fellow Eligibility" />
+                                    <SidebarLink href="#full-member" label="Full Member" />
+                                    <SidebarLink href="#associate-member" label="Associate Member" />
+                                    <SidebarLink href="#student-member" label="Student Member" />
+                                    <SidebarLink href="#application-process" label="Application Process" />
+                                    <SidebarLink href="#certification" label="Certification" />
+                                    <SidebarLink href="#professional-recognition" label="Professional Recognition" />
                                 </nav>
                             </div>
 
-                            <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
-                                <Medal className="h-8 w-8 text-[#C8102E]" />
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                                <Medal className="h-6 w-6 text-[#C8102E]" />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
                                     Fellowship Recognition
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
                                     FAHPK recognises senior hospitality leaders
                                     whose experience, integrity and contribution
                                     have strengthened the profession.
                                 </p>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <FileCheck2 className="h-8 w-8 text-[#C8102E]" />
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <FileCheck2 className="h-6 w-6 text-red-300" />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black">
                                     Application Approval
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
                                     Applicants should wait for written approval
                                     from the Association before making
                                     membership payments.
@@ -949,12 +842,13 @@ export default function MembershipCategoriesPage() {
 
                                 <Link
                                     href="#application-process"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                                    className="group mt-4 inline-flex items-center gap-2 text-sm font-black text-red-300 transition hover:text-white"
                                 >
                                     View the Approval Process
-                                    <ArrowRight className="h-4 w-4" />
+
+                                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Link>
-                            </div>
+                            </section>
                         </aside>
                     </div>
                 </div>
@@ -977,22 +871,22 @@ function SectionHeading({
     icon: typeof Users;
 }) {
     return (
-        <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                <Icon className="h-6 w-6" />
+        <div className="flex items-start gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                <Icon className="h-5 w-5" />
             </div>
 
-            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                {eyebrow}
-            </p>
+            <div>
+                <SectionLabel>{eyebrow}</SectionLabel>
 
-            <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                {title}
-            </h2>
+                <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                    {title}
+                </h2>
 
-            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                {description}
-            </p>
+                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                    {description}
+                </p>
+            </div>
         </div>
     );
 }
@@ -1011,40 +905,111 @@ function CategoryHeading({
     icon: typeof Trophy;
 }) {
     return (
-        <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                <Icon className="h-6 w-6" />
-            </div>
-
-            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                Membership category {number}
+        <div className="grid gap-4 sm:grid-cols-[58px_48px_minmax(0,1fr)] sm:items-start">
+            <p className="text-3xl font-black leading-none text-slate-300">
+                {number}
             </p>
 
-            <div className="mt-2 flex flex-wrap items-center gap-3">
-                <h2 className="text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                    {title}
-                </h2>
-
-                <span className="rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#C8102E]">
-                    {designation}
-                </span>
+            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white">
+                <Icon className="h-5 w-5" />
             </div>
 
-            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                {description}
-            </p>
+            <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                    Membership Category
+                </p>
+
+                <div className="mt-1.5 flex flex-wrap items-center gap-3">
+                    <h2 className="text-3xl font-black tracking-tight text-slate-950">
+                        {title}
+                    </h2>
+
+                    <span className="border border-red-200 bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-[#C8102E]">
+                        {designation}
+                    </span>
+                </div>
+
+                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                    {description}
+                </p>
+            </div>
         </div>
     );
 }
 
-function ListPill({ label }: { label: string }) {
+function EditorialRow({
+    number,
+    title,
+    description,
+    icon: Icon,
+}: {
+    number: number;
+    title: string;
+    description: string;
+    icon: typeof Users;
+}) {
     return (
-        <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-            <CircleDot className="h-4 w-4 shrink-0 text-[#C8102E]" />
+        <article className="group grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_48px_minmax(0,1fr)] sm:items-start">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {String(number).padStart(2, "0")}
+            </p>
 
-            <span className="text-sm font-bold text-slate-700">
+            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:scale-105">
+                <Icon className="h-5 w-5" />
+            </div>
+
+            <div>
+                <h3 className="text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+
+                <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                    {description}
+                </p>
+            </div>
+        </article>
+    );
+}
+
+function AudienceGrid({
+    items,
+}: {
+    items: string[];
+}) {
+    return (
+        <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+                <div
+                    key={item}
+                    className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-3 transition duration-200 hover:bg-red-50/60 sm:border-r sm:px-4 sm:nth-[2n]:border-r-0 lg:nth-[2n]:border-r lg:nth-[3n]:border-r-0"
+                >
+                    <CircleDot className="h-4 w-4 shrink-0 text-[#C8102E] transition-transform duration-200 group-hover:scale-125" />
+
+                    <span className="text-sm font-bold leading-6 text-slate-700 transition group-hover:text-[#C8102E]">
+                        {item}
+                    </span>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function DesignationFact({
+    code,
+    label,
+}: {
+    code: string;
+    label: string;
+}) {
+    return (
+        <div className="border-b border-slate-300 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:px-3 sm:first:pl-0 sm:last:border-r-0">
+            <p className="text-lg font-black tracking-tight text-[#C8102E]">
+                {code}
+            </p>
+
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.13em] text-slate-500">
                 {label}
-            </span>
+            </p>
         </div>
     );
 }
@@ -1052,31 +1017,68 @@ function ListPill({ label }: { label: string }) {
 function SidebarLink({
     href,
     label,
-    active = false,
 }: {
     href: string;
     label: string;
-    active?: boolean;
 }) {
     return (
         <Link
             href={href}
-            className={
-                active
-                    ? "group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                    : "group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-            }
+            className="group flex items-center justify-between gap-3 py-3 text-sm font-bold text-slate-700 transition hover:translate-x-0.5 hover:text-[#C8102E]"
         >
             {label}
 
-            <ChevronRight
-                className={
-                    active
-                        ? "h-4 w-4"
-                        : "h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]"
-                }
-            />
+            <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C8102E]" />
         </Link>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+    direction,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" && (
+                <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
+            )}
+
+            <div className={direction === "right" ? "ml-auto text-right" : ""}>
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" && (
+                <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            )}
+        </Link>
+    );
+}
+
+function SectionLabel({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+            {children}
+        </p>
     );
 }
 

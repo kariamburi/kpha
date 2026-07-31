@@ -8,13 +8,7 @@ import {
     ArrowLeft,
     ArrowRight,
     BadgeCheck,
-    CalendarDays,
-    FileText,
-    LogIn,
-    Search,
     UserPlus,
-    Users,
-    type LucideIcon,
 } from "lucide-react";
 
 import Logo from "@/app/assets/logo.png";
@@ -55,40 +49,17 @@ const slides: HeroSlide[] = [
     },
 ];
 
-const quickServices = [
-    {
-        title: "Apply",
-        href: "/apply",
-        icon: UserPlus,
-    },
-    {
-        title: "Member Login",
-        href: "/member/login",
-        icon: LogIn,
-    },
-    {
-        title: "Verify Certificate",
-        href: "/verify",
-        icon: BadgeCheck,
-    },
-    {
-        title: "Membership Renewal",
-        href: "/member/renewal",
-        icon: CalendarDays,
-    },
-    {
-        title: "Events",
-        href: "/events",
-        icon: FileText,
-    },
-    {
-        title: "Member Directory",
-        href: "/directory",
-        icon: Users,
-    },
-];
 
-export default function PublicHeroLignt() {
+type Props = {
+    welcomeTitle?: string | null;
+    welcomeText?: string | null;
+
+};
+export default function PublicHeroLignt({
+    welcomeTitle,
+    welcomeText,
+
+}: Props) {
     const [activeSlide, setActiveSlide] = useState(0);
     const [paused, setPaused] = useState(false);
 
@@ -126,7 +97,7 @@ export default function PublicHeroLignt() {
 
     return (
         <section
-            className="relative flex min-h-[980px] flex-col overflow-visible bg-slate-100 sm:min-h-[1040px] lg:min-h-[920px] xl:min-h-[900px]"
+            className="relative flex min-h-[760px] flex-col overflow-visible bg-slate-100 sm:min-h-[800px] lg:min-h-[760px] xl:min-h-[780px]"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >
@@ -167,11 +138,11 @@ export default function PublicHeroLignt() {
                 className="absolute inset-x-0 top-0 z-50"
                 style={
                     {
-                        "--header-height": "112px",
+                        "--header-height": "92px",
                     } as React.CSSProperties
                 }
             >
-                <div className="mx-auto flex min-h-[88px] w-full max-w-[1700px] items-center gap-4 px-4 sm:min-h-[100px] sm:px-6 lg:px-8 xl:min-h-[112px] xl:px-10">
+                <div className="mx-auto flex min-h-[76px] w-full max-w-[1700px] items-center gap-4 px-4 sm:min-h-[84px] sm:px-6 lg:px-8 xl:min-h-[92px] xl:px-10">
                     <Link
                         href="/"
                         aria-label="AHPK homepage"
@@ -183,7 +154,7 @@ export default function PublicHeroLignt() {
                             width={160}
                             height={160}
                             priority
-                            className="h-[76px] w-[76px] object-contain sm:h-[92px] sm:w-[92px] lg:h-[108px] lg:w-[108px] xl:h-[125px] xl:w-[125px]"
+                            className="h-[64px] w-[64px] object-contain sm:h-[72px] sm:w-[72px] lg:h-[82px] lg:w-[82px] xl:h-[90px] xl:w-[90px]"
                         />
                     </Link>
 
@@ -194,36 +165,35 @@ export default function PublicHeroLignt() {
             </header>
 
             {/* HERO CONTENT */}
-            <div className="relative z-20 mx-auto flex w-full max-w-[1550px] flex-1 flex-col justify-end px-5 pb-8 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-10 xl:pt-40">
+            <div className="relative z-20 mx-auto flex w-full max-w-[1550px] flex-1 flex-col justify-end px-5 pb-5 pt-24 sm:px-8 sm:pt-28 lg:px-12 lg:pb-6 xl:pt-30">
                 <div className="max-w-[920px]">
                     <div
                         key={activeSlide}
                         className="animate-[heroFade_.7s_ease-out]"
                     >
-                        <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-red-200 bg-white/85 px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C1121F] shadow-sm backdrop-blur-md sm:text-[11px]">
-                            <span className="h-2 w-2 rounded-full bg-[#C1121F]" />
+                        <p className="mb-3 inline-flex items-center gap-2 border-l-4 border-[#C1121F] pl-3 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C1121F] sm:text-[11px]">
                             Association of Hotel Professionals Kenya
                         </p>
 
-                        <h1 className="max-w-[920px] text-[40px] font-bold leading-[1.04] tracking-tight text-slate-950 drop-shadow-sm sm:text-[50px] lg:text-[60px] xl:text-[68px]">
+                        <h1 className="max-w-[900px] text-[38px] font-black leading-[1.03] tracking-tight text-slate-950 sm:text-[46px] lg:text-[54px] xl:text-[60px]">
                             {active.title}
                         </h1>
 
-                        <p className="mt-5 max-w-[850px] text-base font-semibold leading-8 text-slate-700 sm:text-lg lg:text-xl">
+                        <p className="mt-3 max-w-[800px] text-base font-semibold leading-7 text-slate-700 sm:text-lg">
                             {active.description}
                         </p>
 
-                        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
                             <Link
                                 href={active.buttonHref}
-                                className="inline-flex min-h-12 items-center justify-center bg-[#C1121F] px-7 py-3 text-sm font-extrabold uppercase text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#970D1B]"
+                                className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#C1121F] px-6 py-2.5 text-sm font-extrabold uppercase text-white transition hover:bg-[#970D1B]"
                             >
                                 {active.buttonLabel}
                             </Link>
 
                             <Link
                                 href="/members-section/constitution-rules/membership"
-                                className="inline-flex min-h-12 items-center justify-center border border-slate-300 bg-white/85 px-7 py-3 text-sm font-extrabold uppercase text-slate-900 shadow-sm backdrop-blur-md transition hover:border-[#C1121F] hover:text-[#C1121F]"
+                                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white/85 px-6 py-2.5 text-sm font-extrabold uppercase text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:text-[#C1121F]"
                             >
                                 Explore Membership
                             </Link>
@@ -231,12 +201,12 @@ export default function PublicHeroLignt() {
                     </div>
 
                     {/* SLIDER CONTROLS */}
-                    <div className="mt-8 flex flex-wrap items-center gap-4">
+                    <div className="mt-5 flex flex-wrap items-center gap-3">
                         <button
                             type="button"
                             onClick={previousSlide}
                             aria-label="Previous slide"
-                            className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 shadow-sm backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
                         >
                             <ArrowLeft className="h-5 w-5" />
                         </button>
@@ -263,7 +233,7 @@ export default function PublicHeroLignt() {
                             type="button"
                             onClick={nextSlide}
                             aria-label="Next slide"
-                            className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 shadow-sm backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
                         >
                             <ArrowRight className="h-5 w-5" />
                         </button>
@@ -287,98 +257,67 @@ export default function PublicHeroLignt() {
                 </div>
 
                 {/* MEMBER SERVICES PANEL */}
-                <div className="relative z-30 mt-10 w-full lg:mt-12">
-                    <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white/95 shadow-[0_30px_80px_rgba(15,23,42,0.18)] backdrop-blur-2xl">
-                        <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-                            {/* MEMBER SEARCH */}
-                            <div className="border-b border-slate-200 p-5 sm:p-6 lg:border-b-0 lg:border-r lg:p-7">
-                                <div className="mb-4">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C1121F]">
-                                        Member verification
-                                    </p>
+                <section className="relative z-30 mt-1 w-full rounded-xl bg-white py-2 sm:py-3">
+                    <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 sm:px-5 lg:grid-cols-[0.88fr_1.12fr] lg:px-6">
+                        <div className="relative overflow-hidden">
 
-                                    <h2 className="mt-2 text-xl font-extrabold text-slate-950 sm:text-2xl">
-                                        Find an AHPK professional
-                                    </h2>
+                            <img
+                                src="/welcome.webp"
+                                alt="Hospitality professionals"
+                                className="h-[280px] w-full object-cover sm:h-[310px] lg:h-[320px]"
+                            />
 
-                                    <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">
-                                        Search the official member
-                                        directory using a member name
-                                        or membership number.
-                                    </p>
-                                </div>
+                            <div className="absolute bottom-3 left-3 right-3 border-l-4 border-[#C8102E] bg-white/92 p-4 backdrop-blur-md">
+                                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C8102E]">
+                                    AHPK at a glance
+                                </p>
+                                <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
+                                    Recognition, professional growth, ethical standards and a
+                                    stronger hospitality community.
+                                </p>
+                            </div>
+                        </div>
 
-                                <form
-                                    action="/directory"
-                                    method="get"
-                                    className="rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-sm"
-                                >
-                                    <div className="flex flex-col gap-2 sm:flex-row">
-                                        <div className="relative min-w-0 flex-1">
-                                            <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                        <div>
+                            <SectionLabel>Welcome to AHPK</SectionLabel>
 
-                                            <input
-                                                type="search"
-                                                name="q"
-                                                aria-label="Search AHPK member"
-                                                placeholder="Name or member number"
-                                                className="h-14 w-full rounded-xl border border-slate-200 bg-white pl-13 pr-5 text-sm font-semibold text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#C1121F] focus:ring-4 focus:ring-red-100"
-                                            />
-                                        </div>
+                            <h2 className="mt-2 max-w-3xl font-serif text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+                                {welcomeTitle}
+                            </h2>
 
-                                        <button
-                                            type="submit"
-                                            className="inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-6 text-sm font-black text-white transition hover:bg-[#970D1B] focus:outline-none focus:ring-4 focus:ring-red-200"
-                                        >
-                                            <Search className="h-4 w-4" />
-                                            Search member
-                                        </button>
-                                    </div>
-                                </form>
+                            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                <p>{welcomeText}</p>
+                                <p>
+                                    We bring together hospitality professionals, educators,
+                                    managers and industry leaders who are committed to quality,
+                                    credibility and responsible professional practice.
+                                </p>
                             </div>
 
-                            {/* QUICK SERVICES */}
-                            <div className="bg-slate-50/80 p-5 sm:p-6 lg:p-7">
-                                <div className="mb-4 flex items-center justify-between gap-4">
-                                    <div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C1121F]">
-                                            Quick access
-                                        </p>
+                            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                                <Link
+                                    href="/about/who-we-are"
+                                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#C8102E] px-5 text-sm font-extrabold text-white transition hover:bg-[#A80D27]"
+                                >
+                                    Discover AHPK
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
 
-                                        <h2 className="mt-2 text-xl font-extrabold text-slate-950">
-                                            Member services
-                                        </h2>
-                                    </div>
-
-                                    <span className="hidden rounded-full border border-red-200 bg-red-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-[#C1121F] sm:inline-flex">
-                                        AHPK Portal
-                                    </span>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-                                    {quickServices.map(
-                                        (service) => (
-                                            <HeroServiceCard
-                                                key={
-                                                    service.href
-                                                }
-                                                title={
-                                                    service.title
-                                                }
-                                                href={
-                                                    service.href
-                                                }
-                                                icon={
-                                                    service.icon
-                                                }
-                                            />
-                                        ),
-                                    )}
-                                </div>
+                                <Link
+                                    href="/apply"
+                                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                                >
+                                    Become a Member
+                                    <UserPlus className="h-4 w-4" />
+                                </Link>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
+
+
+
+
             </div>
 
             <style jsx global>{`
@@ -397,35 +336,10 @@ export default function PublicHeroLignt() {
         </section>
     );
 }
-
-function HeroServiceCard({
-    title,
-    href,
-    icon: Icon,
-}: {
-    title: string;
-    href: string;
-    icon: LucideIcon;
-}) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
     return (
-        <Link
-            href={href}
-            className="group flex min-h-[108px] flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
-        >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-[#C1121F] transition group-hover:bg-[#C1121F] group-hover:text-white">
-                <Icon
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                />
-            </span>
-
-            <span className="mt-5 flex items-end justify-between gap-2">
-                <span className="text-sm font-extrabold leading-5 text-slate-900 transition group-hover:text-[#C1121F]">
-                    {title}
-                </span>
-
-                <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C1121F]" />
-            </span>
-        </Link>
+        <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C8102E]">
+            {children}
+        </p>
     );
 }

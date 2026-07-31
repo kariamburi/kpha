@@ -278,7 +278,12 @@ export default function EventsClient({
                                                 >
                                                     View
                                                 </Link>
-
+                                                <Link
+                                                    href={`/dashboard/website/events/${event.id}/registrations`}
+                                                    className="rounded bg-blue-50 px-3 py-1.5 text-[12px] font-bold text-blue-700 transition hover:bg-blue-100"
+                                                >
+                                                    Bookings
+                                                </Link>
                                                 <button
                                                     type="button"
                                                     onClick={() => openEditModal(event)}
@@ -293,6 +298,7 @@ export default function EventsClient({
                                                         Delete
                                                     </button>
                                                 </form>
+
                                             </div>
                                         </td>
                                     </tr>

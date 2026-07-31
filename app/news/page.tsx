@@ -160,103 +160,63 @@ function NewsHero({
   activeHref: string;
   postsCount: number;
 }) {
-  const countText =
-    postsCount === 1
-      ? "1 published article"
-      : `${postsCount} published articles`;
-
   return (
-    <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
-      {/* Background decoration */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-red-100/60 blur-3xl" />
+    <>
+      {/* News masthead */}
+      <section className="border-b border-slate-300 bg-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <div className="flex min-h-[86px] items-end justify-between gap-6 pb-4 pt-5">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                Association of Hotel Professionals Kenya
+              </p>
 
-        <div className="absolute right-0 top-0 h-full w-[45%] bg-[linear-gradient(135deg,transparent_0%,rgba(200,16,46,0.05)_100%)]" />
-
-        <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-8 sm:px-6 sm:pb-14 lg:px-8">
-        <Breadcrumb />
-
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white text-[#C8102E] shadow-sm">
-                <Newspaper className="h-6 w-6" />
-              </div>
-
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#C8102E]">
-                  AHPK Newsroom
-                </p>
-
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Official association communication
-                </p>
-              </div>
+              <h1 className="mt-1 text-4xl font-black tracking-[-0.035em] text-slate-950 sm:text-5xl">
+                AHPK News
+              </h1>
             </div>
 
-            <h1 className="mt-7 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              News, Notices &amp;
-
-              <span className="mt-2 block text-[#C8102E]">
-                Industry Updates
-              </span>
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
-              Follow official announcements, leadership
-              communication, professional notices and
-              hospitality industry developments from AHPK.
+            <p className="hidden text-sm font-bold text-slate-500 sm:block">
+              {postsCount === 1
+                ? "1 published story"
+                : `${postsCount} published stories`}
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="inline-flex w-fit items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-              <Radio className="h-5 w-5" />
-            </div>
+      {/* Category navigation */}
+      <nav
+        aria-label="News categories"
+        className="border-b border-slate-300 bg-white"
+      >
+        <div className="mx-auto max-w-7xl overflow-x-auto px-5 sm:px-6 lg:px-8">
+          <div className="flex min-w-max items-center">
+            {newsFilters.map((filter) => {
+              const isActive =
+                filter.href === activeHref;
 
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
-                Newsroom archive
-              </p>
-
-              <p className="mt-1 text-sm font-extrabold text-slate-800">
-                {countText}
-              </p>
-            </div>
+              return (
+                <Link
+                  key={filter.href}
+                  href={filter.href}
+                  aria-current={
+                    isActive ? "page" : undefined
+                  }
+                  className={
+                    isActive
+                      ? "border-b-4 border-[#C8102E] px-4 py-4 text-sm font-black text-slate-950"
+                      : "border-b-4 border-transparent px-4 py-4 text-sm font-bold text-slate-600 transition hover:border-slate-300 hover:text-[#C8102E]"
+                  }
+                >
+                  {filter.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
-
-        {/* Category filters */}
-        <div className="mt-9 flex flex-wrap gap-2.5">
-          {newsFilters.map((filter) => {
-            const isActive =
-              filter.href === activeHref;
-
-            return (
-              <Link
-                key={filter.href}
-                href={filter.href}
-                aria-current={
-                  isActive
-                    ? "page"
-                    : undefined
-                }
-                className={
-                  isActive
-                    ? "rounded-full border border-[#C8102E] bg-[#C8102E] px-5 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-sm sm:text-[11px]"
-                    : "rounded-full border border-slate-200 bg-white px-5 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E] sm:text-[11px]"
-                }
-              >
-                {filter.label}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+      </nav>
+    </>
   );
 }
 
@@ -272,58 +232,60 @@ function NewsContent({
   remainingPosts: NewsPost[];
 }) {
   return (
-    <section className="bg-white py-12 sm:py-16">
+    <section className="bg-white py-8 sm:py-10">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         {posts.length === 0 ? (
           <EmptyNews />
         ) : (
           <>
-            {/* Lead story and headline rail */}
-            <div className="grid gap-8 border-b border-slate-200 pb-12 lg:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.7fr)] lg:items-start">
-              {featuredPost ? (
-                <LeadStory
-                  post={featuredPost}
-                />
-              ) : null}
+            {/* Top newsroom stories */}
+            <section className="border-b border-slate-300 pb-10">
+              <div className="mb-5 flex items-center justify-between border-b border-slate-300 pb-3">
+                <h2 className="border-l-4 border-[#C8102E] pl-3 text-2xl font-black tracking-tight text-slate-950">
+                  Top Stories
+                </h2>
 
-              <LatestHeadlines
-                posts={headlinePosts}
-              />
-            </div>
+                <span className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
+                  Latest updates
+                </span>
+              </div>
 
-            {/* Remaining stories */}
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.8fr)]">
+                {featuredPost ? (
+                  <LeadStory post={featuredPost} />
+                ) : null}
+
+                <LatestHeadlines posts={headlinePosts} />
+              </div>
+            </section>
+
+            {/* Latest news */}
             {remainingPosts.length > 0 ? (
-              <section className="pt-12">
-                <div className="mb-8 flex items-end justify-between gap-5">
+              <section className="pt-10">
+                <div className="mb-7 flex items-end justify-between gap-6 border-b border-slate-300 pb-4">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                      More from the newsroom
+                    <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                      AHPK Newsroom
                     </p>
 
-                    <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+                    <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">
                       Latest News
                     </h2>
-
-                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                      Read more official
-                      announcements, professional
-                      notices and hospitality
-                      industry updates.
-                    </p>
                   </div>
 
-                  <Newspaper className="hidden h-10 w-10 text-slate-200 sm:block" />
+                  <p className="hidden max-w-md text-right text-sm font-medium leading-6 text-slate-500 md:block">
+                    Official announcements, hospitality
+                    updates and professional news.
+                  </p>
                 </div>
 
-                <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
-                  {remainingPosts.map(
-                    (post) => (
-                      <EditorialNewsCard
-                        key={post.id}
-                        post={post}
-                      />
-                    ),
-                  )}
+                <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+                  {remainingPosts.map((post) => (
+                    <EditorialNewsCard
+                      key={post.id}
+                      post={post}
+                    />
+                  ))}
                 </div>
               </section>
             ) : null}
@@ -341,13 +303,16 @@ function LeadStory({
 }: {
   post: NewsPost;
 }) {
+  const publishedDate =
+    post.publishedAt || post.createdAt;
+
   return (
     <article className="group min-w-0">
       <Link
         href={`/news/${post.slug}`}
         className="block"
       >
-        <div className="relative aspect-[16/9] overflow-hidden rounded-[28px] bg-slate-200">
+        <div className="aspect-[16/9] overflow-hidden bg-slate-200">
           {post.imageUrl ? (
             <img
               src={post.imageUrl}
@@ -359,45 +324,37 @@ function LeadStory({
               icon={Newspaper}
             />
           )}
+        </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
+        <div className="pt-5">
+          <div className="flex flex-wrap items-center gap-3">
+            <CategoryBadge
+              category={post.category}
+            />
 
-          <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
-            <span className="inline-flex rounded-full bg-[#C8102E] px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-lg">
-              Lead Story
-            </span>
-
-            <h2 className="mt-5 max-w-3xl text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
-              {post.title}
-            </h2>
+            <time
+              dateTime={publishedDate.toISOString()}
+              className="text-xs font-bold text-slate-500"
+            >
+              {dateText(publishedDate)}
+            </time>
           </div>
+
+          <h2 className="mt-4 max-w-4xl text-3xl font-black leading-[1.08] tracking-[-0.025em] text-slate-950 transition group-hover:text-[#C8102E] sm:text-4xl lg:text-[2.8rem]">
+            {post.title}
+          </h2>
+
+          <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-slate-600">
+            {post.excerpt ||
+              excerpt(post.content, 230)}
+          </p>
+
+          <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
+            Read full story
+
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+          </span>
         </div>
-
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <CategoryBadge
-            category={post.category}
-          />
-
-          <time className="inline-flex items-center gap-2 text-xs font-bold text-slate-400">
-            <CalendarDays className="h-4 w-4 text-[#C8102E]" />
-
-            {dateText(
-              post.publishedAt ||
-              post.createdAt,
-            )}
-          </time>
-        </div>
-
-        <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-slate-600">
-          {post.excerpt ||
-            excerpt(post.content, 230)}
-        </p>
-
-        <span className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]">
-          Read full story
-
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </span>
       </Link>
     </article>
   );
@@ -409,76 +366,61 @@ function LatestHeadlines({
   posts: NewsPost[];
 }) {
   return (
-    <aside className="overflow-hidden rounded-[26px] border border-slate-200 bg-slate-50">
-      <div className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-5">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-            Latest updates
-          </p>
+    <aside className="border-t-4 border-[#C8102E]">
+      <div className="border-b border-slate-300 py-4">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
+          Latest Updates
+        </p>
 
-          <h2 className="mt-2 text-xl font-extrabold text-slate-950">
-            News Briefing
-          </h2>
-        </div>
-
-        <Radio className="h-6 w-6 text-[#C8102E]" />
+        <h2 className="mt-1 text-2xl font-black text-slate-950">
+          News Briefing
+        </h2>
       </div>
 
-      <div className="divide-y divide-slate-200 px-6">
-        {posts.map((post, index) => (
-          <Link
-            key={post.id}
-            href={`/news/${post.slug}`}
-            className="group flex gap-4 py-5 first:pt-6"
-          >
-            <span className="pt-0.5 text-sm font-black text-slate-300">
-              {String(index + 1).padStart(
-                2,
-                "0",
-              )}
-            </span>
+      <div className="divide-y divide-slate-300">
+        {posts.map((post, index) => {
+          const publishedDate =
+            post.publishedAt ||
+            post.createdAt;
 
-            <div className="min-w-0">
-              <CategoryBadge
-                category={post.category}
-              />
-
-              <h3 className="mt-3 text-base font-extrabold leading-6 text-slate-900 transition group-hover:text-[#C8102E]">
-                {post.title}
-              </h3>
-
-              <time className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-slate-400">
-                <CalendarDays className="h-3.5 w-3.5 text-[#C8102E]" />
-
-                {dateText(
-                  post.publishedAt ||
-                  post.createdAt,
+          return (
+            <Link
+              key={post.id}
+              href={`/news/${post.slug}`}
+              className="group grid grid-cols-[34px_minmax(0,1fr)] gap-3 py-5"
+            >
+              <span className="pt-0.5 text-lg font-black text-slate-300">
+                {String(index + 1).padStart(
+                  2,
+                  "0",
                 )}
-              </time>
-            </div>
-          </Link>
-        ))}
+              </span>
+
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#C8102E]">
+                  {formatCategory(post.category)}
+                </p>
+
+                <h3 className="mt-2 text-lg font-black leading-6 text-slate-950 transition group-hover:text-[#C8102E]">
+                  {post.title}
+                </h3>
+
+                <time
+                  dateTime={publishedDate.toISOString()}
+                  className="mt-2 block text-xs font-bold text-slate-400"
+                >
+                  {dateText(publishedDate)}
+                </time>
+              </div>
+            </Link>
+          );
+        })}
 
         {posts.length === 0 ? (
-          <div className="py-8 text-center">
-            <Newspaper className="mx-auto h-8 w-8 text-slate-300" />
-
-            <p className="mt-4 text-sm font-medium leading-7 text-slate-500">
-              Additional newsroom stories
-              will appear here.
-            </p>
-          </div>
+          <p className="py-8 text-sm font-medium text-slate-500">
+            More stories will appear here.
+          </p>
         ) : null}
-      </div>
-
-      <div className="border-t border-slate-200 bg-white p-4">
-        <Link
-          href="/news"
-          className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-extrabold text-slate-700 transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E]"
-        >
-          Browse Newsroom
-          <ArrowRight className="h-4 w-4" />
-        </Link>
       </div>
     </aside>
   );
@@ -489,13 +431,16 @@ function EditorialNewsCard({
 }: {
   post: NewsPost;
 }) {
+  const publishedDate =
+    post.publishedAt || post.createdAt;
+
   return (
-    <article className="group border-b border-slate-200 pb-8">
+    <article className="group border-t-4 border-transparent pt-3 transition hover:border-[#C8102E]">
       <Link
         href={`/news/${post.slug}`}
         className="block"
       >
-        <div className="aspect-[16/10] overflow-hidden rounded-[20px] bg-slate-200">
+        <div className="aspect-[16/9] overflow-hidden bg-slate-200">
           {post.imageUrl ? (
             <img
               src={post.imageUrl}
@@ -509,35 +454,29 @@ function EditorialNewsCard({
           )}
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <CategoryBadge
-            category={post.category}
-          />
+        <div className="pt-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
+            {formatCategory(post.category)}
+          </p>
 
-          <time className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400">
-            <CalendarDays className="h-3.5 w-3.5 text-[#C8102E]" />
+          <h2 className="mt-2 line-clamp-3 text-xl font-black leading-6 text-slate-950 transition group-hover:text-[#C8102E]">
+            {post.title}
+          </h2>
 
-            {dateText(
-              post.publishedAt ||
-              post.createdAt,
-            )}
-          </time>
+          <p className="mt-3 line-clamp-3 text-sm font-medium leading-6 text-slate-600">
+            {post.excerpt ||
+              excerpt(post.content, 145)}
+          </p>
+
+          <div className="mt-4 border-t border-slate-200 pt-3">
+            <time
+              dateTime={publishedDate.toISOString()}
+              className="text-xs font-bold text-slate-400"
+            >
+              {dateText(publishedDate)}
+            </time>
+          </div>
         </div>
-
-        <h2 className="mt-4 text-xl font-extrabold leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
-          {post.title}
-        </h2>
-
-        <p className="mt-3 text-sm font-medium leading-7 text-slate-500">
-          {post.excerpt ||
-            excerpt(post.content, 145)}
-        </p>
-
-        <span className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]">
-          Read article
-
-          <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </span>
       </Link>
     </article>
   );
@@ -545,32 +484,27 @@ function EditorialNewsCard({
 
 function NewsroomNotice() {
   return (
-    <section className="mt-14 overflow-hidden rounded-[28px] border border-red-100 bg-red-50/70">
-      <div className="grid gap-6 p-7 sm:p-9 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-          <Megaphone className="h-7 w-7" />
-        </div>
-
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+    <section className="mt-14 border-t-4 border-[#C8102E] bg-slate-950 px-6 py-8 text-white sm:px-8">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+        <div className="max-w-3xl">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
             Official communication
           </p>
 
-          <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
+          <h2 className="mt-2 text-2xl font-black">
             AHPK Notices and Announcements
           </h2>
 
-          <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+          <p className="mt-3 text-sm font-medium leading-7 text-slate-300 sm:text-base">
             News published through this newsroom
-            represents official communication from
-            the Association of Hotel Professionals
-            Kenya.
+            represents official communication from the
+            Association of Hotel Professionals Kenya.
           </p>
         </div>
 
         <Link
           href="/contact"
-          className="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white transition hover:bg-red-700"
+          className="inline-flex min-h-11 w-fit items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
         >
           Contact AHPK
           <ArrowRight className="h-4 w-4" />
@@ -586,7 +520,7 @@ function CategoryBadge({
   category: string;
 }) {
   return (
-    <span className="inline-flex rounded-full bg-red-50 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#C8102E]">
+    <span className="inline-flex border-l-4 border-[#C8102E] pl-2 text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
       {formatCategory(category)}
     </span>
   );

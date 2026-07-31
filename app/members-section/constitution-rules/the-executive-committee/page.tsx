@@ -198,16 +198,21 @@ const governancePrinciples = [
     "Member Participation",
 ];
 
+
 export default function ExecutiveCommitteePage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
             <BreadcrumbJsonLd
                 items={[
                     { name: "Home", url: "/" },
-                    { name: "Members Section", url: "/members-section" },
+                    {
+                        name: "Members Section",
+                        url: "/members-section",
+                    },
                     {
                         name: "Constitution & Rules",
-                        url: "/members-section/constitution-rules",
+                        url:
+                            "/members-section/constitution-rules",
                     },
                     {
                         name: "The Executive Committee",
@@ -219,300 +224,271 @@ export default function ExecutiveCommitteePage() {
             <ExecutiveCommitteeJsonLd />
             <PageHeader />
 
-            <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-                <div className="absolute inset-0 -z-30">
-                    <img
-                        src="/executive-committee.webp"
-                        alt=""
-                        aria-hidden="true"
-                        className="h-full w-full object-cover object-center lg:object-right"
-                    />
-                </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_30%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.9)_55%,rgba(255,255,255,0.65)_68%,rgba(255,255,255,0.32)_82%,rgba(255,255,255,0)_100%)] lg:block" />
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_55%,rgba(255,255,255,0.78)_76%,rgba(255,255,255,0.45)_100%)] lg:hidden" />
-                <div className="absolute inset-y-0 right-0 -z-10 hidden w-[26%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
-                <div className="pointer-events-none absolute -left-32 top-0 -z-10 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-
-                <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-                        <div className="max-w-3xl lg:w-[58%]">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                                    <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </div>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            Constitution &amp; Rules
+                        </p>
 
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                                        Constitution &amp; Rules
-                                    </p>
-                                    <p className="mt-1 text-sm font-semibold text-slate-500">
-                                        AHPK Governance Framework
-                                    </p>
-                                </div>
-                            </div>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            The Executive
+                            <span className="block text-[#C8102E]">
+                                Committee
+                            </span>
+                        </h1>
 
-                            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-                                The Executive
-                                <span className="mt-2 block text-[#C8102E]">
-                                    Committee
-                                </span>
-                            </h1>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            The composition, powers, meetings and
+                            constitutional authority of the
+                            Association&apos;s Executive Committee.
+                        </p>
 
-                            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-                                Learn about the composition, powers,
-                                meetings and constitutional authority of
-                                the Association&apos;s Executive Committee.
-                            </p>
-
-                            <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
-                                {[
-                                    "Governance",
-                                    "Committee Powers",
-                                    "General Meetings",
-                                    "Voting",
-                                    "Accountability",
-                                ].map((item) => (
-                                    <span
-                                        key={item}
-                                        className="rounded-full border border-slate-200 bg-white/85 px-3.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur sm:px-4 sm:text-[11px]"
-                                    >
-                                        {item}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/75 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
-                                <p className="text-sm font-bold leading-6 text-slate-700">
-                                    The Executive Committee manages the
-                                    Association&apos;s affairs and property in
-                                    accordance with the Constitution and
-                                    Bye-Laws.
-                                </p>
-                            </div>
+                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+                            <span>Governance</span>
+                            <span>Committee Powers</span>
+                            <span>General Meetings</span>
+                            <span>Voting</span>
+                            <span>Accountability</span>
                         </div>
                     </div>
                 </div>
-
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
             </section>
 
-            <section className="bg-white py-16 sm:py-20">
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/executive-committee.webp"
+                                alt="The Executive Committee of the Association of Hotel Professionals Kenya"
+                                className="h-full w-full object-cover object-center transition duration-700 hover:scale-[1.01]"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-300 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            The Executive Committee manages the
+                            Association&apos;s affairs and property
+                            in accordance with the Constitution and
+                            Bye-Laws.
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            {/* MAIN CONTENT */}
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-12">
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* OVERVIEW */}
                             <section
                                 id="executive-committee"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                    <Users className="h-7 w-7" />
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                        <Users className="h-5 w-5" />
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+                                            Association Committees
+                                        </p>
+
+                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            The Executive Committee
+                                        </h2>
+                                    </div>
                                 </div>
 
-                                <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                    Association committees
-                                </p>
-
-                                <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                    The Executive Committee
-                                </h2>
-
-                                <div className="mt-7 rounded-2xl border border-red-100 bg-red-50/70 p-6">
-                                    <p className="text-base font-bold leading-8 text-slate-800 sm:text-lg">
-                                        The Executive Committee is responsible
-                                        for managing the property, affairs and
-                                        governance of the Association in
-                                        accordance with the Constitution and
-                                        Bye-Laws. It provides leadership,
-                                        oversees administration and ensures
-                                        that the Association&apos;s objectives
-                                        are advanced.
-                                    </p>
-                                </div>
+                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                    The Executive Committee is
+                                    responsible for managing the
+                                    property, affairs and governance
+                                    of the Association in accordance
+                                    with the Constitution and
+                                    Bye-Laws. It provides leadership,
+                                    oversees administration and
+                                    ensures that the Association&apos;s
+                                    objectives are advanced.
+                                </blockquote>
                             </section>
 
+                            {/* COMPOSITION */}
                             <section
                                 id="composition"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Committee membership"
+                                    eyebrow="Committee Membership"
                                     title="Composition of the Executive Committee"
                                     description="The Executive Committee brings together all Office Bearers and additional elected members."
                                     icon={Network}
                                 />
 
-                                <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                                    {committeeComposition.map((item) => {
-                                        const Icon = item.icon;
+                                <div className="mt-5 border-t border-slate-300">
+                                    {committeeComposition.map(
+                                        (item, index) => {
+                                            const Icon = item.icon;
 
-                                        return (
-                                            <div
-                                                key={item.title}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm"
-                                            >
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                                    <Icon className="h-5 w-5" />
-                                                </div>
-
-                                                <h3 className="mt-5 text-lg font-extrabold text-slate-950">
-                                                    {item.title}
-                                                </h3>
-
-                                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                                    {item.description}
-                                                </p>
-                                            </div>
-                                        );
-                                    })}
+                                            return (
+                                                <EditorialItem
+                                                    key={item.title}
+                                                    number={String(
+                                                        index + 1,
+                                                    ).padStart(
+                                                        2,
+                                                        "0",
+                                                    )}
+                                                    title={item.title}
+                                                    description={
+                                                        item.description
+                                                    }
+                                                    icon={Icon}
+                                                />
+                                            );
+                                        },
+                                    )}
                                 </div>
                             </section>
 
+                            {/* POWERS */}
                             <section
                                 id="powers-duties"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Authority and responsibility"
+                                    eyebrow="Authority and Responsibility"
                                     title="Proceedings, Powers & Duties"
                                     description="The Executive Committee has constitutional authority to manage the Association and organize its governance activities."
                                     icon={Scale}
                                 />
 
-                                <div className="mt-8 space-y-4">
-                                    {powersAndDuties.map((item, index) => (
-                                        <div
-                                            key={item.title}
-                                            className="flex gap-4 rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm"
-                                        >
-                                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-sm font-black text-[#C8102E]">
-                                                {String(index + 1).padStart(
+                                <div className="mt-5 border-t border-slate-300">
+                                    {powersAndDuties.map(
+                                        (item, index) => (
+                                            <RuleItem
+                                                key={item.title}
+                                                number={String(
+                                                    index + 1,
+                                                ).padStart(
                                                     2,
                                                     "0",
                                                 )}
-                                            </div>
-
-                                            <div>
-                                                <h3 className="text-base font-extrabold text-slate-950 sm:text-lg">
-                                                    {item.title}
-                                                </h3>
-                                                <p className="mt-2 text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                                                    {item.description}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                                title={item.title}
+                                                text={item.description}
+                                            />
+                                        ),
+                                    )}
                                 </div>
                             </section>
 
+                            {/* MEETINGS */}
                             <section
                                 id="meetings"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Governance meetings"
+                                    eyebrow="Governance Meetings"
                                     title="Meetings of the Association"
                                     description="Meetings shall be held at the places and times appointed by the Executive Committee."
                                     icon={CalendarDays}
                                 />
 
-                                <div className="mt-8 grid gap-5 md:grid-cols-3">
-                                    {meetingTypes.map((meeting) => {
-                                        const Icon = meeting.icon;
+                                <div className="mt-5 grid border-t border-slate-300 md:grid-cols-3">
+                                    {meetingTypes.map(
+                                        (meeting, index) => {
+                                            const Icon = meeting.icon;
 
-                                        return (
-                                            <div
-                                                key={meeting.title}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm"
-                                            >
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                                    <Icon className="h-5 w-5" />
-                                                </div>
-
-                                                <h3 className="mt-5 text-lg font-extrabold text-slate-950">
-                                                    {meeting.title}
-                                                </h3>
-
-                                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                                    {meeting.description}
-                                                </p>
-                                            </div>
-                                        );
-                                    })}
+                                            return (
+                                                <MeetingItem
+                                                    key={meeting.title}
+                                                    number={String(
+                                                        index + 1,
+                                                    ).padStart(
+                                                        2,
+                                                        "0",
+                                                    )}
+                                                    title={meeting.title}
+                                                    description={
+                                                        meeting.description
+                                                    }
+                                                    icon={Icon}
+                                                />
+                                            );
+                                        },
+                                    )}
                                 </div>
                             </section>
 
+                            {/* MEETING PROCEEDINGS */}
                             <section
                                 id="meeting-proceedings"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Meeting procedure"
+                                    eyebrow="Meeting Procedure"
                                     title="Proceedings at Meetings"
                                     description="The Constitution establishes the quorum, notice, voting and presiding requirements for General Meetings."
                                     icon={ListChecks}
                                 />
 
-                                <div className="mt-8 space-y-4">
-                                    {meetingProceedings.map((item, index) => (
-                                        <div
-                                            key={item}
-                                            className="flex gap-4 rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm"
-                                        >
-                                            <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[#C8102E]" />
-
-                                            <div>
-                                                <span className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
-                                                    Provision{" "}
-                                                    {String(index + 1).padStart(
-                                                        2,
-                                                        "0",
-                                                    )}
-                                                </span>
-
-                                                <p className="mt-1 text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
-                                                    {item}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                <div className="mt-5 border-t border-slate-300">
+                                    {meetingProceedings.map(
+                                        (item, index) => (
+                                            <ProvisionItem
+                                                key={item}
+                                                number={String(
+                                                    index + 1,
+                                                ).padStart(
+                                                    2,
+                                                    "0",
+                                                )}
+                                                text={item}
+                                            />
+                                        ),
+                                    )}
                                 </div>
                             </section>
 
+                            {/* AMENDMENTS */}
                             <section
                                 id="constitutional-amendments"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[24px] border border-red-100 bg-red-50 p-6 sm:p-8">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-                                        <FileCheck2 className="h-6 w-6" />
-                                    </div>
+                                <div className="border-l-4 border-[#C8102E] bg-slate-50 px-5 py-6 sm:px-6">
+                                    <FileCheck2 className="h-6 w-6 text-[#C8102E]" />
 
-                                    <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Constitutional change
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        Constitutional Change
                                     </p>
 
-                                    <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
+                                    <h2 className="mt-2 text-2xl font-black text-slate-950 sm:text-3xl">
                                         Amendment to the Constitution
                                     </h2>
 
-                                    <p className="mt-4 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                        Any amendment to the Constitution
-                                        must satisfy both the Association&apos;s
-                                        voting requirement and the applicable
-                                        regulatory approval process.
+                                    <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
+                                        Any amendment to the
+                                        Constitution must satisfy
+                                        both the Association&apos;s
+                                        voting requirement and the
+                                        applicable regulatory
+                                        approval process.
                                     </p>
 
-                                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                                        <RequirementCard
+                                    <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                        <RequirementItem
                                             title="Two-Thirds Majority"
                                             description="The proposed amendment must be approved by at least a two-thirds majority."
                                             icon={Vote}
                                         />
 
-                                        <RequirementCard
+                                        <RequirementItem
                                             title="Registrar's Consent"
                                             description="The amendment may only be implemented after obtaining the prior written consent of the Registrar of Societies."
                                             icon={FileText}
@@ -521,29 +497,32 @@ export default function ExecutiveCommitteePage() {
                                 </div>
                             </section>
 
+                            {/* BRANCHES */}
                             <section
                                 id="branches"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Association growth"
+                                    eyebrow="Association Growth"
                                     title="Formation of Branches"
                                     description="Branches may be established through a constitutional recommendation and approval process."
                                     icon={Building2}
                                 />
 
-                                <div className="mt-8 grid gap-5 sm:grid-cols-3">
-                                    <ProcessCard
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-3">
+                                    <ProcessItem
                                         step="01"
                                         title="Committee Recommendation"
                                         description="The Executive Committee recommends the formation of a branch."
                                     />
-                                    <ProcessCard
+
+                                    <ProcessItem
                                         step="02"
                                         title="Member Approval"
                                         description="Members approve the recommendation at a General or Special General Meeting."
                                     />
-                                    <ProcessCard
+
+                                    <ProcessItem
                                         step="03"
                                         title="Registrar Notification"
                                         description="The recommendation is notified to the Registrar of Societies before adoption."
@@ -551,77 +530,80 @@ export default function ExecutiveCommitteePage() {
                                 </div>
                             </section>
 
+                            {/* DISSOLUTION */}
                             <section
                                 id="dissolution"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[24px] border border-amber-200 bg-amber-50 p-6 sm:p-8">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm">
-                                        <ShieldAlert className="h-6 w-6" />
-                                    </div>
+                                <div className="border-l-4 border-amber-600 bg-amber-50 px-5 py-6 sm:px-6">
+                                    <ShieldAlert className="h-6 w-6 text-amber-700" />
 
-                                    <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-amber-700">
-                                        Constitutional safeguard
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-amber-700">
+                                        Constitutional Safeguard
                                     </p>
 
-                                    <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
+                                    <h2 className="mt-2 text-2xl font-black text-slate-950 sm:text-3xl">
                                         Dissolution of the Association
                                     </h2>
 
-                                    <p className="mt-4 text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
-                                        The Association shall not be dissolved
-                                        except through a resolution passed at a
-                                        General Meeting by a vote of at least
-                                        two-thirds of the members present. The
-                                        meeting must also satisfy the quorum
-                                        requirements established by the
-                                        Constitution.
+                                    <p className="mt-3 text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
+                                        The Association shall not be
+                                        dissolved except through a
+                                        resolution passed at a
+                                        General Meeting by a vote of
+                                        at least two-thirds of the
+                                        members present. The meeting
+                                        must also satisfy the quorum
+                                        requirements established by
+                                        the Constitution.
                                     </p>
                                 </div>
                             </section>
 
+                            {/* INSPECTION */}
                             <section
                                 id="inspection"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Transparency and access"
+                                    eyebrow="Transparency and Access"
                                     title="Inspection of Accounts & Members Register"
                                     description="Association officers and members may inspect specified records through the constitutional notice procedure."
                                     icon={BookOpenCheck}
                                 />
 
-                                <div className="mt-8 rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-                                    <h3 className="text-xl font-extrabold text-slate-950">
+                                <div className="mt-5 border-t border-slate-300">
+                                    <h3 className="py-4 text-xl font-black text-slate-950">
                                         Records Available for Inspection
                                     </h3>
 
-                                    <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                                    <div className="grid border-t border-slate-300 sm:grid-cols-3">
                                         {[
                                             "Books of Account",
                                             "Supporting Documents",
                                             "Register of Members",
-                                        ].map((record) => (
-                                            <div
+                                        ].map((record, index) => (
+                                            <RecordItem
                                                 key={record}
-                                                className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-4"
-                                            >
-                                                <CircleDot className="h-4 w-4 shrink-0 text-[#C8102E]" />
-                                                <span className="text-sm font-bold text-slate-700">
-                                                    {record}
-                                                </span>
-                                            </div>
+                                                number={String(
+                                                    index + 1,
+                                                ).padStart(
+                                                    2,
+                                                    "0",
+                                                )}
+                                                title={record}
+                                            />
                                         ))}
                                     </div>
 
-                                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                                        <RequirementCard
+                                    <div className="grid border-t border-slate-300 sm:grid-cols-2">
+                                        <RequirementItem
                                             title="Seven Days' Notice"
                                             description="The requesting officer or member must give the Association at least seven days' written notice."
                                             icon={Mail}
                                         />
 
-                                        <RequirementCard
+                                        <RequirementItem
                                             title="Registered Office"
                                             description="Inspection shall take place at the registered office of the Association."
                                             icon={Building2}
@@ -630,125 +612,121 @@ export default function ExecutiveCommitteePage() {
                                 </div>
                             </section>
 
+                            {/* PRINCIPLES */}
                             <section
                                 id="governance-principles"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[24px] border border-red-100 bg-red-50 p-6 sm:p-8">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-                                        <ShieldCheck className="h-6 w-6" />
-                                    </div>
-
-                                    <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Committee commitment
-                                    </p>
-
-                                    <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                                        Governance Principles
-                                    </h2>
-
-                                    <p className="mt-4 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                        The Executive Committee is expected to
-                                        exercise its constitutional authority
-                                        in a manner that protects the
-                                        Association, serves its members and
-                                        promotes effective governance.
-                                    </p>
-
-                                    <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                                        {governancePrinciples.map(
-                                            (principle) => (
-                                                <div
-                                                    key={principle}
-                                                    className="flex items-center gap-3 rounded-xl border border-red-100 bg-white px-4 py-3"
-                                                >
-                                                    <BadgeCheck className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                                    <span className="text-sm font-bold text-slate-700">
-                                                        {principle}
-                                                    </span>
-                                                </div>
-                                            ),
-                                        )}
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section className="mt-10 rounded-[24px] bg-slate-950 p-7 text-white sm:p-8">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                                    <Landmark className="h-6 w-6" />
-                                </div>
-
-                                <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-red-300">
-                                    Constitution &amp; governance
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Committee Commitment
                                 </p>
 
-                                <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
-                                    Explore the Board of Management
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    Governance Principles
                                 </h2>
 
-                                <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/70 sm:text-base">
-                                    Continue to the Board of Management
-                                    provisions and learn how the wider
-                                    governance structure supports AHPK&apos;s
-                                    leadership and administration.
+                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                    The Executive Committee is
+                                    expected to exercise its
+                                    constitutional authority in a
+                                    manner that protects the
+                                    Association, serves its members
+                                    and promotes effective
+                                    governance.
                                 </p>
 
-                                <Link
-                                    href="/members-section/constitution-rules/board-of-management"
-                                    className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#C8102E] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-red-700"
-                                >
-                                    View Board of Management
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                    {governancePrinciples.map(
+                                        (principle, index) => (
+                                            <PrincipleItem
+                                                key={principle}
+                                                number={String(
+                                                    index + 1,
+                                                ).padStart(
+                                                    2,
+                                                    "0",
+                                                )}
+                                                title={principle}
+                                            />
+                                        ),
+                                    )}
+                                </div>
                             </section>
 
-                            <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-                                <Link
-                                    href="/members-section/constitution-rules/office-bearers-duties"
-                                    className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                            {/* CTA */}
+                            <section className="border-t border-slate-300 py-8">
+                                <div className="border-l-4 border-[#C8102E] bg-slate-950 px-5 py-6 text-white sm:px-6">
+                                    <Landmark className="h-6 w-6 text-red-300" />
 
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Previous
-                                        </span>
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Office Bearers &amp; Duties
-                                        </span>
-                                    </span>
-                                </Link>
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                        Constitution &amp; Governance
+                                    </p>
 
-                                <Link
-                                    href="/members-section/constitution-rules/board-of-management"
-                                    className="group flex min-h-24 items-center justify-end gap-4 rounded-2xl border border-slate-200 p-5 text-right transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Next
-                                        </span>
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Board of Management
-                                        </span>
-                                    </span>
+                                    <h2 className="mt-2 text-2xl font-black sm:text-3xl">
+                                        Explore the Board of Management
+                                    </h2>
 
-                                    <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                </Link>
-                            </div>
+                                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
+                                        Continue to the Board of
+                                        Management provisions and
+                                        learn how the wider
+                                        governance structure supports
+                                        AHPK&apos;s leadership and
+                                        administration.
+                                    </p>
+
+                                    <Link
+                                        href="/members-section/constitution-rules/board-of-management"
+                                        className="group mt-5 inline-flex items-center gap-2 border-b border-red-300 pb-1 text-sm font-black text-red-300 transition hover:border-white hover:text-white"
+                                    >
+                                        View Board of Management
+
+                                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                                    </Link>
+                                </div>
+                            </section>
+
+                            {/* PREVIOUS / NEXT */}
+                            <section className="border-t border-slate-300 pt-5">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Continue Reading
+                                </p>
+
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/office-bearers-duties"
+                                        eyebrow="Previous Section"
+                                        title="Office Bearers & Duties"
+                                        direction="left"
+                                    />
+
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/board-of-management"
+                                        eyebrow="Next Section"
+                                        title="Board of Management"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
                         </article>
 
+                        {/* EDITORIAL SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                                        On this page
+                            <section className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        On This Page
                                     </p>
-                                    <h2 className="mt-2 text-xl font-extrabold">
+
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Executive Committee
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
+                                <nav
+                                    aria-label="Executive Committee page navigation"
+                                    className="divide-y divide-slate-200"
+                                >
                                     <SidebarLink
                                         href="#executive-committee"
                                         label="Executive Committee"
@@ -791,44 +769,46 @@ export default function ExecutiveCommitteePage() {
                                         label="Governance Principles"
                                     />
                                 </nav>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
-                                <BookOpenCheck className="h-8 w-8 text-[#C8102E]" />
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                                <BookOpenCheck className="h-6 w-6 text-[#C8102E]" />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
                                     Constitution &amp; Rules
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Review the constitutional framework
-                                    governing AHPK&apos;s objectives,
-                                    membership, leadership and administration.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    Review the constitutional
+                                    framework governing AHPK&apos;s
+                                    objectives, membership,
+                                    leadership and administration.
                                 </p>
 
                                 <Link
                                     href="/members-section/constitution-rules"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                                    className="group mt-4 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]"
                                 >
                                     View Constitution Section
-                                    <ArrowRight className="h-4 w-4" />
+
+                                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                                 </Link>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <Gavel className="h-8 w-8 text-[#C8102E]" />
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <Gavel className="h-6 w-6 text-red-300" />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black">
                                     Governance Standard
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Executive Committee decisions and
-                                    meetings must remain consistent with the
-                                    Constitution, Bye-Laws and approved member
-                                    resolutions.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Committee decisions and meetings
+                                    must remain consistent with the
+                                    Constitution, Bye-Laws and
+                                    approved member resolutions.
                                 </p>
-                            </div>
+                            </section>
                         </aside>
                     </div>
                 </div>
@@ -852,17 +832,21 @@ function SectionHeading({
 }) {
     return (
         <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                <Icon className="h-6 w-6" />
+            <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white">
+                    <Icon className="h-5 w-5" />
+                </div>
+
+                <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                        {eyebrow}
+                    </p>
+
+                    <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                        {title}
+                    </h2>
+                </div>
             </div>
-
-            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                {eyebrow}
-            </p>
-
-            <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                {title}
-            </h2>
 
             <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
                 {description}
@@ -871,7 +855,121 @@ function SectionHeading({
     );
 }
 
-function RequirementCard({
+function EditorialItem({
+    number,
+    title,
+    description,
+    icon: Icon,
+}: {
+    number: string;
+    title: string;
+    description: string;
+    icon: typeof BadgeCheck;
+}) {
+    return (
+        <article className="group grid gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start">
+            <p className="text-4xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition group-hover:bg-[#C8102E]">
+                <Icon className="h-4 w-4" />
+            </div>
+
+            <div>
+                <h3 className="text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+
+                <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
+                    {description}
+                </p>
+            </div>
+        </article>
+    );
+}
+
+function RuleItem({
+    number,
+    title,
+    text,
+}: {
+    number: string;
+    title: string;
+    text: string;
+}) {
+    return (
+        <article className="group grid gap-4 border-b border-slate-300 py-5 sm:grid-cols-[56px_minmax(0,1fr)]">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <div>
+                <h3 className="text-lg font-black text-slate-950">
+                    {title}
+                </h3>
+
+                <p className="mt-2 text-sm font-medium leading-7 text-slate-700 sm:text-base">
+                    {text}
+                </p>
+            </div>
+        </article>
+    );
+}
+
+function MeetingItem({
+    number,
+    title,
+    description,
+    icon: Icon,
+}: {
+    number: string;
+    title: string;
+    description: string;
+    icon: typeof CalendarDays;
+}) {
+    return (
+        <article className="group border-b border-slate-300 py-5 md:border-r md:px-5 md:first:pl-0 md:last:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <Icon className="mt-3 h-5 w-5 text-[#C8102E]" />
+
+            <h3 className="mt-3 text-lg font-black text-slate-950">
+                {title}
+            </h3>
+
+            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+                {description}
+            </p>
+        </article>
+    );
+}
+
+function ProvisionItem({
+    number,
+    text,
+}: {
+    number: string;
+    text: string;
+}) {
+    return (
+        <article className="group grid gap-4 border-b border-slate-300 py-5 sm:grid-cols-[56px_28px_minmax(0,1fr)]">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <CheckCircle2 className="mt-1 h-5 w-5 text-[#C8102E]" />
+
+            <p className="text-sm font-medium leading-7 text-slate-700 sm:text-base sm:leading-8">
+                {text}
+            </p>
+        </article>
+    );
+}
+
+function RequirementItem({
     title,
     description,
     icon: Icon,
@@ -881,23 +979,21 @@ function RequirementCard({
     icon: typeof Vote;
 }) {
     return (
-        <div className="rounded-2xl border border-red-100 bg-white p-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                <Icon className="h-5 w-5" />
-            </div>
+        <article className="border-b border-slate-300 py-5 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0">
+            <Icon className="h-5 w-5 text-[#C8102E]" />
 
-            <h3 className="mt-4 text-base font-extrabold text-slate-950">
+            <h3 className="mt-3 text-lg font-black text-slate-950">
                 {title}
             </h3>
 
             <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
                 {description}
             </p>
-        </div>
+        </article>
     );
 }
 
-function ProcessCard({
+function ProcessItem({
     step,
     title,
     description,
@@ -907,19 +1003,67 @@ function ProcessCard({
     description: string;
 }) {
     return (
-        <div className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm">
-            <span className="inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-black tracking-[0.16em] text-[#C8102E]">
+        <article className="group border-b border-slate-300 py-5 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
                 {step}
-            </span>
+            </p>
 
-            <h3 className="mt-5 text-lg font-extrabold text-slate-950">
+            <h3 className="mt-3 text-lg font-black text-slate-950">
                 {title}
             </h3>
 
-            <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
                 {description}
             </p>
-        </div>
+        </article>
+    );
+}
+
+function RecordItem({
+    number,
+    title,
+}: {
+    number: string;
+    title: string;
+}) {
+    return (
+        <article className="group border-b border-slate-300 py-5 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <div className="mt-3 flex items-center gap-3">
+                <CircleDot className="h-4 w-4 text-[#C8102E]" />
+
+                <h3 className="text-sm font-black text-slate-800">
+                    {title}
+                </h3>
+            </div>
+        </article>
+    );
+}
+
+function PrincipleItem({
+    number,
+    title,
+}: {
+    number: string;
+    title: string;
+}) {
+    return (
+        <article className="group flex min-h-24 items-start gap-4 border-b border-slate-300 py-5 transition hover:bg-red-50/50 sm:border-r sm:px-5 sm:[&:nth-child(2n)]:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <div>
+                <BadgeCheck className="h-5 w-5 text-[#C8102E]" />
+
+                <h3 className="mt-2 text-sm font-black leading-6 text-slate-800">
+                    {title}
+                </h3>
+            </div>
+        </article>
     );
 }
 
@@ -935,21 +1079,66 @@ function SidebarLink({
     return (
         <Link
             href={href}
-            className={
+            className={[
+                "group flex items-center justify-between gap-3 py-3 text-sm font-bold transition",
                 active
-                    ? "group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                    : "group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-            }
+                    ? "text-[#C8102E]"
+                    : "text-slate-700 hover:translate-x-0.5 hover:text-[#C8102E]",
+            ].join(" ")}
         >
             {label}
 
             <ChevronRight
-                className={
+                className={[
+                    "h-4 w-4 shrink-0 transition",
                     active
-                        ? "h-4 w-4"
-                        : "h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]"
-                }
+                        ? "text-[#C8102E]"
+                        : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-[#C8102E]",
+                ].join(" ")}
             />
+        </Link>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+    direction,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" ? (
+                <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
+            ) : null}
+
+            <div
+                className={
+                    direction === "right"
+                        ? "ml-auto text-right"
+                        : ""
+                }
+            >
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" ? (
+                <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            ) : null}
         </Link>
     );
 }

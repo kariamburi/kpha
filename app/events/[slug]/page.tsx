@@ -30,6 +30,7 @@ import {
   excerpt,
   feeText,
 } from "@/app/lib/public-content";
+import NewsCarousel from "@/app/components/public/NewsCarousel";
 
 type EventPageProps = {
   params: Promise<{
@@ -42,7 +43,7 @@ export async function generateMetadata({
 }: EventPageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const event = await prisma.event.findFirst({
+  const event: any = await prisma.event.findFirst({
     where: {
       slug,
       published: true,
@@ -137,7 +138,23 @@ export default async function EventPage({
       100,
     )
     : null;
+  const relatedEvents = await prisma.event.findMany({
+    where: {
+      published: true,
 
+      id: {
+        not: event.id,
+      },
+
+      category: event.category,
+    },
+
+    orderBy: {
+      eventDate: "asc",
+    },
+
+    take: 12,
+  });
   const isFullyBooked =
     event.capacity !== null &&
     event.capacity !== undefined &&
@@ -216,60 +233,74 @@ export default async function EventPage({
               </div>
 
               {/* Event description */}
-              <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                  <CalendarDays className="h-6 w-6" />
-                </div>
-
-                <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+              <section className="border-t-4 border-[#C8102E] pt-6">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                   Event overview
                 </p>
 
-                <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
+                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
                   About This Event
                 </h2>
 
-                <div className="mt-6 h-px bg-slate-200" />
-
-                <div className="mt-6 whitespace-pre-line text-base font-medium leading-8 text-slate-600">
+                <div className="mt-6 whitespace-pre-line text-[17px] font-normal leading-8 text-slate-700 sm:text-lg sm:leading-9">
                   {event.description}
                 </div>
               </section>
 
               {/* Registration CTA */}
-              <section className="mt-6 rounded-[24px] border border-red-100 bg-red-50/70 p-6 sm:p-7">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#C8102E] shadow-sm">
-                    <CheckCircle2 className="h-5 w-5" />
-                  </div>
+              {/* EVENT BOOKING CTA */}
+              <section className="mt-8 overflow-hidden rounded-[28px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50/60 shadow-sm">
+                <div className="p-6 sm:p-8">
+                  <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#C8102E] text-white shadow-sm">
+                        <Ticket className="h-5 w-5" />
+                      </div>
 
-                  <div>
-                    <h2 className="text-lg font-extrabold text-slate-950">
-                      Attend as an AHPK Member
-                    </h2>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                          Event registration
+                        </p>
 
-                    <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                      Sign in to your member
-                      account to complete your
-                      event registration and
-                      access member-only event
-                      information or materials.
-                    </p>
+                        <h2 className="mt-2 text-xl font-extrabold text-slate-950">
+                          Reserve Your Place
+                        </h2>
 
-                    {isFullyBooked ? (
-                      <p className="mt-5 inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-extrabold text-amber-800">
-                        This event is currently
-                        fully booked
-                      </p>
-                    ) : (
-                      <Link
-                        href="/member/login"
-                        className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
-                      >
-                        Member Login
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    )}
+                        <p className="mt-2 max-w-xl text-sm font-medium leading-7 text-slate-600">
+                          Complete your booking online and secure your place for this
+                          AHPK event.
+                        </p>
+
+                        <div className="mt-4 flex flex-wrap items-center gap-2">
+                          <span className="rounded-full border border-red-100 bg-white px-3 py-1.5 text-xs font-extrabold text-slate-700">
+                            {feeText(event.fee)}
+                          </span>
+
+                          {remainingPlaces !== null && !isFullyBooked ? (
+                            <span className="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-extrabold text-emerald-700">
+                              {remainingPlaces}{" "}
+                              {remainingPlaces === 1 ? "place" : "places"} remaining
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0">
+                      {isFullyBooked ? (
+                        <div className="flex min-h-12 items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-5 text-center text-sm font-extrabold text-amber-700">
+                          Event Fully Booked
+                        </div>
+                      ) : (
+                        <Link
+                          href={`/events/${event.slug}/book`}
+                          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-700 sm:w-auto"
+                        >
+                          Book This Event
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </section>
@@ -390,18 +421,16 @@ export default async function EventPage({
                     </div>
                   ) : (
                     <Link
-                      href="/member/login"
+                      href={`/events/${event.slug}/book`}
                       className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-700"
                     >
-                      Register as a Member
+                      Book This Event
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   )}
 
                   <p className="mt-3 text-center text-xs font-semibold leading-5 text-slate-400">
-                    Member login may be
-                    required to complete
-                    registration.
+                    Complete your registration and payment securely online.
                   </p>
                 </div>
               </div>
@@ -409,7 +438,55 @@ export default async function EventPage({
           </div>
         </div>
       </section>
+      {relatedEvents.length > 0 ? (
+        <section className="border-t border-slate-200 bg-slate-50 py-10 sm:py-14">
+          <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                  Continue exploring
+                </p>
 
+                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+                  More AHPK Events
+                </h2>
+              </div>
+
+              <Link
+                href="/events"
+                className="hidden items-center gap-2 text-sm font-black text-[#C8102E] sm:inline-flex"
+              >
+                View all events
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="mt-7">
+              <NewsCarousel
+                basePath="/events"
+                actionLabel="View event"
+                news={relatedEvents.map(
+                  (relatedEvent) => ({
+                    id: relatedEvent.id,
+                    slug: relatedEvent.slug,
+                    imageUrl:
+                      relatedEvent.imageUrl,
+                    title: relatedEvent.title,
+                    description: excerpt(
+                      relatedEvent.description,
+                      140,
+                    ),
+                    date: dateRange(
+                      relatedEvent.eventDate,
+                      relatedEvent.endDate,
+                    ),
+                  }),
+                )}
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
       <PublicFooter />
     </main>
   );
@@ -435,112 +512,76 @@ function EventHero({
   cpdPoints: number | null;
 }) {
   return (
-    <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-      {/* Event-specific background image */}
-      <div className="absolute inset-0 -z-30">
-        <img
-          src={imageUrl}
-          alt=""
-          aria-hidden="true"
-          className="h-full w-full object-cover object-center lg:object-right"
-        />
-      </div>
-
-      {/* Desktop white-to-image fade */}
-      <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_30%,rgba(255,255,255,0.98)_43%,rgba(255,255,255,0.91)_56%,rgba(255,255,255,0.65)_71%,rgba(255,255,255,0.22)_88%,rgba(255,255,255,0)_100%)] lg:block" />
-
-      {/* Mobile overlay */}
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(255,255,255,0.96)_59%,rgba(255,255,255,0.84)_80%,rgba(255,255,255,0.6)_100%)] lg:hidden" />
-
-      {/* Right-side contrast */}
-      <div className="absolute inset-y-0 right-0 -z-10 hidden w-[28%] bg-gradient-to-l from-slate-950/25 to-transparent lg:block" />
-
-      {/* Decorative glow */}
-      <div className="pointer-events-none absolute -left-28 top-4 -z-10 h-96 w-96 rounded-full bg-red-100/70 blur-3xl" />
-
-      <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
-        <EventBreadcrumb title={title} />
-
-        <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-          <div className="max-w-3xl lg:w-[61%]">
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                <CalendarDays className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                  AHPK Professional Event
-                </p>
-
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  {category}
-                </p>
-              </div>
-            </div>
-
-            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-              {title}
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-              {description}
-            </p>
-
-            {/* Event detail pills */}
-            <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
-              <HeroPill
-                icon={<Clock3 />}
-                label={date}
-              />
-
-              <HeroPill
-                icon={<MapPin />}
-                label={venue}
-              />
-
-              <HeroPill
-                icon={<Ticket />}
-                label={fee}
-              />
-
-              {cpdPoints ? (
-                <HeroPill
-                  icon={
-                    <CheckCircle2 />
-                  }
-                  label={`${cpdPoints} CPD points`}
-                />
-              ) : null}
-            </div>
-
-            <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
-              <Link
-                href="/member/login"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-700"
-              >
-                Register for Event
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-
-              <Link
-                href="/events"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-6 text-sm font-extrabold text-slate-700 shadow-sm backdrop-blur transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E]"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                All Events
-              </Link>
-            </div>
-          </div>
+    <>
+      <div className="border-b border-slate-300 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-4 sm:px-6 lg:px-8">
+          <Link
+            href="/events"
+            className="border-l-4 border-[#C8102E] pl-3 text-xl font-black text-slate-950"
+          >
+            AHPK Events
+          </Link>
         </div>
       </div>
 
-      {/* Fade into main content */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
-    </section>
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-[1100px] px-5 py-8 sm:px-6 sm:py-11 lg:px-8">
+          <EventBreadcrumb title={title} />
+
+          <div className="mt-7 max-w-[920px]">
+            <p className="text-xs font-black uppercase tracking-[0.17em] text-[#C8102E]">
+              {category}
+            </p>
+
+            <h1 className="mt-4 text-4xl font-black leading-[1.06] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[4rem]">
+              {title}
+            </h1>
+
+            <p className="mt-6 max-w-[800px] text-lg font-medium leading-8 text-slate-600 sm:text-xl">
+              {description}
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 border-t border-slate-200 pt-5 text-sm font-bold text-slate-600">
+              <span className="inline-flex items-center gap-2">
+                <Clock3 className="h-4 w-4 text-[#C8102E]" />
+                {date}
+              </span>
+
+              <span className="inline-flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-[#C8102E]" />
+                {venue}
+              </span>
+
+              <span className="inline-flex items-center gap-2">
+                <Ticket className="h-4 w-4 text-[#C8102E]" />
+                {fee}
+              </span>
+
+              {cpdPoints ? (
+                <span className="inline-flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#C8102E]" />
+                  {cpdPoints} CPD points
+                </span>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1100px] px-0 sm:px-6 lg:px-8">
+          <div className="aspect-[16/9] overflow-hidden bg-slate-200">
+            <img
+              src={imageUrl}
+              alt={title}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
-
 function HeroPill({
   icon,
   label,

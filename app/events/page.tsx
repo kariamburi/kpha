@@ -118,7 +118,8 @@ export default async function EventsPage({
       },
     },
   });
-
+  //const featuredEvent = events[0] ?? null;
+  const otherEvents = events.slice(1);
   const activeHref =
     status === "upcoming"
       ? "/events?status=upcoming"
@@ -137,7 +138,23 @@ export default async function EventsPage({
     events.length === 1
       ? "1 published event"
       : `${events.length} published events`;
+  const upcomingEvents = events.filter(
+    (event) => event.eventDate >= now,
+  );
 
+  const pastEvents = events.filter(
+    (event) => event.eventDate < now,
+  );
+
+  const featuredEvent =
+    upcomingEvents[0] || pastEvents[0] || null;
+
+  const remainingUpcomingEvents =
+    featuredEvent
+      ? upcomingEvents.filter(
+        (event) => event.id !== featuredEvent.id,
+      )
+      : upcomingEvents;
   return (
     <main className="min-h-screen bg-white text-slate-950">
       <EventsJsonLd events={events} />
@@ -159,7 +176,90 @@ export default async function EventsPage({
     </main>
   );
 }
+function FeaturedEvent({
+  event,
+}: EventCardProps) {
+  const isFull =
+    event.capacity !== null &&
+    event._count.registrations >= event.capacity;
 
+  return (
+    <article className="group border-b border-slate-300 pb-10">
+      <Link
+        href={`/events/${event.slug}`}
+        className="grid gap-6 lg:grid-cols-[1.45fr_1fr] lg:items-start"
+      >
+        <div className="aspect-[16/9] overflow-hidden bg-slate-200">
+          {event.imageUrl ? (
+            <img
+              src={event.imageUrl}
+              alt={event.title}
+              className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center bg-slate-950 text-white">
+              <CalendarDays className="h-14 w-14" />
+            </div>
+          )}
+        </div>
+
+        <div>
+          <p className="border-l-4 border-[#C8102E] pl-3 text-xs font-black uppercase tracking-[0.16em] text-[#C8102E]">
+            Featured event
+          </p>
+
+          <h2 className="mt-5 text-3xl font-black leading-tight tracking-tight text-slate-950 transition group-hover:text-[#C8102E] sm:text-4xl">
+            {event.title}
+          </h2>
+
+          <p className="mt-4 text-base font-medium leading-8 text-slate-600">
+            {excerpt(event.description, 220)}
+          </p>
+
+          <div className="mt-6 space-y-3 border-t border-slate-200 pt-5 text-sm font-bold text-slate-600">
+            <p className="flex items-start gap-3">
+              <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#C8102E]" />
+              {dateRange(
+                event.eventDate,
+                event.endDate,
+              )}
+            </p>
+
+            <p className="flex items-start gap-3">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#C8102E]" />
+              {event.venue ||
+                "Venue to be announced"}
+            </p>
+
+            <p className="flex items-start gap-3">
+              <Ticket className="mt-0.5 h-4 w-4 shrink-0 text-[#C8102E]" />
+              {feeText(event.fee)}
+            </p>
+          </div>
+
+          <div className="mt-6 flex items-center justify-between">
+            <span
+              className={
+                isFull
+                  ? "text-sm font-black text-amber-700"
+                  : "text-sm font-black text-emerald-700"
+              }
+            >
+              {isFull
+                ? "Registration full"
+                : "Registration available"}
+            </span>
+
+            <span className="inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
+              View event
+              <ChevronRight className="h-4 w-4" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </article>
+  );
+}
 function EventsHero({
   title,
   activeHref,
@@ -170,107 +270,60 @@ function EventsHero({
   eventCountLabel: string;
 }) {
   return (
-    <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-      {/* Background image */}
-      <div className="absolute inset-0 -z-30">
-        <img
-          src="/agm.webp"
-          alt=""
-          aria-hidden="true"
-          className="h-full w-full object-cover object-center lg:object-right"
-        />
-      </div>
+    <>
+      <section className="border-b border-slate-300 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-8">
+          <Breadcrumb />
 
-      {/* Desktop white fade */}
-      <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_29%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.91)_56%,rgba(255,255,255,0.65)_71%,rgba(255,255,255,0.22)_88%,rgba(255,255,255,0)_100%)] lg:block" />
-
-      {/* Mobile white fade */}
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_58%,rgba(255,255,255,0.83)_80%,rgba(255,255,255,0.58)_100%)] lg:hidden" />
-
-      {/* Right image contrast */}
-      <div className="absolute inset-y-0 right-0 -z-10 hidden w-[28%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
-
-      {/* Decorative glow */}
-      <div className="pointer-events-none absolute -left-28 top-4 -z-10 h-96 w-96 rounded-full bg-red-100/70 blur-3xl" />
-
-      <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
-        <Breadcrumb />
-
-        <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-          <div className="max-w-3xl lg:w-[61%]">
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                <CalendarDays className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                  AHPK Professional Events
-                </p>
-
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Connect, learn and grow
-                </p>
-              </div>
-            </div>
-
-            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-              Hospitality
-
-              <span className="mt-2 block text-[#C8102E]">
-                {title}
-              </span>
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-              Connect with hospitality
-              professionals through AHPK
-              conferences, workshops, training
-              programmes, webinars and annual
-              general meetings.
-            </p>
-
-            <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
-              {eventFilters.map((filter) => {
-                const isActive =
-                  activeHref ===
-                  filter.href;
-
-                return (
-                  <Link
-                    key={filter.href}
-                    href={filter.href}
-                    aria-current={
-                      isActive
-                        ? "page"
-                        : undefined
-                    }
-                    className={
-                      isActive
-                        ? "rounded-full border border-[#C8102E] bg-[#C8102E] px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-sm transition sm:px-5 sm:text-[11px]"
-                        : "rounded-full border border-slate-200 bg-white/85 px-4 py-2.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur transition hover:border-red-200 hover:bg-red-50 hover:text-[#C8102E] sm:px-5 sm:text-[11px]"
-                    }
-                  >
-                    {filter.label}
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/80 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
-              <p className="text-sm font-bold leading-6 text-slate-700">
-                {eventCountLabel}. Event
-                information, dates and
-                registration details are managed
-                through the official AHPK portal.
+          <div className="mt-7 flex items-end justify-between gap-6">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                Professional development and networking
               </p>
+
+              <h1 className="mt-1 text-4xl font-black tracking-[-0.035em] text-slate-950 sm:text-5xl">
+                AHPK {title}
+              </h1>
             </div>
+
+            <p className="hidden text-sm font-bold text-slate-500 sm:block">
+              {eventCountLabel}
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
-    </section>
+      <nav
+        aria-label="Event filters"
+        className="border-b border-slate-300 bg-white"
+      >
+        <div className="mx-auto max-w-7xl overflow-x-auto px-5 sm:px-6 lg:px-8">
+          <div className="flex min-w-max">
+            {eventFilters.map((filter) => {
+              const isActive =
+                activeHref === filter.href;
+
+              return (
+                <Link
+                  key={filter.href}
+                  href={filter.href}
+                  aria-current={
+                    isActive ? "page" : undefined
+                  }
+                  className={
+                    isActive
+                      ? "border-b-4 border-[#C8102E] px-5 py-4 text-sm font-black text-slate-950"
+                      : "border-b-4 border-transparent px-5 py-4 text-sm font-bold text-slate-600 transition hover:border-slate-300 hover:text-[#C8102E]"
+                  }
+                >
+                  {filter.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
 
@@ -354,16 +407,15 @@ type EventCardProps = {
 function EventCard({ event }: EventCardProps) {
   const isFull =
     event.capacity !== null &&
-    event._count.registrations >=
-    event.capacity;
+    event._count.registrations >= event.capacity;
 
   return (
-    <article className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-100 hover:shadow-xl">
+    <article className="group border-t-4 border-transparent pt-3 transition hover:border-[#C8102E]">
       <Link
         href={`/events/${event.slug}`}
-        className="block h-full"
+        className="block"
       >
-        <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+        <div className="aspect-[16/9] overflow-hidden bg-slate-200">
           {event.imageUrl ? (
             <img
               src={event.imageUrl}
@@ -371,85 +423,56 @@ function EventCard({ event }: EventCardProps) {
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
           ) : (
-            <div className="flex h-full items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-[#8f0d16] text-white">
-              <CalendarDays className="h-12 w-12" />
+            <div className="flex h-full items-center justify-center bg-slate-950 text-white">
+              <CalendarDays className="h-11 w-11" />
             </div>
           )}
-
-          <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4">
-            <span className="rounded-full bg-white/90 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#C8102E] shadow-sm backdrop-blur">
-              {formatCategory(event.category)}
-            </span>
-
-            {event.cpdPoints ? (
-              <span className="rounded-full bg-slate-950/85 px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white backdrop-blur">
-                {event.cpdPoints} CPD points
-              </span>
-            ) : null}
-          </div>
         </div>
 
-        <div className="flex h-[calc(100%-auto)] flex-col p-6 sm:p-7">
-          <h3 className="text-xl font-extrabold leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
+        <div className="pt-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
+            {formatCategory(event.category)}
+          </p>
+
+          <h3 className="mt-2 line-clamp-3 text-xl font-black leading-6 text-slate-950 transition group-hover:text-[#C8102E]">
             {event.title}
           </h3>
 
-          <p className="mt-3 text-sm font-medium leading-7 text-slate-500">
-            {excerpt(
-              event.description,
-              145,
-            )}
+          <p className="mt-3 line-clamp-2 text-sm font-medium leading-6 text-slate-600">
+            {excerpt(event.description, 130)}
           </p>
 
-          <div className="mt-6 space-y-3 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-600">
-            <EventDetail
-              icon={Clock3}
-              text={dateRange(
+          <div className="mt-4 space-y-2 border-t border-slate-200 pt-4 text-xs font-bold text-slate-500">
+            <p className="flex gap-2">
+              <Clock3 className="h-4 w-4 shrink-0 text-[#C8102E]" />
+              {dateRange(
                 event.eventDate,
                 event.endDate,
               )}
-            />
+            </p>
 
-            <EventDetail
-              icon={MapPin}
-              text={
-                event.venue ||
-                "Venue to be announced"
-              }
-            />
-
-            <EventDetail
-              icon={Ticket}
-              text={feeText(event.fee)}
-            />
-
-            <EventDetail
-              icon={Users}
-              text={
-                event.capacity
-                  ? `${event._count.registrations}/${event.capacity} registered`
-                  : `${event._count.registrations} registered`
-              }
-            />
+            <p className="flex gap-2">
+              <MapPin className="h-4 w-4 shrink-0 text-[#C8102E]" />
+              {event.venue ||
+                "Venue to be announced"}
+            </p>
           </div>
 
-          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
+          <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3">
             <span
               className={
                 isFull
-                  ? "rounded-full bg-amber-50 px-3 py-1.5 text-xs font-black text-amber-700"
-                  : "rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-black text-emerald-700"
+                  ? "text-xs font-black text-amber-700"
+                  : "text-xs font-black text-emerald-700"
               }
             >
               {isFull
-                ? "Registration full"
-                : "Registration available"}
+                ? "Fully booked"
+                : "Registration open"}
             </span>
 
-            <span className="inline-flex items-center gap-1 text-sm font-extrabold text-[#C8102E]">
+            <span className="text-xs font-black text-[#C8102E]">
               View event
-
-              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </div>
         </div>

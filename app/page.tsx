@@ -10,7 +10,10 @@ import {
   CheckCircle2,
   FileText,
   Handshake,
+  LogIn,
+  LucideIcon,
   Quote,
+  Search,
   ShieldCheck,
   Target,
   UserPlus,
@@ -23,6 +26,7 @@ import PublicHero from "./components/public/PublicHero";
 import { DesktopNavigation } from "./components/site/desktop-navigation";
 import PublicHeroLignt from "./components/public/PublicHeroLight";
 import ProfessionalStandardsSlider from "./components/public/ProfessionalStandardsSlider";
+import NewsCarousel from "./components/public/NewsCarousel";
 
 export const metadata: Metadata = {
   title: "Association of Hotel Professionals Kenya",
@@ -89,12 +93,12 @@ export default async function Home() {
     prisma.newsPost.findMany({
       where: { published: true },
       orderBy: { createdAt: "desc" },
-      take: 3,
+      take: 12,
     }),
     prisma.event.findMany({
       where: { published: true },
       orderBy: { eventDate: "asc" },
-      take: 3,
+      take: 12,
     }),
     prisma.leader.findMany({
       where: { active: true },
@@ -109,75 +113,51 @@ export default async function Home() {
   const welcomeText =
     page?.content ||
     "AHPK is a professional association committed to advancing hospitality standards, ethical leadership, continuous development and industry collaboration in Kenya.";
-
+  const quickServices = [
+    {
+      title: "Apply",
+      href: "/apply",
+      icon: UserPlus,
+    },
+    {
+      title: "Member Login",
+      href: "/member/login",
+      icon: LogIn,
+    },
+    {
+      title: "Verify Certificate",
+      href: "/verify",
+      icon: BadgeCheck,
+    },
+    {
+      title: "Membership Renewal",
+      href: "/member/renewal",
+      icon: CalendarDays,
+    },
+    {
+      title: "Events",
+      href: "/events",
+      icon: FileText,
+    },
+    {
+      title: "Member Directory",
+      href: "/directory",
+      icon: Users,
+    },
+  ];
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      <PublicHeroLignt />
+      <PublicHeroLignt welcomeTitle={welcomeTitle} welcomeText={welcomeText} />
 
-      <ProfessionalStandardsSlider />
+      {/*<ProfessionalStandardsSlider />*/}
 
-      <section className="bg-white py-20 sm:py-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-          <div className="relative overflow-hidden rounded-[30px] bg-slate-100 shadow-xl">
-            <img
-              src="/welcome.webp"
-              alt="Hospitality professionals"
-              className="h-[420px] w-full object-cover"
-            />
 
-            <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/92 p-5 shadow-lg backdrop-blur-md">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C8102E]">
-                AHPK at a glance
-              </p>
-              <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
-                Recognition, professional growth, ethical standards and a
-                stronger hospitality community.
-              </p>
-            </div>
-          </div>
 
-          <div>
-            <SectionLabel>Welcome to AHPK</SectionLabel>
-
-            <h2 className="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
-              {welcomeTitle}
-            </h2>
-
-            <div className="mt-6 space-y-5 text-base font-medium leading-8 text-slate-600">
-              <p>{welcomeText}</p>
-              <p>
-                We bring together hospitality professionals, educators,
-                managers and industry leaders who are committed to quality,
-                credibility and responsible professional practice.
-              </p>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/about/who-we-are"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white transition hover:bg-[#A80D27]"
-              >
-                Discover AHPK
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-
-              <Link
-                href="/apply"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-              >
-                Become a Member
-                <UserPlus className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden bg-slate-50 py-20 sm:py-24">
+      <section className="relative overflow-hidden bg-slate-50 py-0 sm:py-2">
         {/* Decorative background */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-32 top-24 h-80 w-80 rounded-full bg-red-100/50 blur-3xl" />
-          <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-slate-200/70 blur-3xl" />
+          <div className="absolute -left-28 top-20 h-64 w-64 rounded-full bg-red-100/45 blur-2xl" />
+          <div className="absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-slate-200/60 blur-2xl" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -188,89 +168,98 @@ export default async function Home() {
           />
 
           {/* Purpose and representation cards */}
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <PurposeCard
-              icon={Target}
-              label="Professional Standards"
-              title="Promoting recognised academic and professional standards"
-              description="AHPK supports the development and re-introduction of strategic processes that establish appropriate academic, ethical and professional requirements for people working in institutions that manage hotels and hospitality facilities."
-              href="/about/our-purpose"
-            />
+          <div className="mt-3">
+            <div className="overflow-hidden">
+              <div className="grid">
 
-            <PurposeCard
-              icon={Handshake}
-              label="Industry Representation"
-              title="Providing a professional voice for hospitality practitioners"
-              description="The Association represents the interests of hospitality professionals by engaging industry institutions, public agencies, employers, training institutions and other professional bodies on matters affecting the sector."
-              href="/about/our-objectives"
-            />
+
+                {/* QUICK SERVICES */}
+                <div className="p-1 sm:p-2 lg:p-3">
+                  <div className="mb-2 flex items-center justify-center gap-3">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#C1121F]">
+                        Quick access
+                      </p>
+
+                      <h2 className="mt-2 text-xl font-extrabold text-slate-950">
+                        Member services
+                      </h2>
+                    </div>
+
+
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+                    {quickServices.map(
+                      (service) => (
+                        <HeroServiceCard
+                          key={
+                            service.href
+                          }
+                          title={
+                            service.title
+                          }
+                          href={
+                            service.href
+                          }
+                          icon={
+                            service.icon
+                          }
+                        />
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Main association description */}
-          <div className="mt-10 overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-slate-300 bg-white">
             <div className="grid lg:grid-cols-[0.75fr_1.25fr]">
               {/* Highlight panel */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-[#C8102E] to-[#8E0C22] p-8 text-white sm:p-10">
+              <div className="relative overflow-hidden bg-gradient-to-br from-[#C8102E] to-[#8E0C22] p-6 text-white sm:p-7">
                 <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10" />
                 <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-black/10" />
 
                 <div className="relative">
                   <p className="text-[10px] font-black uppercase tracking-[0.24em] text-white/70">
-                    Our professional community
+                    About the Association
                   </p>
 
-                  <h3 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
-                    Supporting hospitality professionals throughout their careers
+                  <h3 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">
+                    Bringing together professionals and practitioners in Kenya’s hotel
+                    and hospitality industry
                   </h3>
 
-                  <p className="mt-5 text-sm font-medium leading-7 text-white/80">
-                    Membership is drawn from active professionals, retired
-                    practitioners, consultants, educators, managers and institutions
-                    preparing future professionals to enter the hospitality industry.
-                  </p>
-
-                  <div className="mt-8 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
-                      <Users className="h-6 w-6 text-white" />
-                      <p className="mt-3 text-sm font-extrabold">
-                        Professional Community
-                      </p>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
-                      <ShieldCheck className="h-6 w-6 text-white" />
-                      <p className="mt-3 text-sm font-extrabold">
-                        Ethical Standards
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Full description */}
-              <div className="p-7 sm:p-9 lg:p-10">
-                <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#C8102E]">
-                  About the Association
-                </p>
-
-                <h3 className="mt-3 text-2xl font-extrabold leading-tight text-slate-950 sm:text-3xl">
-                  Bringing together professionals and practitioners in Kenya’s hotel
-                  and hospitality industry
-                </h3>
-
-                <div className="mt-6 space-y-5 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                  <p>
+                  <p className="mt-3 text-sm font-medium leading-7 text-white/80">
                     The Association of Hotel Professionals Kenya is a professional
                     body whose membership is drawn from key individual professionals
                     and practitioners in the hotel and hospitality industry.
                   </p>
+
+
+                </div>
+              </div>
+
+              {/* Full description */}
+              <div className="p-5 sm:p-6 lg:p-7">
+                <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#C8102E]">
+                  About the Association
+                </p>
+
+
+
+                <div className="mt-4 space-y-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+
 
                   <p>
                     The Association is registered under the Societies Act and exists
                     to regulate, lobby for and safeguard the professional interests of
                     its members. It provides a recognised voice for professionals who
                     are actively employed, retired from service or working in
-                    consultancy.
+                    consultancy...
                   </p>
 
                   <p>
@@ -289,10 +278,10 @@ export default async function Home() {
                   </p>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-5">
                   <Link
                     href="/about/who-we-are"
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold uppercase tracking-wide text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#A80D27]"
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#C8102E] px-5 text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-[#A80D27]"
                   >
                     Read More About Us
                     <ArrowRight className="h-4 w-4" />
@@ -302,19 +291,77 @@ export default async function Home() {
             </div>
           </div>
 
+
+          {/* Full description  <div className="mt-2 overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
+
+          
+            <div className="p-3 flex flex-col items-center justify-center text-center justify-center items-center sm:p-9 lg:p-10">
+              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#C8102E]">
+                About the Association
+              </p>
+
+              <h3 className="mt-3 text-2xl font-extrabold leading-tight text-slate-950 sm:text-3xl">
+                Bringing together professionals and practitioners in Kenya’s hotel
+                and hospitality industry
+              </h3>
+
+              <div className="mt-4 space-y-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                <p>
+                  The Association of Hotel Professionals Kenya is a professional
+                  body whose membership is drawn from key individual professionals
+                  and practitioners in the hotel and hospitality industry.
+                </p>
+
+                <p>
+                  The Association is registered under the Societies Act and exists
+                  to regulate, lobby for and safeguard the professional interests of
+                  its members. It provides a recognised voice for professionals who
+                  are actively employed, retired from service or working in
+                  consultancy.
+                </p>
+
+                <p>
+                  AHPK also reaches out to institutions of higher learning that
+                  prepare undergraduate and professional students to join the
+                  industry. Hospitality is one of the world’s fastest-growing
+                  sectors and remains a major contributor to employment, economic
+                  development and social progress.
+                </p>
+
+                <p>
+                  The Association advocates for high standards of service delivery
+                  and supports the development of training institutions that meet
+                  internationally recognised hospitality standards, helping
+                  strengthen Kenya’s position as a preferred tourism destination.
+                </p>
+              </div>
+
+              <div className="mt-5">
+                <Link
+                  href="/about/who-we-are"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#C8102E] px-5 text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-[#A80D27]"
+                >
+                  Read More About Us
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+          </div>*/}
+
           {/* Key areas */}
-          <div className="mt-10 rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9">
-            <div className="mb-7">
+          <div className="mt-4 rounded-xl border border-slate-300 bg-white p-5 sm:p-6">
+            <div className="mb-5">
               <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#C8102E]">
                 What AHPK promotes
               </p>
 
-              <h3 className="mt-3 text-2xl font-extrabold text-slate-950">
+              <h3 className="mt-2 text-2xl font-extrabold text-slate-950">
                 Strengthening professionalism across the hospitality industry
               </h3>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {purposePoints.map((point) => (
                 <InformationPoint key={point} text={point} />
               ))}
@@ -322,7 +369,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
+      {/** 
       <section className="bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <SectionHeader
@@ -416,8 +463,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      <section className="bg-white py-20 sm:py-24">
+*/}
+      <section className="bg-white py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <SectionHeader
             label="Latest Updates"
@@ -426,26 +473,32 @@ export default async function Home() {
             href="/news"
           />
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-5">
             {news.length > 0 ? (
-              news.map((post: any) => (
-                <NewsCard
-                  key={post.id}
-                  href={`/news/${post.slug}`}
-                  image={post.imageUrl}
-                  title={post.title}
-                  description={post.excerpt || post.content}
-                  date={formatDate(post.createdAt)}
-                />
-              ))
+              <NewsCarousel
+                basePath="/news"
+                actionLabel="Read article"
+                news={news.map((post: any) => ({
+                  id: post.id,
+                  slug: post.slug,
+                  imageUrl: post.imageUrl,
+                  title: post.title,
+                  description:
+                    post.excerpt ||
+                    post.content ||
+                    "Read the latest update from AHPK.",
+                  date: formatDate(post.createdAt),
+                }))}
+              />
             ) : (
               <EmptyCard text="Published news will appear here." />
             )}
+
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-20 sm:py-24">
+      <section className="bg-white py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <SectionHeader
             label="Events & CPD"
@@ -454,26 +507,31 @@ export default async function Home() {
             href="/events"
           />
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-5">
             {events.length > 0 ? (
-              events.map((event: any) => (
-                <EventCard
-                  key={event.id}
-                  href={`/events/${event.slug}`}
-                  image={event.imageUrl}
-                  title={event.title}
-                  description={event.description}
-                  date={formatDate(event.eventDate)}
-                />
-              ))
-            ) : (
+              <NewsCarousel
+                basePath="/events"
+                actionLabel="View event"
+                news={events.map((event: any) => ({
+                  id: event.id,
+                  slug: event.slug,
+                  imageUrl: event.imageUrl,
+                  title: event.title,
+                  description:
+                    event.description ||
+                    "View details for this AHPK event.",
+                  date: formatDate(event.eventDate),
+                }))}
+              />) : (
               <EmptyCard text="Upcoming events will appear here once published." />
             )}
           </div>
         </div>
       </section>
 
-      <section className="bg-white py-20 sm:py-24">
+
+
+      {/** <section className="bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#C8102E] to-[#8E0C22] px-7 py-12 text-white shadow-2xl sm:px-10 lg:px-14 lg:py-16">
             <Quote className="absolute right-8 top-8 h-20 w-20 text-white/10" />
@@ -507,7 +565,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <PublicFooter />
     </main>
@@ -595,7 +653,7 @@ function PurposeCard({
       <p className="mt-6 text-xs font-extrabold uppercase tracking-[0.2em] text-[#C8102E]">
         {label}
       </p>
-      <h3 className="mt-3 text-2xl font-extrabold text-slate-950">{title}</h3>
+      <h3 className="mt-2 text-2xl font-extrabold text-slate-950">{title}</h3>
       <p className="mt-4 text-sm font-medium leading-7 text-slate-600">
         {description}
       </p>
@@ -643,7 +701,37 @@ function NewsCard({ href, image, title, description, date }: { href: string; ima
     </Link>
   );
 }
+function HeroServiceCard({
+  title,
+  href,
+  icon: Icon,
+}: {
+  title: string;
+  href: string;
+  icon: LucideIcon;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex min-h-[88px] flex-col justify-between rounded-lg border border-slate-300 bg-white p-3 transition duration-300 hover:border-[#C1121F] hover:bg-red-50/40"
+    >
+      <span className="flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-[#C1121F] transition group-hover:bg-[#C1121F] group-hover:text-white">
+        <Icon
+          className="h-5 w-5"
+          aria-hidden="true"
+        />
+      </span>
 
+      <span className="mt-3 flex items-end justify-between gap-2">
+        <span className="text-sm font-extrabold leading-5 text-slate-900 transition group-hover:text-[#C1121F]">
+          {title}
+        </span>
+
+        <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C1121F]" />
+      </span>
+    </Link>
+  );
+}
 function EventCard({ href, image, title, description, date }: { href: string; image: string | null; title: string; description: string; date: string }) {
   return (
     <Link href={href} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -673,11 +761,11 @@ function EventCard({ href, image, title, description, date }: { href: string; im
 
 function SectionHeader({ label, title, description, href }: { label: string; title: string; description: string; href: string }) {
   return (
-    <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div className="max-w-3xl">
         <SectionLabel>{label}</SectionLabel>
-        <h2 className="mt-3 font-serif text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">{title}</h2>
-        <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">{description}</p>
+        <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{title}</h2>
+        <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-600 sm:text-base">{description}</p>
       </div>
       <Link href={href} className="inline-flex shrink-0 items-center gap-2 text-sm font-extrabold text-[#C8102E] transition hover:text-[#8E0C22]">
         View all
@@ -691,15 +779,15 @@ function CenteredSectionHeader({ label, title, description }: { label: string; t
   return (
     <div className="mx-auto max-w-3xl text-center">
       <SectionLabel>{label}</SectionLabel>
-      <h2 className="mt-3 font-serif text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">{title}</h2>
-      <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base">{description}</p>
+      <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{title}</h2>
+      <p className="mt-2 text-sm font-medium leading-6 text-slate-600 sm:text-base">{description}</p>
     </div>
   );
 }
 
 function EmptyCard({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm font-bold text-slate-500">
+    <div className="rounded-lg border border-dashed border-slate-300 bg-white p-7 text-center text-sm font-bold text-slate-500">
       {text}
     </div>
   );

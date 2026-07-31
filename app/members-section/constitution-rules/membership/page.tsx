@@ -146,6 +146,7 @@ const disciplinaryRules = [
     },
 ];
 
+
 export default function MembershipPage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -161,7 +162,8 @@ export default function MembershipPage() {
                     },
                     {
                         name: "Constitution & Rules",
-                        url: "/members-section/constitution-rules",
+                        url:
+                            "/members-section/constitution-rules",
                     },
                     {
                         name: "Membership",
@@ -174,181 +176,161 @@ export default function MembershipPage() {
 
             <PageHeader />
 
-            {/* FULL-SCREEN HERO */}
-            <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-                <div className="absolute inset-0 -z-30">
-                    <img
-                        src="/membership-hero.webp"
-                        alt=""
-                        aria-hidden="true"
-                        className="h-full w-full object-cover object-center lg:object-right"
-                    />
-                </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_30%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.9)_55%,rgba(255,255,255,0.65)_68%,rgba(255,255,255,0.32)_82%,rgba(255,255,255,0)_100%)] lg:block" />
-
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_55%,rgba(255,255,255,0.78)_76%,rgba(255,255,255,0.45)_100%)] lg:hidden" />
-
-                <div className="absolute inset-y-0 right-0 -z-10 hidden w-[26%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
-
-                <div className="pointer-events-none absolute -left-32 top-0 -z-10 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-
-                <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-                        <div className="max-w-3xl lg:w-[57%]">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                                    <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </div>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            Constitution &amp; Rules
+                        </p>
 
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                                        Constitution &amp; Rules
-                                    </p>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Membership
+                            <span className="block text-[#C8102E]">
+                                Rights &amp; Responsibilities
+                            </span>
+                        </h1>
 
-                                    <p className="mt-1 text-sm font-semibold text-slate-500">
-                                        AHPK Membership Provisions
-                                    </p>
-                                </div>
-                            </div>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            AHPK membership is founded on
+                            professional qualifications, ethical
+                            conduct and a commitment to advancing
+                            Kenya&apos;s hospitality industry.
+                        </p>
 
-                            <h1 className="mt-6 max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-                                Membership
-                                <span className="mt-2 block text-[#C8102E]">
-                                    Rights &amp; Responsibilities
-                                </span>
-                            </h1>
-
-                            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-                                AHPK membership is founded on
-                                professional qualifications, ethical
-                                conduct and a commitment to advancing
-                                Kenya&apos;s hospitality industry.
-                            </p>
-
-                            <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
-                                {[
-                                    "Eligibility",
-                                    "Privileges",
-                                    "Professional Conduct",
-                                    "Subscriptions",
-                                    "Member Responsibilities",
-                                ].map((item) => (
-                                    <span
-                                        key={item}
-                                        className="rounded-full border border-slate-200 bg-white/85 px-3.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur sm:px-4 sm:text-[11px]"
-                                    >
-                                        {item}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/75 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
-                                <p className="text-sm font-bold leading-6 text-slate-700">
-                                    Membership recognizes professional
-                                    competence, integrity and a shared
-                                    commitment to excellence in
-                                    hospitality.
-                                </p>
-                            </div>
+                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+                            <span>Eligibility</span>
+                            <span>Privileges</span>
+                            <span>Professional Conduct</span>
+                            <span>Subscriptions</span>
+                            <span>Responsibilities</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/membership-criterion-levels-hero.webp"
+                                alt="Members of the Association of Hotel Professionals Kenya"
+                                className="h-full w-full object-cover object-center transition duration-700 hover:scale-[1.01]"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-300 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            Membership recognizes professional
+                            competence, integrity and a shared
+                            commitment to excellence in hospitality.
+                        </figcaption>
+                    </figure>
+                </div>
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-12">
-                            <div
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* OVERVIEW */}
+                            <section
                                 id="membership-overview"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                    <Users
-                                        className="h-7 w-7"
-                                        aria-hidden="true"
-                                    />
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                        <Users
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+                                            Constitutional Membership
+                                        </p>
+
+                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            Membership of the Association
+                                        </h2>
+                                    </div>
                                 </div>
 
-                                <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                    Constitutional membership
-                                </p>
-
-                                <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                    Membership of the Association
-                                </h2>
-
-                                <div className="mt-7 rounded-2xl border border-red-100 bg-red-50/70 p-6">
-                                    <p className="text-base font-bold leading-8 text-slate-800 sm:text-lg">
-                                        Membership in AHPK recognizes
-                                        individuals who demonstrate
-                                        professional competence,
-                                        integrity and dedication to
-                                        excellence in the hospitality
-                                        industry. Members enjoy the
-                                        rights and privileges granted
-                                        under the Constitution while
-                                        upholding the Association&apos;s
-                                        standards and values.
-                                    </p>
-                                </div>
-                            </div>
+                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                    Membership in AHPK recognizes
+                                    individuals who demonstrate
+                                    professional competence,
+                                    integrity and dedication to
+                                    excellence in the hospitality
+                                    industry. Members enjoy the
+                                    rights and privileges granted
+                                    under the Constitution while
+                                    upholding the Association&apos;s
+                                    standards and values.
+                                </blockquote>
+                            </section>
 
                             {/* REGISTER AND RIGHTS */}
                             <section
                                 id="membership-register"
-                                className="mt-12 scroll-mt-28"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Membership administration"
+                                    eyebrow="Membership Administration"
                                     title="Register, Rights & Privileges"
                                     description="Membership records, rights and privileges are administered according to the Association's constitutional provisions."
                                     icon={BookUser}
                                 />
 
-                                <div className="mt-7 space-y-5">
-                                    {sections.map((section) => {
-                                        const Icon = section.icon;
+                                <div className="mt-5 border-t border-slate-300">
+                                    {sections.map(
+                                        (section, index) => {
+                                            const Icon = section.icon;
 
-                                        return (
-                                            <div
-                                                key={section.id}
-                                                id={section.id}
-                                                className="scroll-mt-28 rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-                                            >
-                                                <div className="flex gap-4">
-                                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                                        <Icon className="h-5 w-5" />
+                                            return (
+                                                <article
+                                                    key={section.id}
+                                                    id={section.id}
+                                                    className="group grid scroll-mt-28 gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start"
+                                                >
+                                                    <p className="text-4xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                                                        {String(
+                                                            index + 1,
+                                                        ).padStart(
+                                                            2,
+                                                            "0",
+                                                        )}
+                                                    </p>
+
+                                                    <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
+                                                        <Icon className="h-4 w-4" />
                                                     </div>
 
                                                     <div>
-                                                        <h3 className="text-lg font-extrabold text-slate-950">
+                                                        <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
                                                             {section.title}
                                                         </h3>
 
-                                                        <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                                            {
-                                                                section.description
-                                                            }
+                                                        <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
+                                                            {section.description}
                                                         </p>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                                </article>
+                                            );
+                                        },
+                                    )}
                                 </div>
                             </section>
 
                             {/* ELIGIBILITY */}
                             <section
                                 id="membership-eligibility"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
                                     eyebrow="Qualification"
@@ -357,24 +339,19 @@ export default function MembershipPage() {
                                     icon={GraduationCap}
                                 />
 
-                                <div className="mt-7 grid gap-5 md:grid-cols-2">
-                                    <div className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                            <Users className="h-5 w-5" />
-                                        </div>
-
-                                        <h3 className="mt-5 text-lg font-extrabold text-slate-950">
-                                            Membership Categories
-                                        </h3>
-
-                                        <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                    <EligibilityItem
+                                        icon={Users}
+                                        title="Membership Categories"
+                                    >
+                                        <p className="text-sm font-medium leading-7 text-slate-600">
                                             Any person who qualifies
                                             may be elected to an
                                             appropriate membership
                                             category, including:
                                         </p>
 
-                                        <ul className="mt-5 space-y-3">
+                                        <ul className="mt-4 space-y-3">
                                             {membershipCategories.map(
                                                 (category) => (
                                                     <li
@@ -387,18 +364,13 @@ export default function MembershipPage() {
                                                 ),
                                             )}
                                         </ul>
-                                    </div>
+                                    </EligibilityItem>
 
-                                    <div className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
-                                            <GraduationCap className="h-5 w-5" />
-                                        </div>
-
-                                        <h3 className="mt-5 text-lg font-extrabold text-slate-950">
-                                            Professional Qualification
-                                        </h3>
-
-                                        <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
+                                    <EligibilityItem
+                                        icon={GraduationCap}
+                                        title="Professional Qualification"
+                                    >
+                                        <p className="text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
                                             A person holding a
                                             three-year diploma from a
                                             reputable college and who
@@ -408,54 +380,48 @@ export default function MembershipPage() {
                                             be eligible for membership
                                             consideration.
                                         </p>
-                                    </div>
+                                    </EligibilityItem>
                                 </div>
                             </section>
 
                             {/* DISCIPLINE */}
                             <section
                                 id="membership-discipline"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
                                 <SectionHeading
-                                    eyebrow="Member accountability"
+                                    eyebrow="Member Accountability"
                                     title="Membership Discipline"
                                     description="Membership may end through resignation, removal or failure to meet the Association's subscription obligations."
                                     icon={ShieldAlert}
                                 />
 
-                                <div className="mt-7 space-y-5">
+                                <div className="mt-5 border-t border-slate-300">
                                     {disciplinaryRules.map(
                                         (rule, index) => (
-                                            <div
+                                            <article
                                                 key={rule.title}
-                                                className="rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+                                                className="group grid gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_minmax(0,1fr)]"
                                             >
-                                                <div className="flex gap-4">
-                                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-sm font-black text-[#C8102E]">
-                                                        {String(
-                                                            index + 1,
-                                                        ).padStart(
-                                                            2,
-                                                            "0",
-                                                        )}
-                                                    </div>
+                                                <p className="text-4xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                                                    {String(
+                                                        index + 1,
+                                                    ).padStart(
+                                                        2,
+                                                        "0",
+                                                    )}
+                                                </p>
 
-                                                    <div>
-                                                        <h3 className="text-lg font-extrabold text-slate-950">
-                                                            {
-                                                                rule.title
-                                                            }
-                                                        </h3>
+                                                <div>
+                                                    <h3 className="text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                                                        {rule.title}
+                                                    </h3>
 
-                                                        <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                                            {
-                                                                rule.description
-                                                            }
-                                                        </p>
-                                                    </div>
+                                                    <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
+                                                        {rule.description}
+                                                    </p>
                                                 </div>
-                                            </div>
+                                            </article>
                                         ),
                                     )}
                                 </div>
@@ -464,131 +430,116 @@ export default function MembershipPage() {
                             {/* PRINCIPLES */}
                             <section
                                 id="membership-principles"
-                                className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="rounded-[24px] border border-red-100 bg-red-50 p-6 sm:p-8">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-                                        <ShieldCheck className="h-6 w-6" />
-                                    </div>
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Member Commitment
+                                </p>
 
-                                    <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        Member commitment
-                                    </p>
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    Core Membership Principles
+                                </h2>
 
-                                    <h3 className="mt-2 text-2xl font-extrabold text-slate-950">
-                                        Core Membership Principles
-                                    </h3>
+                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                    AHPK members are expected to
+                                    uphold the values that strengthen
+                                    the Association and protect the
+                                    reputation of the hospitality
+                                    profession.
+                                </p>
 
-                                    <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                        AHPK members are expected to
-                                        uphold the values that
-                                        strengthen the Association and
-                                        protect the reputation of the
-                                        hospitality profession.
-                                    </p>
-
-                                    <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                                        {membershipPrinciples.map(
-                                            (principle) => (
-                                                <div
-                                                    key={principle}
-                                                    className="flex items-center gap-3 rounded-xl border border-red-100 bg-white px-4 py-3"
-                                                >
-                                                    <CircleCheck className="h-5 w-5 shrink-0 text-[#C8102E]" />
-
-                                                    <span className="text-sm font-bold text-slate-700">
-                                                        {principle}
-                                                    </span>
-                                                </div>
-                                            ),
-                                        )}
-                                    </div>
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                    {membershipPrinciples.map(
+                                        (principle, index) => (
+                                            <PrincipleItem
+                                                key={principle}
+                                                number={String(
+                                                    index + 1,
+                                                ).padStart(
+                                                    2,
+                                                    "0",
+                                                )}
+                                                title={principle}
+                                            />
+                                        ),
+                                    )}
                                 </div>
                             </section>
 
                             {/* CTA */}
-                            <section className="mt-10 rounded-[24px] bg-slate-950 p-7 text-white sm:p-8">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                                    <BadgeCheck className="h-6 w-6" />
+                            <section className="border-t border-slate-300 py-8">
+                                <div className="border-l-4 border-[#C8102E] bg-slate-950 px-5 py-6 text-white sm:px-6">
+                                    <BadgeCheck className="h-6 w-6 text-red-300" />
+
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                        Join the Association
+                                    </p>
+
+                                    <h2 className="mt-2 text-2xl font-black sm:text-3xl">
+                                        Become an AHPK Member
+                                    </h2>
+
+                                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
+                                        Explore the available
+                                        membership categories and
+                                        identify the pathway that
+                                        best matches your
+                                        professional qualifications
+                                        and industry experience.
+                                    </p>
+
+                                    <Link
+                                        href="/members-section/membership-categories"
+                                        className="group mt-5 inline-flex items-center gap-2 border-b border-red-300 pb-1 text-sm font-black text-red-300 transition hover:border-white hover:text-white"
+                                    >
+                                        Explore Membership Categories
+
+                                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                                    </Link>
                                 </div>
-
-                                <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-red-300">
-                                    Join the Association
-                                </p>
-
-                                <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
-                                    Become an AHPK Member
-                                </h2>
-
-                                <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/70 sm:text-base">
-                                    Explore the available membership
-                                    categories and identify the pathway
-                                    that best matches your professional
-                                    qualifications and industry
-                                    experience.
-                                </p>
-
-                                <Link
-                                    href="/members-section/membership-categories"
-                                    className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#C8102E] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-red-700"
-                                >
-                                    Explore Membership Categories
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
                             </section>
 
                             {/* PREVIOUS / NEXT */}
-                            <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-                                <Link
-                                    href="/members-section/constitution-rules/objectives"
-                                    className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                            <section className="border-t border-slate-300 pt-5">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Continue Reading
+                                </p>
 
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Previous
-                                        </span>
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/objectives"
+                                        eyebrow="Previous Section"
+                                        title="Objectives"
+                                        direction="left"
+                                    />
 
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Objectives
-                                        </span>
-                                    </span>
-                                </Link>
-
-                                <Link
-                                    href="/members-section/constitution-rules/office-bearers-duties"
-                                    className="group flex min-h-24 items-center justify-end gap-4 rounded-2xl border border-slate-200 p-5 text-right transition hover:border-red-200 hover:bg-red-50"
-                                >
-                                    <span>
-                                        <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                            Next
-                                        </span>
-
-                                        <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                            Office Bearers &amp; Duties
-                                        </span>
-                                    </span>
-
-                                    <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                </Link>
-                            </div>
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/office-bearers-duties"
+                                        eyebrow="Next Section"
+                                        title="Office Bearers & Duties"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
                         </article>
 
-                        {/* SIDE PANEL */}
+                        {/* EDITORIAL SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                                        On this page
+                            <section className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        On This Page
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Membership
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
+                                <nav
+                                    aria-label="Membership page navigation"
+                                    className="divide-y divide-slate-200"
+                                >
                                     <SidebarLink
                                         href="#membership-overview"
                                         label="Membership Overview"
@@ -615,49 +566,49 @@ export default function MembershipPage() {
                                         label="Membership Principles"
                                     />
                                 </nav>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
                                 <BookOpenCheck
-                                    className="h-8 w-8 text-[#C8102E]"
+                                    className="h-6 w-6 text-[#C8102E]"
                                     aria-hidden="true"
                                 />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
                                     Constitution &amp; Rules
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Review the constitutional framework
-                                    governing AHPK&apos;s objectives,
-                                    membership, leadership and
-                                    administration.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    Review the constitutional
+                                    framework governing AHPK&apos;s
+                                    objectives, membership,
+                                    leadership and administration.
                                 </p>
 
                                 <Link
                                     href="/members-section/constitution-rules"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
+                                    className="group mt-4 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]"
                                 >
                                     View Constitution Section
-                                    <ArrowRight className="h-4 w-4" />
+
+                                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                                 </Link>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-                                <Scale className="h-8 w-8 text-[#C8102E]" />
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <Scale className="h-6 w-6 text-red-300" />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black">
                                     Member Responsibilities
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Every member is expected to observe
-                                    the Constitution, pay applicable
-                                    subscriptions and uphold the
-                                    Association&apos;s professional
-                                    standards.
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    Every member is expected to
+                                    observe the Constitution, pay
+                                    applicable subscriptions and
+                                    uphold professional standards.
                                 </p>
-                            </div>
+                            </section>
                         </aside>
                     </div>
                 </div>
@@ -681,22 +632,72 @@ function SectionHeading({
 }) {
     return (
         <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                <Icon className="h-6 w-6" />
+            <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white">
+                    <Icon className="h-5 w-5" />
+                </div>
+
+                <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                        {eyebrow}
+                    </p>
+
+                    <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                        {title}
+                    </h2>
+                </div>
             </div>
-
-            <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                {eyebrow}
-            </p>
-
-            <h2 className="mt-2 text-2xl font-extrabold text-slate-950 sm:text-3xl">
-                {title}
-            </h2>
 
             <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
                 {description}
             </p>
         </div>
+    );
+}
+
+function EligibilityItem({
+    icon: Icon,
+    title,
+    children,
+}: {
+    icon: typeof Users;
+    title: string;
+    children: React.ReactNode;
+}) {
+    return (
+        <article className="border-b border-slate-300 py-5 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0">
+            <Icon className="h-6 w-6 text-[#C8102E]" />
+
+            <h3 className="mt-3 text-xl font-black text-slate-950">
+                {title}
+            </h3>
+
+            <div className="mt-3">{children}</div>
+        </article>
+    );
+}
+
+function PrincipleItem({
+    number,
+    title,
+}: {
+    number: string;
+    title: string;
+}) {
+    return (
+        <article className="group flex min-h-24 items-start gap-4 border-b border-slate-300 py-5 transition hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <div>
+                <CircleCheck className="h-5 w-5 text-[#C8102E]" />
+
+                <h3 className="mt-2 text-sm font-black leading-6 text-slate-800">
+                    {title}
+                </h3>
+            </div>
+        </article>
     );
 }
 
@@ -712,21 +713,66 @@ function SidebarLink({
     return (
         <Link
             href={href}
-            className={
+            className={[
+                "group flex items-center justify-between gap-3 py-3 text-sm font-bold transition",
                 active
-                    ? "group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                    : "group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-            }
+                    ? "text-[#C8102E]"
+                    : "text-slate-700 hover:translate-x-0.5 hover:text-[#C8102E]",
+            ].join(" ")}
         >
             {label}
 
             <ChevronRight
-                className={
+                className={[
+                    "h-4 w-4 shrink-0 transition",
                     active
-                        ? "h-4 w-4"
-                        : "h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]"
-                }
+                        ? "text-[#C8102E]"
+                        : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-[#C8102E]",
+                ].join(" ")}
             />
+        </Link>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+    direction,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" ? (
+                <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
+            ) : null}
+
+            <div
+                className={
+                    direction === "right"
+                        ? "ml-auto text-right"
+                        : ""
+                }
+            >
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" ? (
+                <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            ) : null}
         </Link>
     );
 }

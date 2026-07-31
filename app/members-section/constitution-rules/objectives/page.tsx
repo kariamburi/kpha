@@ -158,6 +158,7 @@ const objectives = [
     },
 ];
 
+
 export default function ObjectivesPage() {
     return (
         <main className="min-h-screen bg-white text-slate-950">
@@ -173,7 +174,8 @@ export default function ObjectivesPage() {
                     },
                     {
                         name: "Constitution & Rules",
-                        url: pagePath,
+                        url:
+                            "/members-section/constitution-rules/objectives",
                     },
                     {
                         name: "Objectives",
@@ -186,317 +188,327 @@ export default function ObjectivesPage() {
 
             <PageHeader />
 
-            {/* FULL-SCREEN HERO */}
-            <section className="relative isolate min-h-[calc(100vh-82px)] overflow-hidden border-b border-slate-200 bg-white lg:min-h-[calc(100svh-82px)]">
-                <div className="absolute inset-0 -z-30">
-                    <img
-                        src="/association-objectives-hero.webp"
-                        alt=""
-                        aria-hidden="true"
-                        className="h-full w-full object-cover object-center lg:object-right"
-                    />
-                </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_30%,rgba(255,255,255,0.98)_42%,rgba(255,255,255,0.9)_55%,rgba(255,255,255,0.65)_68%,rgba(255,255,255,0.32)_82%,rgba(255,255,255,0)_100%)] lg:block" />
-
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.96)_55%,rgba(255,255,255,0.78)_76%,rgba(255,255,255,0.45)_100%)] lg:hidden" />
-
-                <div className="absolute inset-y-0 right-0 -z-10 hidden w-[26%] bg-gradient-to-l from-slate-950/20 to-transparent lg:block" />
-
-                <div className="pointer-events-none absolute -left-32 top-0 -z-10 h-96 w-96 rounded-full bg-red-100/60 blur-3xl" />
-
-                <div className="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-7xl flex-col px-5 py-7 sm:px-6 sm:py-8 lg:min-h-[calc(100svh-82px)] lg:px-8 lg:py-10">
+            {/* EDITORIAL MASTHEAD */}
+            <section className="border-b border-slate-300 bg-white">
+                <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
 
-                    <div className="flex flex-1 items-center py-8 sm:py-10 lg:py-6">
-                        <div className="max-w-3xl lg:w-[57%]">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-white/90 text-[#C8102E] shadow-sm backdrop-blur sm:h-12 sm:w-12">
-                                    <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </div>
+                    <div className="mt-5 max-w-5xl">
+                        <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            Constitution &amp; Rules
+                        </p>
 
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#C8102E] sm:text-[11px]">
-                                        Constitution &amp; Rules
-                                    </p>
+                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                            Association
+                            <span className="block text-[#C8102E]">
+                                Objectives
+                            </span>
+                        </h1>
 
-                                    <p className="mt-1 text-sm font-semibold text-slate-500">
-                                        AHPK Constitutional Purpose
-                                    </p>
-                                </div>
-                            </div>
+                        <p className="mt-4 max-w-4xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            The constitutional objectives that
+                            guide AHPK&apos;s commitment to
+                            advocacy, professional development,
+                            research, collaboration and hospitality
+                            industry advancement.
+                        </p>
 
-                            <h1 className="mt-6 max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-950 sm:mt-7 sm:text-5xl lg:text-6xl xl:text-7xl">
-                                Association
-                                <span className="mt-2 block text-[#C8102E]">
-                                    Objectives
-                                </span>
-                            </h1>
-
-                            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-                                The objectives that guide AHPK&apos;s
-                                commitment to advocacy, professional
-                                development, research, collaboration
-                                and hospitality industry advancement.
-                            </p>
-
-                            <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
-                                {[
-                                    "Advocacy",
-                                    "Research",
-                                    "Training",
-                                    "Consultancy",
-                                    "Industry Growth",
-                                ].map((item) => (
-                                    <span
-                                        key={item}
-                                        className="rounded-full border border-slate-200 bg-white/85 px-3.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 shadow-sm backdrop-blur sm:px-4 sm:text-[11px]"
-                                    >
-                                        {item}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div className="mt-7 max-w-xl border-l-4 border-[#C8102E] bg-white/75 py-3 pl-5 pr-4 backdrop-blur-sm sm:mt-8">
-                                <p className="text-sm font-bold leading-6 text-slate-700">
-                                    AHPK exists to strengthen the
-                                    hospitality profession and support
-                                    sustainable industry development.
-                                </p>
-                            </div>
+                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+                            <span>Advocacy</span>
+                            <span>Research</span>
+                            <span>Training</span>
+                            <span>Consultancy</span>
+                            <span>Industry Growth</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent sm:h-20" />
+            {/* FEATURE IMAGE */}
+            <section className="bg-white">
+                <div className="mx-auto max-w-7xl px-0 sm:px-6 lg:px-8">
+                    <figure>
+                        <div className="aspect-[16/6] overflow-hidden bg-slate-200">
+                            <img
+                                src="/executive-summary.webp"
+                                alt="AHPK hospitality professionals and industry leadership"
+                                className="h-full w-full object-cover object-center transition duration-700 hover:scale-[1.01]"
+                            />
+                        </div>
+
+                        <figcaption className="border-b border-slate-300 px-5 py-2 text-xs font-semibold leading-5 text-slate-500 sm:px-0">
+                            AHPK exists to strengthen the
+                            hospitality profession and support
+                            sustainable development across the
+                            wider industry.
+                        </figcaption>
+                    </figure>
+                </div>
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <article className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-12">
-                            <div
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                        <article className="min-w-0">
+                            {/* INTRODUCTION */}
+                            <section
                                 id="association-objectives"
-                                className="scroll-mt-28"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
-                                    <Landmark
-                                        className="h-7 w-7"
-                                        aria-hidden="true"
-                                    />
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                        <Landmark
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
+                                            Constitutional Purpose
+                                        </p>
+
+                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                            Objectives of the Association
+                                        </h2>
+                                    </div>
                                 </div>
 
-                                <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                    Constitutional purpose
+                                <blockquote
+                                    id="professional-purpose"
+                                    className="mt-5 scroll-mt-28 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg"
+                                >
+                                    The Association of Hotel
+                                    Professionals Kenya exists to
+                                    advance the hospitality
+                                    profession through advocacy,
+                                    education, research,
+                                    professional development,
+                                    consultancy and collaboration
+                                    with relevant industry
+                                    stakeholders.
+                                </blockquote>
+                            </section>
+
+                            {/* OBJECTIVES */}
+                            <section className="border-t border-slate-300 py-8">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Main Objectives
                                 </p>
 
-                                <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-950 sm:text-4xl">
-                                    Objectives of the Association
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    A constitutional mandate for progress
                                 </h2>
 
-                                <div
-                                    id="professional-purpose"
-                                    className="mt-7 scroll-mt-28 rounded-2xl border border-red-100 bg-red-50/70 p-6"
-                                >
-                                    <p className="text-base font-bold leading-8 text-slate-800 sm:text-lg">
-                                        The Association of Hotel
-                                        Professionals Kenya exists to
-                                        advance the hospitality
-                                        profession through advocacy,
-                                        education, research,
-                                        professional development,
-                                        consultancy and collaboration
-                                        with relevant industry
-                                        stakeholders.
-                                    </p>
-                                </div>
+                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                    These objectives define how AHPK
+                                    represents professionals,
+                                    contributes to industry
+                                    development and strengthens
+                                    knowledge, standards and
+                                    collaboration.
+                                </p>
 
-                                <ol className="mt-9 space-y-6">
+                                <div className="mt-5 border-t border-slate-300">
                                     {objectives.map(
                                         (objective, index) => {
-                                            const Icon =
-                                                objective.icon;
+                                            const Icon = objective.icon;
 
                                             return (
-                                                <li
-                                                    key={
-                                                        objective.title
-                                                    }
+                                                <article
+                                                    key={objective.title}
                                                     id={`objective-${index + 1}`}
-                                                    className="scroll-mt-28 rounded-[22px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+                                                    className="group grid scroll-mt-28 gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start"
                                                 >
-                                                    <div className="flex gap-4">
-                                                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-sm font-black text-[#C8102E]">
-                                                            {String(
-                                                                index +
-                                                                1,
-                                                            ).padStart(
-                                                                2,
-                                                                "0",
-                                                            )}
-                                                        </div>
+                                                    <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
+                                                        {String(
+                                                            index + 1,
+                                                        ).padStart(
+                                                            2,
+                                                            "0",
+                                                        )}
+                                                    </p>
 
-                                                        <div className="min-w-0">
-                                                            <div className="flex items-start gap-3">
-                                                                <Icon className="mt-1 h-5 w-5 shrink-0 text-[#C8102E]" />
-
-                                                                <h3 className="text-lg font-extrabold leading-tight text-slate-950">
-                                                                    {
-                                                                        objective.title
-                                                                    }
-                                                                </h3>
-                                                            </div>
-
-                                                            <p className="mt-3 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                                                {
-                                                                    objective.description
-                                                                }
-                                                            </p>
-                                                        </div>
+                                                    <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
+                                                        <Icon className="h-4 w-4" />
                                                     </div>
-                                                </li>
+
+                                                    <div>
+                                                        <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
+                                                            {objective.title}
+                                                        </h3>
+
+                                                        <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
+                                                            {objective.description}
+                                                        </p>
+                                                    </div>
+                                                </article>
                                             );
                                         },
                                     )}
-                                </ol>
-
-                                <section
-                                    id="association-values"
-                                    className="mt-12 scroll-mt-28 border-t border-slate-200 pt-10"
-                                >
-                                    <div className="rounded-[24px] border border-red-100 bg-red-50 p-6 sm:p-8">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#C8102E] shadow-sm">
-                                            <ShieldCheck className="h-6 w-6" />
-                                        </div>
-
-                                        <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                            Association values
-                                        </p>
-
-                                        <h3 className="mt-2 text-2xl font-extrabold text-slate-950">
-                                            Independent and
-                                            Professionally Focused
-                                        </h3>
-
-                                        <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                                            AHPK operates as a
-                                            non-profit-making,
-                                            non-political and
-                                            non-secular organization
-                                            committed to serving the
-                                            hospitality profession and
-                                            advancing the wider
-                                            industry.
-                                        </p>
-                                    </div>
-                                </section>
-
-                                <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-                                    <Link
-                                        href="/members-section/code-of-conduct-ethics/code-of-ethics-conducts-pledge"
-                                        className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 p-5 transition hover:border-red-200 hover:bg-red-50"
-                                    >
-                                        <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E]" />
-
-                                        <span>
-                                            <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                                Previous
-                                            </span>
-
-                                            <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                                Code of Ethics &amp;
-                                                Conducts Pledge
-                                            </span>
-                                        </span>
-                                    </Link>
-
-                                    <Link
-                                        href="/members-section/constitution-rules/membership"
-                                        className="group flex min-h-24 items-center justify-end gap-4 rounded-2xl border border-slate-200 p-5 text-right transition hover:border-red-200 hover:bg-red-50"
-                                    >
-                                        <span>
-                                            <span className="block text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                                                Next
-                                            </span>
-
-                                            <span className="mt-1 block text-sm font-extrabold text-[#C8102E]">
-                                                Membership
-                                            </span>
-                                        </span>
-
-                                        <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E]" />
-                                    </Link>
                                 </div>
-                            </div>
-                        </article>
+                            </section>
 
-                        {/* SIDE PANEL */}
-                        <aside className="space-y-5 lg:sticky lg:top-28">
-                            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                                <div className="bg-[#C8102E] px-6 py-5 text-white">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/70">
-                                        On this page
+                            {/* STRATEGIC THEMES */}
+                            <section className="border-t border-slate-300 py-8">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Strategic Themes
+                                </p>
+
+                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                    How the objectives work together
+                                </h2>
+
+                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                    <ThemeItem
+                                        number="01"
+                                        title="Representation"
+                                        description="Give hospitality managers and professionals a credible collective voice."
+                                    />
+
+                                    <ThemeItem
+                                        number="02"
+                                        title="Industry Advancement"
+                                        description="Support regulation, performance improvement and responsible sector growth."
+                                    />
+
+                                    <ThemeItem
+                                        number="03"
+                                        title="Knowledge Development"
+                                        description="Expand research, professional expertise, academic links and emerging-trend awareness."
+                                    />
+
+                                    <ThemeItem
+                                        number="04"
+                                        title="Professional Networks"
+                                        description="Build local and international partnerships that strengthen members and the profession."
+                                    />
+                                </div>
+                            </section>
+
+                            {/* ASSOCIATION VALUES */}
+                            <section
+                                id="association-values"
+                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                            >
+                                <div className="border-l-4 border-[#C8102E] bg-slate-950 px-5 py-6 text-white sm:px-6">
+                                    <ShieldCheck className="h-6 w-6 text-red-300" />
+
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.2em] text-red-300">
+                                        Association Values
                                     </p>
 
-                                    <h2 className="mt-2 text-xl font-extrabold">
+                                    <h2 className="mt-2 text-2xl font-black sm:text-3xl">
+                                        Independent and Professionally Focused
+                                    </h2>
+
+                                    <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-300 sm:text-base sm:leading-8">
+                                        AHPK operates as a
+                                        non-profit-making,
+                                        non-political and
+                                        non-secular organization
+                                        committed to serving the
+                                        hospitality profession and
+                                        advancing the wider industry.
+                                    </p>
+                                </div>
+                            </section>
+
+                            {/* CONTINUE READING */}
+                            <section className="border-t border-slate-300 pt-5">
+                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                    Continue Reading
+                                </p>
+
+                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <RelatedPageLink
+                                        href="/members-section/code-of-conduct-ethics/code-of-ethics-conducts-pledge"
+                                        eyebrow="Previous Section"
+                                        title="Code of Ethics & Conducts Pledge"
+                                        direction="left"
+                                    />
+
+                                    <RelatedPageLink
+                                        href="/members-section/constitution-rules/membership"
+                                        eyebrow="Next Section"
+                                        title="Membership"
+                                        direction="right"
+                                    />
+                                </div>
+                            </section>
+                        </article>
+
+                        {/* EDITORIAL SIDEBAR */}
+                        <aside className="space-y-5 lg:sticky lg:top-28">
+                            <section className="border-t-4 border-[#C8102E]">
+                                <div className="border-b border-slate-300 py-3">
+                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                                        On This Page
+                                    </p>
+
+                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Association Objectives
                                     </h2>
                                 </div>
 
-                                <nav className="p-3">
-                                    <Link
+                                <nav
+                                    aria-label="Association objectives page navigation"
+                                    className="divide-y divide-slate-200"
+                                >
+                                    <SidebarLink
                                         href="#professional-purpose"
-                                        className="group flex items-center justify-between gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-[#C8102E]"
-                                    >
-                                        Professional Purpose
-                                        <ChevronRight className="h-4 w-4" />
-                                    </Link>
+                                        label="Professional Purpose"
+                                        active
+                                    />
 
-                                    <Link
+                                    <SidebarLink
                                         href="#association-objectives"
-                                        className="group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-                                    >
-                                        Main Objectives
-                                        <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]" />
-                                    </Link>
+                                        label="Main Objectives"
+                                    />
 
-                                    <Link
+                                    <SidebarLink
                                         href="#association-values"
-                                        className="group mt-1 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-red-50 hover:text-[#C8102E]"
-                                    >
-                                        Association Values
-                                        <ChevronRight className="h-4 w-4 text-slate-300 transition group-hover:text-[#C8102E]" />
-                                    </Link>
+                                        label="Association Values"
+                                    />
                                 </nav>
-                            </div>
+                            </section>
 
-                            <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
                                 <BookOpenCheck
-                                    className="h-8 w-8 text-[#C8102E]"
+                                    className="h-6 w-6 text-[#C8102E]"
                                     aria-hidden="true"
                                 />
 
-                                <h2 className="mt-5 text-xl font-extrabold text-slate-950">
+                                <h2 className="mt-2 text-xl font-black text-slate-950">
                                     Constitution &amp; Rules
                                 </h2>
 
-                                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">
-                                    Explore the constitutional
-                                    provisions that guide the
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                    These provisions guide the
                                     Association&apos;s purpose,
                                     membership, leadership and
                                     governance.
                                 </p>
+                            </section>
 
-                                {/**   <Link
-                                    href="/members-section/constitution-rules"
-                                    className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C8102E]"
-                                >
-                                    View Constitution Section
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>*/}
-                            </div>
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                                <Landmark
+                                    className="h-6 w-6 text-red-300"
+                                    aria-hidden="true"
+                                />
+
+                                <h2 className="mt-2 text-xl font-black">
+                                    Industry Leadership
+                                </h2>
+
+                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                                    AHPK&apos;s objectives support
+                                    stronger standards, informed
+                                    advocacy and sustainable growth
+                                    across hospitality.
+                                </p>
+                            </section>
                         </aside>
                     </div>
                 </div>
@@ -504,6 +516,108 @@ export default function ObjectivesPage() {
 
             <PublicFooter />
         </main>
+    );
+}
+
+function ThemeItem({
+    number,
+    title,
+    description,
+}: {
+    number: string;
+    title: string;
+    description: string;
+}) {
+    return (
+        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
+            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
+                {number}
+            </p>
+
+            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                {title}
+            </h3>
+
+            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+                {description}
+            </p>
+        </article>
+    );
+}
+
+function SidebarLink({
+    href,
+    label,
+    active = false,
+}: {
+    href: string;
+    label: string;
+    active?: boolean;
+}) {
+    return (
+        <Link
+            href={href}
+            className={[
+                "group flex items-center justify-between gap-3 py-3 text-sm font-bold transition",
+                active
+                    ? "text-[#C8102E]"
+                    : "text-slate-700 hover:translate-x-0.5 hover:text-[#C8102E]",
+            ].join(" ")}
+        >
+            {label}
+
+            <ChevronRight
+                className={[
+                    "h-4 w-4 shrink-0 transition",
+                    active
+                        ? "text-[#C8102E]"
+                        : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-[#C8102E]",
+                ].join(" ")}
+            />
+        </Link>
+    );
+}
+
+function RelatedPageLink({
+    href,
+    eyebrow,
+    title,
+    direction,
+}: {
+    href: string;
+    eyebrow: string;
+    title: string;
+    direction: "left" | "right";
+}) {
+    return (
+        <Link
+            href={href}
+            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+        >
+            {direction === "left" ? (
+                <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
+            ) : null}
+
+            <div
+                className={
+                    direction === "right"
+                        ? "ml-auto text-right"
+                        : ""
+                }
+            >
+                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-slate-400">
+                    {eyebrow}
+                </p>
+
+                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                    {title}
+                </h3>
+            </div>
+
+            {direction === "right" ? (
+                <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
+            ) : null}
+        </Link>
     );
 }
 
@@ -615,8 +729,7 @@ function Breadcrumb() {
             </Link>
 
             <ChevronRight className="h-4 w-4 text-slate-300" />
-
-            {/**  <Link
+            <Link
                 href="/members-section"
                 className="transition hover:text-[#C8102E]"
             >
@@ -631,7 +744,7 @@ function Breadcrumb() {
             >
                 Constitution &amp; Rules
             </Link>
-*/}
+
             <ChevronRight className="h-4 w-4 text-slate-300" />
 
             <span

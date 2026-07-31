@@ -61,16 +61,16 @@ export default function VerifyClient({
     }
 
     return (
-        <div>
+        <div className="w-full max-w-2xl">
             {failedCode ? (
                 <div
                     role="alert"
-                    className="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4"
+                    className="mb-5 flex items-start gap-3 border-l-4 border-red-600 bg-red-50 px-4 py-3"
                 >
                     <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-700" />
 
                     <div>
-                        <p className="text-sm font-extrabold text-red-700">
+                        <p className="text-sm font-black text-red-700">
                             No certificate was found
                         </p>
 
@@ -78,7 +78,7 @@ export default function VerifyClient({
                             We could not find an AHPK
                             certificate with verification
                             code{" "}
-                            <span className="font-mono font-extrabold">
+                            <span className="font-mono font-black">
                                 {failedCode}
                             </span>
                             . Confirm the code and try
@@ -91,7 +91,7 @@ export default function VerifyClient({
             {error ? (
                 <div
                     role="alert"
-                    className="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm font-semibold text-red-700"
+                    className="mb-5 flex items-start gap-3 border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"
                 >
                     <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
@@ -106,10 +106,11 @@ export default function VerifyClient({
                 <div>
                     <label
                         htmlFor="verificationCode"
-                        className="block text-sm font-extrabold text-slate-800"
+                        className="block text-sm font-black text-slate-800"
                     >
                         Certificate verification code
-                        <span className="ml-1 text-[#C1121F]">
+
+                        <span className="ml-1 text-[#C8102E]">
                             *
                         </span>
                     </label>
@@ -130,7 +131,7 @@ export default function VerifyClient({
                                 )
                             }
                             placeholder="Example: AHPK-8C1501EF"
-                            className="min-h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 font-mono text-sm font-extrabold uppercase tracking-wide text-slate-900 outline-none transition placeholder:font-semibold placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 hover:border-slate-300 focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70"
+                            className="min-h-[52px] w-full border border-slate-300 bg-white py-3 pl-12 pr-4 font-mono text-sm font-black uppercase tracking-wide text-slate-900 outline-none transition placeholder:font-semibold placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 hover:border-slate-400 focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -144,7 +145,7 @@ export default function VerifyClient({
                     type="submit"
                     disabled={submitting}
                     aria-busy={submitting}
-                    className="flex min-h-13 w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-[#C1121F] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-65"
+                    className="group inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-3 bg-[#C8102E] px-7 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-65 sm:w-auto"
                 >
                     {submitting ? (
                         <LoaderCircle className="h-5 w-5 animate-spin" />
@@ -157,19 +158,22 @@ export default function VerifyClient({
                         : "Verify Certificate"}
 
                     {!submitting ? (
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     ) : null}
                 </button>
             </form>
 
-            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <ShieldCheckIcon />
+            <div className="mt-5 max-w-2xl border-l-4 border-slate-950 bg-slate-50 px-4 py-4">
+                <div className="flex items-start gap-3">
+                    <ShieldCheckIcon />
 
-                <p className="text-xs font-semibold leading-6 text-slate-500">
-                    Verification confirms whether the
-                    certificate code matches an official
-                    AHPK certificate record.
-                </p>
+                    <p className="text-xs font-semibold leading-6 text-slate-500">
+                        Verification confirms whether
+                        the certificate code matches an
+                        official AHPK certificate
+                        record.
+                    </p>
+                </div>
             </div>
         </div>
     );
@@ -177,7 +181,7 @@ export default function VerifyClient({
 
 function ShieldCheckIcon() {
     return (
-        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#C1121F] shadow-sm">
+        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center bg-slate-950 text-white">
             <BadgeCheck className="h-4 w-4" />
         </span>
     );

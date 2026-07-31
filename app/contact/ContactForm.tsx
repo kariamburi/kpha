@@ -104,14 +104,14 @@ export default function ContactForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="space-y-5"
         >
             <div
                 aria-live="polite"
                 aria-atomic="true"
             >
                 {success ? (
-                    <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm font-semibold leading-6 text-emerald-800">
+                    <div className="flex items-start gap-3 border-l-4 border-emerald-600 bg-emerald-50 px-4 py-3 text-sm font-semibold leading-6 text-emerald-800">
                         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
 
                         <span>{success}</span>
@@ -119,7 +119,7 @@ export default function ContactForm() {
                 ) : null}
 
                 {error ? (
-                    <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm font-semibold leading-6 text-red-700">
+                    <div className="flex items-start gap-3 border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-700">
                         <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
                         <span>{error}</span>
@@ -127,7 +127,7 @@ export default function ContactForm() {
                 ) : null}
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
                 <FormField
                     label="Full name"
                     name="name"
@@ -155,7 +155,7 @@ export default function ContactForm() {
             <div>
                 <label
                     htmlFor="message"
-                    className="mb-2 block text-sm font-extrabold text-slate-800"
+                    className="mb-2 block text-sm font-black text-slate-800"
                 >
                     Message
                 </label>
@@ -163,16 +163,16 @@ export default function ContactForm() {
                 <textarea
                     id="message"
                     name="message"
-                    rows={7}
+                    rows={6}
                     required
                     minLength={10}
                     placeholder="Write your enquiry here..."
-                    className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-300 focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70"
+                    className="w-full resize-y border border-slate-300 bg-white px-4 py-3 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-400 focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
                 />
             </div>
 
-            <div className="flex flex-col gap-4 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-md text-xs font-semibold leading-5 text-slate-400">
+            <div className="flex flex-col gap-4 border-t border-slate-300 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-md text-xs font-semibold leading-5 text-slate-500">
                     Please provide accurate contact
                     details so the AHPK Secretariat can
                     respond to your enquiry.
@@ -182,7 +182,7 @@ export default function ContactForm() {
                     type="submit"
                     disabled={loading}
                     aria-busy={loading}
-                    className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#C1121F] px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 bg-[#C1121F] px-6 text-sm font-black text-white transition hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-200 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     <Send className="h-4 w-4" />
 
@@ -211,7 +211,7 @@ function FormField({
         <div>
             <label
                 htmlFor={name}
-                className="mb-2 block text-sm font-extrabold text-slate-800"
+                className="mb-2 block text-sm font-black text-slate-800"
             >
                 {label}
             </label>
@@ -222,10 +222,10 @@ function FormField({
                 name={name}
                 required
                 className={[
-                    "min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 outline-none transition",
+                    "min-h-11 w-full border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 outline-none transition",
                     "placeholder:font-medium placeholder:text-slate-400",
-                    "hover:border-slate-300",
-                    "focus:border-[#C1121F] focus:bg-white focus:ring-4 focus:ring-red-100/70",
+                    "hover:border-slate-400",
+                    "focus:border-[#C1121F] focus:ring-2 focus:ring-red-100",
                     className,
                 ]
                     .filter(Boolean)
