@@ -230,11 +230,25 @@ export default async function PublicFooter() {
             </div>
 
             {/* Bottom bar */}
-            <div className="border-t border-white/10 px-6 py-5 text-center text-sm text-white/50">
-                © {new Date().getFullYear()} Association of Hotel Professionals Kenya.
-                All rights reserved.<p className="text-[10px]">Powered By  <a href="https://craftinventors.co.ke" className="hover:text-white">
-                    Craft Inventors
-                </a></p>
+            <div className="border-t border-white/10">
+                <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-white/50 md:flex-row">
+                    <p className="text-center md:text-left">
+                        © {new Date().getFullYear()} Association of Hotel
+                        Professionals Kenya. All rights reserved.
+                    </p>
+
+                    <p className="text-center md:text-right">
+                        Powered by{" "}
+                        <a
+                            href="https://craftinventors.co.ke"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-bold text-red-400 transition hover:text-white"
+                        >
+                            Craft Inventors
+                        </a>
+                    </p>
+                </div>
             </div>
         </footer>
     );
