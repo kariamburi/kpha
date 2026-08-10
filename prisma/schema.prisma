@@ -114,10 +114,20 @@ model MembershipApplication {
   phone    String?
   idNumber String?
 
+  // Educational details
   qualification String?
   institution   String?
-  position      String?
-  experience    String?
+
+  // Current employment
+  position String?
+  employer String?
+
+  // Professional experience
+  experience String? @db.Text
+
+  // Data protection consent
+  dataProtectionConsent Boolean   @default(false)
+  consentedAt           DateTime?
 
   idDocumentUrl       String?
   qualificationDocUrl String?
@@ -195,11 +205,15 @@ model MemberWorkExperience {
   id       String @id @default(cuid())
   memberId String
 
-  company   String?
-  position  String?
+  company     String?
+  position    String?
+  description String? @db.Text
+
   startDate DateTime?
   endDate   DateTime?
-  year      String?
+
+  // Keep temporarily for old records.
+  year String?
 
   member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 

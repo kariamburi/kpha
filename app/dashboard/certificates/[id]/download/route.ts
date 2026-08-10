@@ -91,6 +91,21 @@ export async function GET(
         certificate.member.fullName || certificate.member.user?.name || "Member";
 
     const category = certificate.member.category?.name || "Membership";
+    // Membership year / certificate validity
+    //
+    // AHPK certificates are valid for the calendar year:
+    // 01 January to 31 December of the year for which the
+    // certificate was issued/renewed.
+    const certificateYear = new Date(certificate.issueDate).getFullYear();
+
+    const validFrom = new Date(certificateYear, 0, 1); // 01 January
+    const validTo = new Date(certificateYear, 11, 31); // 31 December
+
+    // Original joining year.
+    // For an existing Member record, createdAt is the safest current
+    // source unless the schema already has a dedicated joinedAt/memberSince field.
+    const membershipSinceYear =
+        new Date(certificate.member.joinDate).getFullYear();
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const verifyUrl = `${baseUrl}/verify/${certificate.verificationCode}`;
@@ -323,9 +338,11 @@ export async function GET(
     doc.restore();
 
     // Body content
-    // Body content
     const bodyX = 135;
-    const bodyY = 335;
+
+    // Was 335
+    const bodyY = 328;
+
     const bodyWidth = pageW - 270;
 
     const drawCenteredParts = (
@@ -352,10 +369,22 @@ export async function GET(
 
     drawCenteredParts(
         [
-            { text: "of membership no. ", font: "Times-Roman" },
-            { text: certificate.member.memberNumber, font: "Times-Bold" },
-            { text: " is a duly registered ", font: "Times-Roman" },
-            { text: category, font: "Times-Bold" },
+            {
+                text: "of membership no. ",
+                font: "Times-Roman",
+            },
+            {
+                text: certificate.member.memberNumber,
+                font: "Times-Bold",
+            },
+            {
+                text: " is a duly registered ",
+                font: "Times-Roman",
+            },
+            {
+                text: category,
+                font: "Times-Bold",
+            },
         ],
         bodyY
     );
@@ -367,60 +396,164 @@ export async function GET(
                 font: "Times-Roman",
             },
         ],
-        bodyY + 30
+
+        // Was bodyY + 30
+        bodyY + 27
     );
+
+    /* =========================================================
+       MEMBERSHIP SINCE
+    ========================================================= */
+
+    doc.fontSize(11)
+        .fillColor("#555555")
+        .font("Helvetica-Bold")
+        .text(
+            `MEMBERSHIP SINCE ${membershipSinceYear}`,
+
+            120,
+
+            // Was 383
+            373,
+
+            {
+                width: pageW - 240,
+                align: "center",
+                characterSpacing: 0.8,
+            }
+        );
+
+    /* =========================================================
+       CERTIFICATE VALIDITY
+    ========================================================= */
+
     doc.fontSize(12.5)
         .fillColor(black)
         .font("Helvetica-Bold")
         .text(
-            `Valid from ${formatDate(certificate.issueDate)} to ${formatDate(certificate.expiryDate)}`,
+            `Valid from ${formatDate(validFrom)} to ${formatDate(validTo)}`,
+
             120,
-            388,
+
+            // Was 400
+            390,
+
             {
                 width: pageW - 240,
                 align: "center",
             }
         );
 
-    // Details footer
+    /* =========================================================
+       VERIFICATION INSTRUCTION
+    ========================================================= */
+
+    doc.fontSize(8.5)
+        .fillColor("#555555")
+        .font("Helvetica")
+        .text(
+            "To verify this certificate, scan the QR code or enter the verification code on the AHPK website home page.",
+
+            150,
+
+            // Was 418
+            407,
+
+            {
+                width: pageW - 300,
+                align: "center",
+            }
+        );
+
+    /* =========================================================
+       DETAILS CARDS
+    ========================================================= */
+
+    // KEEP THIS EXACTLY AT 430
     const footerY = 430;
+
     const detailW = 165;
-    const detailGap = 14;
-    const totalW = detailW * 3 + detailGap * 2;
-    const detailStartX = pageW / 2 - totalW / 2;
+
+    // Slightly more horizontal breathing room between cards
+    const detailGap = 16;
+
+    const totalW =
+        detailW * 3 +
+        detailGap * 2;
+
+    const detailStartX =
+        pageW / 2 -
+        totalW / 2;
 
     const details = [
-        ["Member No.", certificate.member.memberNumber],
-        ["Certificate No.", certificate.certificateNumber],
-        ["Verification Code", certificate.verificationCode],
+        [
+            "Member No.",
+            certificate.member.memberNumber,
+        ],
+        [
+            "Certificate No.",
+            certificate.certificateNumber,
+        ],
+        [
+            "Verification Code",
+            certificate.verificationCode,
+        ],
     ];
 
-    details.forEach(([label, value], index) => {
-        const x = detailStartX + index * (detailW + detailGap);
+    details.forEach(
+        ([label, value], index) => {
+            const x =
+                detailStartX +
+                index *
+                (detailW + detailGap);
 
-        doc.roundedRect(x, footerY, detailW, 48, 10).fillAndStroke("#FFFFFF", "#E8C878");
+            doc.roundedRect(
+                x,
+                footerY,
+                detailW,
+                48,
+                10
+            ).fillAndStroke(
+                "#FFFFFF",
+                "#E8C878"
+            );
 
-        doc.fontSize(7.5)
-            .fillColor(red)
-            .font("Helvetica-Bold")
-            .text(label.toUpperCase(), x + 12, footerY + 10, {
-                width: detailW - 24,
-                align: "center",
-            });
+            doc.fontSize(7.5)
+                .fillColor(red)
+                .font("Helvetica-Bold")
+                .text(
+                    label.toUpperCase(),
+                    x + 12,
+                    footerY + 10,
+                    {
+                        width:
+                            detailW - 24,
+                        align:
+                            "center",
+                    }
+                );
 
-        doc.fontSize(10)
-            .fillColor(black)
-            .font("Helvetica-Bold")
-            .text(value, x + 12, footerY + 27, {
-                width: detailW - 24,
-                align: "center",
-            });
-    });
+            doc.fontSize(10)
+                .fillColor(black)
+                .font("Helvetica-Bold")
+                .text(
+                    value,
+                    x + 12,
+                    footerY + 27,
+                    {
+                        width:
+                            detailW - 24,
+                        align:
+                            "center",
+                    }
+                );
+        }
+    );
 
     // QR verification box
     const qrX = pageW - 170;
-    const qrY = 406;
-
+    // const qrY = 406;
+    const qrY = 418;
     doc.roundedRect(qrX - 10, qrY - 10, 120, 136, 14).fillAndStroke("#FFFFFF", "#D6A12A");
 
     doc.image(qrDataUrl, qrX + 3, qrY, {

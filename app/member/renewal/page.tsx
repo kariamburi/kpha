@@ -42,7 +42,24 @@ export default async function MemberRenewalPage() {
     renewalOpenDate.setDate(renewalOpenDate.getDate() - 30);
 
     const canRenew = today >= renewalOpenDate;
+    const renewalYear =
+        member.expiryDate >= today
+            ? member.expiryDate.getFullYear() + 1
+            : today.getFullYear();
 
+    const renewalValidFrom =
+        new Date(renewalYear, 0, 1);
+
+    const renewalValidTo =
+        new Date(
+            renewalYear,
+            11,
+            31,
+            23,
+            59,
+            59,
+            999
+        );
     return (
         <MemberPortalShell member={member}>
             <div className="space-y-5">
@@ -62,7 +79,7 @@ export default async function MemberRenewalPage() {
                             </h1>
 
                             <p className="mt-2 text-sm font-semibold text-slate-500">
-                                Extend your AHPK membership for another year.
+                                Renew your AHPK membership for the next applicable calendar year.
                             </p>
                         </div>
                     </div>
@@ -93,10 +110,24 @@ export default async function MemberRenewalPage() {
                             <Info icon={ShieldCheck} label="Current Status" value={expired ? "EXPIRED" : member.status} />
                             <Info icon={CalendarDays} label="Current Expiry Date" value={formatDate(member.expiryDate)} />
                             <Info
+                                icon={CalendarDays}
+                                label="Renewal Year"
+                                value={String(renewalYear)}
+                            />
+
+                            <Info
+                                icon={CalendarDays}
+                                label="New Validity Period"
+                                value={`${formatDate(renewalValidFrom)} - ${formatDate(
+                                    renewalValidTo
+                                )}`}
+                            />
+                            <Info
                                 icon={Wallet}
                                 label="Renewal Amount"
                                 value={`KES ${member.category.annualFee.toLocaleString()}`}
                             />
+
                         </div>
 
                         <div
@@ -108,7 +139,7 @@ export default async function MemberRenewalPage() {
                             <CalendarClock className="mt-0.5 h-5 w-5 shrink-0" />
                             <p className="text-sm font-bold leading-6">
                                 {canRenew
-                                    ? "After successful payment, your membership will be extended by one year and a new certificate will be generated."
+                                    ? "After successful payment, your membership will be renewed for the applicable calendar year and a new certificate valid from 1 January to 31 December will be generated."
                                     : "Renewal opens 30 days before your membership expiry date."}
                             </p>
                         </div>

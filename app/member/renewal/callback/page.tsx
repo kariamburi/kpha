@@ -9,17 +9,42 @@ type Props = {
     }>;
 };
 
-function addOneYear(date: Date) {
-    const next = new Date(date);
-    next.setFullYear(next.getFullYear() + 1);
-    return next;
-}
 
-async function generateCertificateNumber() {
-    const year = new Date().getFullYear();
-    const count = await prisma.certificate.count();
 
-    return `CERT-${year}-${String(count + 1).padStart(5, "0")}`;
+async function generateCertificateNumber(year: number) {
+    const lastCertificate =
+        await prisma.certificate.findFirst({
+            where: {
+                certificateNumber: {
+                    startsWith: `CERT-${year}-`,
+                },
+            },
+            orderBy: {
+                certificateNumber: "desc",
+            },
+            select: {
+                certificateNumber: true,
+            },
+        });
+
+    let nextNumber = 1;
+
+    if (lastCertificate?.certificateNumber) {
+        const currentNumber = Number(
+            lastCertificate.certificateNumber
+                .split("-")
+                .pop()
+        );
+
+        if (!Number.isNaN(currentNumber)) {
+            nextNumber = currentNumber + 1;
+        }
+    }
+
+    return `CERT-${year}-${String(nextNumber).padStart(
+        5,
+        "0"
+    )}`;
 }
 
 function generateVerificationCode() {
@@ -83,10 +108,47 @@ export default async function RenewalCallbackPage({ searchParams }: Props) {
     }
 
     const today = new Date();
-    const baseDate = member.expiryDate > today ? member.expiryDate : today;
-    const newExpiryDate = addOneYear(baseDate);
 
-    const certificateNumber = await generateCertificateNumber();
+    /*
+     * Determine which calendar year this renewal belongs to.
+     *
+     * If membership is still active, renewal is for the NEXT year.
+     *
+     * Example:
+     * Current expiry: 31 Dec 2026
+     * Renewed:        10 Dec 2026
+     * New period:     01 Jan 2027 - 31 Dec 2027
+     *
+     * If membership has already expired, renewal is for the
+     * CURRENT calendar year.
+     */
+    const renewalYear =
+        member.expiryDate >= today
+            ? member.expiryDate.getFullYear() + 1
+            : today.getFullYear();
+
+    const renewalStartDate = new Date(
+        renewalYear,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+    );
+
+    const newExpiryDate = new Date(
+        renewalYear,
+        11,
+        31,
+        23,
+        59,
+        59,
+        999
+    );
+
+    const certificateNumber =
+        await generateCertificateNumber(renewalYear);
     const verificationCode = generateVerificationCode();
     const amount = Number(data.data.amount || 0) / 100;
 
@@ -114,8 +176,11 @@ export default async function RenewalCallbackPage({ searchParams }: Props) {
             data: {
                 memberId: member.id,
                 certificateNumber,
-                issueDate: new Date(),
+
+                // Certificate validity follows the renewal calendar year.
+                issueDate: renewalStartDate,
                 expiryDate: newExpiryDate,
+
                 verificationCode,
             },
         });
@@ -131,10 +196,19 @@ export default async function RenewalCallbackPage({ searchParams }: Props) {
             paymentId: result.payment.id,
             paymentReference: reference,
             amount,
+
+            renewalYear,
+            validityStartDate: renewalStartDate,
+
             oldExpiryDate: member.expiryDate,
-            newExpiryDate: result.updatedMember.expiryDate,
-            certificateId: result.certificate.id,
-            certificateNumber: result.certificate.certificateNumber,
+            newExpiryDate:
+                result.updatedMember.expiryDate,
+
+            certificateId:
+                result.certificate.id,
+            certificateNumber:
+                result.certificate
+                    .certificateNumber,
         },
     });
 
@@ -159,8 +233,32 @@ export default async function RenewalCallbackPage({ searchParams }: Props) {
                         <strong>Reference:</strong> {reference}
                     </p>
                     <p>
-                        <strong>New Expiry Date:</strong>{" "}
-                        {newExpiryDate.toLocaleDateString("en-KE")}
+                        <strong>Renewal Year:</strong>{" "}
+                        {renewalYear}
+                    </p>
+
+                    <p>
+                        <strong>Valid From:</strong>{" "}
+                        {renewalStartDate.toLocaleDateString(
+                            "en-KE",
+                            {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                            }
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>Valid To:</strong>{" "}
+                        {newExpiryDate.toLocaleDateString(
+                            "en-KE",
+                            {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                            }
+                        )}
                     </p>
                     <p>
                         <strong>Certificate No:</strong>{" "}

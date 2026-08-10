@@ -15,7 +15,6 @@ import {
     AlertCircle,
     ArrowLeft,
     ArrowRight,
-    BadgeCheck,
     BriefcaseBusiness,
     Check,
     CheckCircle2,
@@ -68,15 +67,31 @@ export default function ApplyClient({
 
     const [formData, setFormData] = useState({
         applicationId: "",
+
+        // Personal
         fullName: "",
         email: "",
         phone: "",
         idNumber: "",
+
+        // Membership
         categoryId: "",
+
+        // Education
         qualification: "",
         institution: "",
+
+        // Current employment
         position: "",
+        employer: "",
+
+        // Professional experience
         experience: "",
+
+        // Data protection
+        dataProtectionConsent: false,
+
+        // Documents
         idDocumentUrl: "",
         qualificationDocUrl: "",
         cvDocumentUrl: "",
@@ -86,7 +101,8 @@ export default function ApplyClient({
         () =>
             categories.find(
                 (category) =>
-                    category.id === formData.categoryId,
+                    category.id ===
+                    formData.categoryId,
             ),
         [categories, formData.categoryId],
     );
@@ -99,9 +115,11 @@ export default function ApplyClient({
         ((step + 1) / steps.length) * 100,
     );
 
-    function updateField(
-        name: string,
-        value: string,
+    function updateField<
+        K extends keyof typeof formData,
+    >(
+        name: K,
+        value: (typeof formData)[K],
     ) {
         setFormData((previous) => ({
             ...previous,
@@ -133,23 +151,45 @@ export default function ApplyClient({
                     merged.applicationId,
 
                 data: {
-                    fullName: merged.fullName,
-                    email: merged.email,
-                    phone: merged.phone,
-                    idNumber: merged.idNumber,
+                    fullName:
+                        merged.fullName,
+
+                    email:
+                        merged.email,
+
+                    phone:
+                        merged.phone,
+
+                    idNumber:
+                        merged.idNumber,
+
                     categoryId:
                         merged.categoryId,
+
                     qualification:
                         merged.qualification,
+
                     institution:
                         merged.institution,
-                    position: merged.position,
+
+                    position:
+                        merged.position,
+
+                    employer:
+                        merged.employer,
+
                     experience:
                         merged.experience,
+
+                    dataProtectionConsent:
+                        merged.dataProtectionConsent,
+
                     idDocumentUrl:
                         merged.idDocumentUrl,
+
                     qualificationDocUrl:
                         merged.qualificationDocUrl,
+
                     cvDocumentUrl:
                         merged.cvDocumentUrl,
                 },
@@ -160,6 +200,7 @@ export default function ApplyClient({
             !result.applicationId
         ) {
             throw new Error(
+                result.error ||
                 "Failed to save application",
             );
         }
@@ -167,6 +208,7 @@ export default function ApplyClient({
         setFormData((previous) => ({
             ...previous,
             ...extra,
+
             applicationId:
                 result.applicationId!,
         }));
@@ -217,9 +259,13 @@ export default function ApplyClient({
             },
         );
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        if (!response.ok || !data.ok) {
+        if (
+            !response.ok ||
+            !data.ok
+        ) {
             throw new Error(
                 data.error ||
                 "Failed to upload documents.",
@@ -229,8 +275,10 @@ export default function ApplyClient({
         const uploaded = {
             idDocumentUrl:
                 data.idDocumentUrl,
+
             qualificationDocUrl:
                 data.qualificationDocUrl,
+
             cvDocumentUrl:
                 data.cvDocumentUrl,
         };
@@ -246,12 +294,18 @@ export default function ApplyClient({
     async function nextStep() {
         setError("");
 
+        /*
+         * STEP 1:
+         * Personal Information
+         */
         if (
             step === 0 &&
-            (!formData.fullName ||
+            (
+                !formData.fullName ||
                 !formData.email ||
                 !formData.phone ||
-                !formData.idNumber)
+                !formData.idNumber
+            )
         ) {
             setError(
                 "Please complete all personal information fields.",
@@ -260,24 +314,39 @@ export default function ApplyClient({
             return;
         }
 
+        /*
+         * STEP 2:
+         * Membership / Professional Background
+         */
         if (
             step === 1 &&
-            (!formData.categoryId ||
+            (
+                !formData.categoryId ||
                 !formData.qualification ||
-                !formData.institution)
+                !formData.institution ||
+                !formData.position ||
+                !formData.employer ||
+                !formData.experience
+            )
         ) {
             setError(
-                "Please select membership category and complete qualification details.",
+                "Please complete your membership, education, current employment and professional experience details.",
             );
 
             return;
         }
 
+        /*
+         * STEP 3:
+         * Documents
+         */
         if (
             step === 2 &&
-            (!files.idDocument ||
+            (
+                !files.idDocument ||
                 !files.qualificationDoc ||
-                !files.cvDocument)
+                !files.cvDocument
+            )
         ) {
             setError(
                 "Please upload ID copy, certificate and CV.",
@@ -298,7 +367,9 @@ export default function ApplyClient({
                         applicationId,
                     );
 
-                await saveDraft(uploaded);
+                await saveDraft(
+                    uploaded,
+                );
             }
 
             setStep((current) =>
@@ -324,6 +395,16 @@ export default function ApplyClient({
         if (!selectedCategory) {
             setError(
                 "Please select a membership category first.",
+            );
+
+            return;
+        }
+
+        if (
+            !formData.dataProtectionConsent
+        ) {
+            setError(
+                "You must provide data protection consent before submitting your application.",
             );
 
             return;
@@ -388,9 +469,23 @@ export default function ApplyClient({
             return;
         }
 
+        if (
+            !formData.dataProtectionConsent
+        ) {
+            setError(
+                "You must provide data protection consent before submitting your application.",
+            );
+
+            return;
+        }
+
         setPaying(true);
 
         try {
+            /*
+             * Save the consent state and all
+             * application details before completion.
+             */
             const applicationId =
                 await saveDraft();
 
@@ -423,13 +518,18 @@ export default function ApplyClient({
         setError("");
 
         setStep((current) =>
-            Math.max(current - 1, 0),
+            Math.max(
+                current - 1,
+                0,
+            ),
         );
     }
 
     return (
         <main className="min-h-screen bg-white text-slate-950">
-            {/* EDITORIAL MASTHEAD */}
+            {/* =====================================================
+                MASTHEAD
+            ===================================================== */}
             <section className="border-b border-slate-300 bg-white">
                 <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <nav
@@ -516,7 +616,9 @@ export default function ApplyClient({
                 </div>
             </section>
 
-            {/* APPLICATION */}
+            {/* =====================================================
+                APPLICATION
+            ===================================================== */}
             <section className="bg-white py-8 sm:py-10">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
                     <ApplicationProgress
@@ -537,13 +639,20 @@ export default function ApplyClient({
                                 >
                                     <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
-                                    <span>{error}</span>
+                                    <span>
+                                        {error}
+                                    </span>
                                 </div>
                             ) : null}
 
+                            {/* =========================================
+                                STEP 1 - PERSONAL INFORMATION
+                            ========================================= */}
                             {step === 0 ? (
                                 <StepCard
-                                    icon={<UserRound />}
+                                    icon={
+                                        <UserRound />
+                                    }
                                     eyebrow="Applicant Details"
                                     title="Personal Information"
                                     subtitle="Provide your official name, contact details and identification information."
@@ -554,9 +663,15 @@ export default function ApplyClient({
                                             label="Full name"
                                             placeholder="Enter your full legal name"
                                             autoComplete="name"
-                                            icon={<UserRound />}
-                                            value={formData.fullName}
-                                            onChange={(value) =>
+                                            icon={
+                                                <UserRound />
+                                            }
+                                            value={
+                                                formData.fullName
+                                            }
+                                            onChange={(
+                                                value,
+                                            ) =>
                                                 updateField(
                                                     "fullName",
                                                     value,
@@ -570,9 +685,15 @@ export default function ApplyClient({
                                             type="email"
                                             placeholder="name@example.com"
                                             autoComplete="email"
-                                            icon={<Mail />}
-                                            value={formData.email}
-                                            onChange={(value) =>
+                                            icon={
+                                                <Mail />
+                                            }
+                                            value={
+                                                formData.email
+                                            }
+                                            onChange={(
+                                                value,
+                                            ) =>
                                                 updateField(
                                                     "email",
                                                     value,
@@ -586,9 +707,15 @@ export default function ApplyClient({
                                             type="tel"
                                             placeholder="+254 700 000 000"
                                             autoComplete="tel"
-                                            icon={<Phone />}
-                                            value={formData.phone}
-                                            onChange={(value) =>
+                                            icon={
+                                                <Phone />
+                                            }
+                                            value={
+                                                formData.phone
+                                            }
+                                            onChange={(
+                                                value,
+                                            ) =>
                                                 updateField(
                                                     "phone",
                                                     value,
@@ -600,9 +727,15 @@ export default function ApplyClient({
                                             name="idNumber"
                                             label="ID or passport number"
                                             placeholder="Enter identification number"
-                                            icon={<IdCard />}
-                                            value={formData.idNumber}
-                                            onChange={(value) =>
+                                            icon={
+                                                <IdCard />
+                                            }
+                                            value={
+                                                formData.idNumber
+                                            }
+                                            onChange={(
+                                                value,
+                                            ) =>
                                                 updateField(
                                                     "idNumber",
                                                     value,
@@ -613,13 +746,19 @@ export default function ApplyClient({
                                 </StepCard>
                             ) : null}
 
+                            {/* =========================================
+                                STEP 2 - MEMBERSHIP DETAILS
+                            ========================================= */}
                             {step === 1 ? (
                                 <StepCard
-                                    icon={<GraduationCap />}
+                                    icon={
+                                        <GraduationCap />
+                                    }
                                     eyebrow="Professional Background"
                                     title="Membership Details"
-                                    subtitle="Choose the appropriate membership category and provide your professional qualifications."
+                                    subtitle="Choose your membership category and provide your educational background, current employment and professional experience."
                                 >
+                                    {/* MEMBERSHIP CATEGORY */}
                                     <div>
                                         <Label
                                             htmlFor="categoryId"
@@ -631,27 +770,40 @@ export default function ApplyClient({
                                                 id="categoryId"
                                                 name="categoryId"
                                                 required
-                                                value={formData.categoryId}
-                                                onChange={(event) =>
+                                                value={
+                                                    formData.categoryId
+                                                }
+                                                onChange={(
+                                                    event,
+                                                ) =>
                                                     updateField(
                                                         "categoryId",
-                                                        event.target.value,
+                                                        event
+                                                            .target
+                                                            .value,
                                                     )
                                                 }
-                                                className="min-h-12 w-full appearance-none border border-slate-300 bg-white px-4 py-3 pr-12 text-sm font-semibold text-slate-800 outline-none transition hover:border-slate-400 focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
+                                                className="min-h-12 w-full appearance-none border border-slate-300 bg-white px-4 py-3 pr-12 text-sm font-semibold text-slate-800 outline-none transition hover:border-slate-400 focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                             >
                                                 <option value="">
                                                     Select membership category
                                                 </option>
 
                                                 {categories.map(
-                                                    (category) => (
+                                                    (
+                                                        category,
+                                                    ) => (
                                                         <option
-                                                            key={category.id}
-                                                            value={category.id}
+                                                            key={
+                                                                category.id
+                                                            }
+                                                            value={
+                                                                category.id
+                                                            }
                                                         >
-                                                            {category.name} — KES{" "}
-                                                            {category.annualFee.toLocaleString()}
+                                                            {
+                                                                category.name
+                                                            }
                                                         </option>
                                                     ),
                                                 )}
@@ -665,12 +817,16 @@ export default function ApplyClient({
                                                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                     <div>
                                                         <p className="text-sm font-black text-slate-950">
-                                                            {selectedCategory.name}
+                                                            {
+                                                                selectedCategory.name
+                                                            }
                                                         </p>
 
                                                         {selectedCategory.description ? (
                                                             <p className="mt-1 max-w-2xl text-sm font-medium leading-6 text-slate-600">
-                                                                {selectedCategory.description}
+                                                                {
+                                                                    selectedCategory.description
+                                                                }
                                                             </p>
                                                         ) : null}
                                                     </div>
@@ -685,71 +841,164 @@ export default function ApplyClient({
                                         ) : null}
                                     </div>
 
-                                    <div className="mt-5 grid gap-4 md:grid-cols-2">
-                                        <Input
-                                            name="qualification"
-                                            label="Highest qualification"
-                                            placeholder="Example: Diploma in Hospitality"
-                                            icon={<GraduationCap />}
-                                            value={formData.qualification}
-                                            onChange={(value) =>
-                                                updateField(
-                                                    "qualification",
-                                                    value,
-                                                )
-                                            }
+                                    {/* EDUCATION */}
+                                    <div className="mt-8">
+                                        <SectionHeading
+                                            eyebrow="Education"
+                                            title="Educational Details"
+                                            description="Provide your highest relevant academic or professional qualification."
                                         />
 
-                                        <Input
-                                            name="institution"
-                                            label="Institution or employer"
-                                            placeholder="Enter institution or employer"
-                                            icon={<BriefcaseBusiness />}
-                                            value={formData.institution}
-                                            onChange={(value) =>
-                                                updateField(
-                                                    "institution",
+                                        <div className="mt-4 grid gap-4 md:grid-cols-2">
+                                            <Input
+                                                name="qualification"
+                                                label="Highest qualification"
+                                                placeholder="Example: Diploma in Hospitality"
+                                                icon={
+                                                    <GraduationCap />
+                                                }
+                                                value={
+                                                    formData.qualification
+                                                }
+                                                onChange={(
                                                     value,
-                                                )
-                                            }
+                                                ) =>
+                                                    updateField(
+                                                        "qualification",
+                                                        value,
+                                                    )
+                                                }
+                                            />
+
+                                            <Input
+                                                name="institution"
+                                                label="Institution"
+                                                placeholder="Enter college, university or training institution"
+                                                icon={
+                                                    <GraduationCap />
+                                                }
+                                                value={
+                                                    formData.institution
+                                                }
+                                                onChange={(
+                                                    value,
+                                                ) =>
+                                                    updateField(
+                                                        "institution",
+                                                        value,
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* CURRENT EMPLOYMENT */}
+                                    <div className="mt-8">
+                                        <SectionHeading
+                                            eyebrow="Current Employment"
+                                            title="Position & Employer"
+                                            description="Provide your current professional role and employer."
                                         />
 
-                                        <Input
-                                            name="position"
-                                            label="Current position"
-                                            placeholder="Enter current position"
-                                            icon={<BriefcaseBusiness />}
-                                            value={formData.position}
-                                            onChange={(value) =>
-                                                updateField(
-                                                    "position",
+                                        <div className="mt-4 grid gap-4 md:grid-cols-2">
+                                            <Input
+                                                name="position"
+                                                label="Current position"
+                                                placeholder="Example: General Manager"
+                                                icon={
+                                                    <BriefcaseBusiness />
+                                                }
+                                                value={
+                                                    formData.position
+                                                }
+                                                onChange={(
                                                     value,
-                                                )
-                                            }
+                                                ) =>
+                                                    updateField(
+                                                        "position",
+                                                        value,
+                                                    )
+                                                }
+                                            />
+
+                                            <Input
+                                                name="employer"
+                                                label="Current employer"
+                                                placeholder="Enter organisation or employer"
+                                                icon={
+                                                    <BriefcaseBusiness />
+                                                }
+                                                value={
+                                                    formData.employer
+                                                }
+                                                onChange={(
+                                                    value,
+                                                ) =>
+                                                    updateField(
+                                                        "employer",
+                                                        value,
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* PROFESSIONAL EXPERIENCE */}
+                                    <div className="mt-8">
+                                        <SectionHeading
+                                            eyebrow="Professional Experience"
+                                            title="Work Experience"
+                                            description="Briefly describe your relevant professional experience. Do not enter only the number of years."
                                         />
 
-                                        <Input
-                                            name="experience"
-                                            label="Years of experience"
-                                            type="number"
-                                            min="0"
-                                            placeholder="0"
-                                            icon={<BadgeCheck />}
-                                            value={formData.experience}
-                                            onChange={(value) =>
-                                                updateField(
-                                                    "experience",
-                                                    value,
-                                                )
-                                            }
-                                        />
+                                        <div className="mt-4">
+                                            <Label
+                                                htmlFor="experience"
+                                                text="Relevant professional experience"
+                                            />
+
+                                            <textarea
+                                                id="experience"
+                                                name="experience"
+                                                required
+                                                rows={6}
+                                                value={
+                                                    formData.experience
+                                                }
+                                                onChange={(
+                                                    event,
+                                                ) =>
+                                                    updateField(
+                                                        "experience",
+                                                        event
+                                                            .target
+                                                            .value,
+                                                    )
+                                                }
+                                                placeholder="Example: Experience in hotel operations, front office management, food and beverage, guest relations, property management or hospitality leadership..."
+                                                className="mt-2 w-full resize-y border border-slate-300 bg-white px-4 py-3 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-400 focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
+                                            />
+
+                                            <p className="mt-2 text-xs font-medium leading-5 text-slate-500">
+                                                Describe the
+                                                nature of your
+                                                experience rather
+                                                than entering a
+                                                number of years.
+                                            </p>
+                                        </div>
                                     </div>
                                 </StepCard>
                             ) : null}
 
+                            {/* =========================================
+                                STEP 3 - DOCUMENTS
+                            ========================================= */}
                             {step === 2 ? (
                                 <StepCard
-                                    icon={<UploadCloud />}
+                                    icon={
+                                        <UploadCloud />
+                                    }
                                     eyebrow="Supporting Documents"
                                     title="Upload Required Documents"
                                     subtitle="Upload clear copies of the required documents for verification by the Secretariat."
@@ -759,9 +1008,15 @@ export default function ApplyClient({
                                             label="ID or passport copy"
                                             description="A clear copy of your national ID or passport."
                                             name="idDocument"
-                                            icon={<IdCard />}
-                                            file={files.idDocument}
-                                            onChange={(file) =>
+                                            icon={
+                                                <IdCard />
+                                            }
+                                            file={
+                                                files.idDocument
+                                            }
+                                            onChange={(
+                                                file,
+                                            ) =>
                                                 updateFile(
                                                     "idDocument",
                                                     file,
@@ -773,9 +1028,15 @@ export default function ApplyClient({
                                             label="Certificate or qualification"
                                             description="Upload your relevant academic or professional certificate."
                                             name="qualificationDoc"
-                                            icon={<GraduationCap />}
-                                            file={files.qualificationDoc}
-                                            onChange={(file) =>
+                                            icon={
+                                                <GraduationCap />
+                                            }
+                                            file={
+                                                files.qualificationDoc
+                                            }
+                                            onChange={(
+                                                file,
+                                            ) =>
                                                 updateFile(
                                                     "qualificationDoc",
                                                     file,
@@ -787,9 +1048,15 @@ export default function ApplyClient({
                                             label="CV or professional profile"
                                             description="Upload your current curriculum vitae or professional profile."
                                             name="cvDocument"
-                                            icon={<FileText />}
-                                            file={files.cvDocument}
-                                            onChange={(file) =>
+                                            icon={
+                                                <FileText />
+                                            }
+                                            file={
+                                                files.cvDocument
+                                            }
+                                            onChange={(
+                                                file,
+                                            ) =>
                                                 updateFile(
                                                     "cvDocument",
                                                     file,
@@ -802,15 +1069,20 @@ export default function ApplyClient({
                                         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#C8102E]" />
 
                                         <p className="text-sm font-medium leading-6 text-slate-600">
-                                            Accepted formats are PDF,
-                                            JPG and PNG. Ensure all
-                                            documents are clear and
-                                            readable before continuing.
+                                            Accepted formats
+                                            are PDF, JPG and
+                                            PNG. Ensure all
+                                            documents are clear
+                                            and readable before
+                                            continuing.
                                         </p>
                                     </div>
                                 </StepCard>
                             ) : null}
 
+                            {/* =========================================
+                                STEP 4 - REVIEW / PAYMENT
+                            ========================================= */}
                             {step === 3 ? (
                                 <StepCard
                                     icon={
@@ -828,20 +1100,68 @@ export default function ApplyClient({
                                     }
                                     subtitle={
                                         isFreeCategory
-                                            ? "Confirm your application information and submit it for review."
-                                            : "Confirm your information and proceed to secure online payment."
+                                            ? "Confirm your information, provide data protection consent and submit for review."
+                                            : "Confirm your information, provide data protection consent and proceed to secure online payment."
                                     }
                                 >
+                                    {/* REVIEW */}
                                     <div className="border-y border-slate-300">
                                         <div className="border-b border-slate-300 py-4">
                                             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                                                Selected membership
+                                                Selected
+                                                membership
                                             </p>
 
                                             <h3 className="mt-1.5 text-xl font-black text-slate-950">
                                                 {selectedCategory?.name ||
                                                     "No category selected"}
                                             </h3>
+                                        </div>
+
+                                        <div className="grid gap-0 border-b border-slate-300 md:grid-cols-2">
+                                            <ReviewItem
+                                                label="Highest Qualification"
+                                                value={
+                                                    formData.qualification ||
+                                                    "Not provided"
+                                                }
+                                            />
+
+                                            <ReviewItem
+                                                label="Institution"
+                                                value={
+                                                    formData.institution ||
+                                                    "Not provided"
+                                                }
+                                            />
+
+                                            <ReviewItem
+                                                label="Current Position"
+                                                value={
+                                                    formData.position ||
+                                                    "Not provided"
+                                                }
+                                            />
+
+                                            <ReviewItem
+                                                label="Current Employer"
+                                                value={
+                                                    formData.employer ||
+                                                    "Not provided"
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="border-b border-slate-300 py-4">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                                                Professional
+                                                Experience
+                                            </p>
+
+                                            <p className="mt-2 whitespace-pre-line text-sm font-semibold leading-7 text-slate-700">
+                                                {formData.experience ||
+                                                    "Not provided"}
+                                            </p>
                                         </div>
 
                                         <div className="py-5">
@@ -864,13 +1184,111 @@ export default function ApplyClient({
                                                     : "Payment is processed securely through Paystack. Your application will be submitted after successful payment confirmation."}
                                             </p>
 
-                                            <div className="mt-4 flex items-center gap-3 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3">
-                                                <LockKeyhole className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                                            {!isFreeCategory ? (
+                                                <div className="mt-4 flex items-center gap-3 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3">
+                                                    <LockKeyhole className="h-5 w-5 shrink-0 text-[#C8102E]" />
 
-                                                <p className="text-sm font-semibold text-slate-600">
-                                                    Payment details are
-                                                    handled securely by
-                                                    the payment provider.
+                                                    <p className="text-sm font-semibold text-slate-600">
+                                                        Payment
+                                                        details are
+                                                        handled
+                                                        securely by
+                                                        the payment
+                                                        provider.
+                                                    </p>
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
+
+                                    {/* =================================
+                                        DATA PROTECTION CONSENT
+                                    ================================= */}
+                                    <div
+                                        className={[
+                                            "mt-6 border p-5 transition",
+                                            formData.dataProtectionConsent
+                                                ? "border-emerald-300 bg-emerald-50"
+                                                : "border-slate-300 bg-slate-50",
+                                        ].join(
+                                            " ",
+                                        )}
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <input
+                                                id="dataProtectionConsent"
+                                                name="dataProtectionConsent"
+                                                type="checkbox"
+                                                checked={
+                                                    formData.dataProtectionConsent
+                                                }
+                                                onChange={(
+                                                    event,
+                                                ) =>
+                                                    updateField(
+                                                        "dataProtectionConsent",
+                                                        event
+                                                            .target
+                                                            .checked,
+                                                    )
+                                                }
+                                                className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#C8102E]"
+                                            />
+
+                                            <div>
+                                                <label
+                                                    htmlFor="dataProtectionConsent"
+                                                    className="cursor-pointer text-sm font-black text-slate-950"
+                                                >
+                                                    Data
+                                                    Protection
+                                                    Consent
+                                                </label>
+
+                                                <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                                                    I consent to
+                                                    the Association
+                                                    of Hotel
+                                                    Professionals
+                                                    Kenya
+                                                    collecting,
+                                                    processing and
+                                                    storing the
+                                                    personal
+                                                    information
+                                                    and supporting
+                                                    documents
+                                                    provided in
+                                                    this
+                                                    application
+                                                    for membership
+                                                    administration,
+                                                    verification,
+                                                    communication
+                                                    and related
+                                                    association
+                                                    services, in
+                                                    accordance
+                                                    with
+                                                    applicable
+                                                    data
+                                                    protection
+                                                    requirements.
+                                                </p>
+
+                                                <p
+                                                    className={[
+                                                        "mt-3 text-xs font-black uppercase tracking-wide",
+                                                        formData.dataProtectionConsent
+                                                            ? "text-emerald-700"
+                                                            : "text-[#C8102E]",
+                                                    ].join(
+                                                        " ",
+                                                    )}
+                                                >
+                                                    {formData.dataProtectionConsent
+                                                        ? "Consent provided"
+                                                        : "Required before submission"}
                                                 </p>
                                             </div>
                                         </div>
@@ -878,17 +1296,35 @@ export default function ApplyClient({
 
                                     {isFreeCategory ? (
                                         <PrimaryButton
-                                            loading={paying}
-                                            onClick={handleFreeCompletion}
-                                            icon={<CheckCircle2 />}
+                                            loading={
+                                                paying
+                                            }
+                                            disabled={
+                                                !formData.dataProtectionConsent
+                                            }
+                                            onClick={
+                                                handleFreeCompletion
+                                            }
+                                            icon={
+                                                <CheckCircle2 />
+                                            }
                                             idleLabel="Complete Application"
                                             loadingLabel="Completing application..."
                                         />
                                     ) : (
                                         <PrimaryButton
-                                            loading={paying}
-                                            onClick={handlePaystackPayment}
-                                            icon={<CreditCard />}
+                                            loading={
+                                                paying
+                                            }
+                                            disabled={
+                                                !formData.dataProtectionConsent
+                                            }
+                                            onClick={
+                                                handlePaystackPayment
+                                            }
+                                            icon={
+                                                <CreditCard />
+                                            }
                                             idleLabel="Continue to Secure Payment"
                                             loadingLabel="Starting secure payment..."
                                         />
@@ -896,10 +1332,15 @@ export default function ApplyClient({
                                 </StepCard>
                             ) : null}
 
+                            {/* =========================================
+                                NAVIGATION
+                            ========================================= */}
                             <div className="mt-7 flex flex-col-reverse gap-3 border-t border-slate-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
                                 <button
                                     type="button"
-                                    onClick={previousStep}
+                                    onClick={
+                                        previousStep
+                                    }
                                     disabled={
                                         step === 0 ||
                                         saving ||
@@ -912,10 +1353,14 @@ export default function ApplyClient({
                                     Previous Step
                                 </button>
 
-                                {step < steps.length - 1 ? (
+                                {step <
+                                    steps.length -
+                                    1 ? (
                                     <button
                                         type="button"
-                                        onClick={nextStep}
+                                        onClick={
+                                            nextStep
+                                        }
                                         disabled={
                                             saving ||
                                             paying
@@ -934,15 +1379,26 @@ export default function ApplyClient({
                             </div>
                         </section>
 
+                        {/* =============================================
+                            SIDEBAR
+                        ============================================= */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
                             <ApplicationSummary
-                                formData={formData}
-                                selectedCategory={selectedCategory}
+                                formData={
+                                    formData
+                                }
+                                selectedCategory={
+                                    selectedCategory
+                                }
                             />
 
                             <ApplicationChecklist
-                                formData={formData}
-                                files={files}
+                                formData={
+                                    formData
+                                }
+                                files={
+                                    files
+                                }
                             />
 
                             <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
@@ -953,9 +1409,11 @@ export default function ApplyClient({
                                 </h2>
 
                                 <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
-                                    Contact the AHPK Secretariat
-                                    for help selecting a category
-                                    or completing your application.
+                                    Contact the AHPK
+                                    Secretariat for help
+                                    selecting a category
+                                    or completing your
+                                    application.
                                 </p>
 
                                 <a
@@ -975,6 +1433,10 @@ export default function ApplyClient({
     );
 }
 
+/* =========================================================
+   APPLICATION PROGRESS
+========================================================= */
+
 function ApplicationProgress({
     step,
     progress,
@@ -982,7 +1444,9 @@ function ApplicationProgress({
 }: {
     step: number;
     progress: number;
-    onNavigate: (index: number) => void;
+    onNavigate: (
+        index: number,
+    ) => void;
 }) {
     return (
         <section className="border-t-4 border-slate-950">
@@ -993,7 +1457,8 @@ function ApplicationProgress({
                     </p>
 
                     <h2 className="mt-1.5 text-2xl font-black text-slate-950">
-                        Step {step + 1} of {steps.length}:{" "}
+                        Step {step + 1} of{" "}
+                        {steps.length}:{" "}
                         {steps[step]}
                     </h2>
                 </div>
@@ -1013,82 +1478,115 @@ function ApplicationProgress({
             </div>
 
             <div className="grid border-b border-slate-300 sm:grid-cols-2 lg:grid-cols-4">
-                {steps.map((item, index) => {
-                    const current =
-                        index === step;
+                {steps.map(
+                    (
+                        item,
+                        index,
+                    ) => {
+                        const current =
+                            index ===
+                            step;
 
-                    const complete =
-                        index < step;
+                        const complete =
+                            index <
+                            step;
 
-                    const canNavigate =
-                        index <= step;
+                        const canNavigate =
+                            index <=
+                            step;
 
-                    return (
-                        <button
-                            key={item}
-                            type="button"
-                            disabled={!canNavigate}
-                            onClick={() => {
-                                if (canNavigate) {
-                                    onNavigate(index);
+                        return (
+                            <button
+                                key={
+                                    item
                                 }
-                            }}
-                            className={[
-                                "group flex min-h-20 items-center gap-3 border-b border-slate-300 px-3 py-3 text-left transition duration-200 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0",
-                                current
-                                    ? "bg-red-50"
-                                    : "bg-white",
-                                canNavigate
-                                    ? "cursor-pointer hover:bg-red-50/70"
-                                    : "cursor-not-allowed opacity-55",
-                            ].join(" ")}
-                        >
-                            <span
+                                type="button"
+                                disabled={
+                                    !canNavigate
+                                }
+                                onClick={() => {
+                                    if (
+                                        canNavigate
+                                    ) {
+                                        onNavigate(
+                                            index,
+                                        );
+                                    }
+                                }}
                                 className={[
-                                    "flex h-9 w-9 shrink-0 items-center justify-center text-sm font-black transition duration-200",
-                                    current
-                                        ? "bg-[#C8102E] text-white"
-                                        : complete
-                                            ? "bg-slate-950 text-white"
-                                            : "border border-slate-300 bg-white text-slate-400",
-                                ].join(" ")}
-                            >
-                                {complete ? (
-                                    <Check className="h-4 w-4" />
-                                ) : (
-                                    index + 1
-                                )}
-                            </span>
+                                    "group flex min-h-20 items-center gap-3 border-b border-slate-300 px-3 py-3 text-left transition duration-200 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0",
 
-                            <span>
+                                    current
+                                        ? "bg-red-50"
+                                        : "bg-white",
+
+                                    canNavigate
+                                        ? "cursor-pointer hover:bg-red-50/70"
+                                        : "cursor-not-allowed opacity-55",
+                                ].join(
+                                    " ",
+                                )}
+                            >
                                 <span
                                     className={[
-                                        "block text-[10px] font-black uppercase tracking-[0.14em]",
+                                        "flex h-9 w-9 shrink-0 items-center justify-center text-sm font-black transition duration-200",
+
                                         current
-                                            ? "text-[#C8102E]"
+                                            ? "bg-[#C8102E] text-white"
                                             : complete
-                                                ? "text-slate-950"
-                                                : "text-slate-400",
-                                    ].join(" ")}
+                                                ? "bg-slate-950 text-white"
+                                                : "border border-slate-300 bg-white text-slate-400",
+                                    ].join(
+                                        " ",
+                                    )}
                                 >
-                                    {complete
-                                        ? "Completed"
-                                        : current
-                                            ? "Current Step"
-                                            : "Upcoming"}
+                                    {complete ? (
+                                        <Check className="h-4 w-4" />
+                                    ) : (
+                                        index +
+                                        1
+                                    )}
                                 </span>
 
-                                <span className="mt-1 block text-sm font-black text-slate-800 transition group-hover:text-[#C8102E]">
-                                    {item}
+                                <span>
+                                    <span
+                                        className={[
+                                            "block text-[10px] font-black uppercase tracking-[0.14em]",
+
+                                            current
+                                                ? "text-[#C8102E]"
+                                                : complete
+                                                    ? "text-slate-950"
+                                                    : "text-slate-400",
+                                        ].join(
+                                            " ",
+                                        )}
+                                    >
+                                        {complete
+                                            ? "Completed"
+                                            : current
+                                                ? "Current Step"
+                                                : "Upcoming"}
+                                    </span>
+
+                                    <span className="mt-1 block text-sm font-black text-slate-800 transition group-hover:text-[#C8102E]">
+                                        {
+                                            item
+                                        }
+                                    </span>
                                 </span>
-                            </span>
-                        </button>
-                    );
-                })}
+                            </button>
+                        );
+                    },
+                )}
             </div>
         </section>
     );
 }
+
+/* =========================================================
+   HERO STAT
+========================================================= */
 
 function HeroStat({
     value,
@@ -1109,6 +1607,10 @@ function HeroStat({
         </div>
     );
 }
+
+/* =========================================================
+   STEP CARD
+========================================================= */
 
 function StepCard({
     icon,
@@ -1152,6 +1654,40 @@ function StepCard({
     );
 }
 
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+function SectionHeading({
+    eyebrow,
+    title,
+    description,
+}: {
+    eyebrow: string;
+    title: string;
+    description: string;
+}) {
+    return (
+        <div className="border-b border-slate-300 pb-3">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
+                {eyebrow}
+            </p>
+
+            <h3 className="mt-1 text-xl font-black text-slate-950">
+                {title}
+            </h3>
+
+            <p className="mt-1 text-sm font-medium leading-6 text-slate-500">
+                {description}
+            </p>
+        </div>
+    );
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
 function Input({
     name,
     label,
@@ -1171,7 +1707,9 @@ function Input({
     placeholder?: string;
     autoComplete?: string;
     icon?: ReactNode;
-    onChange: (value: string) => void;
+    onChange: (
+        value: string,
+    ) => void;
 }) {
     return (
         <div>
@@ -1194,27 +1732,43 @@ function Input({
                     min={min}
                     required
                     value={value}
-                    placeholder={placeholder}
-                    autoComplete={autoComplete}
-                    onChange={(event) =>
+                    placeholder={
+                        placeholder
+                    }
+                    autoComplete={
+                        autoComplete
+                    }
+                    onChange={(
+                        event,
+                    ) =>
                         onChange(
-                            event.target.value,
+                            event
+                                .target
+                                .value,
                         )
                     }
                     className={[
                         "min-h-12 w-full border border-slate-300 bg-white py-3 pr-4 text-sm font-semibold text-slate-800 outline-none transition",
+
                         icon
                             ? "pl-11"
                             : "pl-4",
+
                         "placeholder:font-medium placeholder:text-slate-400",
                         "hover:border-slate-400",
-                        "focus:border-[#C1121F] focus:ring-2 focus:ring-red-100",
-                    ].join(" ")}
+                        "focus:border-[#C8102E] focus:ring-2 focus:ring-red-100",
+                    ].join(
+                        " ",
+                    )}
                 />
             </div>
         </div>
     );
 }
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
 
 function FileInput({
     name,
@@ -1229,26 +1783,34 @@ function FileInput({
     description: string;
     icon: ReactNode;
     file: File | null;
-    onChange: (file: File | null) => void;
+    onChange: (
+        file: File | null,
+    ) => void;
 }) {
     return (
         <label
             htmlFor={name}
             className={[
                 "group block cursor-pointer py-5 transition",
+
                 file
                     ? "bg-emerald-50/50"
                     : "hover:bg-red-50/50",
-            ].join(" ")}
+            ].join(
+                " ",
+            )}
         >
             <div className="grid gap-4 sm:grid-cols-[46px_minmax(0,1fr)_auto] sm:items-center">
                 <span
                     className={[
                         "flex h-10 w-10 items-center justify-center [&>svg]:h-5 [&>svg]:w-5",
+
                         file
                             ? "bg-emerald-600 text-white"
                             : "bg-slate-950 text-white transition group-hover:bg-[#C8102E]",
-                    ].join(" ")}
+                    ].join(
+                        " ",
+                    )}
                 >
                     {file ? (
                         <CheckCircle2 />
@@ -1266,10 +1828,13 @@ function FileInput({
                         <span
                             className={[
                                 "px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.1em]",
+
                                 file
                                     ? "bg-emerald-100 text-emerald-700"
                                     : "bg-amber-100 text-amber-800",
-                            ].join(" ")}
+                            ].join(
+                                " ",
+                            )}
                         >
                             {file
                                 ? "Selected"
@@ -1287,7 +1852,8 @@ function FileInput({
                         </p>
                     ) : (
                         <p className="mt-1 text-xs font-bold text-[#C8102E]">
-                            PDF, JPG or PNG
+                            PDF, JPG or
+                            PNG
                         </p>
                     )}
                 </div>
@@ -1306,9 +1872,12 @@ function FileInput({
                 name={name}
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(event) =>
+                onChange={(
+                    event,
+                ) =>
                     onChange(
-                        event.target.files?.[0] ||
+                        event.target
+                            .files?.[0] ||
                         null,
                     )
                 }
@@ -1318,14 +1887,20 @@ function FileInput({
     );
 }
 
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
 function PrimaryButton({
     loading,
+    disabled = false,
     onClick,
     icon,
     idleLabel,
     loadingLabel,
 }: {
     loading: boolean;
+    disabled?: boolean;
     onClick: () => void;
     icon: ReactNode;
     idleLabel: string;
@@ -1334,9 +1909,12 @@ function PrimaryButton({
     return (
         <button
             type="button"
-            disabled={loading}
+            disabled={
+                loading ||
+                disabled
+            }
             onClick={onClick}
-            className="group mt-5 flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className="group mt-5 flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
         >
             <span className="[&>svg]:h-5 [&>svg]:w-5">
                 {icon}
@@ -1349,6 +1927,10 @@ function PrimaryButton({
     );
 }
 
+/* =========================================================
+   APPLICATION SUMMARY
+========================================================= */
+
 function ApplicationSummary({
     formData,
     selectedCategory,
@@ -1357,7 +1939,18 @@ function ApplicationSummary({
         fullName: string;
         email: string;
         phone: string;
+
         categoryId: string;
+
+        qualification: string;
+        institution: string;
+
+        position: string;
+        employer: string;
+
+        experience: string;
+
+        dataProtectionConsent: boolean;
     };
 
     selectedCategory:
@@ -1410,6 +2003,47 @@ function ApplicationSummary({
                 />
 
                 <SummaryItem
+                    label="Qualification"
+                    value={
+                        formData.qualification ||
+                        "Not provided"
+                    }
+                />
+
+                <SummaryItem
+                    label="Institution"
+                    value={
+                        formData.institution ||
+                        "Not provided"
+                    }
+                />
+
+                <SummaryItem
+                    label="Current Position"
+                    value={
+                        formData.position ||
+                        "Not provided"
+                    }
+                />
+
+                <SummaryItem
+                    label="Current Employer"
+                    value={
+                        formData.employer ||
+                        "Not provided"
+                    }
+                />
+
+                <SummaryItem
+                    label="Data Protection Consent"
+                    value={
+                        formData.dataProtectionConsent
+                            ? "Provided"
+                            : "Not provided"
+                    }
+                />
+
+                <SummaryItem
                     label="Annual fee"
                     value={
                         selectedCategory
@@ -1423,6 +2057,10 @@ function ApplicationSummary({
     );
 }
 
+/* =========================================================
+   APPLICATION CHECKLIST
+========================================================= */
+
 function ApplicationChecklist({
     formData,
     files,
@@ -1432,9 +2070,18 @@ function ApplicationChecklist({
         email: string;
         phone: string;
         idNumber: string;
+
         categoryId: string;
+
         qualification: string;
         institution: string;
+
+        position: string;
+        employer: string;
+
+        experience: string;
+
+        dataProtectionConsent: boolean;
     };
 
     files: {
@@ -1474,10 +2121,25 @@ function ApplicationChecklist({
                 />
 
                 <ChecklistItem
-                    text="Professional information"
+                    text="Education details"
                     checked={Boolean(
                         formData.qualification &&
                         formData.institution,
+                    )}
+                />
+
+                <ChecklistItem
+                    text="Current employment"
+                    checked={Boolean(
+                        formData.position &&
+                        formData.employer,
+                    )}
+                />
+
+                <ChecklistItem
+                    text="Professional experience"
+                    checked={Boolean(
+                        formData.experience,
                     )}
                 />
 
@@ -1489,10 +2151,45 @@ function ApplicationChecklist({
                         files.cvDocument,
                     )}
                 />
+
+                <ChecklistItem
+                    text="Data protection consent"
+                    checked={
+                        formData.dataProtectionConsent
+                    }
+                />
             </div>
         </section>
     );
 }
+
+/* =========================================================
+   REVIEW ITEM
+========================================================= */
+
+function ReviewItem({
+    label,
+    value,
+}: {
+    label: string;
+    value: string;
+}) {
+    return (
+        <div className="border-b border-slate-300 py-4 md:border-r md:px-4 md:first:pl-0 md:last:border-r-0">
+            <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
+                {label}
+            </p>
+
+            <p className="mt-1 break-words text-sm font-black leading-6 text-slate-900">
+                {value}
+            </p>
+        </div>
+    );
+}
+
+/* =========================================================
+   SUMMARY ITEM
+========================================================= */
 
 function SummaryItem({
     label,
@@ -1512,16 +2209,23 @@ function SummaryItem({
             <p
                 className={[
                     "mt-1 break-words text-sm font-black leading-6",
+
                     highlight
                         ? "text-[#C8102E]"
                         : "text-slate-900",
-                ].join(" ")}
+                ].join(
+                    " ",
+                )}
             >
                 {value}
             </p>
         </div>
     );
 }
+
+/* =========================================================
+   CHECKLIST ITEM
+========================================================= */
 
 function ChecklistItem({
     text,
@@ -1536,10 +2240,13 @@ function ChecklistItem({
                 <span
                     className={[
                         "flex h-8 w-8 items-center justify-center",
+
                         checked
                             ? "bg-emerald-600 text-white"
                             : "border border-slate-300 bg-white text-slate-300",
-                    ].join(" ")}
+                    ].join(
+                        " ",
+                    )}
                 >
                     {checked ? (
                         <Check className="h-4 w-4" />
@@ -1556,10 +2263,13 @@ function ChecklistItem({
             <span
                 className={[
                     "text-[10px] font-black uppercase tracking-[0.1em]",
+
                     checked
                         ? "text-emerald-700"
                         : "text-slate-400",
-                ].join(" ")}
+                ].join(
+                    " ",
+                )}
             >
                 {checked
                     ? "Complete"
@@ -1568,6 +2278,10 @@ function ChecklistItem({
         </div>
     );
 }
+
+/* =========================================================
+   LABEL
+========================================================= */
 
 function Label({
     htmlFor,

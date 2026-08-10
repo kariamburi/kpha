@@ -21,15 +21,30 @@ export async function sendMemberLoginOtp(formData: FormData) {
     const email = String(formData.get("email") || "").trim();
     const idNumber = String(formData.get("idNumber") || "").trim();
 
-    const application = await prisma.membershipApplication.findFirst({
-        where: {
-            email: { equals: email, mode: "insensitive" },
-            idNumber: { equals: idNumber },
-            status: "APPROVED",
-            paymentStatus: "PAID",
-        },
-        orderBy: { createdAt: "desc" },
-    });
+    const application =
+        await prisma.membershipApplication.findFirst({
+            where: {
+                email: {
+                    equals: email,
+                    mode: "insensitive",
+                },
+
+                idNumber: {
+                    equals: idNumber,
+                },
+
+                status: "APPROVED",
+
+                paymentStatus: "PAID",
+
+                dataProtectionConsent:
+                    true,
+            },
+
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
 
     if (!application) redirect("/member/login?error=invalid");
 

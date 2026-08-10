@@ -6,12 +6,17 @@ import { requireMemberSession } from "../session";
 import {
     BadgeCheck,
     CalendarDays,
-    Download,
+    Clock3,
     FileCheck,
     Hash,
     ShieldCheck,
 } from "lucide-react";
 import DownloadCertificateButton from "@/app/dashboard/certificates/[id]/DownloadCertificateButton";
+
+type CertificateStatus =
+    | "UPCOMING"
+    | "VALID"
+    | "EXPIRED";
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -21,20 +26,54 @@ function formatDate(date: Date) {
     });
 }
 
-export default async function MemberCertificatesPage() {
-    const memberId = await requireMemberSession();
-
-    const member = await prisma.member.findUnique({
-        where: { id: memberId },
-        include: {
-            category: true,
-            certificates: {
-                orderBy: { createdAt: "desc" },
-            },
-        },
+function formatYear(date: Date) {
+    return date.toLocaleDateString("en-KE", {
+        year: "numeric",
     });
+}
 
-    if (!member) notFound();
+function getCertificateStatus(
+    issueDate: Date,
+    expiryDate: Date,
+    now: number,
+): CertificateStatus {
+    if (issueDate.getTime() > now) {
+        return "UPCOMING";
+    }
+
+    if (expiryDate.getTime() < now) {
+        return "EXPIRED";
+    }
+
+    return "VALID";
+}
+
+export default async function MemberCertificatesPage() {
+    const memberId =
+        await requireMemberSession();
+
+    const member =
+        await prisma.member.findUnique({
+            where: {
+                id: memberId,
+            },
+
+            include: {
+                category: true,
+
+                certificates: {
+                    orderBy: {
+                        createdAt: "desc",
+                    },
+                },
+            },
+        });
+
+    if (!member) {
+        notFound();
+    }
+
+    const now = Date.now();
 
     return (
         <MemberPortalShell member={member}>
@@ -55,7 +94,8 @@ export default async function MemberCertificatesPage() {
                             </h1>
 
                             <p className="mt-2 text-sm font-semibold text-slate-500">
-                                Download and verify your AHPK membership certificates.
+                                Download and verify your
+                                AHPK membership certificates.
                             </p>
                         </div>
                     </div>
@@ -73,80 +113,168 @@ export default async function MemberCertificatesPage() {
                             </h2>
 
                             <p className="mt-2 text-sm font-semibold text-slate-500">
-                                Your certificates will appear here once issued.
+                                Your certificates will
+                                appear here once issued.
                             </p>
                         </div>
                     ) : (
-                        member.certificates.map((cert) => {
-                            const expired = cert.expiryDate < new Date();
+                        member.certificates.map(
+                            (cert) => {
+                                const status =
+                                    getCertificateStatus(
+                                        cert.issueDate,
+                                        cert.expiryDate,
+                                        now,
+                                    );
 
-                            return (
-                                <div
-                                    key={cert.id}
-                                    className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm"
-                                >
-                                    <div className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-center">
-                                        <div className="flex items-start gap-3">
-                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F]">
-                                                <ShieldCheck className="h-5 w-5" />
+                                const valid =
+                                    status === "VALID";
+
+                                const expired =
+                                    status === "EXPIRED";
+
+                                const upcoming =
+                                    status === "UPCOMING";
+
+                                return (
+                                    <div
+                                        key={cert.id}
+                                        className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm"
+                                    >
+                                        <div className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-center">
+                                            <div className="flex items-start gap-3">
+                                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-[#C1121F]">
+                                                    <ShieldCheck className="h-5 w-5" />
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-sm font-black uppercase tracking-wide text-slate-400">
+                                                        Certificate
+                                                        Number
+                                                    </p>
+
+                                                    <h2 className="mt-1 text-2xl font-black text-slate-950">
+                                                        {
+                                                            cert.certificateNumber
+                                                        }
+                                                    </h2>
+
+                                                    <p className="mt-2 break-all text-sm font-semibold text-slate-500">
+                                                        Verification:{" "}
+                                                        {
+                                                            cert.verificationCode
+                                                        }
+                                                    </p>
+                                                </div>
                                             </div>
 
-                                            <div>
-                                                <p className="text-sm font-black uppercase tracking-wide text-slate-400">
-                                                    Certificate Number
-                                                </p>
+                                            <span
+                                                className={[
+                                                    "inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-black",
 
-                                                <h2 className="mt-1 text-2xl font-black text-slate-950">
-                                                    {cert.certificateNumber}
-                                                </h2>
+                                                    valid
+                                                        ? "bg-green-50 text-green-700"
+                                                        : upcoming
+                                                            ? "bg-blue-50 text-blue-700"
+                                                            : "bg-red-50 text-red-700",
+                                                ].join(
+                                                    " ",
+                                                )}
+                                            >
+                                                {valid ? (
+                                                    <BadgeCheck className="h-4 w-4" />
+                                                ) : (
+                                                    <Clock3 className="h-4 w-4" />
+                                                )}
 
-                                                <p className="mt-2 text-sm font-semibold text-slate-500">
-                                                    Verification: {cert.verificationCode}
-                                                </p>
-                                            </div>
+                                                {
+                                                    status
+                                                }
+                                            </span>
                                         </div>
 
-                                        <span
-                                            className={`inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-black ${expired
-                                                ? "bg-red-50 text-red-700"
-                                                : "bg-green-50 text-green-700"
-                                                }`}
-                                        >
-                                            <BadgeCheck className="h-4 w-4" />
-                                            {expired ? "EXPIRED" : "VALID"}
-                                        </span>
-                                    </div>
+                                        {upcoming ? (
+                                            <div className="mt-5 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3">
+                                                <p className="text-sm font-bold leading-6 text-blue-800">
+                                                    This
+                                                    certificate
+                                                    has been
+                                                    issued for
+                                                    an upcoming
+                                                    membership
+                                                    period and
+                                                    becomes
+                                                    valid on{" "}
+                                                    {formatDate(
+                                                        cert.issueDate,
+                                                    )}
+                                                    .
+                                                </p>
+                                            </div>
+                                        ) : null}
 
-                                    <div className="mt-6 grid gap-4 md:grid-cols-3">
-                                        <Info
-                                            icon={CalendarDays}
-                                            label="Issue Date"
-                                            value={formatDate(cert.issueDate)}
-                                        />
-                                        <Info
-                                            icon={CalendarDays}
-                                            label="Expiry Date"
-                                            value={formatDate(cert.expiryDate)}
-                                        />
-                                        <Info icon={Hash} label="Member No." value={member.memberNumber} />
-                                    </div>
+                                        <div className="mt-6 grid gap-4 md:grid-cols-4">
+                                            <Info
+                                                icon={
+                                                    CalendarDays
+                                                }
+                                                label="Membership Since"
+                                                value={formatYear(
+                                                    member.joinDate,
+                                                )}
+                                            />
 
-                                    <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                                            <Info
+                                                icon={
+                                                    CalendarDays
+                                                }
+                                                label="Valid From"
+                                                value={formatDate(
+                                                    cert.issueDate,
+                                                )}
+                                            />
 
-                                        <DownloadCertificateButton
-                                            href={`/dashboard/certificates/${cert.id}/download`}
-                                        />
-                                        <Link
-                                            href={`/verify/${cert.verificationCode}`}
-                                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111111] px-5 py-3 text-center text-sm font-black text-white hover:bg-black"
-                                        >
-                                            <ShieldCheck className="h-4 w-4" />
-                                            Verify Certificate
-                                        </Link>
+                                            <Info
+                                                icon={
+                                                    CalendarDays
+                                                }
+                                                label="Valid Until"
+                                                value={formatDate(
+                                                    cert.expiryDate,
+                                                )}
+                                            />
+
+                                            <Info
+                                                icon={
+                                                    Hash
+                                                }
+                                                label="Member No."
+                                                value={
+                                                    member.memberNumber
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                                            <DownloadCertificateButton
+                                                href={`/dashboard/certificates/${cert.id}/download`}
+                                            />
+
+                                            <Link
+                                                href={`/verify/${encodeURIComponent(
+                                                    cert.verificationCode,
+                                                )}`}
+                                                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#111111] px-5 py-3 text-center text-sm font-black text-white hover:bg-black"
+                                            >
+                                                <ShieldCheck className="h-4 w-4" />
+                                                Verify
+                                                Certificate
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })
+                                );
+                            },
+                        )
                     )}
                 </div>
             </div>
@@ -174,7 +302,9 @@ function Info({
                     {label}
                 </p>
 
-                <p className="mt-1 text-sm font-black text-slate-900">{value}</p>
+                <p className="mt-1 text-sm font-black text-slate-900">
+                    {value}
+                </p>
             </div>
         </div>
     );
