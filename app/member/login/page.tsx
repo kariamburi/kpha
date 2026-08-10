@@ -89,7 +89,7 @@ export default async function MemberLoginPage({
                     <div className="relative min-h-0 flex-1 lg:overflow-y-auto">
                         <div className="flex min-h-full items-center justify-center px-5 py-8 sm:px-8 lg:px-10">
                             <div className="w-full max-w-lg">
-                                <nav
+                                {/*   <nav
                                     aria-label="Breadcrumb"
                                     className="flex items-center gap-2 text-xs font-bold text-slate-400"
                                 >
@@ -107,6 +107,27 @@ export default async function MemberLoginPage({
                                     </span>
                                 </nav>
 
+                                <div className="mt-5 border-l-4 border-[#C1121F] pl-4">
+                                    <div className="flex h-10 w-10 items-center justify-center bg-slate-950 text-white">
+                                        <UserRoundCheck className="h-5 w-5" />
+                                    </div>
+
+                                    <p className="mt-4 text-xs font-black uppercase tracking-[0.22em] text-[#C1121F]">
+                                        Secure member access
+                                    </p>
+
+                                    <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
+                                        Welcome Back
+                                    </h1>
+
+                                    <p className="mt-3 max-w-xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                        Enter your registered email
+                                        address and identification
+                                        number. We will send a secure
+                                        one-time password to verify
+                                        your identity.
+                                    </p>
+                                </div>*/}
                                 <div className="mt-5 border-l-4 border-[#C1121F] pl-4">
                                     <div className="flex h-10 w-10 items-center justify-center bg-slate-950 text-white">
                                         <UserRoundCheck className="h-5 w-5" />
@@ -201,10 +222,10 @@ export default async function MemberLoginPage({
 
                     <div className="relative flex h-full items-end px-10 pb-10 xl:px-14 xl:pb-12">
                         <div className="max-w-2xl">
-                            <div className="inline-flex items-center gap-2 border-l-4 border-red-300 bg-slate-950/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
+                            {/** <div className="inline-flex items-center gap-2 border-l-4 border-red-300 bg-slate-950/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
                                 <BadgeCheck className="h-4 w-4" />
                                 AHPK Digital Services
-                            </div>
+                            </div> */}
 
                             <h2 className="mt-5 text-4xl font-black leading-tight tracking-tight text-white xl:text-5xl">
                                 Your professional membership services,
@@ -218,7 +239,7 @@ export default async function MemberLoginPage({
                                 resources.
                             </p>
 
-                            <div className="mt-6 grid max-w-xl grid-cols-3 border-t border-white/30">
+                            {/**   <div className="mt-6 grid max-w-xl grid-cols-3 border-t border-white/30">
                                 <PortalFeature
                                     icon={<BadgeCheck />}
                                     label="Membership"
@@ -233,7 +254,7 @@ export default async function MemberLoginPage({
                                     icon={<LockKeyhole />}
                                     label="Secure access"
                                 />
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                 </section>
