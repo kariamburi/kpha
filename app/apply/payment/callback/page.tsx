@@ -5,6 +5,10 @@ import { prisma } from "@/lib/prisma";
 import { sendMail } from "@/lib/mail";
 import { createAuditLog } from "@/lib/audit";
 
+import {
+    notifyAdminsOfPendingApplication,
+} from "@/lib/application-notifications";
+
 import Logo from "@/app/assets/logo.png";
 
 function formatDate(
@@ -51,11 +55,9 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * =====================================================
-     * VERIFY PAYSTACK PAYMENT
-     * =====================================================
-     */
+    /* =====================================================
+       VERIFY PAYSTACK PAYMENT
+    ===================================================== */
 
     const verifyRes =
         await fetch(
@@ -99,11 +101,9 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * =====================================================
-     * LOAD APPLICATION
-     * =====================================================
-     */
+    /* =====================================================
+       LOAD APPLICATION
+    ===================================================== */
 
     const existingApplication =
         await prisma.membershipApplication.findUnique({
@@ -118,23 +118,15 @@ export default async function PaymentCallbackPage({
             },
         });
 
-    if (
-        !existingApplication
-    ) {
+    if (!existingApplication) {
         return (
             <PaymentResult message="Application not found." />
         );
     }
 
-    /*
-     * =====================================================
-     * SECURITY / CONSENT CHECK
-     * =====================================================
-     *
-     * Payment may be successful at Paystack, but we
-     * should not finalize the application if the
-     * required consent record is absent.
-     */
+    /* =====================================================
+       SECURITY / CONSENT CHECK
+    ===================================================== */
 
     if (
         !existingApplication
@@ -153,9 +145,10 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * Also confirm required professional fields.
-     */
+    /* =====================================================
+       REQUIRED PROFESSIONAL DETAILS
+    ===================================================== */
+
     if (
         !existingApplication
             .qualification ||
@@ -181,15 +174,9 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * =====================================================
-     * OPTIONAL REFERENCE CHECK
-     * =====================================================
-     *
-     * If initialization already stored a Paystack
-     * reference, make sure callback is for the same
-     * transaction.
-     */
+    /* =====================================================
+       REFERENCE CHECK
+    ===================================================== */
 
     if (
         existingApplication
@@ -205,8 +192,10 @@ export default async function PaymentCallbackPage({
             "PAYSTACK_CALLBACK_REFERENCE_MISMATCH",
             {
                 applicationId,
+
                 expected:
                     existingApplication.paymentReference,
+
                 received:
                     reference,
             },
@@ -217,13 +206,9 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * =====================================================
-     * VERIFY AMOUNT
-     * =====================================================
-     *
-     * Paystack returns amount in the smallest unit.
-     */
+    /* =====================================================
+       VERIFY AMOUNT
+    ===================================================== */
 
     const expectedAmount =
         Math.round(
@@ -260,11 +245,9 @@ export default async function PaymentCallbackPage({
         );
     }
 
-    /*
-     * =====================================================
-     * IDEMPOTENT PAYMENT CONFIRMATION
-     * =====================================================
-     */
+    /* =====================================================
+       IDEMPOTENT PAYMENT CONFIRMATION
+    ===================================================== */
 
     const alreadyPaid =
         existingApplication
@@ -287,9 +270,6 @@ export default async function PaymentCallbackPage({
                     paymentReference:
                         reference,
 
-                    /*
-                     * Preserve existing consent time.
-                     */
                     consentedAt:
                         existingApplication.consentedAt ||
                         new Date(),
@@ -301,11 +281,9 @@ export default async function PaymentCallbackPage({
                 },
             });
 
-    /*
-     * =====================================================
-     * AUDIT
-     * =====================================================
-     */
+    /* =====================================================
+       AUDIT LOG
+    ===================================================== */
 
     if (!alreadyPaid) {
         try {
@@ -361,11 +339,52 @@ export default async function PaymentCallbackPage({
         }
     }
 
-    /*
-     * =====================================================
-     * CONFIRMATION EMAIL
-     * =====================================================
-     */
+    /* =====================================================
+       ADMIN PENDING APPLICATION NOTIFICATION
+    ===================================================== */
+
+    if (!alreadyPaid) {
+        try {
+            await notifyAdminsOfPendingApplication({
+                applicationId:
+                    application.id,
+
+                fullName:
+                    application.fullName,
+
+                email:
+                    application.email,
+
+                phone:
+                    application.phone,
+
+                categoryName:
+                    application.category
+                        ?.name,
+
+                position:
+                    application.position,
+
+                employer:
+                    application.employer,
+            });
+        } catch (
+        notificationError
+        ) {
+            /*
+             * Notification failure must not
+             * affect the confirmed payment.
+             */
+            console.error(
+                "PENDING_APPLICATION_NOTIFICATION_ERROR",
+                notificationError,
+            );
+        }
+    }
+
+    /* =====================================================
+       APPLICANT CONFIRMATION EMAIL
+    ===================================================== */
 
     if (
         !alreadyPaid &&
@@ -380,13 +399,25 @@ export default async function PaymentCallbackPage({
                     "AHPK Membership Application Submitted",
 
                 html: `
-                    <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
-                        <h2 style="color:#C1121F;">
+                    <div
+                        style="
+                            font-family:Arial,sans-serif;
+                            line-height:1.6;
+                            color:#111;
+                        "
+                    >
+                        <h2
+                            style="
+                                color:#C1121F;
+                            "
+                        >
                             Application Submitted Successfully
                         </h2>
 
                         <p>
-                            Dear ${application.fullName || "Applicant"},
+                            Dear ${application.fullName ||
+                    "Applicant"
+                    },
                         </p>
 
                         <p>
@@ -394,69 +425,145 @@ export default async function PaymentCallbackPage({
                             AHPK membership application is now awaiting review.
                         </p>
 
-                        <table style="border-collapse:collapse;width:100%;margin-top:16px;">
+                        <table
+                            style="
+                                border-collapse:collapse;
+                                width:100%;
+                                margin-top:16px;
+                            "
+                        >
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Application Status
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${application.status}
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Payment Status
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${application.paymentStatus}
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Membership Category
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${application.category?.name || "-"}
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Current Position
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${application.position || "-"}
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Current Employer
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${application.employer || "-"}
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:8px;border:1px solid #eee;font-weight:bold;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                        font-weight:bold;
+                                    "
+                                >
                                     Payment Reference
                                 </td>
 
-                                <td style="padding:8px;border:1px solid #eee;">
+                                <td
+                                    style="
+                                        padding:8px;
+                                        border:1px solid #eee;
+                                    "
+                                >
                                     ${reference}
                                 </td>
                             </tr>
                         </table>
 
-                        <p style="margin-top:16px;">
+                        <p
+                            style="
+                                margin-top:16px;
+                            "
+                        >
                             The AHPK Secretariat will review your application
                             and notify you after approval.
                         </p>
@@ -472,8 +579,8 @@ export default async function PaymentCallbackPage({
         mailError
         ) {
             /*
-             * Do not reverse a confirmed payment
-             * because email delivery failed.
+             * Email failure must not reverse
+             * or invalidate a confirmed payment.
              */
             console.error(
                 "APPLICATION_PAYMENT_EMAIL_ERROR",
@@ -482,11 +589,9 @@ export default async function PaymentCallbackPage({
         }
     }
 
-    /*
-     * =====================================================
-     * SUCCESS PAGE
-     * =====================================================
-     */
+    /* =====================================================
+       SUCCESS PAGE
+    ===================================================== */
 
     return (
         <main className="min-h-screen bg-slate-50">
@@ -521,9 +626,8 @@ export default async function PaymentCallbackPage({
                             </h1>
 
                             <p className="mt-2 text-sm font-semibold text-white/70">
-                                Payment
-                                confirmed and
-                                application
+                                Payment confirmed
+                                and application
                                 received.
                             </p>
                         </div>
@@ -545,18 +649,14 @@ export default async function PaymentCallbackPage({
                             </h2>
 
                             <p className="mt-2 text-sm font-semibold text-slate-500">
-                                Your
-                                application
-                                has been
-                                successfully
-                                submitted for
-                                review.
+                                Your application has
+                                been successfully
+                                submitted for review.
                             </p>
                         </div>
 
                         <div className="w-fit rounded-full bg-green-50 px-5 py-2 text-sm font-black text-green-700">
-                            PAYMENT
-                            CONFIRMED
+                            PAYMENT CONFIRMED
                         </div>
                     </div>
 
@@ -644,8 +744,7 @@ export default async function PaymentCallbackPage({
                         <div className="space-y-5">
                             <div className="rounded-2xl bg-[#111111] p-6 text-white">
                                 <p className="text-sm font-semibold text-white/60">
-                                    What
-                                    Happens
+                                    What Happens
                                     Next?
                                 </p>
 
@@ -656,20 +755,16 @@ export default async function PaymentCallbackPage({
 
                                 <p className="mt-3 text-sm font-semibold leading-6 text-white/70">
                                     The AHPK
-                                    Secretariat
-                                    will review
-                                    your
+                                    Secretariat will
+                                    review your
                                     documents,
                                     education,
                                     current
-                                    employment
-                                    and
+                                    employment and
                                     professional
-                                    experience.
-                                    You will be
-                                    notified
-                                    after
-                                    approval.
+                                    experience. You
+                                    will be notified
+                                    after approval.
                                 </p>
                             </div>
 
@@ -687,10 +782,9 @@ export default async function PaymentCallbackPage({
 
                                 <p className="mt-3 text-sm font-semibold leading-6 text-slate-600">
                                     Keep this
-                                    reference
-                                    for payment
-                                    follow-up
-                                    and
+                                    reference for
+                                    payment
+                                    follow-up and
                                     support.
                                 </p>
                             </div>
@@ -699,15 +793,9 @@ export default async function PaymentCallbackPage({
 
                     <div className="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:justify-between">
                         <p className="text-xs font-semibold text-slate-500">
-                            A
-                            confirmation
-                            email has
-                            been sent
-                            if your
-                            email
-                            address
-                            was
-                            provided.
+                            A confirmation email has
+                            been sent if your email
+                            address was provided.
                         </p>
 
                         <div className="flex flex-col gap-3 sm:flex-row">
@@ -715,16 +803,14 @@ export default async function PaymentCallbackPage({
                                 href="/apply"
                                 className="rounded-xl border border-slate-300 px-5 py-3 text-center text-sm font-black text-slate-700 hover:bg-slate-50"
                             >
-                                New
-                                Application
+                                New Application
                             </Link>
 
                             <Link
                                 href="/"
                                 className="rounded-xl bg-[#C1121F] px-5 py-3 text-center text-sm font-black text-white hover:bg-red-800"
                             >
-                                Back to
-                                Home
+                                Back to Home
                             </Link>
                         </div>
                     </div>
@@ -733,6 +819,10 @@ export default async function PaymentCallbackPage({
         </main>
     );
 }
+
+/* =========================================================
+   PAYMENT RESULT
+========================================================= */
 
 function PaymentResult({
     message,
@@ -744,8 +834,7 @@ function PaymentResult({
             <section className="bg-[#111111] px-4 py-10 text-white">
                 <div className="mx-auto max-w-3xl">
                     <p className="text-xs font-black tracking-[0.35em] text-[#F3C64E]">
-                        AHPK
-                        MEMBERSHIP
+                        AHPK MEMBERSHIP
                     </p>
 
                     <h1 className="mt-2 text-3xl font-black">
@@ -790,6 +879,10 @@ function PaymentResult({
         </main>
     );
 }
+
+/* =========================================================
+   INFO
+========================================================= */
 
 function Info({
     label,

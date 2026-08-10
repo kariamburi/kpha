@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { createAuditLog } from "@/lib/audit";
+import { notifyAdminsOfPendingApplication } from "@/lib/application-notifications";
 
 type DraftPayload = {
     applicationId?: string;
@@ -272,7 +273,7 @@ export async function completeFreeApplication(
         }
 
         /*
-         * Required professional information
+         * Required professional information.
          */
         if (
             !application.qualification ||
@@ -289,8 +290,7 @@ export async function completeFreeApplication(
         }
 
         /*
-         * Data protection consent must be recorded
-         * before final submission.
+         * Consent is mandatory.
          */
         if (
             !application.dataProtectionConsent
@@ -302,64 +302,126 @@ export async function completeFreeApplication(
             };
         }
 
+        /*
+         * Prevent duplicate notifications if the
+         * browser submits the completion request
+         * more than once.
+         */
+        const alreadyCompleted =
+            application.paymentStatus ===
+            "PAID" &&
+            application.paymentReference ===
+            `FREE-${applicationId}`;
+
         const updated =
-            await prisma.membershipApplication.update({
-                where: {
-                    id:
-                        applicationId,
-                },
+            alreadyCompleted
+                ? application
+                : await prisma.membershipApplication.update({
+                    where: {
+                        id:
+                            applicationId,
+                    },
 
-                data: {
-                    paymentStatus:
-                        "PAID",
+                    data: {
+                        paymentStatus:
+                            "PAID",
 
-                    paymentReference:
-                        `FREE-${applicationId}`,
+                        paymentReference:
+                            `FREE-${applicationId}`,
 
-                    /*
-                     * Ensure consent timestamp exists
-                     * when application is finalized.
-                     */
-                    consentedAt:
-                        application.consentedAt ||
-                        new Date(),
-                },
-            });
+                        consentedAt:
+                            application.consentedAt ||
+                            new Date(),
+                    },
 
-        await createAuditLog({
-            action:
-                "FREE_APPLICATION_COMPLETED",
+                    include: {
+                        category:
+                            true,
+                    },
+                });
 
-            entityType:
-                "MembershipApplication",
+        if (!alreadyCompleted) {
+            /*
+             * Audit successful completion.
+             */
+            try {
+                await createAuditLog({
+                    action:
+                        "FREE_APPLICATION_COMPLETED",
 
-            entityId:
-                updated.id,
+                    entityType:
+                        "MembershipApplication",
 
-            metadata: {
+                    entityId:
+                        updated.id,
+
+                    metadata: {
+                        fullName:
+                            updated.fullName,
+
+                        email:
+                            updated.email,
+
+                        category:
+                            application
+                                .category
+                                .name,
+
+                        paymentStatus:
+                            updated.paymentStatus,
+
+                        paymentReference:
+                            updated.paymentReference,
+
+                        dataProtectionConsent:
+                            updated.dataProtectionConsent,
+
+                        consentedAt:
+                            updated.consentedAt,
+                    },
+                });
+            } catch (
+            auditError
+            ) {
+                console.error(
+                    "FREE_APPLICATION_AUDIT_ERROR",
+                    auditError,
+                );
+            }
+
+            /*
+             * =================================================
+             * ADMIN EMAIL NOTIFICATION
+             * =================================================
+             *
+             * Failure to send an email must NOT fail
+             * the applicant's completed application.
+             */
+            await notifyAdminsOfPendingApplication({
+                applicationId:
+                    updated.id,
+
                 fullName:
                     updated.fullName,
 
                 email:
                     updated.email,
 
-                category:
-                    application.category
+                phone:
+                    updated.phone,
+
+                categoryName:
+                    application
+                        .category
                         .name,
 
-                paymentStatus:
-                    updated.paymentStatus,
+                position:
+                    updated.position,
 
-                paymentReference:
-                    updated.paymentReference,
-
-                dataProtectionConsent:
-                    updated.dataProtectionConsent,
-
-                consentedAt:
-                    updated.consentedAt,
-            },
-        });
+                employer:
+                    updated.employer,
+            });
+        }
 
         return {
             ok: true,
