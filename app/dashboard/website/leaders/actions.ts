@@ -7,11 +7,21 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 
+function uploadsRoot() {
+    return process.env.UPLOADS_DIR || "/home/ahpk/uploads";
+}
+
 function publicPathToFilePath(publicUrl?: string | null) {
     if (!publicUrl) return null;
-    if (!publicUrl.startsWith("/uploads/leaders/")) return null;
 
-    return path.join(process.cwd(), "public", publicUrl);
+    if (!publicUrl.startsWith("/uploads/profile-images/")) {
+        return null;
+    }
+
+    return path.join(
+        uploadsRoot(),
+        publicUrl.replace("/uploads/", "")
+    );
 }
 
 async function deleteLeaderImage(publicUrl?: string | null) {
@@ -31,7 +41,12 @@ async function deleteLeaderImage(publicUrl?: string | null) {
 async function uploadLeaderImage(file: File) {
     if (!file || file.size === 0) return "";
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/jpg",
+    ];
 
     if (!allowedTypes.includes(file.type)) {
         throw new Error("Only JPG, PNG and WEBP images are allowed.");
@@ -46,46 +61,88 @@ async function uploadLeaderImage(file: File) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const ext =
+        file.name.split(".").pop()?.toLowerCase() || "jpg";
+
     const fileName = `${crypto.randomUUID()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "leaders");
-    await mkdir(uploadDir, { recursive: true });
+    const uploadDir = path.join(
+        uploadsRoot(),
+        "profile-images"
+    );
 
-    await writeFile(path.join(uploadDir, fileName), buffer);
+    await mkdir(uploadDir, {
+        recursive: true,
+    });
 
-    return `/uploads/leaders/${fileName}`;
+    await writeFile(
+        path.join(uploadDir, fileName),
+        buffer
+    );
+
+    return `/uploads/profile-images/${fileName}`;
 }
 
 export async function saveLeader(formData: FormData) {
     const id = String(formData.get("id") || "");
-    const name = String(formData.get("name") || "").trim();
-    const title = String(formData.get("title") || "").trim();
-    const bio = String(formData.get("bio") || "").trim();
-    const existingImageUrl = String(formData.get("imageUrl") || "").trim();
-    const order = Number(formData.get("order") || 0);
-    const active = formData.get("active") === "on";
+
+    const name = String(
+        formData.get("name") || ""
+    ).trim();
+
+    const title = String(
+        formData.get("title") || ""
+    ).trim();
+
+    const bio = String(
+        formData.get("bio") || ""
+    ).trim();
+
+    const existingImageUrl = String(
+        formData.get("imageUrl") || ""
+    ).trim();
+
+    const order = Number(
+        formData.get("order") || 0
+    );
+
+    const active =
+        formData.get("active") === "on";
 
     if (!name || !title) {
-        throw new Error("Name and title are required.");
+        throw new Error(
+            "Name and title are required."
+        );
     }
 
-    const imageFile = formData.get("imageFile") as File | null;
+    const imageFile =
+        formData.get("imageFile") as File | null;
 
     let imageUrl = existingImageUrl;
     let oldImageUrl = "";
 
     if (id) {
-        const existing = await prisma.leader.findUnique({
-            where: { id },
-        });
+        const existing =
+            await prisma.leader.findUnique({
+                where: { id },
+            });
 
-        if (!existing) throw new Error("Leader not found.");
+        if (!existing) {
+            throw new Error(
+                "Leader not found."
+            );
+        }
 
         oldImageUrl = existing.imageUrl || "";
 
-        if (imageFile && imageFile.size > 0) {
-            imageUrl = await uploadLeaderImage(imageFile);
+        if (
+            imageFile &&
+            imageFile.size > 0
+        ) {
+            imageUrl =
+                await uploadLeaderImage(
+                    imageFile
+                );
         }
 
         await prisma.leader.update({
@@ -100,12 +157,24 @@ export async function saveLeader(formData: FormData) {
             },
         });
 
-        if (imageUrl && oldImageUrl && imageUrl !== oldImageUrl) {
-            await deleteLeaderImage(oldImageUrl);
+        if (
+            imageUrl &&
+            oldImageUrl &&
+            imageUrl !== oldImageUrl
+        ) {
+            await deleteLeaderImage(
+                oldImageUrl
+            );
         }
     } else {
-        if (imageFile && imageFile.size > 0) {
-            imageUrl = await uploadLeaderImage(imageFile);
+        if (
+            imageFile &&
+            imageFile.size > 0
+        ) {
+            imageUrl =
+                await uploadLeaderImage(
+                    imageFile
+                );
         }
 
         await prisma.leader.create({
@@ -121,17 +190,25 @@ export async function saveLeader(formData: FormData) {
     }
 
     revalidatePath("/");
-    revalidatePath("/dashboard/website/leaders");
+    revalidatePath(
+        "/dashboard/website/leaders"
+    );
     revalidatePath("/leadership");
 }
 
-export async function deleteLeader(formData: FormData) {
-    const id = String(formData.get("id") || "");
+export async function deleteLeader(
+    formData: FormData
+) {
+    const id = String(
+        formData.get("id") || ""
+    );
+
     if (!id) return;
 
-    const existing = await prisma.leader.findUnique({
-        where: { id },
-    });
+    const existing =
+        await prisma.leader.findUnique({
+            where: { id },
+        });
 
     if (!existing) return;
 
@@ -139,9 +216,13 @@ export async function deleteLeader(formData: FormData) {
         where: { id },
     });
 
-    await deleteLeaderImage(existing.imageUrl);
+    await deleteLeaderImage(
+        existing.imageUrl
+    );
 
     revalidatePath("/");
-    revalidatePath("/dashboard/website/leaders");
+    revalidatePath(
+        "/dashboard/website/leaders"
+    );
     revalidatePath("/leadership");
 }
