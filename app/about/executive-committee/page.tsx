@@ -25,7 +25,7 @@ import PublicFooter from "@/app/components/public/PublicFooter";
 import BreadcrumbJsonLd from "@/app/components/seo/BreadcrumbJsonLd";
 import { DesktopNavigation } from "@/app/components/site/desktop-navigation";
 import { prisma } from "@/lib/prisma";
-
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
     title: "Executive Committee",
 

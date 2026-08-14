@@ -193,7 +193,7 @@ export async function saveLeader(formData: FormData) {
     revalidatePath(
         "/dashboard/website/leaders"
     );
-    revalidatePath("/leadership");
+    revalidatePath("/about/executive-committee");
 }
 
 export async function deleteLeader(
@@ -224,5 +224,5 @@ export async function deleteLeader(
     revalidatePath(
         "/dashboard/website/leaders"
     );
-    revalidatePath("/leadership");
+    revalidatePath("/about/executive-committee");
 }
