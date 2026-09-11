@@ -189,7 +189,7 @@ async function main() {
 
                     adminStatus:
                         "ACTIVE",
-
+                    dataProtectionConsent: true,
                     /*
                      * Optional professional profile
                      * details for testing the new
@@ -341,17 +341,6 @@ async function main() {
                         existingApplication.paymentReference ||
                         "SEED-SUPER-ADMIN",
 
-                    /*
-                     * Data protection consent belongs
-                     * to MembershipApplication, not Member.
-                     */
-                    dataProtectionConsent:
-                        true,
-
-                    consentedAt:
-                        existingApplication.consentedAt ||
-                        new Date(),
-
                     position:
                         "Hospitality Professional",
 
@@ -393,16 +382,6 @@ async function main() {
 
                     paymentReference:
                         "SEED-SUPER-ADMIN",
-
-                    /*
-                     * Data protection consent belongs
-                     * to MembershipApplication.
-                     */
-                    dataProtectionConsent:
-                        true,
-
-                    consentedAt:
-                        new Date(),
 
                     position:
                         "Hospitality Professional",
@@ -548,11 +527,9 @@ async function main() {
     console.log(
         "==============================================",
     );
-
     console.log(
         "✅ AHPK SUPER ADMIN TEST ACCOUNT READY",
     );
-
     console.log(
         "==============================================",
     );
