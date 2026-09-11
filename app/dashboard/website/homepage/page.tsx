@@ -1,7 +1,6 @@
 import {
     ImageIcon,
     Plus,
-    Trash2,
 } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
@@ -11,6 +10,8 @@ import {
     saveHomepageContent,
     saveHomepageHeroSlide,
 } from "./actions";
+
+import SubmitButton from "./SubmitButton";
 
 export const dynamic =
     "force-dynamic";
@@ -45,6 +46,7 @@ export default async function HomepageAdminPage() {
 
     return (
         <div className="space-y-8 p-6">
+            {/* PAGE HEADER */}
             <div>
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
                     Website
@@ -55,14 +57,14 @@ export default async function HomepageAdminPage() {
                 </h1>
 
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
-                    Manage homepage
-                    slider images,
-                    headlines, buttons
-                    and the welcome
+                    Manage homepage slider
+                    images, headlines,
+                    buttons and the welcome
                     section.
                 </p>
             </div>
 
+            {/* ADD HERO SLIDE */}
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-[#C8102E]">
@@ -96,7 +98,7 @@ export default async function HomepageAdminPage() {
                         <input
                             name="title"
                             required
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -111,7 +113,7 @@ export default async function HomepageAdminPage() {
                             defaultValue={
                                 slides.length
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -124,7 +126,7 @@ export default async function HomepageAdminPage() {
                             name="description"
                             required
                             rows={4}
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -136,7 +138,7 @@ export default async function HomepageAdminPage() {
                         <input
                             name="buttonLabel"
                             placeholder="Learn More"
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -148,7 +150,7 @@ export default async function HomepageAdminPage() {
                         <input
                             name="buttonHref"
                             placeholder="/about/who-we-are"
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -162,16 +164,16 @@ export default async function HomepageAdminPage() {
                             type="file"
                             accept="image/jpeg,image/png,image/webp"
                             required
-                            className="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 block w-full cursor-pointer rounded-lg border border-slate-300 px-4 py-3 file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-700 hover:file:bg-slate-200"
                         />
                     </div>
 
-                    <label className="flex items-center gap-3">
+                    <label className="flex cursor-pointer items-center gap-3">
                         <input
                             name="active"
                             type="checkbox"
                             defaultChecked
-                            className="h-5 w-5"
+                            className="h-5 w-5 cursor-pointer accent-[#C8102E]"
                         />
 
                         <span className="text-sm font-bold text-slate-700">
@@ -180,16 +182,16 @@ export default async function HomepageAdminPage() {
                     </label>
 
                     <div className="lg:col-span-2">
-                        <button
-                            type="submit"
-                            className="rounded-lg bg-[#C8102E] px-6 py-3 text-sm font-black text-white"
-                        >
-                            Add Slide
-                        </button>
+                        <SubmitButton
+                            label="Add Slide"
+                            pendingLabel="Uploading..."
+                            variant="primary"
+                        />
                     </div>
                 </form>
             </section>
 
+            {/* HERO SLIDES */}
             <section className="space-y-5">
                 <div>
                     <h2 className="text-2xl font-black text-slate-950">
@@ -202,19 +204,15 @@ export default async function HomepageAdminPage() {
                     </p>
                 </div>
 
-                {slides.length ===
-                    0 ? (
-                    <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
-                        No homepage
-                        slides have been
-                        added yet.
+                {slides.length === 0 ? (
+                    <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm font-medium text-slate-500">
+                        No homepage slides
+                        have been added yet.
                     </div>
                 ) : (
                     <div className="grid gap-6">
                         {slides.map(
-                            (
-                                slide
-                            ) => (
+                            (slide) => (
                                 <article
                                     key={
                                         slide.id
@@ -222,6 +220,7 @@ export default async function HomepageAdminPage() {
                                     className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
                                 >
                                     <div className="grid lg:grid-cols-[320px_1fr]">
+                                        {/* IMAGE */}
                                         <div className="bg-slate-100">
                                             <img
                                                 src={
@@ -234,6 +233,7 @@ export default async function HomepageAdminPage() {
                                             />
                                         </div>
 
+                                        {/* EDIT FORM */}
                                         <div className="p-6">
                                             <form
                                                 action={
@@ -260,7 +260,7 @@ export default async function HomepageAdminPage() {
                                                             slide.title
                                                         }
                                                         required
-                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                                     />
                                                 </div>
 
@@ -275,7 +275,7 @@ export default async function HomepageAdminPage() {
                                                         defaultValue={
                                                             slide.order
                                                         }
-                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                                     />
                                                 </div>
 
@@ -293,13 +293,14 @@ export default async function HomepageAdminPage() {
                                                             slide.description
                                                         }
                                                         required
-                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                                     />
                                                 </div>
 
                                                 <div>
                                                     <label className="text-sm font-bold text-slate-700">
-                                                        Button Label
+                                                        Button
+                                                        Label
                                                     </label>
 
                                                     <input
@@ -308,13 +309,14 @@ export default async function HomepageAdminPage() {
                                                             slide.buttonLabel ||
                                                             ""
                                                         }
-                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                                     />
                                                 </div>
 
                                                 <div>
                                                     <label className="text-sm font-bold text-slate-700">
-                                                        Button URL
+                                                        Button
+                                                        URL
                                                     </label>
 
                                                     <input
@@ -323,7 +325,7 @@ export default async function HomepageAdminPage() {
                                                             slide.buttonHref ||
                                                             ""
                                                         }
-                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                                     />
                                                 </div>
 
@@ -337,18 +339,18 @@ export default async function HomepageAdminPage() {
                                                         name="image"
                                                         type="file"
                                                         accept="image/jpeg,image/png,image/webp"
-                                                        className="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-3"
+                                                        className="mt-2 block w-full cursor-pointer rounded-lg border border-slate-300 px-4 py-3 file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-700 hover:file:bg-slate-200"
                                                     />
                                                 </div>
 
-                                                <label className="flex items-center gap-3">
+                                                <label className="flex cursor-pointer items-center gap-3">
                                                     <input
                                                         name="active"
                                                         type="checkbox"
                                                         defaultChecked={
                                                             slide.active
                                                         }
-                                                        className="h-5 w-5"
+                                                        className="h-5 w-5 cursor-pointer accent-[#C8102E]"
                                                     />
 
                                                     <span className="text-sm font-bold text-slate-700">
@@ -357,16 +359,15 @@ export default async function HomepageAdminPage() {
                                                 </label>
 
                                                 <div className="lg:col-span-2 flex flex-wrap gap-3">
-                                                    <button
-                                                        type="submit"
-                                                        className="rounded-lg bg-slate-950 px-5 py-3 text-sm font-black text-white"
-                                                    >
-                                                        Save
-                                                        Changes
-                                                    </button>
+                                                    <SubmitButton
+                                                        label="Save Changes"
+                                                        pendingLabel="Saving..."
+                                                        variant="dark"
+                                                    />
                                                 </div>
                                             </form>
 
+                                            {/* DELETE */}
                                             <form
                                                 action={
                                                     deleteHomepageHeroSlide
@@ -381,15 +382,12 @@ export default async function HomepageAdminPage() {
                                                     }
                                                 />
 
-                                                <button
-                                                    type="submit"
-                                                    className="inline-flex items-center gap-2 rounded-lg bg-red-50 px-5 py-3 text-sm font-black text-red-700"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-
-                                                    Delete
-                                                    Slide
-                                                </button>
+                                                <SubmitButton
+                                                    label="Delete Slide"
+                                                    pendingLabel="Deleting..."
+                                                    variant="danger"
+                                                    showTrashIcon
+                                                />
                                             </form>
                                         </div>
                                     </div>
@@ -400,6 +398,7 @@ export default async function HomepageAdminPage() {
                 )}
             </section>
 
+            {/* WELCOME SECTION */}
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-950 text-white">
@@ -449,7 +448,7 @@ export default async function HomepageAdminPage() {
                                 content?.welcomeLabel ||
                                 "Welcome to AHPK"
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -464,7 +463,7 @@ export default async function HomepageAdminPage() {
                                 content?.welcomeTitle ||
                                 ""
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -480,7 +479,7 @@ export default async function HomepageAdminPage() {
                                 content?.welcomeText ||
                                 ""
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -496,7 +495,7 @@ export default async function HomepageAdminPage() {
                                 content?.welcomeSecondaryText ||
                                 ""
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -512,7 +511,7 @@ export default async function HomepageAdminPage() {
                                 content?.primaryButtonLabel ||
                                 "Discover AHPK"
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -528,7 +527,7 @@ export default async function HomepageAdminPage() {
                                 content?.primaryButtonHref ||
                                 "/about/who-we-are"
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -544,7 +543,7 @@ export default async function HomepageAdminPage() {
                                 content?.secondaryButtonLabel ||
                                 "Become a Member"
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -560,7 +559,7 @@ export default async function HomepageAdminPage() {
                                 content?.secondaryButtonHref ||
                                 "/apply"
                             }
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                         />
                     </div>
 
@@ -574,18 +573,16 @@ export default async function HomepageAdminPage() {
                             name="welcomeImage"
                             type="file"
                             accept="image/jpeg,image/png,image/webp"
-                            className="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-3"
+                            className="mt-2 block w-full cursor-pointer rounded-lg border border-slate-300 px-4 py-3 file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-bold file:text-slate-700 hover:file:bg-slate-200"
                         />
                     </div>
 
                     <div className="lg:col-span-2">
-                        <button
-                            type="submit"
-                            className="rounded-lg bg-[#C8102E] px-6 py-3 text-sm font-black text-white"
-                        >
-                            Save Welcome
-                            Section
-                        </button>
+                        <SubmitButton
+                            label="Save Welcome Section"
+                            pendingLabel="Saving..."
+                            variant="primary"
+                        />
                     </div>
                 </form>
             </section>
