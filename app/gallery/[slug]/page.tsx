@@ -30,6 +30,7 @@ import {
 } from "@/app/lib/public-content";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
+import ImageLightbox from "./ImageLightbox";
 
 type GalleryAlbumPageProps = {
   params: Promise<{
@@ -455,54 +456,119 @@ function MediaGallery({
   items: GalleryItem[];
   albumTitle: string;
 }) {
+  const galleryImages = items
+    .filter(
+      (item: any) =>
+        item.type === "IMAGE" &&
+        (
+          item.mediaUrl ||
+          item.imageUrl
+        )
+    )
+    .map((item: any) => ({
+      id: item.id,
+
+      src:
+        item.mediaUrl ||
+        item.imageUrl,
+
+      alt:
+        item.title ||
+        item.caption ||
+        albumTitle,
+
+      title:
+        item.title,
+
+      caption:
+        item.caption,
+    }));
+
   return (
     <div className="columns-1 gap-4 border-t border-slate-300 pt-5 sm:columns-2 xl:columns-3">
       {items.map((item) => (
         <MediaItem
           key={item.id}
           item={item}
-          albumTitle={albumTitle}
+          albumTitle={
+            albumTitle
+          }
+          galleryImages={
+            galleryImages
+          }
         />
       ))}
     </div>
   );
 }
-
 function MediaItem({
   item,
   albumTitle,
+  galleryImages,
 }: {
   item: any;
   albumTitle: string;
+  galleryImages: Array<{
+    id: string;
+    src: string;
+    alt: string;
+    title?: string | null;
+    caption?: string | null;
+  }>;
 }) {
   const title =
-    item.title || item.caption || albumTitle;
+    item.title ||
+    item.caption ||
+    albumTitle;
+
+  const imageSrc =
+    item.mediaUrl ||
+    item.imageUrl ||
+    "";
+
+  const imageIndex =
+    galleryImages.findIndex(
+      (image) =>
+        image.id === item.id
+    );
 
   return (
     <figure className="group mb-4 break-inside-avoid border-b border-slate-300 pb-4">
       <div className="relative overflow-hidden bg-slate-950">
-        {item.type === "YOUTUBE" ? (
+        {item.type ===
+          "YOUTUBE" ? (
           <YouTubeEmbed
             item={item}
             title={title}
           />
-        ) : item.type === "VIDEO" ? (
+        ) : item.type ===
+          "VIDEO" ? (
           <video
             controls
             preload="metadata"
-            poster={item.thumbnailUrl || undefined}
+            poster={
+              item.thumbnailUrl ||
+              undefined
+            }
             className="w-full bg-black"
           >
             {item.mediaUrl ? (
-              <source src={item.mediaUrl} />
+              <source
+                src={
+                  item.mediaUrl
+                }
+              />
             ) : null}
           </video>
-        ) : item.mediaUrl || item.imageUrl ? (
-          <img
-            src={item.mediaUrl || item.imageUrl || ""}
-            alt={title}
-            loading="lazy"
-            className="w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+        ) : imageSrc &&
+          imageIndex >= 0 ? (
+          <ImageLightbox
+            images={
+              galleryImages
+            }
+            initialIndex={
+              imageIndex
+            }
           />
         ) : (
           <div className="flex min-h-[260px] items-center justify-center bg-slate-950 text-white">
@@ -510,20 +576,24 @@ function MediaItem({
           </div>
         )}
 
-        <div className="pointer-events-none absolute left-3 top-3">
+        <div className="pointer-events-none absolute left-3 top-3 z-10">
           <span className="inline-flex items-center gap-2 bg-slate-950/80 px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white">
-            {item.type === "IMAGE" ? (
+            {item.type ===
+              "IMAGE" ? (
               <Camera className="h-3.5 w-3.5" />
             ) : (
               <Film className="h-3.5 w-3.5" />
             )}
 
-            {formatMediaType(item.type)}
+            {formatMediaType(
+              item.type
+            )}
           </span>
         </div>
       </div>
 
-      {item.title || item.caption ? (
+      {item.title ||
+        item.caption ? (
         <figcaption className="pt-3">
           {item.title ? (
             <h3 className="text-base font-black leading-6 text-slate-950">
@@ -541,7 +611,6 @@ function MediaItem({
     </figure>
   );
 }
-
 function YouTubeEmbed({
   item,
   title,
