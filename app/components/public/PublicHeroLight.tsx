@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-    useEffect,
-    useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import {
     ArrowLeft,
@@ -41,10 +38,6 @@ type Props = {
     secondaryButtonHref?: string | null;
 };
 
-/**
- * These are only used if there are
- * no active slides in the database.
- */
 const fallbackSlides: PublicHeroSlide[] = [
     {
         id: "fallback-1",
@@ -78,41 +71,27 @@ const fallbackSlides: PublicHeroSlide[] = [
 
 export default function PublicHeroLignt({
     slides = [],
-
     welcomeLabel,
     welcomeTitle,
     welcomeText,
     welcomeSecondaryText,
     welcomeImageUrl,
-
     primaryButtonLabel,
     primaryButtonHref,
-
     secondaryButtonLabel,
     secondaryButtonHref,
 }: Props) {
-    /**
-     * If no active DB slides exist,
-     * use the old hard-coded slides.
-     */
     const safeSlides =
         slides.length > 0
             ? slides
             : fallbackSlides;
 
-    const [
-        activeSlide,
-        setActiveSlide,
-    ] = useState(0);
+    const [activeSlide, setActiveSlide] =
+        useState(0);
 
-    const [
-        paused,
-        setPaused,
-    ] = useState(false);
+    const [paused, setPaused] =
+        useState(false);
 
-    /**
-     * Auto rotate every 7 seconds.
-     */
     useEffect(() => {
         if (
             paused ||
@@ -122,31 +101,22 @@ export default function PublicHeroLignt({
         }
 
         const timer =
-            window.setInterval(
-                () => {
-                    setActiveSlide(
-                        (current) =>
-                            (current + 1) %
-                            safeSlides.length
-                    );
-                },
-                7000
-            );
+            window.setInterval(() => {
+                setActiveSlide(
+                    (current) =>
+                        (current + 1) %
+                        safeSlides.length
+                );
+            }, 7000);
 
         return () => {
-            window.clearInterval(
-                timer
-            );
+            window.clearInterval(timer);
         };
     }, [
         paused,
         safeSlides.length,
     ]);
 
-    /**
-     * Protect against slide count
-     * changing after revalidation.
-     */
     useEffect(() => {
         if (
             activeSlide >=
@@ -178,17 +148,12 @@ export default function PublicHeroLignt({
     }
 
     const active =
-        safeSlides[
-        activeSlide
-        ];
+        safeSlides[activeSlide];
 
     if (!active) {
         return null;
     }
 
-    /**
-     * Welcome section fallbacks.
-     */
     const finalWelcomeLabel =
         welcomeLabel ||
         "Welcome to AHPK";
@@ -227,17 +192,7 @@ export default function PublicHeroLignt({
 
     return (
         <section
-            className="
-                relative
-                flex
-                min-h-[760px]
-                flex-col
-                overflow-visible
-                bg-slate-100
-                sm:min-h-[800px]
-                lg:min-h-[760px]
-                xl:min-h-[780px]
-            "
+            className="relative flex min-h-[760px] flex-col overflow-visible bg-slate-100 sm:min-h-[800px] lg:min-h-[760px] xl:min-h-[780px]"
             onMouseEnter={() =>
                 setPaused(true)
             }
@@ -245,49 +200,29 @@ export default function PublicHeroLignt({
                 setPaused(false)
             }
         >
-            {/* =========================
-                BACKGROUND SLIDES
-            ========================== */}
+            {/* BACKGROUND SLIDES */}
             <div className="absolute inset-0 overflow-hidden">
                 {safeSlides.map(
-                    (
-                        slide,
-                        index
-                    ) => (
+                    (slide, index) => (
                         <div
-                            key={
-                                slide.id
-                            }
-                            className={`
-                                absolute
-                                inset-0
-                                transition-all
-                                duration-1000
-                                ease-out
-                                ${index ===
-                                    activeSlide
-                                    ? "scale-100 opacity-100"
-                                    : "scale-105 opacity-0"
-                                }
-                            `}
+                            key={slide.id}
+                            className={`absolute inset-0 transition-all duration-1000 ease-out ${index ===
+                                activeSlide
+                                ? "scale-100 opacity-100"
+                                : "scale-105 opacity-0"
+                                }`}
                         >
                             <img
                                 src={
                                     slide.imageUrl
                                 }
                                 alt=""
-                                className="
-                                    h-full
-                                    w-full
-                                    object-cover
-                                    object-center
-                                "
+                                className="h-full w-full object-cover object-center"
                             />
                         </div>
                     )
                 )}
 
-                {/* Light Overlay */}
                 <div className="absolute inset-0 z-10 bg-white/20" />
 
                 <div
@@ -301,9 +236,7 @@ export default function PublicHeroLignt({
                 <div className="absolute inset-0 z-10 bg-gradient-to-r from-white/95 via-white/55 to-white/10" />
             </div>
 
-            {/* =========================
-                HEADER
-            ========================== */}
+            {/* HEADER */}
             <header
                 className="absolute inset-x-0 top-0 z-50"
                 style={
@@ -313,23 +246,7 @@ export default function PublicHeroLignt({
                     } as React.CSSProperties
                 }
             >
-                <div
-                    className="
-                        mx-auto
-                        flex
-                        min-h-[76px]
-                        w-full
-                        max-w-[1700px]
-                        items-center
-                        gap-4
-                        px-4
-                        sm:min-h-[84px]
-                        sm:px-6
-                        lg:px-8
-                        xl:min-h-[92px]
-                        xl:px-10
-                    "
-                >
+                <div className="mx-auto flex min-h-[76px] w-full max-w-[1700px] items-center gap-4 px-4 sm:min-h-[84px] sm:px-6 lg:px-8 xl:min-h-[92px] xl:px-10">
                     <Link
                         href="/"
                         aria-label="AHPK homepage"
@@ -341,17 +258,7 @@ export default function PublicHeroLignt({
                             width={160}
                             height={160}
                             priority
-                            className="
-                                h-[64px]
-                                w-[64px]
-                                object-contain
-                                sm:h-[72px]
-                                sm:w-[72px]
-                                lg:h-[82px]
-                                lg:w-[82px]
-                                xl:h-[90px]
-                                xl:w-[90px]
-                            "
+                            className="h-[64px] w-[64px] object-contain sm:h-[72px] sm:w-[72px] lg:h-[82px] lg:w-[82px] xl:h-[90px] xl:w-[90px]"
                         />
                     </Link>
 
@@ -361,87 +268,23 @@ export default function PublicHeroLignt({
                 </div>
             </header>
 
-            {/* =========================
-                HERO CONTENT
-            ========================== */}
-            <div
-                className="
-                    relative
-                    z-20
-                    mx-auto
-                    flex
-                    w-full
-                    max-w-[1550px]
-                    flex-1
-                    flex-col
-                    justify-end
-                    px-5
-                    pb-5
-                    pt-24
-                    sm:px-8
-                    sm:pt-28
-                    lg:px-12
-                    lg:pb-6
-                    xl:pt-30
-                "
-            >
+            {/* HERO CONTENT */}
+            <div className="relative z-20 mx-auto flex w-full max-w-[1550px] flex-1 flex-col justify-end px-5 pb-5 pt-24 sm:px-8 sm:pt-28 lg:px-12 lg:pb-6 xl:pt-32">
                 <div className="max-w-[920px]">
                     <div
-                        key={
-                            active.id
-                        }
+                        key={active.id}
                         className="animate-[heroFade_.7s_ease-out]"
                     >
-                        <p
-                            className="
-                                mb-3
-                                inline-flex
-                                items-center
-                                gap-2
-                                border-l-4
-                                border-[#C1121F]
-                                pl-3
-                                text-[10px]
-                                font-extrabold
-                                uppercase
-                                tracking-[0.2em]
-                                text-[#C1121F]
-                                sm:text-[11px]
-                            "
-                        >
+                        <p className="mb-3 inline-flex items-center gap-2 border-l-4 border-[#C1121F] pl-3 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C1121F] sm:text-[11px]">
                             Association of Hotel
                             Professionals Kenya
                         </p>
 
-                        <h1
-                            className="
-                                max-w-[900px]
-                                text-[38px]
-                                font-black
-                                leading-[1.03]
-                                tracking-tight
-                                text-slate-950
-                                sm:text-[46px]
-                                lg:text-[54px]
-                                xl:text-[60px]
-                            "
-                        >
-                            {
-                                active.title
-                            }
+                        <h1 className="max-w-[900px] text-[38px] font-black leading-[1.03] tracking-tight text-slate-950 sm:text-[46px] lg:text-[54px] xl:text-[60px]">
+                            {active.title}
                         </h1>
 
-                        <p
-                            className="
-                                mt-3
-                                max-w-[800px]
-                                text-base
-                                font-semibold
-                                leading-7
-                                text-slate-700
-                                sm:text-lg
-                            "
-                        >
+                        <p className="mt-3 max-w-[800px] text-base font-semibold leading-7 text-slate-700 sm:text-lg">
                             {
                                 active.description
                             }
@@ -454,22 +297,7 @@ export default function PublicHeroLignt({
                                     href={
                                         active.buttonHref
                                     }
-                                    className="
-                                        inline-flex
-                                        min-h-11
-                                        items-center
-                                        justify-center
-                                        rounded-lg
-                                        bg-[#C1121F]
-                                        px-6
-                                        py-2.5
-                                        text-sm
-                                        font-extrabold
-                                        uppercase
-                                        text-white
-                                        transition
-                                        hover:bg-[#970D1B]
-                                    "
+                                    className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#C1121F] px-6 py-2.5 text-sm font-extrabold uppercase text-white transition hover:bg-[#970D1B]"
                                 >
                                     {
                                         active.buttonLabel
@@ -479,35 +307,14 @@ export default function PublicHeroLignt({
 
                             <Link
                                 href="/members-section/constitution-rules/membership"
-                                className="
-                                    inline-flex
-                                    min-h-11
-                                    items-center
-                                    justify-center
-                                    rounded-lg
-                                    border
-                                    border-slate-300
-                                    bg-white/85
-                                    px-6
-                                    py-2.5
-                                    text-sm
-                                    font-extrabold
-                                    uppercase
-                                    text-slate-900
-                                    backdrop-blur-md
-                                    transition
-                                    hover:border-[#C1121F]
-                                    hover:text-[#C1121F]
-                                "
+                                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white/85 px-6 py-2.5 text-sm font-extrabold uppercase text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:text-[#C1121F]"
                             >
                                 Explore Membership
                             </Link>
                         </div>
                     </div>
 
-                    {/* =========================
-                        SLIDER CONTROLS
-                    ========================== */}
+                    {/* SLIDER CONTROLS */}
                     <div className="mt-5 flex flex-wrap items-center gap-3">
                         {safeSlides.length >
                             1 ? (
@@ -518,23 +325,7 @@ export default function PublicHeroLignt({
                                         previousSlide
                                     }
                                     aria-label="Previous slide"
-                                    className="
-                                        flex
-                                        h-9
-                                        w-9
-                                        items-center
-                                        justify-center
-                                        rounded-full
-                                        border
-                                        border-slate-300
-                                        bg-white/85
-                                        text-slate-900
-                                        backdrop-blur-md
-                                        transition
-                                        hover:border-[#C1121F]
-                                        hover:bg-[#C1121F]
-                                        hover:text-white
-                                    "
+                                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
                                 >
                                     <ArrowLeft className="h-5 w-5" />
                                 </button>
@@ -558,16 +349,11 @@ export default function PublicHeroLignt({
                                                 aria-label={`View slide ${index +
                                                     1
                                                     }`}
-                                                className={`
-                                                    h-2.5
-                                                    rounded-full
-                                                    transition-all
-                                                    ${activeSlide ===
-                                                        index
-                                                        ? "w-9 bg-[#C1121F]"
-                                                        : "w-2.5 bg-slate-400 hover:bg-slate-600"
-                                                    }
-                                                `}
+                                                className={`h-2.5 rounded-full transition-all ${activeSlide ===
+                                                    index
+                                                    ? "w-9 bg-[#C1121F]"
+                                                    : "w-2.5 bg-slate-400 hover:bg-slate-600"
+                                                    }`}
                                             />
                                         )
                                     )}
@@ -579,23 +365,7 @@ export default function PublicHeroLignt({
                                         nextSlide
                                     }
                                     aria-label="Next slide"
-                                    className="
-                                        flex
-                                        h-9
-                                        w-9
-                                        items-center
-                                        justify-center
-                                        rounded-full
-                                        border
-                                        border-slate-300
-                                        bg-white/85
-                                        text-slate-900
-                                        backdrop-blur-md
-                                        transition
-                                        hover:border-[#C1121F]
-                                        hover:bg-[#C1121F]
-                                        hover:text-white
-                                    "
+                                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-white/85 text-slate-900 backdrop-blur-md transition hover:border-[#C1121F] hover:bg-[#C1121F] hover:text-white"
                                 >
                                     <ArrowRight className="h-5 w-5" />
                                 </button>
@@ -625,88 +395,28 @@ export default function PublicHeroLignt({
                     </div>
                 </div>
 
-                {/* =========================
-                    WELCOME / MEMBER PANEL
-                ========================== */}
-                <section
-                    className="
-                        relative
-                        z-30
-                        mt-1
-                        w-full
-                        rounded-xl
-                        bg-white
-                        py-2
-                        sm:py-3
-                    "
-                >
-                    <div
-                        className="
-                            mx-auto
-                            grid
-                            max-w-7xl
-                            items-center
-                            gap-6
-                            px-4
-                            sm:px-5
-                            lg:grid-cols-[0.88fr_1.12fr]
-                            lg:px-6
-                        "
-                    >
-                        {/* Welcome Image */}
+                {/* WELCOME SECTION */}
+                <section className="relative z-30 mt-1 w-full rounded-xl bg-white py-2 sm:py-3">
+                    <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 sm:px-5 lg:grid-cols-[0.88fr_1.12fr] lg:px-6">
                         <div className="relative overflow-hidden">
                             <img
                                 src={
                                     finalWelcomeImage
                                 }
                                 alt="Hospitality professionals"
-                                className="
-                                    h-[280px]
-                                    w-full
-                                    object-cover
-                                    sm:h-[310px]
-                                    lg:h-[320px]
-                                "
+                                className="h-[280px] w-full object-cover sm:h-[310px] lg:h-[320px]"
                             />
 
-                            <div
-                                className="
-                                    absolute
-                                    bottom-3
-                                    left-3
-                                    right-3
-                                    border-l-4
-                                    border-[#C8102E]
-                                    bg-white/92
-                                    p-4
-                                    backdrop-blur-md
-                                "
-                            >
-                                <p
-                                    className="
-                                        text-[10px]
-                                        font-extrabold
-                                        uppercase
-                                        tracking-[0.2em]
-                                        text-[#C8102E]
-                                    "
-                                >
-                                    AHPK at a glance
+                            <div className="absolute bottom-3 left-3 right-3 border-l-4 border-[#C8102E] bg-white/90 p-4 backdrop-blur-md">
+                                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#C8102E]">
+                                    AHPK at a
+                                    glance
                                 </p>
 
-                                <p
-                                    className="
-                                        mt-2
-                                        text-sm
-                                        font-bold
-                                        leading-6
-                                        text-slate-700
-                                    "
-                                >
+                                <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
                                     Recognition,
                                     professional
-                                    growth,
-                                    ethical
+                                    growth, ethical
                                     standards and a
                                     stronger
                                     hospitality
@@ -715,7 +425,6 @@ export default function PublicHeroLignt({
                             </div>
                         </div>
 
-                        {/* Welcome Content */}
                         <div>
                             <SectionLabel>
                                 {
@@ -723,34 +432,13 @@ export default function PublicHeroLignt({
                                 }
                             </SectionLabel>
 
-                            <h2
-                                className="
-                                    mt-2
-                                    max-w-3xl
-                                    font-serif
-                                    text-3xl
-                                    font-bold
-                                    leading-tight
-                                    text-slate-950
-                                    sm:text-4xl
-                                "
-                            >
+                            <h2 className="mt-2 max-w-3xl font-serif text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
                                 {
                                     finalWelcomeTitle
                                 }
                             </h2>
 
-                            <div
-                                className="
-                                    mt-3
-                                    space-y-3
-                                    text-sm
-                                    font-medium
-                                    leading-7
-                                    text-slate-600
-                                    sm:text-base
-                                "
-                            >
+                            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
                                 <p>
                                     {
                                         finalWelcomeText
@@ -765,77 +453,37 @@ export default function PublicHeroLignt({
                             </div>
 
                             <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-                                {finalPrimaryButtonLabel &&
-                                    finalPrimaryButtonHref ? (
-                                    <Link
-                                        href={
-                                            finalPrimaryButtonHref
-                                        }
-                                        className="
-                                            inline-flex
-                                            min-h-11
-                                            items-center
-                                            justify-center
-                                            gap-2
-                                            rounded-lg
-                                            bg-[#C8102E]
-                                            px-5
-                                            text-sm
-                                            font-extrabold
-                                            text-white
-                                            transition
-                                            hover:bg-[#A80D27]
-                                        "
-                                    >
-                                        {
-                                            finalPrimaryButtonLabel
-                                        }
+                                <Link
+                                    href={
+                                        finalPrimaryButtonHref
+                                    }
+                                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#C8102E] px-5 text-sm font-extrabold text-white transition hover:bg-[#A80D27]"
+                                >
+                                    {
+                                        finalPrimaryButtonLabel
+                                    }
 
-                                        <ArrowRight className="h-4 w-4" />
-                                    </Link>
-                                ) : null}
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
 
-                                {finalSecondaryButtonLabel &&
-                                    finalSecondaryButtonHref ? (
-                                    <Link
-                                        href={
-                                            finalSecondaryButtonHref
-                                        }
-                                        className="
-                                            inline-flex
-                                            min-h-11
-                                            items-center
-                                            justify-center
-                                            gap-2
-                                            rounded-lg
-                                            border
-                                            border-slate-300
-                                            bg-white
-                                            px-5
-                                            text-sm
-                                            font-extrabold
-                                            text-slate-800
-                                            transition
-                                            hover:border-[#C8102E]
-                                            hover:text-[#C8102E]
-                                        "
-                                    >
-                                        {
-                                            finalSecondaryButtonLabel
-                                        }
+                                <Link
+                                    href={
+                                        finalSecondaryButtonHref
+                                    }
+                                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
+                                >
+                                    {
+                                        finalSecondaryButtonLabel
+                                    }
 
-                                        <UserPlus className="h-4 w-4" />
-                                    </Link>
-                                ) : null}
+                                    <UserPlus className="h-4 w-4" />
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
 
-            {/* =========================
-                HERO ANIMATION
-            ========================== */}
             <style jsx global>{`
                 @keyframes heroFade {
                     from {
@@ -860,19 +508,10 @@ export default function PublicHeroLignt({
 function SectionLabel({
     children,
 }: {
-    children:
-    React.ReactNode;
+    children: React.ReactNode;
 }) {
     return (
-        <p
-            className="
-                text-xs
-                font-extrabold
-                uppercase
-                tracking-[0.25em]
-                text-[#C8102E]
-            "
-        >
+        <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C8102E]">
             {children}
         </p>
     );
