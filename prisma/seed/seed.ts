@@ -189,7 +189,7 @@ async function main() {
 
                     adminStatus:
                         "ACTIVE",
-
+                    dataProtectionConsent: true,
                     /*
                      * Optional professional profile
                      * details for testing the new
