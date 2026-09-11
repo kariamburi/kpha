@@ -554,3 +554,36 @@ model GalleryItem {
   @@index([albumId, order])
   @@index([type])
 }
+model HomepageHeroSlide {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  imageUrl    String
+  buttonLabel String?
+  buttonHref  String?
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, order])
+}
+
+model HomepageContent {
+  id                     Int      @id @default(1)
+
+  welcomeLabel           String?
+  welcomeTitle           String?
+  welcomeText            String?  @db.Text
+  welcomeSecondaryText   String?  @db.Text
+  welcomeImageUrl        String?
+
+  primaryButtonLabel     String?
+  primaryButtonHref      String?
+
+  secondaryButtonLabel   String?
+  secondaryButtonHref    String?
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}

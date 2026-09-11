@@ -22,10 +22,7 @@ import {
 
 import { prisma } from "@/lib/prisma";
 import PublicFooter from "./components/public/PublicFooter";
-import PublicHero from "./components/public/PublicHero";
-import { DesktopNavigation } from "./components/site/desktop-navigation";
 import PublicHeroLignt from "./components/public/PublicHeroLight";
-import ProfessionalStandardsSlider from "./components/public/ProfessionalStandardsSlider";
 import NewsCarousel from "./components/public/NewsCarousel";
 
 export const metadata: Metadata = {
@@ -37,36 +34,6 @@ export const metadata: Metadata = {
   },
 };
 
-const professionalStandards = [
-  {
-    icon: Award,
-    title: "Professional Attitude & Behaviour",
-    description:
-      "Promoting integrity, competence, responsibility and professional conduct in hospitality practice.",
-    href: "/professional-standards/professional-attitude",
-  },
-  {
-    icon: Handshake,
-    title: "Relationships with Clients",
-    description:
-      "Encouraging honest, respectful and high-quality service in every professional client relationship.",
-    href: "/professional-standards/client-relationships",
-  },
-  {
-    icon: Users,
-    title: "Professional Relationships",
-    description:
-      "Building constructive relationships among professionals, employers, institutions and industry partners.",
-    href: "/professional-standards/professional-relationships",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Ethics & Accountability",
-    description:
-      "Supporting ethical conduct, responsible leadership and professional accountability across the industry.",
-    href: "/professional-standards/code-of-conduct",
-  },
-];
 
 const purposePoints = [
   "Promote professionalism in Kenya’s hospitality industry",
@@ -145,13 +112,63 @@ export default async function Home() {
       icon: Users,
     },
   ];
+  const [
+    heroSlides,
+    homepageContent,
+  ] = await Promise.all([
+    prisma.homepageHeroSlide.findMany({
+      where: {
+        active: true,
+      },
+      orderBy: [
+        {
+          order: "asc",
+        },
+        {
+          createdAt:
+            "asc",
+        },
+      ],
+    }),
+
+    prisma.homepageContent.findUnique({
+      where: {
+        id: 1,
+      },
+    }),
+  ]);
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      <PublicHeroLignt welcomeTitle={welcomeTitle} welcomeText={welcomeText} />
-
-      {/*<ProfessionalStandardsSlider />*/}
-
-
+      <PublicHeroLignt
+        slides={heroSlides}
+        welcomeLabel={
+          homepageContent?.welcomeLabel
+        }
+        welcomeTitle={
+          homepageContent?.welcomeTitle
+        }
+        welcomeText={
+          homepageContent?.welcomeText
+        }
+        welcomeSecondaryText={
+          homepageContent?.welcomeSecondaryText
+        }
+        welcomeImageUrl={
+          homepageContent?.welcomeImageUrl
+        }
+        primaryButtonLabel={
+          homepageContent?.primaryButtonLabel
+        }
+        primaryButtonHref={
+          homepageContent?.primaryButtonHref
+        }
+        secondaryButtonLabel={
+          homepageContent?.secondaryButtonLabel
+        }
+        secondaryButtonHref={
+          homepageContent?.secondaryButtonHref
+        }
+      />
 
       <section className="relative overflow-hidden bg-slate-50 py-0 sm:py-2">
         {/* Decorative background */}
@@ -291,64 +308,6 @@ export default async function Home() {
             </div>
           </div>
 
-
-          {/* Full description  <div className="mt-2 overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
-
-          
-            <div className="p-3 flex flex-col items-center justify-center text-center justify-center items-center sm:p-9 lg:p-10">
-              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#C8102E]">
-                About the Association
-              </p>
-
-              <h3 className="mt-3 text-2xl font-extrabold leading-tight text-slate-950 sm:text-3xl">
-                Bringing together professionals and practitioners in Kenya’s hotel
-                and hospitality industry
-              </h3>
-
-              <div className="mt-4 space-y-3 text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                <p>
-                  The Association of Hotel Professionals Kenya is a professional
-                  body whose membership is drawn from key individual professionals
-                  and practitioners in the hotel and hospitality industry.
-                </p>
-
-                <p>
-                  The Association is registered under the Societies Act and exists
-                  to regulate, lobby for and safeguard the professional interests of
-                  its members. It provides a recognised voice for professionals who
-                  are actively employed, retired from service or working in
-                  consultancy.
-                </p>
-
-                <p>
-                  AHPK also reaches out to institutions of higher learning that
-                  prepare undergraduate and professional students to join the
-                  industry. Hospitality is one of the world’s fastest-growing
-                  sectors and remains a major contributor to employment, economic
-                  development and social progress.
-                </p>
-
-                <p>
-                  The Association advocates for high standards of service delivery
-                  and supports the development of training institutions that meet
-                  internationally recognised hospitality standards, helping
-                  strengthen Kenya’s position as a preferred tourism destination.
-                </p>
-              </div>
-
-              <div className="mt-5">
-                <Link
-                  href="/about/who-we-are"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#C8102E] px-5 text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-[#A80D27]"
-                >
-                  Read More About Us
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
-
-          </div>*/}
-
           {/* Key areas */}
           <div className="mt-4 rounded-xl border border-slate-300 bg-white p-5 sm:p-6">
             <div className="mb-5">
@@ -369,101 +328,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      {/** 
-      <section className="bg-white py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <SectionHeader
-            label="Leadership"
-            title="The Board of Management"
-            description="Meet the professionals entrusted with the governance, strategic direction and stewardship of AHPK."
-            href="/about/leadership/board"
-          />
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {leaders.length > 0 ? (
-              leaders.map((leader: any) => (
-                <article
-                  key={leader.id}
-                  className="group overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <div className="h-72 overflow-hidden bg-slate-100">
-
-                    {leader.imageUrl ? (
-                      <img
-                        src={leader.imageUrl}
-                        alt={leader.name}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-red-50 text-[#C8102E]">
-                        <Users className="h-16 w-16" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-6 text-center">
-                    <h3 className="text-lg font-extrabold text-slate-950">
-                      {leader.name}
-                    </h3>
-                    <p className="mt-1 text-xs font-extrabold uppercase tracking-[0.14em] text-[#C8102E]">
-                      {leader.position}
-                    </p>
-                    {leader.bio && (
-                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                        {leader.bio}
-                      </p>
-                    )}
-                  </div>
-                </article>
-              ))
-            ) : (
-              <EmptyCard text="Leadership profiles will appear here once published." />
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-950 py-20 text-white sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-              <SectionLabel>Professional Membership</SectionLabel>
-              <h2 className="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl">
-                Join a recognised professional community.
-              </h2>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">
-                Build professional credibility, access development
-                opportunities and connect with hospitality professionals who
-                share your commitment to quality and integrity.
-              </p>
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/apply"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#C8102E] px-6 text-sm font-extrabold text-white transition hover:bg-[#A80D27]"
-                >
-                  Apply for Membership
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/members-section/constitution-rules/membership"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-white/5 px-6 text-sm font-extrabold text-white transition hover:bg-white hover:text-slate-950"
-                >
-                  Explore Membership
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <StatCard value="Professional" label="Recognition" icon={BadgeCheck} />
-              <StatCard value="Continuous" label="Development" icon={Award} />
-              <StatCard value="Industry" label="Networking" icon={Users} />
-              <StatCard value="Ethical" label="Standards" icon={ShieldCheck} />
-            </div>
-          </div>
-        </div>
-      </section>
-*/}
       <section className="bg-white py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <SectionHeader

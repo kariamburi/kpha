@@ -58,6 +58,7 @@ const menu: MenuItem[] = [
         roles: ["SUPER_ADMIN", "ADMIN"],
         children: [
             { title: "Overview", href: "/dashboard/website", icon: "▣", roles: ["SUPER_ADMIN", "ADMIN"] },
+            { title: "Homepage", href: "/dashboard/website/homepage", icon: "▤", roles: ["SUPER_ADMIN", "ADMIN"] },
             { title: "Pages", href: "/dashboard/website/pages", icon: "▤", roles: ["SUPER_ADMIN", "ADMIN"] },
             { title: "Leadership", href: "/dashboard/website/leaders", icon: "♔", roles: ["SUPER_ADMIN", "ADMIN"] },
             { title: "Events", href: "/dashboard/website/events", icon: "◷", roles: ["SUPER_ADMIN", "ADMIN"] },
