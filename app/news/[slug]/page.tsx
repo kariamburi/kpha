@@ -184,7 +184,7 @@ export default async function NewsDetailsPage({
       {/* NEWS SECTION BAR */}
       <div className="border-b border-slate-300 bg-white">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex min-h-14 items-center justify-between gap-5">
+          <div className="flex items-center justify-between gap-5 py-2">
             <Link
               href="/news"
               className="border-l-4 border-[#C8102E] pl-3 text-xl font-black tracking-tight text-slate-950"
@@ -205,23 +205,23 @@ export default async function NewsDetailsPage({
 
       {/* ARTICLE HEADER */}
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-[1100px] px-5 pb-8 pt-7 sm:px-6 sm:pb-10 sm:pt-10 lg:px-8">
+        <div className="mx-auto max-w-[1100px] px-5 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5 lg:px-8">
           <NewsBreadcrumb title={post.title} />
 
-          <div className="mt-7 max-w-[900px]">
+          <div className="mt-4 max-w-[900px]">
             <CategoryBadge category={post.category} />
 
-            <h1 className="mt-5 max-w-[950px] text-[2.35rem] font-black leading-[1.07] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[4rem]">
+            <h1 className="mt-2 max-w-[950px] text-3xl font-black leading-[1.07] tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
               {post.title}
             </h1>
 
             {articleExcerpt ? (
-              <p className="mt-6 max-w-[820px] text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+              <p className="mt-3 max-w-[820px] text-base font-medium leading-8 text-slate-600 sm:text-lg sm:leading-8">
                 {articleExcerpt}
               </p>
             ) : null}
 
-            <div className="mt-7 border-t border-slate-200 pt-5">
+            <div className="mt-4 border-t border-slate-200 pt-3">
               <p className="text-sm font-extrabold text-slate-900">
                 AHPK Newsroom
               </p>
@@ -248,7 +248,7 @@ export default async function NewsDetailsPage({
         <section className="bg-white">
           <div className="mx-auto max-w-[1100px] px-0 sm:px-6 lg:px-8">
             <figure>
-              <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 sm:aspect-[16/8.5]">
+              <div className="relative aspect-[16/6] overflow-hidden bg-slate-100">
                 <img
                   src={post.imageUrl}
                   alt={post.title}
@@ -256,7 +256,7 @@ export default async function NewsDetailsPage({
                 />
               </div>
 
-              <figcaption className="border-b border-slate-200 px-5 py-3 text-xs font-medium leading-5 text-slate-500 sm:px-0">
+              <figcaption className="border-b border-slate-200 px-5 py-2 text-xs font-medium leading-5 text-slate-500 sm:px-0">
                 AHPK Newsroom
               </figcaption>
             </figure>
@@ -265,9 +265,9 @@ export default async function NewsDetailsPage({
       ) : null}
 
       {/* ARTICLE */}
-      <section className="bg-white py-9 sm:py-12">
+      <section className="bg-white py-5 sm:py-6">
         <div className="mx-auto max-w-[1100px] px-5 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[56px_minmax(0,720px)_1fr] lg:gap-9">
+          <div className="grid gap-6 lg:grid-cols-[50px_minmax(0,760px)_1fr]">
             {/* SHARE RAIL */}
             <aside className="hidden lg:block">
               <div className="sticky top-28">
@@ -309,7 +309,7 @@ export default async function NewsDetailsPage({
             {/* MAIN READING COLUMN */}
             <article className="min-w-0">
               {/* MOBILE SHARE BUTTONS */}
-              <div className="mb-8 flex items-center gap-2 border-b border-slate-200 pb-6 lg:hidden">
+              <div className="mb-4 flex items-center gap-2 border-b border-slate-200 pb-3 lg:hidden">
                 <span className="mr-2 text-xs font-black uppercase tracking-[0.15em] text-slate-400">
                   Share
                 </span>
@@ -343,16 +343,16 @@ export default async function NewsDetailsPage({
               </div>
 
               {post.excerpt ? (
-                <p className="mb-8 border-l-4 border-[#C8102E] pl-5 text-lg font-bold leading-8 text-slate-800 sm:text-xl sm:leading-9">
+                <p className="mb-4 border-l-4 border-[#C8102E] pl-4 text-base font-bold leading-8 text-slate-800 sm:text-lg sm:leading-8">
                   {post.excerpt}
                 </p>
               ) : null}
 
-              <div className="article-copy whitespace-pre-line text-[17px] font-normal leading-[1.85] text-slate-800 sm:text-[18px]">
+              <div className="article-copy whitespace-pre-line text-base font-normal leading-7 text-slate-800 sm:leading-8">
                 {post.content}
               </div>
 
-              <footer className="mt-12 border-t border-slate-300 pt-7">
+              <footer className="mt-6 border-t border-slate-300 pt-4">
                 <p className="text-sm font-extrabold text-slate-900">
                   Published by AHPK Newsroom
                 </p>
@@ -364,7 +364,7 @@ export default async function NewsDetailsPage({
 
                 <Link
                   href="/news"
-                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 border border-slate-300 px-5 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:bg-[#C8102E] hover:text-white"
+                  className="mt-3 inline-flex min-h-10 items-center justify-center gap-2 border border-slate-300 px-5 text-sm font-extrabold text-slate-800 transition hover:border-[#C8102E] hover:bg-[#C8102E] hover:text-white"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back to News
@@ -379,7 +379,7 @@ export default async function NewsDetailsPage({
                   AHPK News
                 </p>
 
-                <h2 className="mt-3 text-lg font-extrabold leading-6 text-slate-950">
+                <h2 className="mt-2 text-lg font-extrabold leading-6 text-slate-950">
                   Latest hospitality industry updates
                 </h2>
 
@@ -451,11 +451,11 @@ function ArticleMasthead({
             </time>
           </div>
 
-          <h1 className="mt-7 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
             {title}
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+          <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-slate-600 sm:text-lg sm:leading-8">
             {articleExcerpt}
           </p>
 
@@ -595,7 +595,7 @@ function RelatedNews({
   posts: RelatedPost[];
 }) {
   return (
-    <section className="border-t border-slate-200 bg-slate-50 py-10 sm:py-14">
+    <section className="border-t border-slate-200 bg-slate-50 py-6 sm:py-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div className="max-w-3xl">
@@ -603,7 +603,7 @@ function RelatedNews({
               Continue reading
             </p>
 
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
               More from AHPK News
             </h2>
 
@@ -622,7 +622,7 @@ function RelatedNews({
           </Link>
         </div>
 
-        <div className="mt-7">
+        <div className="mt-4">
           <NewsCarousel
             basePath="/news"
             actionLabel="Read article"
@@ -728,7 +728,7 @@ function CategoryBadge({
   category: string;
 }) {
   return (
-    <span className="inline-flex rounded-full bg-red-50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
+    <span className="inline-flex border-l-4 border-[#C8102E] pl-2 text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
       {formatCategory(category)}
     </span>
   );

@@ -54,6 +54,7 @@ export default function ApplyClient({
 }: {
     categories: Category[];
 }) {
+    const [started, setStarted] = useState(false);
     const [step, setStep] = useState(0);
     const [saving, setSaving] = useState(false);
     const [paying, setPaying] = useState(false);
@@ -525,6 +526,111 @@ export default function ApplyClient({
         );
     }
 
+    if (!started) {
+        return (
+            <main className="min-h-screen bg-white text-slate-950">
+                <section className="border-b border-slate-300 bg-white">
+                    <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
+                        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm font-bold text-slate-500">
+                            <a href="/" className="transition hover:text-[#C8102E]">Home</a>
+                            <ChevronRight className="h-4 w-4 text-slate-300" />
+                            <a href="/members-section/membership-categories" className="transition hover:text-[#C8102E]">Membership Categories</a>
+                            <ChevronRight className="h-4 w-4 text-slate-300" />
+                            <span className="text-[#C8102E]" aria-current="page">Apply for Membership</span>
+                        </nav>
+                        <div className="mt-5 max-w-4xl">
+                            <h1 className="text-4xl font-black leading-tight tracking-tight sm:text-5xl">Apply for AHPK Membership</h1>
+                            <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
+                                Review the registration requirements and prepare your information and documents before starting your application.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="py-6 sm:py-8">
+                    <div className="mx-auto grid max-w-7xl gap-7 px-5 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:px-8">
+                        <article className="min-w-0 space-y-6">
+                            <section className="border-t-4 border-[#C8102E] pt-4">
+                                <h2 className="text-2xl font-black tracking-tight sm:text-3xl">Before you start</h2>
+                                <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+                                    The online registration has four steps: Personal Information, Membership Details, Documents, and Review &amp; Payment (where applicable).
+                                </p>
+                                <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-7 text-slate-700 marker:text-[#C8102E] sm:text-base">
+                                    <li><strong className="text-slate-950">Personal details:</strong> Your legal name, email address, phone number, and national ID or passport number.</li>
+                                    <li><strong className="text-slate-950">Membership category:</strong> Choose the category that best matches your professional or educational background.</li>
+                                    <li><strong className="text-slate-950">Education:</strong> Your highest relevant qualification and the institution attended.</li>
+                                    <li><strong className="text-slate-950">Professional background:</strong> Your current position, employer, and a short description of your experience.</li>
+                                    <li><strong className="text-slate-950">Supporting documents:</strong> A readable ID/passport copy, relevant certificate, and current CV or professional profile (PDF, JPG, or PNG).</li>
+                                    <li><strong className="text-slate-950">Final review:</strong> Data protection consent and any applicable online membership fee.</li>
+                                </ul>
+                            </section>
+
+                            <section className="border-t border-slate-300 pt-4">
+                                <h2 className="text-2xl font-black tracking-tight">Membership categories</h2>
+                                <p className="mt-2 text-sm leading-6 text-slate-600">Available options and annual fees are loaded directly from AHPK's active membership categories.</p>
+                                {categories.length ? (
+                                    <ul className="mt-3 list-disc space-y-1.5 pl-5 marker:text-[#C8102E]">
+                                        {categories.map((category) => (
+                                            <li key={category.id} className="text-sm leading-7 text-slate-700">
+                                                <strong className="text-slate-950">{category.name}</strong>{" — "}
+                                                {category.annualFee <= 0 ? "No online fee" : `KES ${category.annualFee.toLocaleString()} per year`}
+                                                {category.description ? <span className="block text-slate-500">{category.description}</span> : null}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="mt-3 text-sm font-semibold text-amber-800">There are currently no active membership categories. Please contact the Secretariat before applying.</p>
+                                )}
+                                <a href="/members-section/membership-categories" className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E] hover:underline">
+                                    Compare membership requirements <ArrowRight className="h-4 w-4" />
+                                </a>
+                            </section>
+
+                            <section className="border-t border-slate-300 pt-4">
+                                <h2 className="text-2xl font-black tracking-tight">Ready to register?</h2>
+                                <p className="mt-2 text-sm leading-7 text-slate-600">
+                                    Please check that your documents are available before continuing. Your application will be saved as you complete the steps, and payment, if required, is handled in the final step.
+                                </p>
+                                <button
+                                    type="button"
+                                    disabled={categories.length === 0}
+                                    onClick={() => {
+                                        setError("");
+                                        setStarted(true);
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
+                                    }}
+                                    className="group mt-4 inline-flex min-h-12 items-center justify-center gap-2 bg-[#C8102E] px-7 text-sm font-black text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    Start Registration <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </button>
+                            </section>
+                        </article>
+
+                        <aside className="space-y-4 lg:sticky lg:top-28">
+                            <section className="border-t-4 border-[#C8102E] bg-slate-50 p-5">
+                                <div className="flex items-center gap-2">
+                                    <FileCheck2 className="h-5 w-5 text-[#C8102E]" />
+                                    <h2 className="text-lg font-black">Document checklist</h2>
+                                </div>
+                                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                                    <li className="flex items-start gap-2"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#C8102E]" /> National ID or passport copy</li>
+                                    <li className="flex items-start gap-2"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#C8102E]" /> Qualification certificate</li>
+                                    <li className="flex items-start gap-2"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#C8102E]" /> Updated CV or profile</li>
+                                </ul>
+                                <p className="mt-3 border-t border-slate-200 pt-3 text-xs leading-5 text-slate-500">Documents must be clear and readable. Accepted formats: PDF, JPG and PNG.</p>
+                            </section>
+                            <section className="border-t-4 border-slate-950 p-5">
+                                <div className="flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-[#C8102E]" /><h2 className="text-lg font-black">Need assistance?</h2></div>
+                                <p className="mt-2 text-sm leading-6 text-slate-600">Not sure which category applies to you? Contact the AHPK Secretariat before starting.</p>
+                                <a href="/contact" className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E] hover:underline">Contact Secretariat <ArrowRight className="h-4 w-4" /></a>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+            </main>
+        );
+    }
+
     return (
         <main className="min-h-screen bg-white text-slate-950">
             {/* =====================================================
@@ -562,55 +668,18 @@ export default function ApplyClient({
                         </span>
                     </nav>
 
-                    <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
-                        <div className="max-w-4xl">
-                            <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                AHPK Membership
-                            </p>
-
-                            <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
-                                Begin Your Professional
-                                Membership Journey
+                    <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
+                        <div className="max-w-3xl">
+                            <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                                Membership Application
                             </h1>
-
-                            <p className="mt-4 max-w-3xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
-                                Complete your information,
-                                select the correct membership
-                                category, upload the required
-                                documents and submit securely
-                                for official review.
+                            <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">
+                                Complete the four steps below. Your details are saved as you continue.
                             </p>
                         </div>
-
-                        <div className="border-t-4 border-[#C8102E] bg-slate-50 p-5">
-                            <div className="flex items-start gap-3">
-                                <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-[#C8102E]" />
-
-                                <div>
-                                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
-                                        Secure Application
-                                    </p>
-
-                                    <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
-                                        Your information and
-                                        supporting documents are
-                                        submitted for official
-                                        membership review.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="mt-4 grid grid-cols-2 border-y border-slate-300">
-                                <HeroStat
-                                    value="4"
-                                    label="Steps"
-                                />
-
-                                <HeroStat
-                                    value={`${progress}%`}
-                                    label="Progress"
-                                />
-                            </div>
+                        <div className="flex items-center gap-2 border-l-4 border-[#C8102E] bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700">
+                            <ShieldCheck className="h-5 w-5 shrink-0 text-[#C8102E]" />
+                            Secure membership application
                         </div>
                     </div>
                 </div>
@@ -619,8 +688,11 @@ export default function ApplyClient({
             {/* =====================================================
                 APPLICATION
             ===================================================== */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-4 sm:py-6">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+                    <button type="button" onClick={() => { setStarted(false); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-[#C8102E] hover:underline">
+                        <ArrowLeft className="h-4 w-4" /> View application requirements
+                    </button>
                     <ApplicationProgress
                         step={step}
                         progress={progress}
@@ -630,8 +702,8 @@ export default function ApplyClient({
                         }}
                     />
 
-                    <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-                        <section className="min-w-0 border-t-4 border-[#C8102E] pt-4">
+                    <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+                        <section className="min-w-0 border-t-4 border-[#C8102E] pt-3">
                             {error ? (
                                 <div
                                     role="alert"
@@ -657,7 +729,7 @@ export default function ApplyClient({
                                     title="Personal Information"
                                     subtitle="Provide your official name, contact details and identification information."
                                 >
-                                    <div className="grid gap-4 md:grid-cols-2">
+                                    <div className="grid gap-3 md:grid-cols-2">
                                         <Input
                                             name="fullName"
                                             label="Full name"
@@ -765,7 +837,7 @@ export default function ApplyClient({
                                             text="Membership category"
                                         />
 
-                                        <div className="relative mt-2">
+                                        <div className="relative mt-1.5">
                                             <select
                                                 id="categoryId"
                                                 name="categoryId"
@@ -842,14 +914,14 @@ export default function ApplyClient({
                                     </div>
 
                                     {/* EDUCATION */}
-                                    <div className="mt-8">
+                                    <div className="mt-5">
                                         <SectionHeading
                                             eyebrow="Education"
                                             title="Educational Details"
                                             description="Provide your highest relevant academic or professional qualification."
                                         />
 
-                                        <div className="mt-4 grid gap-4 md:grid-cols-2">
+                                        <div className="mt-3 grid gap-3 md:grid-cols-2">
                                             <Input
                                                 name="qualification"
                                                 label="Highest qualification"
@@ -893,14 +965,14 @@ export default function ApplyClient({
                                     </div>
 
                                     {/* CURRENT EMPLOYMENT */}
-                                    <div className="mt-8">
+                                    <div className="mt-5">
                                         <SectionHeading
                                             eyebrow="Current Employment"
                                             title="Position & Employer"
                                             description="Provide your current professional role and employer."
                                         />
 
-                                        <div className="mt-4 grid gap-4 md:grid-cols-2">
+                                        <div className="mt-3 grid gap-3 md:grid-cols-2">
                                             <Input
                                                 name="position"
                                                 label="Current position"
@@ -944,7 +1016,7 @@ export default function ApplyClient({
                                     </div>
 
                                     {/* PROFESSIONAL EXPERIENCE */}
-                                    <div className="mt-8">
+                                    <div className="mt-5">
                                         <SectionHeading
                                             eyebrow="Professional Experience"
                                             title="Work Experience"
@@ -961,7 +1033,7 @@ export default function ApplyClient({
                                                 id="experience"
                                                 name="experience"
                                                 required
-                                                rows={6}
+                                                rows={4}
                                                 value={
                                                     formData.experience
                                                 }
@@ -976,7 +1048,7 @@ export default function ApplyClient({
                                                     )
                                                 }
                                                 placeholder="Example: Experience in hotel operations, front office management, food and beverage, guest relations, property management or hospitality leadership..."
-                                                className="mt-2 w-full resize-y border border-slate-300 bg-white px-4 py-3 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-400 focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
+                                                className="mt-1.5 w-full resize-y border border-slate-300 bg-white px-4 py-3 text-sm font-semibold leading-7 text-slate-800 outline-none transition placeholder:font-medium placeholder:text-slate-400 hover:border-slate-400 focus:border-[#C8102E] focus:ring-2 focus:ring-red-100"
                                             />
 
                                             <p className="mt-2 text-xs font-medium leading-5 text-slate-500">
@@ -1335,7 +1407,7 @@ export default function ApplyClient({
                             {/* =========================================
                                 NAVIGATION
                             ========================================= */}
-                            <div className="mt-7 flex flex-col-reverse gap-3 border-t border-slate-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="mt-5 flex flex-col-reverse gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
                                 <button
                                     type="button"
                                     onClick={
@@ -1444,141 +1516,40 @@ function ApplicationProgress({
 }: {
     step: number;
     progress: number;
-    onNavigate: (
-        index: number,
-    ) => void;
+    onNavigate: (index: number) => void;
 }) {
     return (
-        <section className="border-t-4 border-slate-950">
-            <div className="flex flex-col gap-3 border-b border-slate-300 py-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                        Application Progress
-                    </p>
-
-                    <h2 className="mt-1.5 text-2xl font-black text-slate-950">
-                        Step {step + 1} of{" "}
-                        {steps.length}:{" "}
-                        {steps[step]}
-                    </h2>
-                </div>
-
-                <p className="text-3xl font-black text-[#C8102E]">
-                    {progress}%
+        <section aria-label="Application progress" className="border-y border-slate-200">
+            <div className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                <p className="text-sm font-black text-slate-900">
+                    Step {step + 1} of {steps.length}: {steps[step]}
                 </p>
+                <p className="text-sm font-black tabular-nums text-[#C8102E]">{progress}% complete</p>
             </div>
-
-            <div className="h-1 bg-slate-200">
-                <div
-                    className="h-full bg-[#C8102E] transition-all duration-500"
-                    style={{
-                        width: `${progress}%`,
-                    }}
-                />
+            <div className="h-1 bg-slate-100" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} aria-label="Application completion">
+                <div className="h-full bg-[#C8102E] transition-all duration-300" style={{ width: `${progress}%` }} />
             </div>
-
-            <div className="grid border-b border-slate-300 sm:grid-cols-2 lg:grid-cols-4">
-                {steps.map(
-                    (
-                        item,
-                        index,
-                    ) => {
-                        const current =
-                            index ===
-                            step;
-
-                        const complete =
-                            index <
-                            step;
-
-                        const canNavigate =
-                            index <=
-                            step;
-
-                        return (
-                            <button
-                                key={
-                                    item
-                                }
-                                type="button"
-                                disabled={
-                                    !canNavigate
-                                }
-                                onClick={() => {
-                                    if (
-                                        canNavigate
-                                    ) {
-                                        onNavigate(
-                                            index,
-                                        );
-                                    }
-                                }}
-                                className={[
-                                    "group flex min-h-20 items-center gap-3 border-b border-slate-300 px-3 py-3 text-left transition duration-200 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0",
-
-                                    current
-                                        ? "bg-red-50"
-                                        : "bg-white",
-
-                                    canNavigate
-                                        ? "cursor-pointer hover:bg-red-50/70"
-                                        : "cursor-not-allowed opacity-55",
-                                ].join(
-                                    " ",
-                                )}
-                            >
-                                <span
-                                    className={[
-                                        "flex h-9 w-9 shrink-0 items-center justify-center text-sm font-black transition duration-200",
-
-                                        current
-                                            ? "bg-[#C8102E] text-white"
-                                            : complete
-                                                ? "bg-slate-950 text-white"
-                                                : "border border-slate-300 bg-white text-slate-400",
-                                    ].join(
-                                        " ",
-                                    )}
-                                >
-                                    {complete ? (
-                                        <Check className="h-4 w-4" />
-                                    ) : (
-                                        index +
-                                        1
-                                    )}
-                                </span>
-
-                                <span>
-                                    <span
-                                        className={[
-                                            "block text-[10px] font-black uppercase tracking-[0.14em]",
-
-                                            current
-                                                ? "text-[#C8102E]"
-                                                : complete
-                                                    ? "text-slate-950"
-                                                    : "text-slate-400",
-                                        ].join(
-                                            " ",
-                                        )}
-                                    >
-                                        {complete
-                                            ? "Completed"
-                                            : current
-                                                ? "Current Step"
-                                                : "Upcoming"}
-                                    </span>
-
-                                    <span className="mt-1 block text-sm font-black text-slate-800 transition group-hover:text-[#C8102E]">
-                                        {
-                                            item
-                                        }
-                                    </span>
-                                </span>
-                            </button>
-                        );
-                    },
-                )}
+            <div className="grid grid-cols-2 gap-1 py-2 sm:grid-cols-4">
+                {steps.map((item, index) => {
+                    const current = index === step;
+                    const complete = index < step;
+                    const canNavigate = index <= step;
+                    return (
+                        <button
+                            key={item}
+                            type="button"
+                            disabled={!canNavigate}
+                            aria-current={current ? "step" : undefined}
+                            onClick={() => { if (canNavigate) onNavigate(index); }}
+                            className={`flex min-h-10 items-center gap-2 rounded-sm px-2 py-2 text-left text-xs font-bold transition sm:text-sm ${current ? "bg-red-50 text-[#C8102E]" : "text-slate-600 hover:bg-slate-50"} ${canNavigate ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                        >
+                            <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-black ${current ? "bg-[#C8102E] text-white" : complete ? "bg-slate-900 text-white" : "border border-slate-300 text-slate-500"}`}>
+                                {complete ? <Check className="h-3.5 w-3.5" /> : index + 1}
+                            </span>
+                            <span>{item}</span>
+                        </button>
+                    );
+                })}
             </div>
         </section>
     );
@@ -1588,33 +1559,13 @@ function ApplicationProgress({
    HERO STAT
 ========================================================= */
 
-function HeroStat({
-    value,
-    label,
-}: {
-    value: string;
-    label: string;
-}) {
-    return (
-        <div className="border-r border-slate-300 py-3 last:border-r-0">
-            <p className="text-2xl font-black text-slate-950">
-                {value}
-            </p>
-
-            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
-                {label}
-            </p>
-        </div>
-    );
-}
-
 /* =========================================================
    STEP CARD
 ========================================================= */
 
 function StepCard({
     icon,
-    eyebrow,
+    eyebrow: _eyebrow,
     title,
     subtitle,
     children,
@@ -1627,29 +1578,14 @@ function StepCard({
 }) {
     return (
         <div>
-            <div className="flex items-start gap-3 border-b border-slate-300 pb-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white [&>svg]:h-5 [&>svg]:w-5">
-                    {icon}
-                </span>
-
-                <div>
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                        {eyebrow}
-                    </p>
-
-                    <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                        {title}
-                    </h2>
-
-                    <p className="mt-2 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                        {subtitle}
-                    </p>
+            <div className="border-b border-slate-200 pb-3">
+                <div className="flex items-center gap-2.5">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-[#C8102E] text-white [&>svg]:h-4 [&>svg]:w-4">{icon}</span>
+                    <h2 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{title}</h2>
                 </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{subtitle}</p>
             </div>
-
-            <div className="mt-5">
-                {children}
-            </div>
+            <div className="mt-4">{children}</div>
         </div>
     );
 }
@@ -1659,7 +1595,7 @@ function StepCard({
 ========================================================= */
 
 function SectionHeading({
-    eyebrow,
+    eyebrow: _eyebrow,
     title,
     description,
 }: {
@@ -1668,18 +1604,9 @@ function SectionHeading({
     description: string;
 }) {
     return (
-        <div className="border-b border-slate-300 pb-3">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
-                {eyebrow}
-            </p>
-
-            <h3 className="mt-1 text-xl font-black text-slate-950">
-                {title}
-            </h3>
-
-            <p className="mt-1 text-sm font-medium leading-6 text-slate-500">
-                {description}
-            </p>
+        <div className="border-b border-slate-200 pb-2">
+            <h3 className="text-base font-black text-slate-950">{title}</h3>
+            <p className="mt-0.5 text-xs leading-5 text-slate-500 sm:text-sm">{description}</p>
         </div>
     );
 }
@@ -1718,7 +1645,7 @@ function Input({
                 text={label}
             />
 
-            <div className="relative mt-2">
+            <div className="relative mt-1.5">
                 {icon ? (
                     <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 [&>svg]:h-4 [&>svg]:w-4">
                         {icon}
@@ -1748,7 +1675,7 @@ function Input({
                         )
                     }
                     className={[
-                        "min-h-12 w-full border border-slate-300 bg-white py-3 pr-4 text-sm font-semibold text-slate-800 outline-none transition",
+                        "min-h-11 w-full border border-slate-300 bg-white py-2.5 pr-4 text-sm font-semibold text-slate-800 outline-none transition",
 
                         icon
                             ? "pl-11"
@@ -1791,7 +1718,7 @@ function FileInput({
         <label
             htmlFor={name}
             className={[
-                "group block cursor-pointer py-5 transition",
+                "group block cursor-pointer py-3 transition",
 
                 file
                     ? "bg-emerald-50/50"
@@ -1960,13 +1887,7 @@ function ApplicationSummary({
     return (
         <section className="border-t-4 border-[#C8102E]">
             <div className="border-b border-slate-300 py-3">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                    Application Summary
-                </p>
-
-                <h2 className="mt-1.5 text-xl font-black text-slate-950">
-                    Your Information
-                </h2>
+                <h2 className="text-lg font-black text-slate-950">Application Summary</h2>
             </div>
 
             <div className="divide-y divide-slate-300 border-b border-slate-300">
@@ -2091,16 +2012,10 @@ function ApplicationChecklist({
     };
 }) {
     return (
-        <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+        <section className="border-t-4 border-slate-950 bg-slate-50 p-4">
             <FileCheck2 className="h-6 w-6 text-[#C8102E]" />
 
-            <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
-                Review Checklist
-            </p>
-
-            <h2 className="mt-1.5 text-xl font-black text-slate-950">
-                Application Readiness
-            </h2>
+            <h2 className="mt-2 text-lg font-black text-slate-950">Application Checklist</h2>
 
             <div className="mt-4 divide-y divide-slate-300 border-y border-slate-300">
                 <ChecklistItem
@@ -2175,7 +2090,7 @@ function ReviewItem({
     value: string;
 }) {
     return (
-        <div className="border-b border-slate-300 py-4 md:border-r md:px-4 md:first:pl-0 md:last:border-r-0">
+        <div className="border-b border-slate-200 py-2.5 md:border-r md:px-4 md:first:pl-0 md:last:border-r-0">
             <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
                 {label}
             </p>

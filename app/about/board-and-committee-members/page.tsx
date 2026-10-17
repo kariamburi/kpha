@@ -8,7 +8,6 @@ import {
     ChevronRight,
     Home,
     ShieldCheck,
-    UserRound,
     Users,
 } from "lucide-react";
 
@@ -130,7 +129,7 @@ const boardMembers: BoardMember[] = [
 const committeeMembers: CommitteeMember[] = [
     {
         name: "Robert M. Kinyua",
-        grade: "MAHPK",
+        grade: "FAHPK",
         membershipNumber: "001/2016",
     },
     {
@@ -140,17 +139,17 @@ const committeeMembers: CommitteeMember[] = [
     },
     {
         name: "Raphael Oduol",
-        grade: "MAHPK",
+        grade: "FAHPK",
         membershipNumber: "023/2016",
     },
     {
         name: "Charles Kinyua",
-        grade: "MAHPK",
+        grade: "FAHPK",
         membershipNumber: "021/2016",
     },
     {
         name: "Dr. Florence Njau",
-        grade: "MAHPK",
+        grade: "FAHPK",
         membershipNumber: "041/2016",
     },
     {
@@ -257,23 +256,7 @@ export default function BoardAndCommitteeMembersPage() {
                             of Hotel Professionals Kenya.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
-                            <Link
-                                href="#board-members"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
-                            >
-                                View Board Members
 
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/about/executive-committee"
-                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                            >
-                                Executive Committee
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -300,27 +283,22 @@ export default function BoardAndCommitteeMembersPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
                         <article className="min-w-0">
                             {/* BOARD MEMBERS */}
                             <section
                                 id="board-members"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
-                                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                                <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
                                     <div className="max-w-3xl">
-                                        <SectionLabel>
+                                        <h2 className="text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-3xl">
                                             Board Members
-                                        </SectionLabel>
-
-                                        <h2 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                                            The Association&apos;s Board
-                                            leadership
                                         </h2>
 
-                                        <p className="mt-3 max-w-3xl text-[17px] leading-8 text-slate-600">
+                                        <p className="mt-1.5 max-w-3xl text-sm leading-6 text-slate-600">
                                             The Board provides
                                             professional leadership,
                                             institutional oversight and
@@ -335,12 +313,11 @@ export default function BoardAndCommitteeMembersPage() {
                                     />
                                 </div>
 
-                                <div className="mt-5 border-t border-slate-300">
-                                    {boardMembers.map((member, index) => (
+                                <div className="mt-3 border-t border-slate-200">
+                                    {boardMembers.map((member) => (
                                         <BoardMemberRow
                                             key={`${member.name}-${member.role}`}
                                             member={member}
-                                            number={index + 1}
                                         />
                                     ))}
                                 </div>
@@ -349,20 +326,15 @@ export default function BoardAndCommitteeMembersPage() {
                             {/* COMMITTEE MEMBERS */}
                             <section
                                 id="committee-members"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                                <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
                                     <div className="max-w-3xl">
-                                        <SectionLabel>
+                                        <h2 className="text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-3xl">
                                             Committee Members
-                                        </SectionLabel>
-
-                                        <h2 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                                            Registered committee
-                                            membership
                                         </h2>
 
-                                        <p className="mt-3 max-w-3xl text-[17px] leading-8 text-slate-600">
+                                        <p className="mt-1.5 max-w-3xl text-sm leading-6 text-slate-600">
                                             Official committee members
                                             are listed with their AHPK
                                             membership grades and
@@ -376,15 +348,15 @@ export default function BoardAndCommitteeMembersPage() {
                                     />
                                 </div>
 
-                                <div className="mt-5 border-y border-slate-300">
-                                    <div className="hidden grid-cols-[64px_minmax(0,1fr)_120px_150px] border-b border-slate-300 bg-slate-950 px-4 py-3 text-[10px] font-black uppercase tracking-[0.16em] text-white md:grid">
+                                <div className="mt-3 border-y border-slate-200">
+                                    <div className="hidden grid-cols-[44px_minmax(0,1fr)_100px_140px] border-b border-slate-300 bg-slate-950 px-3 py-2.5 text-[10px] font-black uppercase tracking-[0.16em] text-white md:grid">
                                         <span>No.</span>
                                         <span>Member</span>
                                         <span>Grade</span>
                                         <span>Membership No.</span>
                                     </div>
 
-                                    <div className="divide-y divide-slate-300">
+                                    <div className="divide-y divide-slate-200">
                                         {committeeMembers.map(
                                             (member, index) => (
                                                 <CommitteeMemberRow
@@ -398,38 +370,15 @@ export default function BoardAndCommitteeMembersPage() {
                                 </div>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <SectionLabel>
-                                    Continue Reading
-                                </SectionLabel>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/about/executive-committee"
-                                        eyebrow="Leadership Profiles"
-                                        title="Executive Committee"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/constitution-rules/membership"
-                                        eyebrow="Become a Member"
-                                        title="Membership"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* SIDEBAR */}
-                        <aside className="space-y-5 lg:sticky lg:top-28">
+                        <aside className="space-y-4 lg:sticky lg:top-28">
                             <div className="border-t-4 border-[#C8102E]">
                                 <div className="border-b border-slate-300 py-3">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        On this page
-                                    </p>
-
-                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
-                                        Leadership Directory
+                                    <h2 className="text-lg font-black text-slate-950">
+                                        On This Page
                                     </h2>
                                 </div>
 
@@ -449,7 +398,7 @@ export default function BoardAndCommitteeMembersPage() {
                                 </nav>
                             </div>
 
-                            <section className="border-t-4 border-slate-950 bg-slate-50 p-5">
+                            <section className="border-t-4 border-slate-950 bg-slate-50 p-4">
                                 <ShieldCheck
                                     className="h-6 w-6 text-[#C8102E]"
                                     aria-hidden="true"
@@ -476,7 +425,7 @@ export default function BoardAndCommitteeMembersPage() {
                                 </Link>
                             </section>
 
-                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
+                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-4 text-white">
                                 <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
                                     Membership
                                 </p>
@@ -506,48 +455,7 @@ export default function BoardAndCommitteeMembersPage() {
                 </div>
             </section>
 
-            {/* FINAL CTA */}
-            <section className="border-t border-slate-300 bg-slate-950 py-8 text-white sm:py-10">
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-                        <div className="max-w-4xl">
-                            <p className="text-xs font-black uppercase tracking-[0.22em] text-red-300">
-                                AHPK Membership
-                            </p>
 
-                            <h2 className="mt-2 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
-                                Join a recognised professional
-                                hospitality association.
-                            </h2>
-
-                            <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-slate-300">
-                                Become part of a professional
-                                community committed to leadership,
-                                representation, development and
-                                hospitality excellence.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                            <Link
-                                href="/apply"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
-                            >
-                                Apply for Membership
-
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/members-section/constitution-rules/membership"
-                                className="inline-flex min-h-11 items-center justify-center border border-white/40 px-6 text-sm font-black text-white transition hover:bg-white hover:text-slate-950"
-                            >
-                                Explore Membership
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <PublicFooter />
         </main>
@@ -556,35 +464,21 @@ export default function BoardAndCommitteeMembersPage() {
 
 function BoardMemberRow({
     member,
-    number,
 }: {
     member: BoardMember;
-    number: number;
 }) {
     return (
-        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_48px_minmax(0,1fr)_220px] sm:items-center">
-            <p className="text-3xl font-black leading-none text-slate-300">
-                {String(number).padStart(2, "0")}
-            </p>
-
-            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white">
-                <UserRound className="h-5 w-5" />
-            </div>
-
-            <div>
-                <p className="text-xl font-black leading-tight text-slate-950">
+        <div className="group flex items-start gap-3 border-b border-slate-200 py-2.5 last:border-b-0 hover:bg-slate-50 sm:items-center">
+            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#C8102E] sm:mt-0" aria-hidden="true" />
+            <span className="min-w-0 flex-1 text-sm leading-6 text-slate-700">
+                <span className="font-black text-slate-950 group-hover:text-[#C8102E]">
                     {member.name}
-                </p>
-
-                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#C8102E]">
-                    {member.grade}
-                </p>
-            </div>
-
-            <p className="text-sm font-bold leading-6 text-slate-700 sm:text-right">
-                {member.role}
-            </p>
-        </article>
+                </span>{" "}
+                <span className="font-semibold text-[#C8102E]">({member.grade})</span>
+                <span className="text-slate-500"> — </span>
+                <span>{member.role}</span>
+            </span>
+        </div>
     );
 }
 
@@ -596,41 +490,14 @@ function CommitteeMemberRow({
     number: number;
 }) {
     return (
-        <article className="grid gap-3 px-0 py-4 transition hover:bg-slate-50 md:grid-cols-[64px_minmax(0,1fr)_120px_150px] md:items-center md:px-4">
-            <p className="text-2xl font-black leading-none text-slate-300">
+        <div className="grid gap-x-3 gap-y-0.5 px-2 py-2.5 transition hover:bg-slate-50 md:grid-cols-[44px_minmax(0,1fr)_100px_140px] md:items-center md:px-3">
+            <span className="hidden text-xs font-bold text-slate-400 md:block">
                 {String(number).padStart(2, "0")}
-            </p>
-
-            <div>
-                <p className="text-base font-black text-slate-950">
-                    {member.name}
-                </p>
-
-                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 md:hidden">
-                    Committee Member
-                </p>
-            </div>
-
-            <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 md:hidden">
-                    Grade
-                </p>
-
-                <p className="mt-1 text-sm font-black text-[#C8102E] md:mt-0">
-                    {member.grade}
-                </p>
-            </div>
-
-            <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400 md:hidden">
-                    Membership Number
-                </p>
-
-                <p className="mt-1 font-mono text-sm font-black text-slate-700 md:mt-0">
-                    {member.membershipNumber}
-                </p>
-            </div>
-        </article>
+            </span>
+            <span className="text-sm font-black leading-6 text-slate-950">{member.name}</span>
+            <span className="text-xs font-bold text-[#C8102E]">{member.grade}</span>
+            <span className="font-mono text-xs font-semibold text-slate-600">{member.membershipNumber}</span>
+        </div>
     );
 }
 
@@ -642,12 +509,12 @@ function CountBlock({
     value: number;
 }) {
     return (
-        <div className="border-l-4 border-[#C8102E] pl-4">
+        <div className="border-l-2 border-[#C8102E] pl-3">
             <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
                 {label}
             </p>
 
-            <p className="mt-1 text-3xl font-black text-slate-950">
+            <p className="mt-0.5 text-2xl font-black text-slate-950">
                 {value}
             </p>
         </div>
@@ -656,7 +523,6 @@ function CountBlock({
 
 function RelatedPageLink({
     href,
-    eyebrow,
     title,
 }: {
     href: string;
@@ -664,21 +530,9 @@ function RelatedPageLink({
     title: string;
 }) {
     return (
-        <Link
-            href={href}
-            className="group flex min-h-24 flex-col justify-between border-b border-slate-300 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
-        >
-            <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-[#C8102E]">
-                    {eyebrow}
-                </p>
-
-                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                    {title}
-                </h3>
-            </div>
-
-            <ArrowRight className="mt-3 h-5 w-5 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C8102E]" />
+        <Link href={href} className="group flex min-h-12 items-center justify-between gap-3 border-b border-slate-200 py-2.5 last:border-b-0 sm:border-b-0 sm:border-r sm:px-4 sm:first:pl-0 sm:last:border-r-0">
+            <span className="text-sm font-black text-slate-950 transition group-hover:text-[#C8102E]">{title}</span>
+            <ArrowRight className="h-4 w-4 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
         </Link>
     );
 }

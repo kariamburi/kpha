@@ -176,10 +176,10 @@ export default function HandlingAllegedViolationsPage() {
                             Code of Conduct &amp; Ethics
                         </p>
 
-                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                        <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
                             Handling Alleged
-                            <span className="block text-[#C8102E]">
-                                Violations
+                            <span className="text-[#C8102E]">
+                                {"\u00A0"}Violations
                             </span>
                         </h1>
 
@@ -189,14 +189,6 @@ export default function HandlingAllegedViolationsPage() {
                             complaints involving alleged
                             professional misconduct.
                         </p>
-
-                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
-                            <span>Fairness</span>
-                            <span>Confidentiality</span>
-                            <span>Investigation</span>
-                            <span>Impartiality</span>
-                            <span>Accountability</span>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -223,14 +215,14 @@ export default function HandlingAllegedViolationsPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             {/* INTRODUCTION */}
                             <section
                                 id="complaints-process"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
                                 <div className="flex items-start gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
@@ -241,17 +233,14 @@ export default function HandlingAllegedViolationsPage() {
                                     </div>
 
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Complaints Procedure
-                                        </p>
 
-                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                        <h2 className="text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-3xl">
                                             Handling Alleged Violations
                                         </h2>
                                     </div>
                                 </div>
 
-                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                <blockquote className="mt-3 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3 text-base font-bold leading-8 text-slate-800 sm:text-lg">
                                     Any person, member or
                                     non-member, may file a complaint
                                     of misconduct against an AHPK
@@ -264,16 +253,13 @@ export default function HandlingAllegedViolationsPage() {
                             </section>
 
                             {/* PROCESS STEPS */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Complaints Process
-                                </p>
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     From filing to final determination
                                 </h2>
 
-                                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
+                                <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
                                     The disciplinary process
                                     progresses through complaint
                                     filing, confidential inquiry,
@@ -281,56 +267,26 @@ export default function HandlingAllegedViolationsPage() {
                                     arbitration and final decision.
                                 </p>
 
-                                <div className="mt-5 border-t border-slate-300">
-                                    {processSteps.map(
-                                        (step, index) => (
-                                            <article
-                                                key={step.title}
-                                                id={`step-${index + 1}`}
-                                                className="group grid scroll-mt-28 gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start"
-                                            >
-                                                <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
-                                                    {String(
-                                                        index + 1,
-                                                    ).padStart(
-                                                        2,
-                                                        "0",
-                                                    )}
-                                                </p>
-
-                                                <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
-                                                    <CheckCircle2 className="h-4 w-4" />
-                                                </div>
-
-                                                <div>
-                                                    <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
-                                                        {step.title}
-                                                    </h3>
-
-                                                    <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
-                                                        {step.description}
-                                                    </p>
-                                                </div>
-                                            </article>
-                                        ),
-                                    )}
-                                </div>
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
+                                    {processSteps.map((step, index) => (
+                                        <li key={step.title} id={`step-${index + 1}`} className="scroll-mt-28 py-1.5 text-sm leading-7 text-slate-700 sm:text-base">
+                                            <span className="font-black text-slate-950">{step.title}:</span>{" "}{step.description}
+                                        </li>
+                                    ))}
+                                </ul>
                             </section>
 
                             {/* EXECUTIVE ACTIONS */}
                             <section
                                 id="executive-actions"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Executive Committee Options
-                                </p>
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Actions Following Review
                                 </h2>
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     {executiveActions.map(
                                         (action, index) => (
                                             <ListItem
@@ -345,23 +301,20 @@ export default function HandlingAllegedViolationsPage() {
                                             />
                                         ),
                                     )}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* POSSIBLE DECISIONS */}
                             <section
                                 id="possible-decisions"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Possible Outcomes
-                                </p>
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Committee Decisions
                                 </h2>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     {possibleDecisions.map(
                                         (decision, index) => (
                                             <DecisionItem
@@ -376,23 +329,20 @@ export default function HandlingAllegedViolationsPage() {
                                             />
                                         ),
                                     )}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* EXIT REQUIREMENTS */}
                             <section
                                 id="membership-exit"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Membership Withdrawal or Removal
-                                </p>
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Requirements After Leaving AHPK
                                 </h2>
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     {exitRequirements.map(
                                         (requirement, index) => (
                                             <ListItem
@@ -407,20 +357,17 @@ export default function HandlingAllegedViolationsPage() {
                                             />
                                         ),
                                     )}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* GOVERNING PRINCIPLES */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Governing Principles
-                                </p>
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Safeguards within the process
                                 </h2>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     <PrincipleItem
                                         number="01"
                                         title="Confidentiality"
@@ -444,40 +391,16 @@ export default function HandlingAllegedViolationsPage() {
                                         title="Proportionate Action"
                                         description="Outcomes may range from dismissal to censure, suspension or expulsion depending on the findings."
                                     />
-                                </div>
+                                </ul>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Continue Reading
-                                </p>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/professional-relationships"
-                                        eyebrow="Previous Section"
-                                        title="Professional Relationships"
-                                        direction="left"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/code-of-ethics-conducts-pledge"
-                                        eyebrow="Next Section"
-                                        title="Code of Ethics & Conducts Pledge"
-                                        direction="right"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* EDITORIAL SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
                             <section className="border-t-4 border-[#C8102E]">
                                 <div className="border-b border-slate-300 py-3">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        On This Page
-                                    </p>
 
                                     <h2 className="mt-1.5 text-xl font-black text-slate-950">
                                         Complaint Process
@@ -565,73 +488,19 @@ export default function HandlingAllegedViolationsPage() {
     );
 }
 
-function ListItem({
-    number,
-    text,
-}: {
-    number: string;
-    text: string;
-}) {
-    return (
-        <article className="group grid gap-4 border-b border-slate-300 py-5 sm:grid-cols-[56px_minmax(0,1fr)] sm:items-start">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <p className="text-[16px] font-medium leading-8 text-slate-700">
-                {text}
-            </p>
-        </article>
-    );
+function ListItem({ text }: { number: string; text: string }) {
+    return <li className="py-1.5 text-sm leading-7 text-slate-700 sm:text-base">{text}</li>;
 }
 
-function DecisionItem({
-    number,
-    text,
-}: {
-    number: string;
-    text: string;
-}) {
-    return (
-        <article className="group flex min-h-28 gap-4 border-b border-slate-300 py-5 transition hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <div>
-                <CheckCircle2 className="h-5 w-5 text-[#C8102E]" />
-
-                <p className="mt-2 text-sm font-bold leading-7 text-slate-700">
-                    {text}
-                </p>
-            </div>
-        </article>
-    );
+function DecisionItem({ text }: { number: string; text: string }) {
+    return <li className="py-1.5 text-sm leading-7 text-slate-700 sm:text-base">{text}</li>;
 }
 
-function PrincipleItem({
-    number,
-    title,
-    description,
-}: {
-    number: string;
-    title: string;
-    description: string;
-}) {
+function PrincipleItem({ title, description }: { number: string; title: string; description: string }) {
     return (
-        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                {title}
-            </h3>
-
-            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                {description}
-            </p>
-        </article>
+        <li className="py-1.5 text-sm leading-7 text-slate-700 sm:text-base">
+            <strong className="font-black text-slate-950">{title}:</strong>{" "}{description}
+        </li>
     );
 }
 
@@ -682,7 +551,7 @@ function RelatedPageLink({
     return (
         <Link
             href={href}
-            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+            className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-2.5 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
         >
             {direction === "left" ? (
                 <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
@@ -699,7 +568,7 @@ function RelatedPageLink({
                     {eyebrow}
                 </p>
 
-                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                <h3 className="text-base font-black text-slate-950 transition group-hover:text-[#C8102E]">
                     {title}
                 </h3>
             </div>

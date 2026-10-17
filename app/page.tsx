@@ -107,7 +107,7 @@ export default async function Home() {
       icon: FileText,
     },
     {
-      title: "Member Directory",
+      title: "Member Search",
       href: "/directory",
       icon: Users,
     },

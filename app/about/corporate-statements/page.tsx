@@ -246,22 +246,7 @@ export default function CorporateStatementsPage() {
                             Kenya.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
-                            <Link
-                                href="#vision-mission"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
-                            >
-                                Read Our Vision
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
 
-                            <Link
-                                href="/about/who-we-are"
-                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                            >
-                                Who We Are
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -288,22 +273,18 @@ export default function CorporateStatementsPage() {
             </section>
 
             {/* ARTICLE BODY */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             {/* OVERVIEW */}
-                            <section className="border-t-4 border-[#C8102E] pb-8 pt-4">
-                                <SectionLabel>
-                                    Strategic Direction
-                                </SectionLabel>
-
+                            <section className="border-t-4 border-[#C8102E] pb-5 pt-3">
                                 <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
                                     The principles that guide our
                                     professional community
                                 </h2>
 
-                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700 sm:text-lg sm:leading-9">
+                                <div className="mt-3 space-y-2.5 text-base leading-7 text-slate-700">
                                     <p>
                                         AHPK&apos;s corporate
                                         statements define the
@@ -337,40 +318,32 @@ export default function CorporateStatementsPage() {
                             {/* VISION AND MISSION */}
                             <section
                                 id="vision-mission"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <div className="flex items-start gap-3">
-                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <Eye
                                             className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Our Direction
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            Vision and Mission
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                                        Vision and Mission
+                                    </h2>
                                 </div>
 
-                                <p className="mt-4 text-[17px] leading-8 text-slate-700">
+                                <p className="mt-2 text-base leading-7 text-slate-700">
                                     These statements define what AHPK
                                     seeks to become and how the
                                     Association serves the hospitality
                                     profession.
                                 </p>
 
-                                <div className="mt-5 border-y border-slate-300">
+                                <div className="mt-3 border-y border-slate-300">
                                     <StatementArticle
                                         icon={Eye}
-                                        number="01"
-                                        label="Vision Statement"
-                                        title="A centre of modern hotel professional excellence"
+                                        title="Vision"
                                     >
                                         To be a forum and centre of
                                         modern hotel professional
@@ -383,9 +356,7 @@ export default function CorporateStatementsPage() {
 
                                     <StatementArticle
                                         icon={Target}
-                                        number="02"
-                                        label="Mission Statement"
-                                        title="Harnessing professional knowledge for future generations"
+                                        title="Mission"
                                     >
                                         To promote, nurture and harness
                                         the immense expertise and
@@ -402,69 +373,56 @@ export default function CorporateStatementsPage() {
                             {/* CORE VALUES */}
                             <section
                                 id="core-values"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <div className="flex items-start gap-3">
-                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#C8102E] text-white">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#C8102E] text-white">
                                         <ShieldCheck
                                             className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Core Values
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            Principles guiding our
-                                            professional community
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                                        Core Values
+                                    </h2>
                                 </div>
 
-                                <p className="mt-4 text-[17px] leading-8 text-slate-700">
+                                <p className="mt-2 text-base leading-7 text-slate-700">
                                     AHPK&apos;s work, leadership and
                                     service to members are grounded in
                                     these professional values.
                                 </p>
 
-                                <div className="mt-5 border-y border-slate-300">
+                                <ul className="mt-3 list-disc space-y-1.5 pl-5 marker:text-[#C8102E]">
                                     {coreValues.map((value) => (
                                         <CoreValueArticle
                                             key={value.letter}
                                             value={value}
                                         />
                                     ))}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* GOALS AND OBJECTIVES */}
                             <section
                                 id="goals-objectives"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <div className="flex items-start gap-3">
-                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <Flag
                                             className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Strategic Mandate
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            Goals and Objectives
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                                        Goals and Objectives
+                                    </h2>
                                 </div>
 
-                                <p className="mt-4 text-[17px] leading-8 text-slate-700">
+                                <p className="mt-2 text-base leading-7 text-slate-700">
                                     AHPK works to empower hospitality
                                     professionals, improve industry
                                     standards, encourage research and
@@ -472,45 +430,32 @@ export default function CorporateStatementsPage() {
                                     representation.
                                 </p>
 
-                                <div className="mt-5 border-y border-slate-300">
-                                    {goalsAndObjectives.map(
-                                        (objective, index) => (
-                                            <ObjectiveArticle
-                                                key={objective}
-                                                number={index + 1}
-                                                text={objective}
-                                            />
-                                        ),
-                                    )}
-                                </div>
+                                <ul className="mt-3 divide-y divide-slate-200 border-y border-slate-300">
+                                    {goalsAndObjectives.map((objective) => (
+                                        <ObjectiveArticle key={objective} text={objective} />
+                                    ))}
+                                </ul>
                             </section>
 
                             {/* INSTITUTIONAL CHARACTER */}
                             <section
                                 id="institutional-character"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <div className="flex items-start gap-3">
-                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#C8102E] text-white">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#C8102E] text-white">
                                         <Scale
                                             className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Institutional Character
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            A professional, responsible
-                                            and inclusive association
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                                        Institutional Character
+                                    </h2>
                                 </div>
 
-                                <div className="mt-5 grid border-y border-slate-300 md:grid-cols-3">
+                                <div className="mt-3 grid border-y border-slate-300 md:grid-cols-3">
                                     <InstitutionalPrinciple
                                         icon={Scale}
                                         title="Non-political"
@@ -531,38 +476,7 @@ export default function CorporateStatementsPage() {
                                 </div>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-8">
-                                <SectionLabel>
-                                    Continue Reading
-                                </SectionLabel>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/about/who-we-are"
-                                        eyebrow="About the Association"
-                                        title="Who We Are"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/about/executive-summary"
-                                        eyebrow="Our Background"
-                                        title="Executive Summary"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/about/executive-committee"
-                                        eyebrow="Our Leadership"
-                                        title="Executive Committee"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/constitution-rules/membership"
-                                        eyebrow="Become a Member"
-                                        title="Membership"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* SIDEBAR */}
@@ -627,32 +541,7 @@ export default function CorporateStatementsPage() {
                                 </div>
                             </section>
 
-                            <section className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
-                                    Professional Membership
-                                </p>
 
-                                <h2 className="mt-2 text-xl font-black">
-                                    Join a values-led professional
-                                    community
-                                </h2>
-
-                                <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
-                                    Become part of a hospitality
-                                    association committed to
-                                    professional standards, ethical
-                                    leadership and continuous
-                                    development.
-                                </p>
-
-                                <Link
-                                    href="/apply"
-                                    className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-black text-white transition hover:bg-red-700"
-                                >
-                                    Apply for Membership
-                                    <ArrowRight className="h-4 w-4" />
-                                </Link>
-                            </section>
                         </aside>
                     </div>
                 </div>
@@ -665,97 +554,43 @@ export default function CorporateStatementsPage() {
 
 function StatementArticle({
     icon: Icon,
-    number,
-    label,
     title,
     children,
 }: {
     icon: LucideIcon;
-    number: string;
-    label: string;
     title: string;
     children: ReactNode;
 }) {
     return (
-        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[54px_48px_minmax(0,1fr)]">
-            <p className="text-3xl font-black leading-none text-slate-300">
-                {number}
-            </p>
-
-            <div className="flex h-11 w-11 items-center justify-center bg-slate-950 text-white">
-                <Icon
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                />
+        <article className="flex gap-3 border-b border-slate-200 py-3 last:border-b-0">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-slate-950 text-white">
+                <Icon className="h-4 w-4" aria-hidden="true" />
             </div>
-
-            <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                    {label}
-                </p>
-
-                <h3 className="mt-2 text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
-                    {title}
-                </h3>
-
-                <p className="mt-3 text-[17px] leading-8 text-slate-700 sm:text-lg sm:leading-9">
-                    {children}
-                </p>
+            <div className="min-w-0">
+                <h3 className="text-lg font-black text-slate-950">{title}</h3>
+                <p className="mt-1 text-base leading-7 text-slate-700">{children}</p>
             </div>
         </article>
     );
 }
 
-function CoreValueArticle({
-    value,
-}: {
-    value: CoreValue;
-}) {
-    const Icon = value.icon;
-
+function CoreValueArticle({ value }: { value: CoreValue }) {
     return (
-        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[54px_48px_minmax(0,1fr)]">
-            <p className="text-3xl font-black leading-none text-slate-300">
-                {value.letter}
-            </p>
-
-            <div className="flex h-11 w-11 items-center justify-center bg-[#C8102E] text-white">
-                <Icon
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                />
-            </div>
-
-            <div>
-                <h3 className="text-xl font-black text-slate-950 sm:text-2xl">
-                    {value.title}
-                </h3>
-
-                <p className="mt-2 text-sm font-medium leading-7 text-slate-600 sm:text-base sm:leading-8">
-                    {value.description}
-                </p>
-            </div>
-        </article>
+        <li className="py-1 text-sm leading-6 text-slate-700 sm:text-base sm:leading-7">
+            <span className="font-black text-slate-950">
+                {value.title}:
+            </span>{" "}
+            <span>{value.description}</span>
+        </li>
     );
 }
 
-function ObjectiveArticle({
-    number,
-    text,
-}: {
-    number: number;
-    text: string;
-}) {
+function ObjectiveArticle({ text }: { text: string }) {
     return (
-        <article className="grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_minmax(0,1fr)]">
-            <p className="text-3xl font-black leading-none text-slate-300">
-                {String(number).padStart(2, "0")}
-            </p>
-
-            <p className="text-[16px] font-medium leading-7 text-slate-700 sm:text-[17px] sm:leading-8">
-                {text}
-            </p>
-        </article>
+        <li className="flex gap-3 py-2.5">
+            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#C8102E]" aria-hidden="true" />
+            <p className="text-sm leading-6 text-slate-700 sm:text-base sm:leading-7">{text}</p>
+        </li>
     );
 }
 
@@ -789,7 +624,7 @@ function InstitutionalPrinciple({
     description: string;
 }) {
     return (
-        <article className="border-b border-slate-300 py-5 last:border-b-0 md:border-b-0 md:border-r md:px-5 md:first:pl-0 md:last:border-r-0">
+        <article className="border-b border-slate-300 py-3 last:border-b-0 md:border-b-0 md:border-r md:px-3 md:first:pl-0 md:last:border-r-0">
             <div className="flex h-10 w-10 items-center justify-center bg-slate-950 text-white">
                 <Icon
                     className="h-5 w-5"
@@ -797,11 +632,11 @@ function InstitutionalPrinciple({
                 />
             </div>
 
-            <h3 className="mt-3 text-xl font-black text-slate-950">
+            <h3 className="mt-2 text-lg font-black text-slate-950">
                 {title}
             </h3>
 
-            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+            <p className="mt-1 text-sm font-medium leading-6 text-slate-600">
                 {description}
             </p>
         </article>
@@ -810,7 +645,6 @@ function InstitutionalPrinciple({
 
 function RelatedPageLink({
     href,
-    eyebrow,
     title,
 }: {
     href: string;
@@ -820,19 +654,16 @@ function RelatedPageLink({
     return (
         <Link
             href={href}
-            className="group flex min-h-24 flex-col justify-between border-b border-slate-300 py-4 last:border-b-0 sm:border-r sm:px-5 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0 sm:first:pl-0"
+            className="group flex min-h-16 flex-col justify-between border-b border-slate-300 py-2.5 last:border-b-0 sm:border-r sm:px-5 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0 sm:first:pl-0"
         >
             <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.17em] text-[#C8102E]">
-                    {eyebrow}
-                </p>
 
-                <h3 className="mt-2 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                <h3 className="text-base font-black text-slate-950 transition group-hover:text-[#C8102E]">
                     {title}
                 </h3>
             </div>
 
-            <ArrowRight className="mt-3 h-5 w-5 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C8102E]" />
+            <ArrowRight className="mt-1 h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-[#C8102E]" />
         </Link>
     );
 }

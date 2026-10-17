@@ -165,14 +165,14 @@ function NewsHero({
       {/* News masthead */}
       <section className="border-b border-slate-300 bg-white">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="flex min-h-[86px] items-end justify-between gap-6 pb-4 pt-5">
+          <div className="flex items-end justify-between gap-5 pb-3 pt-4">
             <div>
               <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
                 Association of Hotel Professionals Kenya
               </p>
 
-              <h1 className="mt-1 text-4xl font-black tracking-[-0.035em] text-slate-950 sm:text-5xl">
-                AHPK News
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
+                AHPK <span className="text-[#C8102E]">News</span>
               </h1>
             </div>
 
@@ -205,8 +205,8 @@ function NewsHero({
                   }
                   className={
                     isActive
-                      ? "border-b-4 border-[#C8102E] px-4 py-4 text-sm font-black text-slate-950"
-                      : "border-b-4 border-transparent px-4 py-4 text-sm font-bold text-slate-600 transition hover:border-slate-300 hover:text-[#C8102E]"
+                      ? "border-b-2 border-[#C8102E] px-4 py-3 text-sm font-black text-slate-950"
+                      : "border-b-2 border-transparent px-4 py-3 text-sm font-bold text-slate-600 transition hover:border-slate-300 hover:text-[#C8102E]"
                   }
                 >
                   {filter.label}
@@ -232,15 +232,15 @@ function NewsContent({
   remainingPosts: NewsPost[];
 }) {
   return (
-    <section className="bg-white py-8 sm:py-10">
+    <section className="bg-white py-5 sm:py-6">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         {posts.length === 0 ? (
           <EmptyNews />
         ) : (
           <>
             {/* Top newsroom stories */}
-            <section className="border-b border-slate-300 pb-10">
-              <div className="mb-5 flex items-center justify-between border-b border-slate-300 pb-3">
+            <section className="border-b border-slate-300 pb-6">
+              <div className="mb-4 flex items-center justify-between border-b border-slate-300 pb-2">
                 <h2 className="border-l-4 border-[#C8102E] pl-3 text-2xl font-black tracking-tight text-slate-950">
                   Top Stories
                 </h2>
@@ -250,7 +250,7 @@ function NewsContent({
                 </span>
               </div>
 
-              <div className="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.8fr)]">
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]">
                 {featuredPost ? (
                   <LeadStory post={featuredPost} />
                 ) : null}
@@ -261,13 +261,9 @@ function NewsContent({
 
             {/* Latest news */}
             {remainingPosts.length > 0 ? (
-              <section className="pt-10">
+              <section className="pt-6">
                 <div className="mb-7 flex items-end justify-between gap-6 border-b border-slate-300 pb-4">
                   <div>
-                    <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                      AHPK Newsroom
-                    </p>
-
                     <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">
                       Latest News
                     </h2>
@@ -279,7 +275,7 @@ function NewsContent({
                   </p>
                 </div>
 
-                <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
                   {remainingPosts.map((post) => (
                     <EditorialNewsCard
                       key={post.id}
@@ -340,16 +336,16 @@ function LeadStory({
             </time>
           </div>
 
-          <h2 className="mt-4 max-w-4xl text-3xl font-black leading-[1.08] tracking-[-0.025em] text-slate-950 transition group-hover:text-[#C8102E] sm:text-4xl lg:text-[2.8rem]">
+          <h2 className="mt-3 max-w-4xl text-2xl font-black leading-[1.08] tracking-[-0.025em] text-slate-950 transition group-hover:text-[#C8102E] sm:text-3xl lg:text-4xl">
             {post.title}
           </h2>
 
-          <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-slate-600">
+          <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-slate-600">
             {post.excerpt ||
               excerpt(post.content, 230)}
           </p>
 
-          <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
+          <span className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
             Read full story
 
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -368,17 +364,13 @@ function LatestHeadlines({
   return (
     <aside className="border-t-4 border-[#C8102E]">
       <div className="border-b border-slate-300 py-4">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#C8102E]">
-          Latest Updates
-        </p>
-
         <h2 className="mt-1 text-2xl font-black text-slate-950">
           News Briefing
         </h2>
       </div>
 
       <div className="divide-y divide-slate-300">
-        {posts.map((post, index) => {
+        {posts.map((post) => {
           const publishedDate =
             post.publishedAt ||
             post.createdAt;
@@ -387,14 +379,9 @@ function LatestHeadlines({
             <Link
               key={post.id}
               href={`/news/${post.slug}`}
-              className="group grid grid-cols-[34px_minmax(0,1fr)] gap-3 py-5"
+              className="group block border-b border-slate-100 py-3"
             >
-              <span className="pt-0.5 text-lg font-black text-slate-300">
-                {String(index + 1).padStart(
-                  2,
-                  "0",
-                )}
-              </span>
+
 
               <div className="min-w-0">
                 <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#C8102E]">
@@ -435,7 +422,7 @@ function EditorialNewsCard({
     post.publishedAt || post.createdAt;
 
   return (
-    <article className="group border-t-4 border-transparent pt-3 transition hover:border-[#C8102E]">
+    <article className="group border-t-2 border-transparent pt-2 transition hover:border-[#C8102E]">
       <Link
         href={`/news/${post.slug}`}
         className="block"
@@ -454,7 +441,7 @@ function EditorialNewsCard({
           )}
         </div>
 
-        <div className="pt-4">
+        <div className="pt-3">
           <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#C8102E]">
             {formatCategory(post.category)}
           </p>
@@ -463,7 +450,7 @@ function EditorialNewsCard({
             {post.title}
           </h2>
 
-          <p className="mt-3 line-clamp-3 text-sm font-medium leading-6 text-slate-600">
+          <p className="mt-2 line-clamp-3 text-sm font-medium leading-6 text-slate-600">
             {post.excerpt ||
               excerpt(post.content, 145)}
           </p>
@@ -484,13 +471,9 @@ function EditorialNewsCard({
 
 function NewsroomNotice() {
   return (
-    <section className="mt-14 border-t-4 border-[#C8102E] bg-slate-950 px-6 py-8 text-white sm:px-8">
+    <section className="mt-8 border-t-4 border-[#C8102E] bg-slate-950 px-5 py-5 text-white sm:px-6">
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
         <div className="max-w-3xl">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
-            Official communication
-          </p>
-
           <h2 className="mt-2 text-2xl font-black">
             AHPK Notices and Announcements
           </h2>
@@ -534,7 +517,7 @@ function NewsImagePlaceholder({
   }>;
 }) {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-[#8f0d16] text-white">
+    <div className="flex h-full w-full items-center justify-center bg-slate-950 text-white">
       <Icon className="h-12 w-12" />
     </div>
   );
@@ -542,7 +525,7 @@ function NewsImagePlaceholder({
 
 function EmptyNews() {
   return (
-    <div className="rounded-[28px] border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center sm:px-10">
+    <div className="border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center sm:px-10">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-[#C8102E]">
         <Newspaper className="h-8 w-8" />
       </div>

@@ -163,23 +163,7 @@ export default function ExecutiveSummaryPage() {
                             Kenya.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
-                            <Link
-                                href="/about/who-we-are"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
-                            >
-                                Who We Are
 
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/members-section/constitution-rules/membership"
-                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                            >
-                                Explore Membership
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -216,7 +200,7 @@ export default function ExecutiveSummaryPage() {
                                 id="executive-summary"
                                 className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
                             >
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-center gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <FileText
                                             className="h-5 w-5"
@@ -224,15 +208,9 @@ export default function ExecutiveSummaryPage() {
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Official Overview
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                                            Executive Summary
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                                        Executive Summary
+                                    </h2>
                                 </div>
 
                                 <p className="mt-4 border-l-4 border-slate-300 pl-4 text-lg font-bold leading-8 text-slate-800 sm:text-xl sm:leading-9">
@@ -250,7 +228,6 @@ export default function ExecutiveSummaryPage() {
                             <SummarySection
                                 id="formation"
                                 number="01"
-                                eyebrow="The Beginning"
                                 title="Formation of the Association"
                             >
                                 <p>
@@ -290,7 +267,6 @@ export default function ExecutiveSummaryPage() {
                             <SummarySection
                                 id="industry-context"
                                 number="02"
-                                eyebrow="Industry Background"
                                 title="Why Professional Representation Was Needed"
                             >
                                 <p>
@@ -365,7 +341,6 @@ export default function ExecutiveSummaryPage() {
                             <SummarySection
                                 id="professional-mandate"
                                 number="03"
-                                eyebrow="Purpose"
                                 title="The Association’s Professional Mandate"
                             >
                                 <p>
@@ -406,7 +381,6 @@ export default function ExecutiveSummaryPage() {
                             <SummarySection
                                 id="registration-process"
                                 number="04"
-                                eyebrow="Official Process"
                                 title="The Registration Journey"
                             >
                                 <p>
@@ -487,7 +461,6 @@ export default function ExecutiveSummaryPage() {
                             <SummarySection
                                 id="association-name"
                                 number="05"
-                                eyebrow="Final Identity"
                                 title="Adoption of the AHPK Name"
                             >
                                 <p>
@@ -547,45 +520,10 @@ export default function ExecutiveSummaryPage() {
                                     purposes.
                                 </p>
 
-                                <div className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C8102E]">
-                                        Final registered identity
-                                    </p>
 
-                                    <p className="mt-2 text-2xl font-black leading-tight text-slate-950">
-                                        Association of Hotel
-                                        Professionals Kenya
-                                    </p>
-
-                                    <p className="mt-1.5 text-sm font-bold text-slate-500">
-                                        Commonly abbreviated as AHPK
-                                    </p>
-                                </div>
                             </SummarySection>
 
-                            {/* NEXT PAGE */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Continue reading
-                                </p>
 
-                                <Link
-                                    href="/about/who-we-are"
-                                    className="group mt-3 flex items-center justify-between gap-5 border-y border-slate-300 py-4"
-                                >
-                                    <div>
-                                        <p className="text-sm font-bold text-slate-500">
-                                            About the Association
-                                        </p>
-
-                                        <p className="mt-1 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                                            Learn more about who we are
-                                        </p>
-                                    </div>
-
-                                    <ArrowRight className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:translate-x-1" />
-                                </Link>
-                            </section>
                         </article>
 
                         {/* STICKY SIDEBAR */}
@@ -673,50 +611,7 @@ export default function ExecutiveSummaryPage() {
                 </div>
             </section>
 
-            {/* FINAL CTA */}
-            <section className="border-t border-slate-300 bg-slate-950 py-8 text-white sm:py-10">
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-                        <div className="max-w-4xl">
-                            <p className="text-xs font-black uppercase tracking-[0.22em] text-red-300">
-                                Be part of AHPK
-                            </p>
 
-                            <h2 className="mt-2 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
-                                Help strengthen the professional
-                                future of Kenya&apos;s hospitality
-                                industry.
-                            </h2>
-
-                            <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-slate-300">
-                                Join a recognised professional
-                                association committed to
-                                representation, development,
-                                ethical practice and industry
-                                collaboration.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                            <Link
-                                href="/apply"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
-                            >
-                                Apply for Membership
-
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/about/who-we-are"
-                                className="inline-flex min-h-11 items-center justify-center border border-white/40 px-6 text-sm font-black text-white transition hover:bg-white hover:text-slate-950"
-                            >
-                                Who We Are
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <PublicFooter />
         </main>
@@ -726,13 +621,11 @@ export default function ExecutiveSummaryPage() {
 function SummarySection({
     id,
     number,
-    eyebrow,
     title,
     children,
 }: {
     id: string;
     number: string;
-    eyebrow: string;
     title: string;
     children: ReactNode;
 }) {
@@ -746,33 +639,15 @@ function SummarySection({
                     {number}
                 </p>
 
-                <div>
-                    <SectionLabel>
-                        {eyebrow}
-                    </SectionLabel>
-
-                    <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                        {title}
-                    </h2>
-                </div>
+                <h2 className="text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                    {title}
+                </h2>
             </div>
 
             <div className="mt-4 space-y-4 text-[17px] font-normal leading-8 text-slate-700 sm:text-lg sm:leading-9">
                 {children}
             </div>
         </section>
-    );
-}
-
-function SectionLabel({
-    children,
-}: {
-    children: ReactNode;
-}) {
-    return (
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-            {children}
-        </p>
     );
 }
 

@@ -6,10 +6,8 @@ import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd";
 export const metadata: Metadata = {
     title: "Apply for Membership",
     description:
-        "Apply online for AHPK membership and join the Association of Hotel Professionals Kenya through the digital membership application portal.",
-    alternates: {
-        canonical: "/apply",
-    },
+        "Review AHPK membership requirements, prepare your documents, and apply online to the Association of Hotel Professionals Kenya.",
+    alternates: { canonical: "/apply" },
 };
 
 export default async function ApplyPage() {
@@ -20,13 +18,10 @@ export default async function ApplyPage() {
 
     return (
         <>
-            <BreadcrumbJsonLd
-                items={[
-                    { name: "Home", url: "/" },
-                    { name: "Apply for Membership", url: "/apply" },
-                ]}
-            />
-
+            <BreadcrumbJsonLd items={[
+                { name: "Home", url: "/" },
+                { name: "Apply for Membership", url: "/apply" },
+            ]} />
             <ApplyClient categories={categories} />
         </>
     );

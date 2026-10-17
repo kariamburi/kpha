@@ -9,13 +9,10 @@ import {
     ArrowLeft,
     ArrowRight,
     Award,
-    BadgeCheck,
     BookOpenCheck,
     BriefcaseBusiness,
     Building2,
-    CheckCircle2,
     ChevronRight,
-    CircleDot,
     Compass,
     FileText,
     GraduationCap,
@@ -318,23 +315,7 @@ export default function MembershipCriterionLevelsPage() {
                             available to members.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
-                            <Link
-                                href="/members-section/membership-categories"
-                                className="group inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#A80D27] hover:shadow-lg"
-                            >
-                                Explore Membership Categories
 
-                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </Link>
-
-                            <Link
-                                href="/apply"
-                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition duration-200 hover:-translate-y-0.5 hover:border-[#C8102E] hover:text-[#C8102E]"
-                            >
-                                Apply for Membership
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -361,22 +342,20 @@ export default function MembershipCriterionLevelsPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             {/* ABOUT MEMBERSHIP */}
                             <section
                                 id="about-membership"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
-                                <SectionLabel>About Membership</SectionLabel>
-
-                                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                                    Membership designed for hospitality professionals
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+                                    About Membership
                                 </h2>
 
-                                <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
+                                <div className="mt-3 space-y-2 text-base leading-7 text-slate-700">
                                     <p>
                                         AHPK understands that running a hotel involves
                                         far more than providing guests with a comfortable
@@ -395,7 +374,7 @@ export default function MembershipCriterionLevelsPage() {
                                     </p>
                                 </div>
 
-                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                <blockquote className="mt-3 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
                                     As an AHPK member, you become part of an
                                     industry and communications powerhouse, with
                                     access to the people, institutions and resources
@@ -406,7 +385,7 @@ export default function MembershipCriterionLevelsPage() {
                             {/* WHY JOIN */}
                             <section
                                 id="why-join"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <SectionHeading
                                     eyebrow="Membership Value"
@@ -415,7 +394,7 @@ export default function MembershipCriterionLevelsPage() {
                                     icon={Compass}
                                 />
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     {membershipReasons.map((item, index) => (
                                         <EditorialRow
                                             key={item.title}
@@ -425,13 +404,13 @@ export default function MembershipCriterionLevelsPage() {
                                             icon={item.icon}
                                         />
                                     ))}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* WHO CAN JOIN */}
                             <section
                                 id="who-can-join"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <SectionHeading
                                     eyebrow="Professional Community"
@@ -440,31 +419,22 @@ export default function MembershipCriterionLevelsPage() {
                                     icon={Users}
                                 />
 
-                                <p className="mt-4 text-[17px] leading-8 text-slate-700">
+                                <p className="mt-2 text-base leading-7 text-slate-700">
                                     Members may work in, manage or consult for
                                     organisations operating in the following sectors:
                                 </p>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2 lg:grid-cols-3">
+                                <ul className="mt-3 grid list-disc gap-x-6 gap-y-1 pl-5 marker:text-[#C8102E] sm:grid-cols-2">
                                     {memberSectors.map((sector) => (
-                                        <div
-                                            key={sector}
-                                            className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-3 transition duration-200 hover:bg-red-50/60 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
-                                        >
-                                            <CircleDot className="h-4 w-4 shrink-0 text-[#C8102E] transition-transform duration-200 group-hover:scale-125" />
-
-                                            <span className="text-sm font-bold leading-6 text-slate-700 transition group-hover:text-[#C8102E]">
-                                                {sector}
-                                            </span>
-                                        </div>
+                                        <li key={sector} className="py-0.5 text-sm leading-6 text-slate-700">{sector}</li>
                                     ))}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* AFFILIATE MEMBERSHIP */}
                             <section
                                 id="affiliate-membership"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <SectionHeading
                                     eyebrow="Affiliate and Institutional Membership"
@@ -473,7 +443,7 @@ export default function MembershipCriterionLevelsPage() {
                                     icon={Handshake}
                                 />
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
                                     {affiliateMembers.map((item, index) => (
                                         <EditorialRow
                                             key={item.title}
@@ -483,24 +453,29 @@ export default function MembershipCriterionLevelsPage() {
                                             icon={item.icon}
                                         />
                                     ))}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* PROFESSIONAL RECOGNITION */}
                             <section
                                 id="professional-recognition"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <div className="border-t-4 border-[#C8102E] bg-slate-50 p-5 sm:p-6">
-                                    <Award className="h-7 w-7 text-[#C8102E]" />
 
-                                    <SectionLabel>Professional Status</SectionLabel>
+                                    <div className="flex items-center gap-3">
+                                        <Award
+                                            className="h-7 w-7 shrink-0 text-[#C8102E]"
+                                            aria-hidden="true"
+                                        />
 
-                                    <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
-                                        Professional Recognition
-                                    </h2>
+                                        <h2 className="text-2xl font-black tracking-tight text-slate-950">
+                                            Professional Recognition
+                                        </h2>
+                                    </div>
 
-                                    <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
+
+                                    <div className="mt-3 space-y-2 text-base leading-7 text-slate-700">
                                         <p>
                                             AHPK membership gives and bestows
                                             professional status through the issuance of
@@ -516,32 +491,23 @@ export default function MembershipCriterionLevelsPage() {
                                         </p>
                                     </div>
 
-                                    <div className="mt-5 grid border-y border-slate-300 sm:grid-cols-2">
+                                    <ul className="mt-3 grid list-disc gap-x-5 gap-y-1 pl-5 marker:text-[#C8102E] sm:grid-cols-2">
                                         {[
                                             "Recognition by Employers",
                                             "Professional Identity",
                                             "Industry Credibility",
                                             "Stakeholder Confidence",
                                         ].map((item) => (
-                                            <div
-                                                key={item}
-                                                className="group flex items-center gap-3 border-b border-slate-300 py-3 transition hover:bg-white sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0"
-                                            >
-                                                <BadgeCheck className="h-5 w-5 shrink-0 text-[#C8102E] transition-transform group-hover:scale-110" />
-
-                                                <span className="text-sm font-black text-slate-700">
-                                                    {item}
-                                                </span>
-                                            </div>
+                                            <li key={item} className="py-0.5 text-sm leading-6 text-slate-700">{item}</li>
                                         ))}
-                                    </div>
+                                    </ul>
                                 </div>
                             </section>
 
                             {/* BENEFITS */}
                             <section
                                 id="member-benefits"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <SectionHeading
                                     eyebrow="Membership Advantages"
@@ -550,60 +516,25 @@ export default function MembershipCriterionLevelsPage() {
                                     icon={Sparkles}
                                 />
 
-                                <div className="mt-5 divide-y divide-slate-300 border-y border-slate-300">
-                                    {benefitGroups.map((group, groupIndex) => {
-                                        const Icon = group.icon;
-
-                                        return (
-                                            <section
-                                                key={group.title}
-                                                id={group.id}
-                                                className="group scroll-mt-28 py-6"
-                                            >
-                                                <div className="grid gap-4 sm:grid-cols-[52px_minmax(0,1fr)]">
-                                                    <div className="flex h-11 w-11 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:bg-[#C8102E]">
-                                                        <Icon className="h-5 w-5" />
-                                                    </div>
-
-                                                    <div>
-                                                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                                                            Benefit {String(groupIndex + 1).padStart(2, "0")}
-                                                        </p>
-
-                                                        <h3 className="mt-1.5 text-2xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                                                            {group.title}
-                                                        </h3>
-
-                                                        <p className="mt-2 text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                                                            {group.description}
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="mt-4 divide-y divide-slate-200 border-t border-slate-200 sm:ml-[68px]">
-                                                    {group.benefits.map((benefit) => (
-                                                        <div
-                                                            key={benefit}
-                                                            className="flex gap-3 py-3"
-                                                        >
-                                                            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#C8102E]" />
-
-                                                            <p className="text-sm font-medium leading-6 text-slate-700">
-                                                                {benefit}
-                                                            </p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </section>
-                                        );
-                                    })}
+                                <div className="mt-3 space-y-4">
+                                    {benefitGroups.map((group) => (
+                                        <section key={group.title} id={group.id} className="scroll-mt-28">
+                                            <h3 className="text-base font-black text-slate-950">{group.title}</h3>
+                                            <p className="mt-0.5 text-sm leading-6 text-slate-600">{group.description}</p>
+                                            <ul className="mt-1 list-disc space-y-0.5 pl-5 marker:text-[#C8102E]">
+                                                {group.benefits.map((benefit) => (
+                                                    <li key={benefit} className="text-sm leading-6 text-slate-700">{benefit}</li>
+                                                ))}
+                                            </ul>
+                                        </section>
+                                    ))}
                                 </div>
                             </section>
 
                             {/* MEMBERSHIP VALUE */}
                             <section
                                 id="membership-value"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
                                 <SectionHeading
                                     eyebrow="The Value of Belonging"
@@ -612,75 +543,16 @@ export default function MembershipCriterionLevelsPage() {
                                     icon={ShieldCheck}
                                 />
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2 lg:grid-cols-3">
-                                    {membershipValues.map((item) => {
-                                        const Icon = item.icon;
-
-                                        return (
-                                            <div
-                                                key={item.title}
-                                                className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/60 sm:border-r sm:px-5 sm:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
-                                            >
-                                                <Icon className="h-6 w-6 text-[#C8102E] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" />
-
-                                                <h3 className="mt-3 text-base font-black text-slate-900 transition group-hover:text-[#C8102E]">
-                                                    {item.title}
-                                                </h3>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                <ul className="mt-3 grid list-disc gap-x-5 gap-y-1 pl-5 marker:text-[#C8102E] sm:grid-cols-2">
+                                    {membershipValues.map((item) => (
+                                        <li key={item.title} className="py-0.5 text-sm font-semibold leading-6 text-slate-700">{item.title}</li>
+                                    ))}
+                                </ul>
                             </section>
 
-                            {/* CTA */}
-                            <section className="border-t border-slate-300 py-8">
-                                <div className="border-t-4 border-[#C8102E] bg-slate-950 p-5 text-white sm:p-6">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">
-                                        Join the Professional Community
-                                    </p>
 
-                                    <h2 className="mt-2 max-w-2xl text-3xl font-black leading-tight">
-                                        Become part of Kenya&apos;s hospitality community
-                                    </h2>
 
-                                    <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
-                                        Join a growing professional network committed
-                                        to strengthening hospitality leadership,
-                                        advancing careers and shaping the future of
-                                        the industry.
-                                    </p>
 
-                                    <Link
-                                        href="/members-section/membership-categories"
-                                        className="group mt-4 inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-lg"
-                                    >
-                                        Explore Membership Categories
-
-                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                    </Link>
-                                </div>
-                            </section>
-
-                            {/* PREVIOUS / NEXT */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <SectionLabel>Continue Reading</SectionLabel>
-
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/members-section/constitution-rules/the-executive-committee"
-                                        eyebrow="Previous"
-                                        title="The Executive Committee"
-                                        direction="left"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/membership-categories"
-                                        eyebrow="Next"
-                                        title="Membership Categories"
-                                        direction="right"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* SIDEBAR */}
@@ -761,7 +633,6 @@ export default function MembershipCriterionLevelsPage() {
 }
 
 function SectionHeading({
-    eyebrow,
     title,
     description,
     icon: Icon,
@@ -772,31 +643,21 @@ function SectionHeading({
     icon: typeof Users;
 }) {
     return (
-        <div className="flex items-start gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
-                <Icon className="h-5 w-5" />
+        <div>
+            <div className="flex items-center gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-slate-950 text-white">
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <h2 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">{title}</h2>
             </div>
-
-            <div>
-                <SectionLabel>{eyebrow}</SectionLabel>
-
-                <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                    {title}
-                </h2>
-
-                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                    {description}
-                </p>
-            </div>
+            <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">{description}</p>
         </div>
     );
 }
 
 function EditorialRow({
-    number,
     title,
     description,
-    icon: Icon,
 }: {
     number: number;
     title: string;
@@ -804,25 +665,10 @@ function EditorialRow({
     icon: typeof Users;
 }) {
     return (
-        <article className="group grid gap-3 border-b border-slate-300 py-5 last:border-b-0 sm:grid-cols-[58px_48px_minmax(0,1fr)] sm:items-start">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {String(number).padStart(2, "0")}
-            </p>
-
-            <div className="flex h-10 w-10 items-center justify-center bg-[#C8102E] text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:scale-105">
-                <Icon className="h-5 w-5" />
-            </div>
-
-            <div>
-                <h3 className="text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                    {title}
-                </h3>
-
-                <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
-                    {description}
-                </p>
-            </div>
-        </article>
+        <li className="py-1 text-sm leading-7 text-slate-700 sm:text-base">
+            <strong className="font-black text-slate-950">{title}:</strong>{" "}
+            {description}
+        </li>
     );
 }
 
@@ -836,7 +682,7 @@ function SidebarLink({
     return (
         <Link
             href={href}
-            className="group flex items-center justify-between gap-3 py-3 text-sm font-bold text-slate-700 transition hover:translate-x-0.5 hover:text-[#C8102E]"
+            className="group flex items-center justify-between gap-3 py-2 text-sm font-bold text-slate-700 transition hover:translate-x-0.5 hover:text-[#C8102E]"
         >
             {label}
 

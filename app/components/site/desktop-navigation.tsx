@@ -24,14 +24,7 @@ import {
     X,
 } from "lucide-react";
 
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+
 
 import { cn } from "@/lib/utils";
 import type { NavigationItem } from "../public-navigation/navigation-types";
@@ -56,20 +49,7 @@ const publicNavigation: NavigationItem[] = [
                             "Our history, identity and role in Kenya’s hospitality industry.",
                         icon: Building2,
                     },
-                    // {
-                    //    label: "Our Purpose",
-                    //    href: "/about/our-purpose",
-                    //    description:
-                    //        "The mandate and professional purpose of AHPK.",
-                    //    icon: Landmark,
-                    //},
-                    //  {
-                    //    label: "Our Objectives",
-                    //    href: "/about/our-objectives",
-                    //    description:
-                    //       "The goals and responsibilities of the association.",
-                    //   icon: FileCheck,
-                    // },
+
                     {
                         label: "Executive Summary",
                         href: "/about/executive-summary",
@@ -98,20 +78,7 @@ const publicNavigation: NavigationItem[] = [
                             "The governing board of the association.",
                         icon: Users,
                     },
-                    // {
-                    //     label: "Secretariat",
-                    //     href: "/about/leadership/secretariat",
-                    //     description:
-                    //        "The team responsible for daily operations.",
-                    //    icon: Building2,
-                    //},
-                    // {
-                    //    label: "Advisory Board",
-                    //    href: "/about/leadership/advisory-board",
-                    //    description:
-                    //        "Professionals providing strategic advice.",
-                    //    icon: BadgeCheck,
-                    // },
+
                     {
                         label: "Board & Committee Members",
                         href: "/about/board-and-committee-members",
@@ -131,13 +98,7 @@ const publicNavigation: NavigationItem[] = [
                 description:
                     "Membership eligibility, categories, recognition and applications.",
                 links: [
-                    //  {
-                    //     label: "Membership Overview",
-                    //     href: "/membership",
-                    //     description:
-                    //        "Understand AHPK professional membership.",
-                    //    icon: Users,
-                    //},
+
                     {
                         label: "Criteria & Levels",
                         href: "/members-section/membership-criterion-levels",
@@ -181,7 +142,7 @@ const publicNavigation: NavigationItem[] = [
                         icon: BadgeCheck,
                     },
                     {
-                        label: "Member Directory",
+                        label: "Member Search",
                         href: "/directory",
                         description:
                             "Search for verified AHPK members.",
@@ -314,190 +275,139 @@ function isPathActive(pathname: string, href: string): boolean {
 
 function DesktopMenu() {
     const pathname = usePathname();
+    const [openMenu, setOpenMenu] = useState<string | null>(null);
+    const [openGroup, setOpenGroup] = useState<string | null>(null);
+
+    useEffect(() => {
+        setOpenMenu(null);
+        setOpenGroup(null);
+    }, [pathname]);
+
+    function closeDropdowns() {
+        setOpenMenu(null);
+        setOpenGroup(null);
+    }
 
     return (
-        <div className="hidden lg:block">
-            <NavigationMenu>
-                <NavigationMenuList className="gap-0.5">
-                    {publicNavigation.map((item) => {
-                        const groups = item.groups ?? [];
-                        const hasGroups = groups.length > 0;
-
-                        if (!hasGroups && item.href) {
-                            const isActive = isPathActive(
-                                pathname,
-                                item.href,
-                            );
-
-                            return (
-                                <NavigationMenuItem key={item.label}>
-                                    <NavigationMenuLink>
-                                        <Link
-                                            href={item.href}
-                                            aria-current={
-                                                isActive
-                                                    ? "page"
-                                                    : undefined
-                                            }
-                                            className={cn(
-                                                "relative inline-flex h-10 items-center px-3",
-                                                "text-sm font-bold text-slate-700",
-                                                "transition-all duration-200",
-                                                "after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#C8102E]",
-                                                "after:transition-transform after:duration-200",
-                                                "hover:-translate-y-0.5 hover:text-[#C8102E] hover:after:scale-x-100",
-                                                "focus:outline-none focus:text-[#C8102E] focus:after:scale-x-100",
-                                                isActive &&
-                                                "text-[#C8102E] after:scale-x-100",
-                                            )}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
-                            );
-                        }
-
-                        if (!hasGroups) {
-                            return null;
-                        }
-
-                        const dropdownIsActive = groups.some(
-                            (group) =>
-                                group.links.some((link) =>
-                                    isPathActive(
-                                        pathname,
-                                        link.href,
-                                    ),
-                                ),
-                        );
-
+        <nav
+            aria-label="Main navigation"
+            className="hidden lg:block"
+            onMouseLeave={closeDropdowns}
+            onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                    closeDropdowns();
+                }
+            }}
+        >
+            <ul className="flex items-center gap-0.5">
+                {publicNavigation.map((item) => {
+                    const groups = item.groups ?? [];
+                    if (!groups.length) {
+                        if (!item.href) return null;
+                        const active = isPathActive(pathname, item.href);
                         return (
-                            <NavigationMenuItem key={item.label}>
-                                <NavigationMenuTrigger
+                            <li key={item.label}>
+                                <Link
+                                    href={item.href}
+                                    onMouseEnter={closeDropdowns}
+                                    aria-current={active ? "page" : undefined}
                                     className={cn(
-                                        "relative h-10 rounded-none bg-transparent px-3 text-sm font-bold text-slate-700",
-                                        "transition-all duration-200",
-                                        "after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#C8102E]",
-                                        "after:transition-transform after:duration-200",
-                                        "hover:-translate-y-0.5 hover:bg-transparent hover:text-[#C8102E] hover:after:scale-x-100",
-                                        "focus:bg-transparent focus:text-[#C8102E]",
-                                        "data-[state=open]:bg-transparent data-[state=open]:text-[#C8102E] data-[state=open]:after:scale-x-100",
-                                        dropdownIsActive &&
-                                        "text-[#C8102E] after:scale-x-100",
+                                        "inline-flex h-10 items-center whitespace-nowrap px-3 text-sm font-bold transition-colors hover:text-[#C8102E]",
+                                        active ? "text-[#C8102E]" : "text-slate-700",
                                     )}
                                 >
                                     {item.label}
-                                </NavigationMenuTrigger>
+                                </Link>
+                            </li>
+                        );
+                    }
 
-                                <NavigationMenuContent>
-                                    <div
-                                        className={cn(
-                                            "grid max-h-[75vh] gap-0 overflow-y-auto border-t-4 border-[#C8102E] bg-white p-0 shadow-2xl shadow-slate-950/10",
-                                            groups.length >= 4
-                                                ? "w-[min(980px,calc(100vw-3rem))] grid-cols-4"
-                                                : groups.length === 3
-                                                    ? "w-[min(840px,calc(100vw-3rem))] grid-cols-3"
-                                                    : "w-[min(720px,calc(100vw-3rem))] grid-cols-2",
-                                        )}
-                                    >
+                    const expanded = openMenu === item.label;
+                    const active = groups.some((group) =>
+                        group.links.some((link) => isPathActive(pathname, link.href))
+                    );
+                    const selected = groups.find((group) => group.title === openGroup);
+
+                    return (
+                        <li
+                            key={item.label}
+                            className="relative"
+                            onMouseEnter={() => {
+                                setOpenMenu(item.label);
+                                setOpenGroup(null);
+                            }}
+                        >
+                            <button
+                                type="button"
+                                aria-expanded={expanded}
+                                aria-haspopup="true"
+                                onClick={() => {
+                                    setOpenMenu(expanded ? null : item.label);
+                                    setOpenGroup(null);
+                                }}
+                                className={cn(
+                                    "inline-flex h-10 items-center gap-1 whitespace-nowrap px-3 text-sm font-bold transition-colors hover:text-[#C8102E] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C8102E]",
+                                    active || expanded ? "text-[#C8102E]" : "text-slate-700",
+                                )}
+                            >
+                                {item.label}
+                                <ChevronDown className={cn("size-4 transition-transform", expanded && "rotate-180")} />
+                            </button>
+
+                            {expanded && (
+                                <div className="absolute left-0 top-full z-[100] flex items-start pt-0">
+                                    <div className="w-60 border-t-[3px] border-[#C8102E] bg-white py-1.5 shadow-xl ring-1 ring-slate-200">
                                         {groups.map((group) => (
-                                            <section
+                                            <button
                                                 key={group.title}
-                                                className="min-w-0 border-r border-slate-200 p-5 last:border-r-0"
+                                                type="button"
+                                                aria-expanded={selected?.title === group.title}
+                                                onMouseEnter={() => setOpenGroup(group.title)}
+                                                onFocus={() => setOpenGroup(group.title)}
+                                                onClick={() => setOpenGroup(group.title)}
+                                                className={cn(
+                                                    "flex min-h-11 w-full items-center justify-between gap-3 px-4 py-2 text-left text-sm font-semibold transition-colors hover:bg-red-50 hover:text-[#C8102E] focus:bg-red-50 focus:text-[#C8102E] focus:outline-none",
+                                                    selected?.title === group.title ? "bg-red-50 text-[#C8102E]" : "text-slate-800",
+                                                )}
                                             >
-                                                <div className="mb-3 border-b border-slate-200 pb-3">
-                                                    <h3 className="text-xs font-black uppercase tracking-[0.16em] text-[#C8102E]">
-                                                        {group.title}
-                                                    </h3>
-
-                                                    {group.description && (
-                                                        <p className="mt-1.5 text-xs font-medium leading-5 text-slate-500">
-                                                            {
-                                                                group.description
-                                                            }
-                                                        </p>
-                                                    )}
-                                                </div>
-
-                                                <ul className="space-y-0.5">
-                                                    {group.links.map(
-                                                        (link) => {
-                                                            const Icon =
-                                                                link.icon;
-
-                                                            const isActive =
-                                                                isPathActive(
-                                                                    pathname,
-                                                                    link.href,
-                                                                );
-
-                                                            return (
-                                                                <li
-                                                                    key={
-                                                                        link.href
-                                                                    }
-                                                                >
-                                                                    <NavigationMenuLink>
-                                                                        <Link
-                                                                            href={
-                                                                                link.href
-                                                                            }
-                                                                            aria-current={
-                                                                                isActive
-                                                                                    ? "page"
-                                                                                    : undefined
-                                                                            }
-                                                                            className={cn(
-                                                                                "group flex gap-3 border-l-2 border-transparent px-3 py-2.5",
-                                                                                "transition-all duration-200",
-                                                                                "hover:translate-x-1 hover:border-[#C8102E] hover:bg-red-50/70",
-                                                                                "focus:border-[#C8102E] focus:bg-red-50/70 focus:outline-none",
-                                                                                isActive &&
-                                                                                "border-[#C8102E] bg-red-50/70",
-                                                                            )}
-                                                                        >
-                                                                            {Icon && (
-                                                                                <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center bg-slate-950 text-white transition-all duration-200 group-hover:bg-[#C8102E] group-hover:scale-105">
-                                                                                    <Icon
-                                                                                        className="size-4"
-                                                                                        aria-hidden="true"
-                                                                                    />
-                                                                                </span>
-                                                                            )}
-
-                                                                            <span className="min-w-0 border-r border-slate-200 p-5 last:border-r-0">
-                                                                                <span className="block text-sm font-black text-slate-900 transition group-hover:text-[#C8102E]">
-                                                                                    {
-                                                                                        link.label
-                                                                                    }
-                                                                                </span>
-
-                                                                                {link.description && (
-                                                                                    <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
-                                                                                        {
-                                                                                            link.description
-                                                                                        }
-                                                                                    </span>
-                                                                                )}
-                                                                            </span>
-                                                                        </Link>
-                                                                    </NavigationMenuLink>
-                                                                </li>
-                                                            );
-                                                        },
-                                                    )}
-                                                </ul>
-                                            </section>
+                                                {group.title}
+                                                <ChevronDown className="size-4 shrink-0 -rotate-90" />
+                                            </button>
                                         ))}
                                     </div>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                        );
-                    })}
-                </NavigationMenuList>
-            </NavigationMenu>
-        </div>
+                                    {selected && (
+                                        <div
+                                            className="w-[280px] max-h-[70vh] overflow-y-auto border-t-[3px] border-[#C8102E] bg-white py-1.5 shadow-xl ring-1 ring-slate-200"
+                                            onMouseEnter={() => setOpenGroup(selected.title)}
+                                        >
+                                            {selected.links.map((link) => {
+                                                const Icon = link.icon;
+                                                const current = isPathActive(pathname, link.href);
+                                                return (
+                                                    <Link
+                                                        key={link.href}
+                                                        href={link.href}
+                                                        onClick={closeDropdowns}
+                                                        aria-current={current ? "page" : undefined}
+                                                        className={cn(
+                                                            "flex min-h-11 items-center gap-2.5 px-3 py-2 text-sm font-semibold transition-colors hover:bg-red-50 hover:text-[#C8102E] focus:bg-red-50 focus:text-[#C8102E] focus:outline-none",
+                                                            current ? "bg-red-50 text-[#C8102E]" : "text-slate-800",
+                                                        )}
+                                                    >
+                                                        {Icon && <Icon className="size-4 shrink-0" aria-hidden="true" />}
+                                                        <span>{link.label}</span>
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </li>
+                    );
+                })}
+            </ul>
+        </nav>
     );
 }
 
@@ -505,6 +415,7 @@ function MobileMenu() {
     const pathname = usePathname();
 
     const [isOpen, setIsOpen] = useState(false);
+    const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
     const [openSection, setOpenSection] = useState<
         string | null
     >(null);
@@ -512,6 +423,7 @@ function MobileMenu() {
     useEffect(() => {
         setIsOpen(false);
         setOpenSection(null);
+        setOpenMobileGroup(null);
     }, [pathname]);
 
     useEffect(() => {
@@ -528,14 +440,14 @@ function MobileMenu() {
     }, [isOpen]);
 
     function toggleSection(label: string) {
-        setOpenSection((current) =>
-            current === label ? null : label,
-        );
+        setOpenSection((current) => current === label ? null : label);
+        setOpenMobileGroup(null);
     }
 
     function closeMenu() {
         setIsOpen(false);
         setOpenSection(null);
+        setOpenMobileGroup(null);
     }
 
     return (
@@ -686,8 +598,8 @@ function MobileMenu() {
                                             </button>
 
                                             {isExpanded && (
-                                                <div className="border-t border-slate-200 bg-slate-50 p-3">
-                                                    <div className="space-y-5">
+                                                <div className="border-t border-slate-200 bg-slate-50 p-2">
+                                                    <div className="space-y-3">
                                                         {groups.map(
                                                             (
                                                                 group,
@@ -697,91 +609,81 @@ function MobileMenu() {
                                                                         group.title
                                                                     }
                                                                 >
-                                                                    <div className="mb-2 px-2">
-                                                                        <h3 className="text-[10px] font-black uppercase tracking-[0.16em] text-[#C8102E]">
-                                                                            {
-                                                                                group.title
-                                                                            }
-                                                                        </h3>
+                                                                    <button
+                                                                        type="button"
+                                                                        aria-expanded={openMobileGroup === group.title}
+                                                                        onClick={() => setOpenMobileGroup((current) => current === group.title ? null : group.title)}
+                                                                        className="mb-1 flex min-h-11 w-full items-center justify-between rounded px-3 text-left text-sm font-bold text-slate-800 hover:bg-white hover:text-[#C8102E]"
+                                                                    >
+                                                                        {group.title}
+                                                                        <ChevronDown className={cn("size-4 transition-transform", openMobileGroup === group.title && "rotate-180")} />
+                                                                    </button>
 
-                                                                        {group.description && (
-                                                                            <p className="mt-1.5 text-xs font-medium leading-5 text-slate-500">
-                                                                                {
-                                                                                    group.description
-                                                                                }
-                                                                            </p>
-                                                                        )}
-                                                                    </div>
+                                                                    {openMobileGroup === group.title && (
+                                                                        <ul className="space-y-0.5">
+                                                                            {group.links.map(
+                                                                                (
+                                                                                    link,
+                                                                                ) => {
+                                                                                    const Icon =
+                                                                                        link.icon;
 
-                                                                    <ul className="space-y-0.5">
-                                                                        {group.links.map(
-                                                                            (
-                                                                                link,
-                                                                            ) => {
-                                                                                const Icon =
-                                                                                    link.icon;
+                                                                                    const isActive =
+                                                                                        isPathActive(
+                                                                                            pathname,
+                                                                                            link.href,
+                                                                                        );
 
-                                                                                const isActive =
-                                                                                    isPathActive(
-                                                                                        pathname,
-                                                                                        link.href,
-                                                                                    );
-
-                                                                                return (
-                                                                                    <li
-                                                                                        key={
-                                                                                            link.href
-                                                                                        }
-                                                                                    >
-                                                                                        <Link
-                                                                                            href={
+                                                                                    return (
+                                                                                        <li
+                                                                                            key={
                                                                                                 link.href
                                                                                             }
-                                                                                            onClick={
-                                                                                                closeMenu
-                                                                                            }
-                                                                                            aria-current={
-                                                                                                isActive
-                                                                                                    ? "page"
-                                                                                                    : undefined
-                                                                                            }
-                                                                                            className={cn(
-                                                                                                "group flex items-start gap-3 border-l-2 border-transparent px-3 py-2.5",
-                                                                                                "transition-all duration-200 hover:translate-x-1 hover:border-[#C8102E] hover:bg-white",
-                                                                                                isActive &&
-                                                                                                "border-[#C8102E] bg-white",
-                                                                                            )}
                                                                                         >
-                                                                                            {Icon && (
-                                                                                                <span className="flex size-9 shrink-0 items-center justify-center bg-slate-950 text-white transition-all duration-200 group-hover:bg-[#C8102E]">
-                                                                                                    <Icon
-                                                                                                        className="size-4"
-                                                                                                        aria-hidden="true"
-                                                                                                    />
-                                                                                                </span>
-                                                                                            )}
-
-                                                                                            <span className="min-w-0 border-r border-slate-200 p-5 last:border-r-0">
-                                                                                                <span className="block text-sm font-black text-slate-900 transition group-hover:text-[#C8102E]">
-                                                                                                    {
-                                                                                                        link.label
-                                                                                                    }
-                                                                                                </span>
-
-                                                                                                {link.description && (
-                                                                                                    <span className="mt-1 block text-xs font-medium leading-5 text-slate-500">
-                                                                                                        {
-                                                                                                            link.description
-                                                                                                        }
+                                                                                            <Link
+                                                                                                href={
+                                                                                                    link.href
+                                                                                                }
+                                                                                                onClick={
+                                                                                                    closeMenu
+                                                                                                }
+                                                                                                aria-current={
+                                                                                                    isActive
+                                                                                                        ? "page"
+                                                                                                        : undefined
+                                                                                                }
+                                                                                                className={cn(
+                                                                                                    "group flex min-h-11 items-center gap-2.5 border-l-2 border-transparent px-2 py-2",
+                                                                                                    "transition-all duration-200 hover:translate-x-1 hover:border-[#C8102E] hover:bg-white",
+                                                                                                    isActive &&
+                                                                                                    "border-[#C8102E] bg-white",
+                                                                                                )}
+                                                                                            >
+                                                                                                {Icon && (
+                                                                                                    <span className="flex size-8 shrink-0 items-center justify-center bg-slate-950 text-white transition-all duration-200 group-hover:bg-[#C8102E]">
+                                                                                                        <Icon
+                                                                                                            className="size-4"
+                                                                                                            aria-hidden="true"
+                                                                                                        />
                                                                                                     </span>
                                                                                                 )}
-                                                                                            </span>
-                                                                                        </Link>
-                                                                                    </li>
-                                                                                );
-                                                                            },
-                                                                        )}
-                                                                    </ul>
+
+                                                                                                <span className="min-w-0 flex-1 self-center">
+                                                                                                    <span className="block text-sm font-black text-slate-900 transition group-hover:text-[#C8102E]">
+                                                                                                        {
+                                                                                                            link.label
+                                                                                                        }
+                                                                                                    </span>
+
+
+                                                                                                </span>
+                                                                                            </Link>
+                                                                                        </li>
+                                                                                    );
+                                                                                },
+                                                                            )}
+                                                                        </ul>
+                                                                    )}
                                                                 </section>
                                                             ),
                                                         )}

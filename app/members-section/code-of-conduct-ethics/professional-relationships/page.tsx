@@ -137,10 +137,10 @@ export default function ProfessionalRelationshipsPage() {
                             Code of Conduct &amp; Ethics
                         </p>
 
-                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                        <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
                             Professional
-                            <span className="block text-[#C8102E]">
-                                Relationships
+                            <span className="text-[#C8102E]">
+                                {"\u00A0"}Relationships
                             </span>
                         </h1>
 
@@ -152,13 +152,7 @@ export default function ProfessionalRelationshipsPage() {
                             consultants.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
-                            <span>Collaboration</span>
-                            <span>Trust</span>
-                            <span>Knowledge Sharing</span>
-                            <span>Objectivity</span>
-                            <span>Integrity</span>
-                        </div>
+
                     </div>
                 </div>
             </section>
@@ -186,14 +180,14 @@ export default function ProfessionalRelationshipsPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             {/* INTRODUCTION */}
                             <section
                                 id="professional-relationships"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
                                 <div className="flex items-start gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
@@ -204,11 +198,8 @@ export default function ProfessionalRelationshipsPage() {
                                     </div>
 
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Member Standard
-                                        </p>
 
-                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                        <h2 className="text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-3xl">
                                             Professional Relationships
                                         </h2>
                                     </div>
@@ -216,7 +207,7 @@ export default function ProfessionalRelationshipsPage() {
 
                                 <blockquote
                                     id="introduction"
-                                    className="mt-5 scroll-mt-28 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg"
+                                    className="mt-3 scroll-mt-28 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg"
                                 >
                                     Members of AHPK recognize that,
                                     from time to time, they will work
@@ -233,12 +224,9 @@ export default function ProfessionalRelationshipsPage() {
                             </section>
 
                             {/* STANDARDS */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Professional Standards
-                                </p>
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Working responsibly with other professionals
                                 </h2>
 
@@ -251,57 +239,30 @@ export default function ProfessionalRelationshipsPage() {
                                     disciplines.
                                 </p>
 
-                                <div className="mt-5 border-t border-slate-300">
-                                    {standards.map(
-                                        (standard, index) => {
-                                            const Icon = standard.icon;
-
-                                            return (
-                                                <article
-                                                    key={standard.title}
-                                                    id={`standard-${index + 1}`}
-                                                    className="group grid scroll-mt-28 gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start"
-                                                >
-                                                    <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
-                                                        {String(
-                                                            index + 1,
-                                                        ).padStart(
-                                                            2,
-                                                            "0",
-                                                        )}
-                                                    </p>
-
-                                                    <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
-                                                        <Icon className="h-4 w-4" />
-                                                    </div>
-
-                                                    <div>
-                                                        <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
-                                                            {standard.title}
-                                                        </h3>
-
-                                                        <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
-                                                            {standard.description}
-                                                        </p>
-                                                    </div>
-                                                </article>
-                                            );
-                                        },
-                                    )}
-                                </div>
+                                <ul className="mt-3 list-disc space-y-1.5 pl-5 marker:text-[#C8102E]">
+                                    {standards.map((standard, index) => (
+                                        <li
+                                            key={standard.title}
+                                            id={`standard-${index + 1}`}
+                                            className="scroll-mt-28 pl-1 text-sm leading-7 text-slate-700 sm:text-base"
+                                        >
+                                            <strong className="font-black text-slate-950">
+                                                {standard.title}:
+                                            </strong>{" "}
+                                            {standard.description}
+                                        </li>
+                                    ))}
+                                </ul>
                             </section>
 
                             {/* CORE PRINCIPLES */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Core Principles
-                                </p>
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
 
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Foundations of professional collaboration
                                 </h2>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                <div className="mt-3 list-disc space-y-1.5 pl-5 marker:text-[#C8102E]">
                                     <PrincipleItem
                                         number="01"
                                         title="Knowledge Sharing"
@@ -328,39 +289,15 @@ export default function ProfessionalRelationshipsPage() {
                                 </div>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Continue Reading
-                                </p>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/relationships-with-clients"
-                                        eyebrow="Previous Section"
-                                        title="Relationships with Clients"
-                                        direction="left"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/handling-alleged-violations"
-                                        eyebrow="Next Section"
-                                        title="Handling Alleged Violations"
-                                        direction="right"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* EDITORIAL SIDEBAR */}
                         <aside className="space-y-5 lg:sticky lg:top-28">
                             <section className="border-t-4 border-[#C8102E]">
                                 <div className="border-b border-slate-300 py-3">
-                                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                        On This Page
-                                    </p>
 
-                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
+                                    <h2 className="text-xl font-black text-slate-950">
                                         Professional Relationships
                                     </h2>
                                 </div>
@@ -443,7 +380,6 @@ export default function ProfessionalRelationshipsPage() {
 }
 
 function PrincipleItem({
-    number,
     title,
     description,
 }: {
@@ -452,19 +388,10 @@ function PrincipleItem({
     description: string;
 }) {
     return (
-        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                {title}
-            </h3>
-
-            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                {description}
-            </p>
-        </article>
+        <li className="pl-1 text-sm leading-7 text-slate-700 sm:text-base">
+            <strong className="font-black text-slate-950">{title}:</strong>{" "}
+            {description}
+        </li>
     );
 }
 
@@ -515,7 +442,7 @@ function RelatedPageLink({
     return (
         <Link
             href={href}
-            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+            className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-2.5 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
         >
             {direction === "left" ? (
                 <ArrowLeft className="h-5 w-5 shrink-0 text-[#C8102E] transition group-hover:-translate-x-1" />
@@ -532,7 +459,7 @@ function RelatedPageLink({
                     {eyebrow}
                 </p>
 
-                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                <h3 className="mt-1 text-base font-black text-slate-950 transition group-hover:text-[#C8102E]">
                     {title}
                 </h3>
             </div>

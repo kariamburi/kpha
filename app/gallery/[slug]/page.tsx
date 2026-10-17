@@ -289,21 +289,21 @@ function AlbumHero({
       <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
         <GalleryBreadcrumb title={title} />
 
-        <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1.18fr)] lg:items-center lg:gap-8">
+        <div className="mt-3 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
           <div className="max-w-3xl">
             <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
               {category}
             </p>
 
-            <h1 className="mt-3 text-4xl font-black leading-[1.04] tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
               {title}
             </h1>
 
-            <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-slate-600">
+            <p className="mt-2 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
               {excerpt(description, 230)}
             </p>
 
-            <div className="mt-5 grid border-y border-slate-300 sm:grid-cols-2">
+            <div className="mt-3 grid border-y border-slate-300 grid-cols-2">
               <HeroFact
                 label="Published"
                 value={dateText(date)}
@@ -335,7 +335,7 @@ function AlbumHero({
           </div>
 
           <figure>
-            <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+            <div className="relative aspect-[16/8] overflow-hidden bg-slate-200">
               <img
                 src={coverImage}
                 alt={title}
@@ -379,21 +379,18 @@ function AlbumContent({
   videoCount: number;
 }) {
   return (
-    <section className="bg-white py-8 sm:py-10">
+    <section className="bg-white py-5 sm:py-6">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_270px] lg:items-start">
           <article className="min-w-0">
-            <div className="flex flex-col justify-between gap-4 border-t-4 border-[#C8102E] pb-4 pt-4 sm:flex-row sm:items-end">
+            <div className="flex flex-wrap justify-between gap-3 border-t-4 border-[#C8102E] pb-3 pt-3 sm:items-end">
               <div>
-                <SectionLabel>
-                  Photo and video collection
-                </SectionLabel>
 
-                <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                   Album Media
                 </h2>
 
-                <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-slate-600">
+                <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
                   Browse official photographs and videos
                   from this AHPK activity.
                 </p>
@@ -485,7 +482,7 @@ function MediaGallery({
     }));
 
   return (
-    <div className="columns-1 gap-4 border-t border-slate-300 pt-5 sm:columns-2 xl:columns-3">
+    <div className="columns-1 gap-3 border-t border-slate-300 pt-3 sm:columns-2 xl:columns-3">
       {items.map((item) => (
         <MediaItem
           key={item.id}
@@ -533,7 +530,7 @@ function MediaItem({
     );
 
   return (
-    <figure className="group mb-4 break-inside-avoid border-b border-slate-300 pb-4">
+    <figure className="group mb-3 break-inside-avoid border-b border-slate-200 pb-3">
       <div className="relative overflow-hidden bg-slate-950">
         {item.type ===
           "YOUTUBE" ? (
@@ -602,7 +599,7 @@ function MediaItem({
           ) : null}
 
           {item.caption ? (
-            <p className="mt-1.5 text-sm font-medium leading-7 text-slate-500">
+            <p className="mt-1 text-sm font-medium leading-6 text-slate-500">
               {item.caption}
             </p>
           ) : null}
@@ -667,11 +664,8 @@ function AlbumInformation({
   return (
     <section className="border-t-4 border-slate-950">
       <div className="border-b border-slate-300 py-3">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-          Album information
-        </p>
 
-        <h2 className="mt-1.5 text-xl font-black text-slate-950">
+        <h2 className="text-xl font-black text-slate-950">
           Collection Details
         </h2>
       </div>
@@ -745,15 +739,12 @@ function RelatedAlbums({
   albums: RelatedAlbum[];
 }) {
   return (
-    <section className="border-t border-slate-300 bg-slate-50 py-8 sm:py-10">
+    <section className="border-t border-slate-300 bg-slate-50 py-5 sm:py-7">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-5">
           <div>
-            <SectionLabel>
-              Continue exploring
-            </SectionLabel>
 
-            <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
               Related Albums
             </h2>
 
@@ -773,7 +764,7 @@ function RelatedAlbums({
           </Link>
         </div>
 
-        <div className="mt-5 grid border-t border-slate-300 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {albums.map((album) => (
             <RelatedAlbumCard
               key={album.id}
@@ -796,12 +787,12 @@ function RelatedAlbumCard({
     getAlbumCover(album.items);
 
   return (
-    <article className="group border-b border-slate-300 py-5 md:border-r md:px-5 md:last:border-r-0 md:first:pl-0">
+    <article className="group border-b border-slate-200 pb-4">
       <Link
         href={`/gallery/${album.slug}`}
         className="block"
       >
-        <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+        <div className="relative aspect-[16/8] overflow-hidden bg-slate-200">
           {cover ? (
             <img
               src={cover}

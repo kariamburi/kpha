@@ -137,7 +137,7 @@ const collaborationBodies = [
     },
     {
         shortName: "KUC",
-        fullName: "Kenyatta University",
+        fullName: "Kenya utalii collage",
     },
     {
         shortName: "TFC",
@@ -197,23 +197,7 @@ export default function WhoWeArePage() {
                             hotel and hospitality industry.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
-                            <Link
-                                href="/members-section/constitution-rules/membership"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
-                            >
-                                Explore Membership
 
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/contact"
-                                className="inline-flex min-h-11 items-center justify-center border border-slate-300 px-6 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                            >
-                                Contact AHPK
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -316,7 +300,8 @@ export default function WhoWeArePage() {
                                 id="association-registration"
                                 className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="flex items-start gap-3">
+
+                                <div className="flex items-center gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <FileCheck2
                                             className="h-5 w-5"
@@ -324,16 +309,11 @@ export default function WhoWeArePage() {
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Official Information
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            Association Registration
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-3xl font-black tracking-tight text-slate-950">
+                                        Association Registration
+                                    </h2>
                                 </div>
+
 
                                 <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">
                                     <p>
@@ -406,7 +386,8 @@ export default function WhoWeArePage() {
                                 id="association-advocacy"
                                 className="scroll-mt-28 border-t border-slate-300 py-8"
                             >
-                                <div className="flex items-start gap-3">
+
+                                <div className="flex items-center gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#C8102E] text-white">
                                         <Landmark
                                             className="h-5 w-5"
@@ -414,15 +395,9 @@ export default function WhoWeArePage() {
                                         />
                                     </div>
 
-                                    <div>
-                                        <SectionLabel>
-                                            Professional Representation
-                                        </SectionLabel>
-
-                                        <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                            Association Advocacy
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-3xl font-black tracking-tight text-slate-950">
+                                        Association Advocacy
+                                    </h2>
                                 </div>
 
                                 <div className="mt-4 space-y-4 text-[17px] leading-8 text-slate-700">

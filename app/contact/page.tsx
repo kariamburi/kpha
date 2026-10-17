@@ -158,73 +158,45 @@ export default async function ContactPage() {
 
             <PageHeader />
 
-            {/* EDITORIAL HERO */}
-            <section className="relative isolate overflow-hidden border-b border-slate-300 bg-white">
-                <div className="absolute inset-0 -z-30">
-                    <img
-                        src={heroImage}
-                        alt=""
-                        aria-hidden="true"
-                        className="h-full w-full object-cover object-center lg:object-right"
-                    />
-                </div>
-
-                <div className="absolute inset-0 -z-20 hidden bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_33%,rgba(255,255,255,0.98)_45%,rgba(255,255,255,0.88)_58%,rgba(255,255,255,0.55)_73%,rgba(255,255,255,0.12)_90%,rgba(255,255,255,0)_100%)] lg:block" />
-
-                <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(255,255,255,0.96)_62%,rgba(255,255,255,0.78)_100%)] lg:hidden" />
-
+            {/* COMPACT EDITORIAL HERO */}
+            <section className="border-b border-slate-300 bg-white">
                 <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
                     <Breadcrumb />
-
-                    <div className="flex min-h-[390px] items-center py-8 sm:min-h-[430px] lg:min-h-[460px]">
-                        <div className="max-w-2xl">
-                            <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                Contact Us
-                            </p>
-
-                            <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
-                                {title}
+                    <div className="mt-4 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-8">
+                        <div className="min-w-0">
+                            <h1 className="text-3xl font-black leading-[1.1] tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+                                {title === "Contact AHPK" ? (<>Contact <span className="text-[#C8102E]">AHPK</span></>) : title}
                             </h1>
-
-                            <p className="mt-4 text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+                            <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
                                 {subtitle}
                             </p>
-
-                            <div className="mt-5 flex flex-wrap gap-3">
-                                <a
-                                    href={`mailto:${email}`}
-                                    className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-[#A80D27]"
-                                >
-                                    <Mail className="h-4 w-4" />
-
-                                    Email AHPK
+                            <div className="mt-4 flex flex-wrap gap-3">
+                                <a href={`mailto:${email}`} className="inline-flex min-h-10 items-center justify-center gap-2 bg-[#C8102E] px-5 text-sm font-black text-white transition hover:bg-[#A80D27]">
+                                    <Mail className="h-4 w-4" /> Email AHPK
                                 </a>
-
-                                <a
-                                    href={`tel:${phoneHref}`}
-                                    className="inline-flex min-h-11 items-center justify-center gap-2 border border-slate-300 bg-white/85 px-6 text-sm font-black text-slate-800 backdrop-blur transition hover:border-[#C8102E] hover:text-[#C8102E]"
-                                >
-                                    <Phone className="h-4 w-4" />
-
-                                    Call Secretariat
+                                <a href={`tel:${phoneHref}`} className="inline-flex min-h-10 items-center justify-center gap-2 border border-slate-300 px-5 text-sm font-black text-slate-800 transition hover:border-[#C8102E] hover:text-[#C8102E]">
+                                    <Phone className="h-4 w-4" /> Call Secretariat
                                 </a>
                             </div>
                         </div>
+                        <figure className="overflow-hidden bg-slate-100">
+                            <img src={heroImage} alt="AHPK Secretariat contact" className="aspect-[16/7] w-full object-cover object-center lg:aspect-[16/8]" />
+                        </figure>
                     </div>
                 </div>
             </section>
 
             {/* CONTACT CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-6">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
                         {/* FORM */}
                         <section className="min-w-0 border-t-4 border-[#C8102E] pt-4">
                             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
                                 Send a Message
                             </p>
 
-                            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                            <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                 Get in touch with our Secretariat
                             </h2>
 
@@ -232,20 +204,20 @@ export default async function ContactPage() {
                                 {content}
                             </p>
 
-                            <div className="mt-5 border-t border-slate-300 pt-5">
+                            <div className="mt-4 border-t border-slate-300 pt-4">
                                 <ContactForm />
                             </div>
                         </section>
 
                         {/* SIDEBAR */}
-                        <aside className="space-y-5 lg:sticky lg:top-28">
+                        <aside className="space-y-4 lg:sticky lg:top-28">
                             <section className="border-t-4 border-slate-950">
                                 <div className="border-b border-slate-300 py-3">
                                     <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
                                         Contact Details
                                     </p>
 
-                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
+                                    <h2 className="text-lg font-black text-slate-950">
                                         AHPK Secretariat
                                     </h2>
                                 </div>
@@ -273,7 +245,7 @@ export default async function ContactPage() {
                                 </div>
                             </section>
 
-                            <section className="border-t-4 border-[#C8102E] bg-slate-50 p-5">
+                            <section className="border-t-4 border-[#C8102E] bg-slate-50 p-4">
                                 <Clock3 className="h-6 w-6 text-[#C8102E]" />
 
                                 <h2 className="mt-2 text-xl font-black text-slate-950">
@@ -294,7 +266,7 @@ export default async function ContactPage() {
                                         Follow AHPK
                                     </p>
 
-                                    <h2 className="mt-1.5 text-xl font-black text-slate-950">
+                                    <h2 className="text-lg font-black text-slate-950">
                                         Official channels
                                     </h2>
                                 </div>
@@ -352,7 +324,7 @@ export default async function ContactPage() {
                                 Find Us
                             </p>
 
-                            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                            <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                 Visit the AHPK Secretariat
                             </h2>
 
@@ -365,7 +337,7 @@ export default async function ContactPage() {
                             <iframe
                                 src={contact.mapUrl}
                                 title="AHPK office location"
-                                className="h-[360px] w-full border-0 sm:h-[440px]"
+                                className="h-[260px] w-full border-0 sm:h-[330px]"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                                 allowFullScreen
@@ -375,45 +347,7 @@ export default async function ContactPage() {
                 </section>
             )}
 
-            {/* MEMBERSHIP CTA */}
-            <section className="border-t border-slate-300 bg-slate-950 py-8 text-white sm:py-10">
-                <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-                        <div className="max-w-3xl">
-                            <p className="text-xs font-black uppercase tracking-[0.22em] text-red-300">
-                                Membership
-                            </p>
 
-                            <h2 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
-                                Interested in joining AHPK?
-                            </h2>
-
-                            <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-slate-300">
-                                Learn about membership eligibility,
-                                categories and the application process.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                            <Link
-                                href="/apply"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#C8102E] px-6 text-sm font-black text-white transition hover:bg-red-700"
-                            >
-                                Apply for Membership
-
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-
-                            <Link
-                                href="/members-section/constitution-rules/membership"
-                                className="inline-flex min-h-11 items-center justify-center border border-white/40 px-6 text-sm font-black text-white transition hover:bg-white hover:text-slate-950"
-                            >
-                                Explore Membership
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <PublicFooter />
         </main>
@@ -432,7 +366,7 @@ function ContactItem({
     href?: string;
 }) {
     const content = (
-        <div className="grid grid-cols-[38px_minmax(0,1fr)] gap-3 py-3">
+        <div className="grid grid-cols-[26px_minmax(0,1fr)] gap-3 py-2.5">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-slate-950 text-white">
                 <Icon className="h-4 w-4" />
             </div>

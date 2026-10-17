@@ -231,17 +231,17 @@ function GalleryHero({
       <div className="mx-auto max-w-7xl px-5 py-5 sm:px-6 sm:py-6 lg:px-8">
         <Breadcrumb />
 
-        <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:gap-10">
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-4xl">
             <p className="border-l-4 border-[#C8102E] pl-3 text-[11px] font-black uppercase tracking-[0.2em] text-[#C8102E]">
               AHPK Media Gallery
             </p>
 
-            <h1 className="mt-3 text-4xl font-black leading-[1.03] tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
-              Moments That Define AHPK
+            <h1 className="mt-2 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+              AHPK <span className="text-[#C8102E]">Gallery</span>
             </h1>
 
-            <p className="mt-4 max-w-3xl text-lg font-medium leading-8 text-slate-600 sm:text-xl sm:leading-9">
+            <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-600 sm:text-base">
               Explore official photo and video albums from
               conferences, annual general meetings, training
               programmes, awards, community activities and
@@ -264,7 +264,7 @@ function GalleryHero({
           </div>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4">
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-t border-slate-300 pt-3">
           {galleryFilters.map((filter) => {
             const isActive = filter.href === activeHref;
 
@@ -299,17 +299,15 @@ function GalleryContent({
   remainingAlbums: GalleryAlbum[];
 }) {
   return (
-    <section className="bg-white py-8 sm:py-10">
+    <section className="bg-white py-5 sm:py-6">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="flex flex-col justify-between gap-4 border-t-4 border-[#C8102E] pb-4 pt-4 md:flex-row md:items-end">
+        <div className="flex flex-wrap items-end justify-between gap-3 border-t-4 border-[#C8102E] pb-3 pt-3">
           <div className="max-w-3xl">
-            <SectionLabel>Photo and video archive</SectionLabel>
-
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
               Explore the AHPK Gallery
             </h2>
 
-            <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-slate-600">
+            <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
               Discover memorable moments, professional
               connections and milestones from AHPK programmes
               and activities.
@@ -336,12 +334,10 @@ function GalleryContent({
             )}
 
             {remainingAlbums.length > 0 && (
-              <section className="mt-8 border-t border-slate-300 pt-5">
+              <section className="mt-5 border-t border-slate-300 pt-4">
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <SectionLabel>More collections</SectionLabel>
-
-                    <h2 className="mt-1.5 text-2xl font-black text-slate-950 sm:text-3xl">
+                    <h2 className="text-xl font-black text-slate-950 sm:text-2xl">
                       Gallery Albums
                     </h2>
                   </div>
@@ -349,7 +345,7 @@ function GalleryContent({
                   <Images className="h-7 w-7 text-slate-300" />
                 </div>
 
-                <div className="mt-5 grid border-t border-slate-300 md:grid-cols-2 xl:grid-cols-3">
+                <div className="mt-3 grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
                   {remainingAlbums.map((album) => (
                     <AlbumCard
                       key={album.id}
@@ -382,7 +378,7 @@ function FeaturedAlbumCard({
         href={`/gallery/${album.slug}`}
         className="group grid lg:grid-cols-[1.35fr_0.65fr]"
       >
-        <div className="relative min-h-[320px] overflow-hidden bg-slate-200 sm:min-h-[440px]">
+        <div className="relative min-h-[220px] overflow-hidden bg-slate-200 sm:min-h-[290px]">
           {cover ? (
             <img
               src={cover}
@@ -415,7 +411,7 @@ function FeaturedAlbumCard({
           </div>
         </div>
 
-        <div className="flex flex-col justify-center border-t border-slate-300 py-5 lg:border-l lg:border-t-0 lg:px-7 lg:py-7">
+        <div className="flex flex-col justify-center border-t border-slate-300 py-4 lg:border-l lg:border-t-0 lg:px-5">
           <div className="flex flex-wrap items-center gap-3">
             <CategoryBadge category={album.category} />
 
@@ -428,17 +424,17 @@ function FeaturedAlbumCard({
             </time>
           </div>
 
-          <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight text-slate-950 transition group-hover:text-[#C8102E] sm:text-4xl">
+          <h2 className="mt-3 text-2xl font-black leading-tight tracking-tight text-slate-950 transition group-hover:text-[#C8102E] sm:text-3xl">
             {album.title}
           </h2>
 
           {album.description && (
-            <p className="mt-4 text-sm font-medium leading-7 text-slate-600 sm:text-base">
+            <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
               {excerpt(album.description, 220)}
             </p>
           )}
 
-          <div className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
+          <div className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#C8102E]">
             Explore this album
 
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -461,12 +457,12 @@ function AlbumCard({
   );
 
   return (
-    <article className="group border-b border-slate-300 py-5 md:border-r md:px-5 md:[&:nth-child(2n)]:border-r-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0 xl:first:pl-0">
+    <article className="group border-b border-slate-200 pb-4">
       <Link
         href={`/gallery/${album.slug}`}
         className="block"
       >
-        <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+        <div className="relative aspect-[16/9] overflow-hidden bg-slate-200">
           {cover ? (
             <img
               src={cover}
@@ -514,7 +510,7 @@ function AlbumCard({
         </h2>
 
         {album.description && (
-          <p className="mt-2 text-sm font-medium leading-7 text-slate-500">
+          <p className="mt-1 text-sm font-medium leading-6 text-slate-500">
             {excerpt(album.description, 125)}
           </p>
         )}

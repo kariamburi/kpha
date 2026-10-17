@@ -7,7 +7,6 @@ import Link from "next/link";
 
 import {
     ArrowRight,
-    CheckCircle2,
     ChevronRight,
     Home,
     Scale,
@@ -179,10 +178,10 @@ export default function RelationshipsWithClientsPage() {
                             Code of Conduct &amp; Ethics
                         </p>
 
-                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                        <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
                             Relationships
-                            <span className="block text-[#C8102E]">
-                                with Clients
+                            <span className="text-[#C8102E]">
+                                {"\u00A0"}with Clients
                             </span>
                         </h1>
 
@@ -193,13 +192,7 @@ export default function RelationshipsWithClientsPage() {
                             responsible relationships with clients.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
-                            <span>Confidentiality</span>
-                            <span>Independence</span>
-                            <span>Objectivity</span>
-                            <span>Integrity</span>
-                            <span>Trust</span>
-                        </div>
+
                     </div>
                 </div>
             </section>
@@ -227,14 +220,14 @@ export default function RelationshipsWithClientsPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             {/* INTRODUCTION */}
                             <section
                                 id="client-relationships"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
                                 <div className="flex items-start gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
@@ -245,17 +238,13 @@ export default function RelationshipsWithClientsPage() {
                                     </div>
 
                                     <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Client Responsibility
-                                        </p>
-
-                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+                                        <h2 className="text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
                                             Relationships with Clients
                                         </h2>
                                     </div>
                                 </div>
 
-                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                <blockquote className="mt-3 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3 text-base font-bold leading-8 text-slate-800 sm:text-lg">
                                     A member of AHPK must not accept
                                     any assignment or engage in any
                                     practice involving a violation
@@ -270,12 +259,8 @@ export default function RelationshipsWithClientsPage() {
                             {/* GENERAL RESPONSIBILITIES */}
                             <section
                                 id="general-responsibilities"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Section A
-                                </p>
-
                                 <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
                                     General Responsibilities
                                 </h2>
@@ -288,7 +273,7 @@ export default function RelationshipsWithClientsPage() {
                                     promises.
                                 </p>
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-1 pl-5 marker:text-[#C8102E]">
                                     {generalResponsibilities.map(
                                         (item, index) => (
                                             <StandardItem
@@ -301,18 +286,14 @@ export default function RelationshipsWithClientsPage() {
                                             />
                                         ),
                                     )}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* INDEPENDENCE */}
                             <section
                                 id="independence-objectivity-integrity"
-                                className="scroll-mt-28 border-t border-slate-300 py-8"
+                                className="scroll-mt-28 border-t border-slate-300 py-5 sm:py-6"
                             >
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Section B
-                                </p>
-
                                 <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
                                     Independence, Objectivity and Integrity
                                 </h2>
@@ -325,7 +306,7 @@ export default function RelationshipsWithClientsPage() {
                                     credibility.
                                 </p>
 
-                                <div className="mt-5 border-t border-slate-300">
+                                <ul className="mt-3 list-disc space-y-1 pl-5 marker:text-[#C8102E]">
                                     {independenceStandards.map(
                                         (item, index) => (
                                             <StandardItem
@@ -338,20 +319,16 @@ export default function RelationshipsWithClientsPage() {
                                             />
                                         ),
                                     )}
-                                </div>
+                                </ul>
                             </section>
 
                             {/* CORE CLIENT PRINCIPLES */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Core Client Principles
-                                </p>
-
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
                                 <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                    Foundations of professional trust
+                                    Core Client Principles
                                 </h2>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                <ul className="mt-3 list-disc space-y-1 pl-5 marker:text-[#C8102E]">
                                     <PrincipleItem
                                         number="01"
                                         title="Confidentiality"
@@ -375,31 +352,10 @@ export default function RelationshipsWithClientsPage() {
                                         title="Authority"
                                         description="Members should only act, contract or make payments where proper authority has been granted."
                                     />
-                                </div>
+                                </ul>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Continue Reading
-                                </p>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/professional-attitude-behavior"
-                                        eyebrow="Previous Section"
-                                        title="Professional Attitude & Behavior"
-                                        direction="left"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics"
-                                        eyebrow="Code Index"
-                                        title="Code of Conduct & Ethics"
-                                        direction="right"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* EDITORIAL SIDEBAR */}
@@ -492,7 +448,6 @@ export default function RelationshipsWithClientsPage() {
 }
 
 function StandardItem({
-    number,
     title,
     description,
 }: {
@@ -501,30 +456,16 @@ function StandardItem({
     description: string;
 }) {
     return (
-        <article className="group grid gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start">
-            <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
-                {String(number).padStart(2, "0")}
-            </p>
-
-            <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
-                <CheckCircle2 className="h-4 w-4" />
-            </div>
-
-            <div>
-                <h3 className="text-xl font-black leading-tight text-slate-950 transition group-hover:text-[#C8102E]">
-                    {title}
-                </h3>
-
-                <p className="mt-2 text-[16px] font-medium leading-8 text-slate-700">
-                    {description}
-                </p>
-            </div>
-        </article>
+        <li className="group py-1.5 text-[15px] leading-7 text-slate-700">
+            <span className="font-black text-slate-950 transition-colors group-hover:text-[#C8102E]">
+                {title}:
+            </span>{" "}
+            <span>{description}</span>
+        </li>
     );
 }
 
 function PrincipleItem({
-    number,
     title,
     description,
 }: {
@@ -533,19 +474,12 @@ function PrincipleItem({
     description: string;
 }) {
     return (
-        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                {title}
-            </h3>
-
-            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                {description}
-            </p>
-        </article>
+        <li className="group py-1.5 text-[15px] leading-7 text-slate-700">
+            <span className="font-black text-slate-950 transition-colors group-hover:text-[#C8102E]">
+                {title}:
+            </span>{" "}
+            <span>{description}</span>
+        </li>
     );
 }
 
@@ -596,7 +530,7 @@ function RelatedPageLink({
     return (
         <Link
             href={href}
-            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+            className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-2.5 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
         >
             {direction === "left" ? (
                 <ArrowRight className="h-5 w-5 shrink-0 rotate-180 text-[#C8102E] transition group-hover:-translate-x-1" />

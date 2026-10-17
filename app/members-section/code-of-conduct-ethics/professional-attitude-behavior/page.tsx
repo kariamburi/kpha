@@ -7,7 +7,6 @@ import Link from "next/link";
 
 import {
     ArrowRight,
-    CheckCircle2,
     ChevronRight,
     Home,
     Scale,
@@ -135,10 +134,11 @@ export default function ProfessionalAttitudeBehaviorPage() {
                             Code of Conduct &amp; Ethics
                         </p>
 
-                        <h1 className="mt-3 text-4xl font-black leading-[1.05] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+
+                        <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
                             Professional Attitude
-                            <span className="block text-[#C8102E]">
-                                &amp; Behavior
+                            <span className="text-[#C8102E]">
+                                {"\u00A0"}&amp; Behavior
                             </span>
                         </h1>
 
@@ -149,13 +149,7 @@ export default function ProfessionalAttitudeBehaviorPage() {
                             hospitality industry.
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-300 pt-4 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
-                            <span>Integrity</span>
-                            <span>Competence</span>
-                            <span>Responsibility</span>
-                            <span>Ethics</span>
-                            <span>Respect</span>
-                        </div>
+
                     </div>
                 </div>
             </section>
@@ -183,15 +177,15 @@ export default function ProfessionalAttitudeBehaviorPage() {
             </section>
 
             {/* MAIN CONTENT */}
-            <section className="bg-white py-8 sm:py-10">
+            <section className="bg-white py-5 sm:py-7">
                 <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,760px)_300px] lg:items-start lg:justify-between">
                         <article className="min-w-0">
                             <section
                                 id="professional-attitude"
-                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-8 pt-4"
+                                className="scroll-mt-28 border-t-4 border-[#C8102E] pb-5 pt-3"
                             >
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-center gap-3">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-slate-950 text-white">
                                         <ShieldCheck
                                             className="h-5 w-5"
@@ -199,19 +193,12 @@ export default function ProfessionalAttitudeBehaviorPage() {
                                         />
                                     </div>
 
-                                    <div>
-                                        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#C8102E]">
-                                            Member Standard
-                                        </p>
-
-                                        <h2 className="mt-1.5 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                                            Professional Attitude
-                                            &amp; Behavior
-                                        </h2>
-                                    </div>
+                                    <h2 className="text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-3xl">
+                                        Professional Attitude &amp; Behavior
+                                    </h2>
                                 </div>
 
-                                <blockquote className="mt-5 border-l-4 border-[#C8102E] bg-slate-50 px-5 py-4 text-base font-bold leading-8 text-slate-800 sm:text-lg">
+                                <blockquote className="mt-4 border-l-4 border-[#C8102E] bg-slate-50 px-4 py-3 text-sm font-bold leading-6 text-slate-800 sm:text-base">
                                     A member of AHPK shall conduct
                                     all professional activities in
                                     a manner that reflects credit
@@ -220,46 +207,25 @@ export default function ProfessionalAttitudeBehaviorPage() {
                                     industry.
                                 </blockquote>
 
-                                <div className="mt-6 border-t border-slate-300">
-                                    {standards.map(
-                                        (standard, index) => (
-                                            <article
-                                                key={standard}
-                                                className="group grid gap-4 border-b border-slate-300 py-6 sm:grid-cols-[64px_42px_minmax(0,1fr)] sm:items-start"
-                                            >
-                                                <p className="text-4xl font-black leading-none text-slate-300 transition duration-200 group-hover:text-[#C8102E]">
-                                                    {String(
-                                                        index + 1,
-                                                    ).padStart(
-                                                        2,
-                                                        "0",
-                                                    )}
-                                                </p>
-
-                                                <div className="flex h-9 w-9 items-center justify-center bg-slate-950 text-white transition duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#C8102E]">
-                                                    <CheckCircle2 className="h-4 w-4" />
-                                                </div>
-
-                                                <p className="text-[16px] font-medium leading-8 text-slate-700 sm:text-[17px]">
-                                                    {standard}
-                                                </p>
-                                            </article>
-                                        ),
-                                    )}
-                                </div>
+                                <ul className="mt-4 list-disc space-y-2 pl-5 marker:text-[#C8102E]">
+                                    {standards.map((standard) => (
+                                        <li
+                                            key={standard}
+                                            className="pl-1 text-sm leading-7 text-slate-700 sm:text-base"
+                                        >
+                                            {standard}
+                                        </li>
+                                    ))}
+                                </ul>
                             </section>
 
                             {/* KEY PRINCIPLES */}
-                            <section className="border-t border-slate-300 py-8">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
+                            <section className="border-t border-slate-300 py-5 sm:py-6">
+                                <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
                                     Core Principles
-                                </p>
-
-                                <h2 className="mt-1.5 text-3xl font-black tracking-tight text-slate-950">
-                                    Standards that protect professional trust
                                 </h2>
 
-                                <div className="mt-5 grid border-t border-slate-300 sm:grid-cols-2">
+                                <ul className="mt-3 list-disc space-y-1.5 pl-5 marker:text-[#C8102E]">
                                     <PrincipleItem
                                         number="01"
                                         title="Integrity"
@@ -283,31 +249,10 @@ export default function ProfessionalAttitudeBehaviorPage() {
                                         title="Accountability"
                                         description="Members share responsibility for reporting violations and protecting the credibility of the profession."
                                     />
-                                </div>
+                                </ul>
                             </section>
 
-                            {/* CONTINUE READING */}
-                            <section className="border-t border-slate-300 pt-5">
-                                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#C8102E]">
-                                    Continue Reading
-                                </p>
 
-                                <div className="mt-3 grid border-y border-slate-300 sm:grid-cols-2">
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics"
-                                        eyebrow="Code Index"
-                                        title="Code of Conduct & Ethics"
-                                        direction="left"
-                                    />
-
-                                    <RelatedPageLink
-                                        href="/members-section/code-of-conduct-ethics/relationships-with-clients"
-                                        eyebrow="Next Section"
-                                        title="Relationships with Clients"
-                                        direction="right"
-                                    />
-                                </div>
-                            </section>
                         </article>
 
                         {/* EDITORIAL SIDEBAR */}
@@ -390,7 +335,6 @@ export default function ProfessionalAttitudeBehaviorPage() {
 }
 
 function PrincipleItem({
-    number,
     title,
     description,
 }: {
@@ -399,19 +343,12 @@ function PrincipleItem({
     description: string;
 }) {
     return (
-        <article className="group border-b border-slate-300 py-5 transition duration-200 hover:bg-red-50/50 sm:border-r sm:px-5 sm:nth-[2n]:border-r-0">
-            <p className="text-3xl font-black leading-none text-slate-300 transition group-hover:text-[#C8102E]">
-                {number}
-            </p>
-
-            <h3 className="mt-3 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
-                {title}
-            </h3>
-
-            <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                {description}
-            </p>
-        </article>
+        <li className="group pl-1 text-sm leading-7 text-slate-700 sm:text-base">
+            <strong className="font-black text-slate-950 transition-colors group-hover:text-[#C8102E]">
+                {title}:
+            </strong>{" "}
+            {description}
+        </li>
     );
 }
 
@@ -462,7 +399,7 @@ function RelatedPageLink({
     return (
         <Link
             href={href}
-            className="group flex min-h-24 items-center gap-3 border-b border-slate-300 py-4 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
+            className="group flex min-h-16 items-center gap-3 border-b border-slate-300 py-2.5 transition hover:bg-red-50/60 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0 sm:last:border-r-0"
         >
             {direction === "left" ? (
                 <ArrowRight className="h-5 w-5 shrink-0 rotate-180 text-[#C8102E] transition group-hover:-translate-x-1" />
@@ -479,7 +416,7 @@ function RelatedPageLink({
                     {eyebrow}
                 </p>
 
-                <h3 className="mt-1.5 text-xl font-black text-slate-950 transition group-hover:text-[#C8102E]">
+                <h3 className="mt-1 text-base font-black text-slate-950 transition group-hover:text-[#C8102E]">
                     {title}
                 </h3>
             </div>
