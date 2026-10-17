@@ -148,6 +148,10 @@ const collaborationBodies = [
         shortName: "KWS",
         fullName: "Kenya Wildlife Service",
     },
+    {
+        shortName: "TRA",
+        fullName: "Tourism Regulatory Authority",
+    },
 ];
 
 export default function WhoWeArePage() {
