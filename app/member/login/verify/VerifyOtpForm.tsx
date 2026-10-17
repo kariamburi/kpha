@@ -1,55 +1,27 @@
+// app/member/login/verify/VerifyOtpForm.tsx
 "use client";
 
 import { useFormStatus } from "react-dom";
-
-import {
-    ArrowLeft,
-    ArrowRight,
-    KeyRound,
-    LoaderCircle,
-} from "lucide-react";
-
 import Link from "next/link";
-
+import { ArrowLeft, ArrowRight, KeyRound, LoaderCircle } from "lucide-react";
 import { verifyMemberLoginOtp } from "../actions";
 
-type VerifyOtpFormProps = {
-    memberId: string;
-};
+type VerifyOtpFormProps = { memberId: string };
 
-export default function VerifyOtpForm({
-    memberId,
-}: VerifyOtpFormProps) {
+export default function VerifyOtpForm({ memberId }: VerifyOtpFormProps) {
     return (
-        <form
-            action={verifyMemberLoginOtp}
-            className="space-y-5"
-        >
-            <input
-                type="hidden"
-                name="memberId"
-                value={memberId}
-            />
+        <form action={verifyMemberLoginOtp} className="space-y-4">
+            <input type="hidden" name="memberId" value={memberId} />
 
             <div>
-                <label
-                    htmlFor="otp"
-                    className="block text-sm font-extrabold text-slate-800"
-                >
-                    One-time password
-                    <span className="ml-1 text-[#C1121F]">
-                        *
-                    </span>
+                <label htmlFor="otp" className="block text-sm font-bold text-slate-800">
+                    One-time password <span className="text-[#C1121F]">*</span>
                 </label>
-
-                <p className="mt-1 text-xs font-medium leading-5 text-slate-500">
-                    Enter the six-digit code from your
-                    registered email address.
+                <p id="otp-help" className="mt-1 text-xs leading-5 text-slate-500">
+                    Enter the six-digit code from your email.
                 </p>
-
-                <div className="relative mt-3">
-                    <KeyRound className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-
+                <div className="relative mt-2">
+                    <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
                     <input
                         id="otp"
                         name="otp"
@@ -63,56 +35,31 @@ export default function VerifyOtpForm({
                         autoFocus
                         aria-describedby="otp-help"
                         placeholder="000000"
-                        className="h-14 w-full rounded-lg border border-slate-300 bg-white py-3 pl-12 pr-4 text-center text-2xl font-black tracking-[0.35em] text-slate-950 outline-none transition placeholder:text-slate-300 hover:border-slate-400 focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
+                        className="min-h-12 w-full border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-center text-xl font-black tracking-[0.3em] text-slate-900 outline-none transition placeholder:text-slate-300 hover:border-slate-400 focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
                     />
                 </div>
-
-                <p
-                    id="otp-help"
-                    className="mt-2 text-xs font-medium text-slate-500"
-                >
-                    The code contains six numbers.
-                </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-                <Link
-                    href="/member/login"
-                    className="flex min-h-12 items-center justify-center gap-2 border border-slate-300 bg-white px-5 text-sm font-extrabold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back
-                </Link>
-
-                <SubmitButton />
-            </div>
+            <SubmitButton />
+            <Link href="/member/login" className="inline-flex min-h-10 w-full items-center justify-center gap-2 text-sm font-bold text-slate-600 transition hover:text-[#C1121F]">
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to login
+            </Link>
         </form>
     );
 }
 
 function SubmitButton() {
     const { pending } = useFormStatus();
-
     return (
         <button
             type="submit"
             disabled={pending}
             aria-busy={pending}
-            className="flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#C1121F] px-5 text-sm font-extrabold text-white transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-65"
+            className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 bg-[#C1121F] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-100 disabled:cursor-not-allowed disabled:opacity-60"
         >
-            {pending ? (
-                <LoaderCircle className="h-5 w-5 animate-spin" />
-            ) : (
-                <KeyRound className="h-4 w-4" />
-            )}
-
-            {pending
-                ? "Verifying OTP..."
-                : "Verify & Continue"}
-
-            {!pending ? (
-                <ArrowRight className="h-4 w-4" />
-            ) : null}
+            {pending ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> : <KeyRound className="h-4 w-4" aria-hidden="true" />}
+            {pending ? "Verifying OTP..." : "Verify & Continue"}
+            {!pending && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
         </button>
     );
 }
