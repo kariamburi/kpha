@@ -1,3 +1,4 @@
+import { missingApplicationRequirements } from "../../application-validation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -122,6 +123,21 @@ export default async function PaymentCallbackPage({
         return (
             <PaymentResult message="Application not found." />
         );
+    }
+
+    const missing = missingApplicationRequirements(existingApplication);
+    if (missing.length) {
+        console.error("PAYSTACK_CALLBACK_INCOMPLETE", { applicationId, missing });
+        return <PaymentResult message="Payment was verified, but your application is missing required information or documents. Please contact AHPK Secretariat. Your payment has not been lost." />;
+    }
+
+    // Reject transactions not associated with this checkout; never accept a reused reference.
+    if (!existingApplication.paymentReference || existingApplication.paymentReference !== reference || data.data.reference !== reference) {
+        return <PaymentResult message="Payment reference could not be matched to this application. Contact the Secretariat." />;
+    }
+    // AHPK expects KES; update this check if your gateway uses a different settled currency.
+    if (data.data.currency !== "KES") {
+        return <PaymentResult message="Payment currency does not match the expected currency." />;
     }
 
     /* =====================================================

@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { missingApplicationRequirements, normalizeIdentity } from "./application-validation";
 import { createAuditLog } from "@/lib/audit";
 import { notifyAdminsOfPendingApplication } from "@/lib/application-notifications";
 
@@ -35,6 +36,32 @@ export async function saveApplicationDraft(
     payload: DraftPayload,
 ) {
     try {
+        // Do not let the public application flow edit a previously completed record.
+        if (payload.applicationId) {
+            const current = await prisma.membershipApplication.findUnique({
+                where: { id: payload.applicationId },
+                select: { paymentStatus: true },
+            });
+            if (!current) return { ok: false, error: "Application not found." };
+            if (current.paymentStatus === "PAID") {
+                return { ok: false, error: "This application has already been submitted and cannot be edited." };
+            }
+        } else {
+            // Preliminary protection only: add a DB uniqueness constraint.
+            // Never automatically return an existing application's ID to an unauthenticated user.
+            const id = normalizeIdentity(payload.data.idNumber);
+            const email = (payload.data.email || "").trim().toLowerCase();
+            const existing = await prisma.membershipApplication.findFirst({
+                where: { OR: [
+                    ...(id ? [{ idNumber: { equals: id } }] : []),
+                    ...(email ? [{ email: { equals: email } }] : []),
+                ] }, select: { id: true },
+            });
+            if (existing) {
+                return { ok: false, error: "An application with these details already exists. Contact the Secretariat to resume or check its status." };
+            }
+        }
+
         const consent =
             Boolean(
                 payload.data
@@ -77,7 +104,7 @@ export async function saveApplicationDraft(
                 null,
 
             email:
-                payload.data.email ||
+                payload.data.email?.trim().toLowerCase() ||
                 null,
 
             phone:
@@ -85,7 +112,7 @@ export async function saveApplicationDraft(
                 null,
 
             idNumber:
-                payload.data.idNumber ||
+                normalizeIdentity(payload.data.idNumber) ||
                 null,
 
             categoryId:
@@ -271,6 +298,10 @@ export async function completeFreeApplication(
                     "This category requires payment.",
             };
         }
+
+        // Require the complete record, including all uploaded documents.
+        const missing = missingApplicationRequirements(application);
+        if (missing.length) return { ok: false, error: `Complete these requirements before submitting: ${missing.join(", ")}.` };
 
         /*
          * Required professional information.

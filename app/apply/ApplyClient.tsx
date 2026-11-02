@@ -292,6 +292,38 @@ export default function ApplyClient({
         return uploaded;
     }
 
+    function validateAll(): { step: number; message: string } | null {
+        const personal: Array<[string, string]> = [
+            [formData.fullName, "Full name"], [formData.email, "Email"],
+            [formData.phone, "Phone"], [formData.idNumber, "ID/passport"],
+        ];
+        const missingPersonal = personal.filter(([v]) => !v.trim()).map(([, label]) => label);
+        if (missingPersonal.length) return { step: 0, message: `Required: ${missingPersonal.join(", ")}.` };
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+            return { step: 0, message: "Enter a valid email address." };
+        if (formData.phone.replace(/\D/g, "").length < 9)
+            return { step: 0, message: "Enter a valid phone number." };
+        const professional = [formData.categoryId, formData.qualification, formData.institution,
+            formData.position, formData.employer, formData.experience];
+        if (professional.some(v => !v.trim()))
+            return { step: 1, message: "All membership, education, employer and experience fields marked * are required." };
+        if (!((files.idDocument || formData.idDocumentUrl) &&
+              (files.qualificationDoc || formData.qualificationDocUrl) &&
+              (files.cvDocument || formData.cvDocumentUrl)))
+            return { step: 2, message: "Upload the ID/passport, qualification certificate and CV." };
+        if (!formData.dataProtectionConsent)
+            return { step: 3, message: "Data protection consent is required." };
+        return null;
+    }
+
+    function requireCompleteBeforeSubmission(): boolean {
+        const invalid = validateAll();
+        if (!invalid) return true;
+        setError(invalid.message);
+        setStep(invalid.step);
+        return false;
+    }
+
     async function nextStep() {
         setError("");
 
@@ -356,6 +388,13 @@ export default function ApplyClient({
             return;
         }
 
+        const invalid = validateAll();
+        if (invalid && invalid.step <= step) {
+            setError(invalid.message);
+            setStep(invalid.step);
+            return;
+        }
+
         setSaving(true);
 
         try {
@@ -410,6 +449,8 @@ export default function ApplyClient({
 
             return;
         }
+
+        if (!requireCompleteBeforeSubmission()) return;
 
         setPaying(true);
 
@@ -479,6 +520,8 @@ export default function ApplyClient({
 
             return;
         }
+
+        if (!requireCompleteBeforeSubmission()) return;
 
         setPaying(true);
 
@@ -697,6 +740,7 @@ export default function ApplyClient({
                         step={step}
                         progress={progress}
                         onNavigate={(index) => {
+                            if (saving || paying) return;
                             setError("");
                             setStep(index);
                         }}
@@ -834,7 +878,7 @@ export default function ApplyClient({
                                     <div>
                                         <Label
                                             htmlFor="categoryId"
-                                            text="Membership category"
+                                            text="Membership category *"
                                         />
 
                                         <div className="relative mt-1.5">
@@ -1026,7 +1070,7 @@ export default function ApplyClient({
                                         <div className="mt-4">
                                             <Label
                                                 htmlFor="experience"
-                                                text="Relevant professional experience"
+                                                text="Relevant professional experience *"
                                             />
 
                                             <textarea
@@ -1642,7 +1686,7 @@ function Input({
         <div>
             <Label
                 htmlFor={name}
-                text={label}
+                text={`${label} *`}
             />
 
             <div className="relative mt-1.5">

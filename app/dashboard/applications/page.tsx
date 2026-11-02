@@ -10,7 +10,7 @@ import {
 
 import { deleteApplication } from "./actions";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100, 200, 350, 500] as const;
 
 function formatDate(date: Date) {
     return date.toLocaleDateString("en-KE", {
@@ -30,6 +30,7 @@ export default async function ApplicationsPage({
         category?: string;
         consent?: string;
         page?: string;
+        perPage?: string;
     }>;
 }) {
     const user =
@@ -67,12 +68,15 @@ export default async function ApplicationsPage({
         params?.consent || "",
     ).trim();
 
-    const currentPage = Math.max(
-        Number(
-            params?.page || 1,
-        ),
-        1,
-    );
+    const requestedPageSize = Number(params?.perPage ?? 10);
+    const pageSize = PAGE_SIZE_OPTIONS.some((size) => size === requestedPageSize)
+        ? requestedPageSize
+        : 10;
+
+    const requestedPage = Number(params?.page ?? 1);
+    const currentPage = Number.isSafeInteger(requestedPage) && requestedPage > 0
+        ? requestedPage
+        : 1;
 
     const categories =
         await prisma.membershipCategory.findMany({
@@ -250,7 +254,7 @@ export default async function ApplicationsPage({
         Math.max(
             Math.ceil(
                 totalApplications /
-                PAGE_SIZE,
+                pageSize,
             ),
             1,
         );
@@ -263,12 +267,12 @@ export default async function ApplicationsPage({
 
     const start =
         (safePage - 1) *
-        PAGE_SIZE;
+        pageSize;
 
     const paginatedApplications =
         applications.slice(
             start,
-            start + PAGE_SIZE,
+            start + pageSize,
         );
 
     const query =
@@ -308,6 +312,8 @@ export default async function ApplicationsPage({
             consent,
         );
     }
+
+    query.set("perPage", String(pageSize));
 
     const prevQuery =
         new URLSearchParams(
@@ -376,6 +382,7 @@ export default async function ApplicationsPage({
                     Search Applications
                 </div>
 
+                <input type="hidden" name="perPage" value={pageSize} />
                 <div className="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_150px_150px_210px_150px_auto]">
                     <input
                         name="q"
@@ -575,8 +582,17 @@ export default async function ApplicationsPage({
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full min-w-[1450px] border-collapse text-[12px]">
+                <div className="w-full overflow-x-auto">
+                    <table className="w-full min-w-[690px] table-fixed border-collapse text-[12px]">
+                        <colgroup>
+                            <col className="w-[22%]" />
+                            <col className="w-[13%]" />
+                            <col className="w-[16%]" />
+                            <col className="w-[13%]" />
+                            <col className="w-[11%]" />
+                            <col className="w-[10%]" />
+                            <col className="w-[15%]" />
+                        </colgroup>
                         <thead>
                             <tr className="bg-slate-100 text-slate-900">
                                 <Th>
@@ -588,27 +604,7 @@ export default async function ApplicationsPage({
                                 </Th>
 
                                 <Th>
-                                    ID No.
-                                </Th>
-
-                                <Th>
                                     Category
-                                </Th>
-
-                                <Th>
-                                    Qualification
-                                </Th>
-
-                                <Th>
-                                    Current Position
-                                </Th>
-
-                                <Th>
-                                    Current Employer
-                                </Th>
-
-                                <Th>
-                                    Consent
                                 </Th>
 
                                 <Th>
@@ -634,9 +630,7 @@ export default async function ApplicationsPage({
                                 0 ? (
                                 <tr>
                                     <td
-                                        colSpan={
-                                            12
-                                        }
+                                        colSpan={7}
                                         className="px-5 py-8 text-center text-slate-500"
                                     >
                                         No
@@ -656,21 +650,22 @@ export default async function ApplicationsPage({
                                             className="border-b hover:bg-slate-50"
                                         >
                                             <td className="px-2 py-2">
-                                                <p className="font-semibold text-slate-900">
-                                                    {app.fullName ||
-                                                        app
-                                                            .user
-                                                            ?.name ||
-                                                        "Unnamed Applicant"}
-                                                </p>
-
-                                                <p className="text-[11px] text-slate-500">
-                                                    {app.email ||
-                                                        app
-                                                            .user
-                                                            ?.email ||
-                                                        "-"}
-                                                </p>
+                                                <Link
+                                                    href={`/dashboard/applications/${app.id}`}
+                                                    title="View application details"
+                                                    className="group inline-block max-w-full rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C1121F]"
+                                                >
+                                                    <p className="break-words font-semibold text-slate-900 transition-colors group-hover:text-[#C1121F] group-hover:underline group-focus-visible:text-[#C1121F]">
+                                                        {app.fullName ||
+                                                            app.user?.name ||
+                                                            "Unnamed Applicant"}
+                                                    </p>
+                                                    <p className="break-all text-[11px] text-slate-500 transition-colors group-hover:text-[#C1121F] group-focus-visible:text-[#C1121F]">
+                                                        {app.email ||
+                                                            app.user?.email ||
+                                                            "-"}
+                                                    </p>
+                                                </Link>
                                             </td>
 
                                             <td className="whitespace-nowrap px-2 py-2 text-slate-600">
@@ -678,53 +673,8 @@ export default async function ApplicationsPage({
                                                     "-"}
                                             </td>
 
-                                            <td className="whitespace-nowrap px-2 py-2 text-slate-600">
-                                                {app.idNumber ||
-                                                    "-"}
-                                            </td>
-
-                                            <td className="whitespace-nowrap px-2 py-2 text-slate-700">
-                                                {app
-                                                    .category
-                                                    ?.name ||
-                                                    "-"}
-                                            </td>
-
-                                            <td className="px-2 py-2 text-slate-600">
-                                                <p className="max-w-[180px] truncate">
-                                                    {app.qualification ||
-                                                        "-"}
-                                                </p>
-
-                                                {app.institution ? (
-                                                    <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400">
-                                                        {
-                                                            app.institution
-                                                        }
-                                                    </p>
-                                                ) : null}
-                                            </td>
-
-                                            <td className="px-2 py-2 text-slate-600">
-                                                <p className="max-w-[180px] truncate font-semibold">
-                                                    {app.position ||
-                                                        "-"}
-                                                </p>
-                                            </td>
-
-                                            <td className="px-2 py-2 text-slate-600">
-                                                <p className="max-w-[190px] truncate">
-                                                    {app.employer ||
-                                                        "-"}
-                                                </p>
-                                            </td>
-
-                                            <td className="whitespace-nowrap px-2 py-2">
-                                                <ConsentBadge
-                                                    consent={
-                                                        app.dataProtectionConsent
-                                                    }
-                                                />
+                                            <td className="break-words px-2 py-2 text-slate-700">
+                                                {app.category?.name || "-"}
                                             </td>
 
                                             <td className="whitespace-nowrap px-2 py-2">
@@ -750,7 +700,7 @@ export default async function ApplicationsPage({
                                             </td>
 
                                             <td className="whitespace-nowrap px-2 py-2">
-                                                <div className="flex items-center gap-2">
+                                                <div className="flex flex-wrap items-center gap-1">
                                                     <Link
                                                         href={`/dashboard/applications/${app.id}`}
                                                         className="rounded bg-red-50 px-3 py-1.5 text-[12px] font-bold text-[#C1121F] transition hover:bg-[#C1121F] hover:text-white"
@@ -796,39 +746,64 @@ export default async function ApplicationsPage({
                     PAGINATION
                 ================================================= */}
 
-                <div className="mt-4 flex flex-wrap items-center justify-end gap-3 border-t pt-4 text-sm">
-                    <span className="text-slate-600">
-                        Total{" "}
-                        {totalApplications}{" "}
-                        • Page{" "}
-                        {safePage} of{" "}
-                        {totalPages}
-                    </span>
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4 text-sm">
+                    <form action="/dashboard/applications" method="get" className="flex flex-wrap items-center gap-2">
+                        {q && <input type="hidden" name="q" value={q} />}
+                        {status && <input type="hidden" name="status" value={status} />}
+                        {payment && <input type="hidden" name="payment" value={payment} />}
+                        {category && <input type="hidden" name="category" value={category} />}
+                        {consent && <input type="hidden" name="consent" value={consent} />}
+                        <label htmlFor="perPage" className="font-semibold text-slate-700">
+                            Applications per page
+                        </label>
+                        <select
+                            id="perPage"
+                            name="perPage"
+                            defaultValue={String(pageSize)}
+                            className="h-9 rounded-md border border-slate-300 bg-white px-3 font-semibold text-slate-800 outline-none focus:border-[#C1121F] focus:ring-2 focus:ring-red-100"
+                        >
+                            {PAGE_SIZE_OPTIONS.map((size) => (
+                                <option key={size} value={size}>{size}</option>
+                            ))}
+                        </select>
+                        <button type="submit" className="h-9 rounded-md bg-slate-950 px-4 font-bold text-white hover:bg-slate-800">
+                            Apply
+                        </button>
+                    </form>
 
-                    <Link
-                        href={`/dashboard/applications?${prevQuery.toString()}`}
-                        className={`rounded border px-3 py-1.5 font-semibold ${safePage === 1
-                            ? "pointer-events-none opacity-40"
-                            : ""
-                            }`}
-                    >
-                        Prev
-                    </Link>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <span className="text-slate-600">
+                            Showing {totalApplications === 0 ? 0 : start + 1}–{Math.min(start + pageSize, totalApplications)} of {totalApplications}
+                            {" "}• Page{" "}
+                            {safePage} of{" "}
+                            {totalPages}
+                        </span>
 
-                    <span className="rounded bg-[#111111] px-3 py-1.5 font-bold text-white">
-                        {safePage}
-                    </span>
+                        <Link
+                            href={`/dashboard/applications?${prevQuery.toString()}`}
+                            className={`rounded border px-3 py-1.5 font-semibold ${safePage === 1
+                                ? "pointer-events-none opacity-40"
+                                : ""
+                                }`}
+                        >
+                            Prev
+                        </Link>
 
-                    <Link
-                        href={`/dashboard/applications?${nextQuery.toString()}`}
-                        className={`rounded border px-3 py-1.5 font-semibold ${safePage ===
-                            totalPages
-                            ? "pointer-events-none opacity-40"
-                            : ""
-                            }`}
-                    >
-                        Next
-                    </Link>
+                        <span className="rounded bg-[#111111] px-3 py-1.5 font-bold text-white">
+                            {safePage}
+                        </span>
+
+                        <Link
+                            href={`/dashboard/applications?${nextQuery.toString()}`}
+                            className={`rounded border px-3 py-1.5 font-semibold ${safePage ===
+                                totalPages
+                                ? "pointer-events-none opacity-40"
+                                : ""
+                                }`}
+                        >
+                            Next
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -986,29 +961,6 @@ function PaymentStatusBadge({
             className={`rounded-full px-3 py-1 text-[11px] font-bold ${cls}`}
         >
             {status}
-        </span>
-    );
-}
-
-/* =========================================================
-   CONSENT STATUS
-========================================================= */
-
-function ConsentBadge({
-    consent,
-}: {
-    consent: boolean;
-}) {
-    return (
-        <span
-            className={`rounded-full px-3 py-1 text-[11px] font-black ${consent
-                ? "bg-green-50 text-green-700"
-                : "bg-red-50 text-red-700"
-                }`}
-        >
-            {consent
-                ? "YES"
-                : "NO"}
         </span>
     );
 }
