@@ -346,30 +346,7 @@ export default async function ApplicationsPage({
     );
 
     return (
-        <div className="space-y-5">
-            {/* =====================================================
-                HEADER
-            ===================================================== */}
-
-            <div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm">
-                <p className="text-sm font-black text-slate-500">
-                    AHPK Membership
-                </p>
-
-                <div className="mt-1">
-                    <h1 className="text-3xl font-black text-slate-950">
-                        Applications
-                    </h1>
-
-                    <p className="mt-2 text-sm font-semibold text-slate-500">
-                        Review, filter,
-                        approve, and manage
-                        membership
-                        applications.
-                    </p>
-                </div>
-            </div>
-
+        <div className="space-y-4">
             {/* =====================================================
                 FILTERS
             ===================================================== */}
@@ -514,7 +491,7 @@ export default async function ApplicationsPage({
                 STATS
             ===================================================== */}
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                 <StatCard
                     title="Total Applications"
                     value={
@@ -898,15 +875,15 @@ function StatCard({
             style={
                 styles[tone]
             }
-            className="rounded-2xl border p-5 shadow-sm"
+            className="flex min-h-14 items-center justify-between gap-2 rounded-xl border px-3 py-3 shadow-sm sm:px-4"
         >
-            <p className="text-sm font-semibold opacity-80">
+            <p className="min-w-0 text-xs font-bold leading-5 opacity-85 sm:text-sm">
                 {title}
             </p>
 
-            <h2 className="mt-2 text-2xl font-black">
+            <p className="shrink-0 text-xl font-black tabular-nums sm:text-2xl">
                 {value}
-            </h2>
+            </p>
         </div>
     );
 }
